@@ -1,0 +1,766 @@
+<div class="choose-your-pack-section">
+  {% if section.settings.show_title %}
+  <h2 class="section-title {{ section.settings.title_font_family }} {{ section.settings.title_font_size }} {{ section.settings.title_font_size_mobile }} {{ section.settings.title_font_weight }} {{ section.settings.title_text_color }}">{{ section.settings.title_text }}</h2>
+  {% endif %}
+  <div class="button-content eina-1-font">
+    {% if section.settings.show_buttons %}
+    <a href="/{{ share_guid }}/enrollments/1nVHTpRorDvGN1eXJtXEfN6a" class="button-pack {{ section.settings.transform_button_bg_color }} {{ section.settings.transform_button_text_color }}" id="transform-pack">
+      <h4>1</h4>
+      <h6 class="btn-label {{ section.settings.transform_button_font_family }} {{ section.settings.transform_button_font_size }} {{ section.settings.transform_button_font_size_mobile }} {{ section.settings.transform_button_font_weight }}">{{ section.settings.transform_button_text }}</h6>
+    </a>
+    <a href="/{{ share_guid }}/enrollments/aENA7VyztXbPdvXHaEsp4DbB" class="button-pack {{ section.settings.share_button_bg_color }} {{ section.settings.share_button_text_color }}" id="share-pack">
+      <h4>2</h4>
+      <h6 class="btn-label {{ section.settings.share_button_font_family }} {{ section.settings.share_button_font_size }} {{ section.settings.share_button_font_size_mobile }} {{ section.settings.share_button_font_weight }}">{{ section.settings.share_button_text }}</h6>
+    </a>
+    <a href="/{{ share_guid }}/enrollments/4V7kFTCGAdc5nFSKVfDLjhuo" class="button-pack {{ section.settings.launch_button_bg_color }} {{ section.settings.launch_button_text_color }}" id="launch-pack">
+      <h4>3</h4>
+      <h6 class="btn-label {{ section.settings.launch_button_font_family }} {{ section.settings.launch_button_font_size }} {{ section.settings.launch_button_font_size_mobile }} {{ section.settings.launch_button_font_weight }}">{{ section.settings.launch_button_text }}</h6>
+    </a>
+    {% endif %}
+  </div>
+  <div class="selector-group padding-0">
+    <!-- Dynamic Product List based on tags or variants -->
+    <div class="product-list margin-0" id="included">
+      <div class="product-item">
+        <div class="product-description-content">
+          <img src="https://ik.imagekit.io/fluid/filestack-migration/filestack_vopqYiBsQheCq6gKQzpw_w_V3-JAghd" alt="" class="yoli-icon">
+          <div class="product-content-info">
+            <p class="product-title non-uppercase">Included in pack</p>
+          </div>
+        </div>
+        <div class="total-box">
+          <div class="total-row">
+            <span class="section-total" id="included-total"><strong></strong></span>
+          </div>
+          <button class="product-button" onclick="toggleCustomize('included')">
+            <span class="dropdown-title">What's included</span>
+            <svg class="dropdown-icon" id="included-dropdown-icon" width="12" height="8" viewBox="0 0 12 8" fill="none">
+              <path d="M6 8L0 0H12L6 8Z" fill="currentColor" />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="products" id="included-products" hidden>
+        {% for product in enrollment_pack.membership_products[0].product_bundles %}
+          {% case product.bundled_variant_id %}
+            {% when 63544 %} <!-- Pure -->
+              <div class="products-item">
+                <div class="product-item-description">
+                  <img src="{{ product.image_url }}" alt="{{ product.title }}" class="yoli-icon">
+                  <p>{{ product.title }}</p>
+                </div>
+                <div class="quantity-controls">
+                  <span class="number" id="pure-quantity">x1 (total)</span>
+                </div>
+              </div>
+            {% when 63136 %} <!-- Alkalete -->
+              <div class="products-item">
+                <div class="product-item-description">
+                  <img src="{{ product.image_url }}" alt="{{ product.title }}" class="yoli-icon">
+                  <p>{{ product.title }}</p>
+                </div>
+                <div class="quantity-controls">
+                  <span class="number" id="alkalete-quantity">x2 (total)</span>
+                </div>
+              </div>
+            {% when 63717 %} <!-- Resolve -->
+              <div class="products-item">
+                <div class="product-item-description">
+                  <img src="{{ product.image_url }}" alt="{{ product.title }}" class="yoli-icon">
+                  <p>{{ product.title }}</p>
+                </div>
+                <div class="quantity-controls">
+                  <span class="number" id="resolve-quantity">x1 (total)</span>
+                </div>
+              </div>
+            {% when 63641 %} <!-- Blender Bottle -->
+              <div class="products-item">
+                <div class="product-item-description">
+                  <img src="{{ product.image_url }}" alt="{{ product.title }}" class="yoli-icon">
+                  <p>{{ product.title }}</p>
+                </div>
+                <div class="quantity-controls">
+                  <span class="number" id="blender-quantity">x1 (total)</span>
+                </div>
+              </div>
+            {% when 63728 %} <!-- Better Body Workbook -->
+              <div class="products-item">
+                <div class="product-item-description">
+                  <img src="{{ product.image_url }}" alt="{{ product.title }}" class="yoli-icon">
+                  <p>{{ product.title }}</p>
+                </div>
+                <div class="quantity-controls">
+                  <span class="number" id="workbook-quantity">x1 (total)</span>
+                </div>
+              </div>
+          {% endcase %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+    <!-- Selector Groups -->
+    <div class="selector-group">
+      <!-- Dynamic Product List based on tags or variants -->
+      <div class="product-list" id="essential">
+        <div class="product-item">
+          <div class="product-description-content">
+            <img src="https://ik.imagekit.io/fluid/filestack-migration/filestack_HUqF5xRVRTq3jiLnIQ3s_GgOdSGqajr" alt="" class="yoli-icon">
+            <div class="product-content-info">
+              <p class="product-title non-uppercase">Yoli's Essential</p>
+              <p class="text-option">Vanilla or Chocolate Protein</p>
+            </div>
+          </div>
+          <div class="total-box">
+            <div class="total-row">
+              <span class="section-total" id="essential-total">
+                <strong>8 of 8 includes</strong>
+              </span>
+            </div>
+            <button class="product-button" onclick="toggleCustomize('essential')">
+              <span class="dropdown-title">Customize</span>
+              <svg class="dropdown-icon" id="essential-dropdown-icon" width="12" height="8" viewBox="0 0 12 8" fill="none">
+                <path d="M6 8L0 0H12L6 8Z" fill="currentColor"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="products" id="essential-products" hidden>
+          {% for product in enrollment_pack.membership_products[0].product_bundles %}
+            {% if product.bundled_variant_id == 63626 or product.bundled_variant_id == 67116 %}
+              {% assign variants = product.bundled_product.variants %}
+              {% for variant in variants %}
+                {% if variant.id == product.bundled_variant_id %}
+                  <div class="products-item" data-variant-id="{{ variant.id }}">
+                    <div class="product-item-description">
+                      <img src="{{ variant.images[0].src }}" alt="{{ variant.title }}" class="yoli-icon">
+                      <p>{{ variant.title }}</p>
+                    </div>
+                    <div class="quantity-controls">
+                      <button class="qty-btn minus" onclick="changeQuantity(this, -1)">−</button>
+                      <span class="qty-number">0</span>
+                      <button class="qty-btn plus" onclick="changeQuantity(this, 1)">+</button>
+                    </div>
+                  </div>
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <div class="selector-group">
+      <!-- Dynamic Product List based on tags or variants -->
+      <div class="product-list" id="flavors">
+        <div class="product-item">
+          <div class="product-description-content">
+            <img src="https://ik.imagekit.io/fluid/filestack-migration/filestack_ZTaxFJZKRGWvCQYl4zBZ_Th7PCXyN4u" alt="" class="yoli-icon"
+            >
+            <div class="product-content-info">
+              <p class="product-title non-uppercase">Energy Flavors</p>
+              <p class="text-option">Caffiene or Caffiene Free</p>
+            </div>
+          </div>
+          <div class="total-box">
+            <div class="total-row">
+              <span class="section-total" id="flavors-total">
+                <strong>8 of 8 includes</strong>
+              </span>
+            </div>
+            <button class="product-button" onclick="toggleCustomize('flavors')">
+              <span class="dropdown-title">Customize</span>
+              <svg class="dropdown-icon" id="flavors-dropdown-icon" width="12" height="8" viewBox="0 0 12 8" fill="none">
+                <path d="M6 8L0 0H12L6 8Z" fill="currentColor"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="products" id="flavors-products" hidden>
+          {% for product in enrollment_pack.membership_products[0].product_bundles %}
+            {% case product.bundled_variant_id %}
+              {% when 63775 %} <!-- Passion Pina Colada -->
+                <div class="products-item" data-variant-id="{{ product.bundled_variant_id }}">
+                  <div class="product-item-description">
+                    <img src="{{ product.image_url }}" alt="{{ product.title }}" class="yoli-icon">
+                    <p>{{ product.title }}</p>
+                  </div>
+                  <div class="quantity-controls">
+                    <button class="qty-btn minus" onclick="changeQuantity(this, -1)">−</button>
+                    <span class="qty-number">0</span>
+                    <button class="qty-btn plus" onclick="changeQuantity(this, 1)">+</button>
+                  </div>
+                </div>
+              {% when 63984 %} <!-- Passion Raspberry Lemon -->
+                <div class="products-item" data-variant-id="{{ product.bundled_variant_id }}">
+                  <div class="product-item-description">
+                    <img src="{{ product.image_url }}" alt="{{ product.title }}" class="yoli-icon">
+                    <p>{{ product.title }}</p>
+                  </div>
+                  <div class="quantity-controls">
+                    <button class="qty-btn minus" onclick="changeQuantity(this, -1)">−</button>
+                    <span class="qty-number">0</span>
+                    <button class="qty-btn plus" onclick="changeQuantity(this, 1)">+</button>
+                  </div>
+                </div>
+              {% when 64073 %} <!-- Passion Grape Acai -->
+                <div class="products-item" data-variant-id="{{ product.bundled_variant_id }}">
+                  <div class="product-item-description">
+                    <img src="{{ product.image_url }}" alt="{{ product.title }}" class="yoli-icon">
+                    <p>{{ product.title }}</p>
+                  </div>
+                  <div class="quantity-controls">
+                    <button class="qty-btn minus" onclick="changeQuantity(this, -1)">−</button>
+                    <span class="qty-number">0</span>
+                    <button class="qty-btn plus" onclick="changeQuantity(this, 1)">+</button>
+                  </div>
+                </div>
+              {% when 64075 %} <!-- Passion Strawberry Kiwi -->
+                <div class="products-item" data-variant-id="{{ product.bundled_variant_id }}">
+                  <div class="product-item-description">
+                    <img src="{{ product.image_url }}" alt="{{ product.title }}" class="yoli-icon">
+                    <p>{{ product.title }}</p>
+                  </div>
+                  <div class="quantity-controls">
+                    <button class="qty-btn minus" onclick="changeQuantity(this, -1)">−</button>
+                    <span class="qty-number">0</span>
+                    <button class="qty-btn plus" onclick="changeQuantity(this, 1)">+</button>
+                  </div>
+                </div>
+              {% when 64154 %} <!-- Passion Peach Mango -->
+                <div class="products-item" data-variant-id="{{ product.bundled_variant_id }}">
+                  <div class="product-item-description">
+                    <img src="{{ product.image_url }}" alt="{{ product.title }}" class="yoli-icon">
+                    <p>{{ product.title }}</p>
+                  </div>
+                  <div class="quantity-controls">
+                    <button class="qty-btn minus" onclick="changeQuantity(this, -1)">−</button>
+                    <span class="qty-number">0</span>
+                    <button class="qty-btn plus" onclick="changeQuantity(this, 1)">+</button>
+                  </div>
+                </div>
+              {% when 63582 %} <!-- Passion Variety Pack -->
+                <div class="products-item" data-variant-id="{{ product.bundled_variant_id }}">
+                  <div class="product-item-description">
+                    <img src="{{ product.image_url }}" alt="{{ product.title }}" class="yoli-icon">
+                    <p>{{ product.title }}</p>
+                  </div>
+                  <div class="quantity-controls">
+                    <button class="qty-btn minus" onclick="changeQuantity(this, -1)">−</button>
+                    <span class="qty-number">0</span>
+                    <button class="qty-btn plus" onclick="changeQuantity(this, 1)">+</button>
+                  </div>
+                </div>
+              {% when 63538 %} <!-- Passion Tropical Melon -->
+                <div class="products-item" data-variant-id="{{ product.bundled_variant_id }}">
+                  <div class="product-item-description">
+                    <img src="{{ product.image_url }}" alt="{{ product.title }}" class="yoli-icon">
+                    <p>{{ product.title }}</p>
+                  </div>
+                  <div class="quantity-controls">
+                    <button class="qty-btn minus" onclick="changeQuantity(this, -1)">−</button>
+                    <span class="qty-number">0</span>
+                    <button class="qty-btn plus" onclick="changeQuantity(this, 1)">+</button>
+                  </div>
+                </div>
+              {% when 64133 %} <!-- Passion Berry -->
+                <div class="products-item" data-variant-id="{{ product.bundled_variant_id }}">
+                  <div class="product-item-description">
+                    <img src="{{ product.image_url }}" alt="{{ product.title }}" class="yoli-icon">
+                    <p>{{ product.title }}</p>
+                  </div>
+                  <div class="quantity-controls">
+                    <button class="qty-btn minus" onclick="changeQuantity(this, -1)">−</button>
+                    <span class="qty-number">0</span>
+                    <button class="qty-btn plus" onclick="changeQuantity(this, 1)">+</button>
+                  </div>
+                </div>
+              {% when 63716 %} <!-- Thermoburn -->
+                <div class="products-item" data-variant-id="{{ product.bundled_variant_id }}">
+                  <div class="product-item-description">
+                    <img src="{{ product.image_url }}" alt="{{ product.title }}" class="yoli-icon">
+                    <p>{{ product.title }}</p>
+                  </div>
+                  <div class="quantity-controls">
+                    <button class="qty-btn minus" onclick="changeQuantity(this, -1)">−</button>
+                    <span class="qty-number">0</span>
+                    <button class="qty-btn plus" onclick="changeQuantity(this, 1)">+</button>
+                  </div>
+                </div>
+              {% when 64400 %} <!-- CaféTrim -->
+                <div class="products-item" data-variant-id="{{ product.bundled_variant_id }}">
+                  <div class="product-item-description">
+                    <img src="{{ product.image_url }}" alt="{{ product.title }}" class="yoli-icon">
+                    <p>{{ product.title }}</p>
+                  </div>
+                  <div class="quantity-controls">
+                    <button class="qty-btn minus" onclick="changeQuantity(this, -1)">−</button>
+                    <span class="qty-number">0</span>
+                    <button class="qty-btn plus" onclick="changeQuantity(this, 1)">+</button>
+                  </div>
+                </div>
+              {% when 64401 %} <!-- CocoaTrim -->
+                <div class="products-item" data-variant-id="{{ product.bundled_variant_id }}">
+                  <div class="product-item-description">
+                    <img src="{{ product.image_url }}" alt="{{ product.title }}" class="yoli-icon">
+                    <p>{{ product.title }}</p>
+                  </div>
+                  <div class="quantity-controls">
+                    <button class="qty-btn minus" onclick="changeQuantity(this, -1)">−</button>
+                    <span class="qty-number">0</span>
+                    <button class="qty-btn plus" onclick="changeQuantity(this, 1)">+</button>
+                  </div>
+                </div>
+              {% when 64203 %} <!-- Caffeine Free - Fun Raspberry -->
+                <div class="products-item" data-variant-id="{{ product.bundled_variant_id }}">
+                  <div class="product-item-description">
+                    <img src="{{ product.image_url }}" alt="{{ product.title }}" class="yoli-icon">
+                    <p>{{ product.title }}</p>
+                  </div>
+                  <div class="quantity-controls">
+                    <button class="qty-btn minus" onclick="changeQuantity(this, -1)">−</button>
+                    <span class="qty-number">0</span>
+                    <button class="qty-btn plus" onclick="changeQuantity(this, 1)">+</button>
+                  </div>
+                </div>
+              {% when 63805 %} <!-- Caffeine Free - Truth Pomegranate -->
+                <div class="products-item" data-variant-id="{{ product.bundled_variant_id }}">
+                  <div class="product-item-description">
+                    <img src="{{ product.image_url }}" alt="{{ product.title }}" class="yoli-icon">
+                    <p>{{ product.title }}</p>
+                  </div>
+                  <div class="quantity-controls">
+                    <button class="qty-btn minus" onclick="changeQuantity(this, -1)">−</button>
+                    <span class="qty-number">0</span>
+                    <button class="qty-btn plus" onclick="changeQuantity(this, 1)">+</button>
+                  </div>
+                </div>
+              {% when 63763 %} <!-- Caffeine Free - Truth Citrus -->
+                <div class="products-item" data-variant-id="{{ product.bundled_variant_id }}">
+                  <div class="product-item-description">
+                    <img src="{{ product.image_url }}" alt="{{ product.title }}" class="yoli-icon">
+                    <p>{{ product.title }}</p>
+                  </div>
+                  <div class="quantity-controls">
+                    <button class="qty-btn minus" onclick="changeQuantity(this, -1)">−</button>
+                    <span class="qty-number">0</span>
+                    <button class="qty-btn plus" onclick="changeQuantity(this, 1)">+</button>
+                  </div>
+                </div>
+            {% endcase %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const currentPack = getCurrentPackToken();
+
+    const packMapping = {
+      '1nVHTpRorDvGN1eXJtXEfN6a': 'transform-pack',
+      'aENA7VyztXbPdvXHaEsp4DbB': 'share-pack',
+      '4V7kFTCGAdc5nFSKVfDLjhuo': 'launch-pack'
+    };
+
+    const buttonId = packMapping[currentPack];
+
+    if (buttonId) {
+      const button = document.getElementById(buttonId);
+      if (button) {
+        document.querySelectorAll('.button-pack').forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+
+        updateIncludedTotal(buttonId);
+        updateSectionTotals();
+      }
+    }
+    initializeAllProducts();
+  });
+
+  function getCurrentPackToken() {
+    const currentPack = window.location.pathname.split('/').pop();
+    return currentPack;
+  }
+
+  function toggleCustomize(type) {
+    const productList = document.querySelector(`#${type}`);
+    const productsDiv = document.querySelector(`#${type}-products`);
+    const dropdownIcon = document.querySelector(`#${type}-dropdown-icon`);
+
+    const shouldShow = productsDiv.hasAttribute('hidden') || productsDiv.style.display === 'none';
+
+    productsDiv.style.display = shouldShow ? 'block' : 'none';
+    productsDiv.toggleAttribute('hidden', !shouldShow);
+    dropdownIcon && dropdownIcon.classList.toggle('rotated', shouldShow);
+
+    if (!shouldShow) productList.style.backgroundColor = '';
+  }
+
+  window.selectedProductsCart = {};
+
+  function initializeAllProducts() {
+    setDefaultBundleProducts();
+    
+    document.querySelectorAll('.products-item[data-variant-id]').forEach(item => {
+      const variantId = item.getAttribute('data-variant-id');
+      const quantity = parseInt(item.querySelector('.qty-number').textContent) || 0;
+      
+      window.selectedProductsCart[variantId] = {
+        variant_id: variantId,
+        quantity: quantity
+      };
+    });
+    
+    localStorage.setItem('selectedProductsCart', JSON.stringify(window.selectedProductsCart));
+  }
+
+  function saveProductToCart(variantId, quantity) {
+    (quantity > 0) ? (window.selectedProductsCart[variantId] = { variant_id: variantId, quantity: quantity}) : delete window.selectedProductsCart[variantId];
+    
+    localStorage.setItem('selectedProductsCart', JSON.stringify(window.selectedProductsCart));
+  }
+
+  function changeQuantity(button, change) {
+    const container = button.parentElement;
+    const qtyElement = container.querySelector('.qty-number');
+    let currentQty = parseInt(qtyElement.textContent);
+    let newQty = currentQty + change;
+    const minQty = 0;
+
+    let section = button.closest('.products');
+    const limits = getPackLimits();
+    let maxQty = 8;
+
+    if (section && section.id === 'flavors-products') maxQty = limits.flavors;
+    if (section && section.id === 'essential-products') maxQty = limits.essential;
+
+    if (newQty < minQty) newQty = minQty;
+
+    const sectionTotal = section ? getSectionTotal(`#${section.id}`) : 0;
+
+    if (change > 0 && sectionTotal >= maxQty) return;
+    if (newQty !== currentQty) {
+      qtyElement.textContent = newQty;
+      
+      const productItem = button.closest('.products-item');
+      const variantId = productItem.getAttribute('data-variant-id');
+
+      if (variantId) {
+        saveProductToCart(variantId, newQty);
+      }
+    }
+    updateSectionTotals();
+  }
+
+  function getSectionTotal(sectionSelector) {
+    let total = 0;
+    const qtyElements = document.querySelectorAll(`${sectionSelector} .qty-number`);
+    qtyElements.forEach(element => {
+      total += parseInt(element.textContent);
+    });
+    return total;
+  }
+
+  function updateSectionControls(sectionSelector, totalLabelId, total, max) {
+    document.getElementById(totalLabelId).textContent = `${total} of ${max} selected`;
+    document.querySelectorAll(`${sectionSelector} .qty-btn.plus`).forEach(btn => {
+      btn.disabled = total >= max;
+    });
+  }
+
+  function updateTotalColor(totalLabelId, total) {
+    const label = document.getElementById(totalLabelId);
+    if (label) label.style.color = total > 0 ? '#0047A4' : '#A40000';
+  }
+
+  function updateButtonStates(sectionSelector, total, max) {
+    document.querySelectorAll(`${sectionSelector} .qty-btn.plus`).forEach(btn => {
+      btn.disabled = total >= max;
+      btn.classList.toggle('disabled', btn.disabled);
+    });
+
+    document.querySelectorAll(`${sectionSelector} .qty-btn.minus`).forEach(btn => {
+      const qty = parseInt(btn.parentElement.querySelector('.qty-number').textContent) || 0;
+      btn.disabled = qty === 0;
+      btn.classList.toggle('disabled', btn.disabled);
+    });
+  }
+
+  function setDefaultBundleProducts() {
+    const productsList = {
+      '1nVHTpRorDvGN1eXJtXEfN6a': [
+        { variant_id: 63544, quantity: 1 },
+        { variant_id: 63136, quantity: 2 },
+        { variant_id: 63717, quantity: 1 },
+        { variant_id: 63641, quantity: 1 },
+        { variant_id: 63728, quantity: 1 }
+      ],
+      'aENA7VyztXbPdvXHaEsp4DbB': [
+        { variant_id: 63544, quantity: 2 },
+        { variant_id: 63136, quantity: 4 },
+        { variant_id: 63717, quantity: 2 },
+        { variant_id: 63641, quantity: 1 },
+        { variant_id: 63728, quantity: 1 }
+      ],
+      '4V7kFTCGAdc5nFSKVfDLjhuo': [
+        { variant_id: 63544, quantity: 4 },
+        { variant_id: 63136, quantity: 8 },
+        { variant_id: 63717, quantity: 4 },
+        { variant_id: 63641, quantity: 1 },
+        { variant_id: 63728, quantity: 1 }
+      ]
+    };
+
+    const productToken = getCurrentPackToken();
+    const products = productsList[productToken];
+
+    if (products) {
+      products.forEach(product => {
+        saveProductToCart(product.variant_id, product.quantity);
+      });
+    }
+  }
+
+  function updateSectionTotals() {
+    const limits = getPackLimits();
+
+    const flavorsTotal = getSectionTotal('#flavors-products');
+    updateSectionControls('#flavors-products', 'flavors-total', flavorsTotal, limits.flavors);
+    updateTotalColor('flavors-total', flavorsTotal);
+    updateButtonStates('#flavors-products', flavorsTotal, limits.flavors);
+
+    const essentialTotal = getSectionTotal('#essential-products');
+    updateSectionControls('#essential-products', 'essential-total', essentialTotal, limits.essential);
+    updateTotalColor('essential-total', essentialTotal);
+    updateButtonStates('#essential-products', essentialTotal, limits.essential);
+
+    const isComplete = (flavorsTotal === limits.flavors) && (essentialTotal === limits.essential);
+    localStorage.setItem('packSelectionsComplete', JSON.stringify(isComplete));
+    window.dispatchEvent(new CustomEvent('pack-selections-updated', { detail: { isComplete } }));
+  }
+
+  function getPackLimits() {
+    const activeButton = document.querySelector('.button-pack.active');
+    const limitsById = {
+      'transform-pack': { essential: 2, flavors: 2 },
+      'share-pack': { essential: 4, flavors: 4 },
+      'launch-pack': { essential: 8, flavors: 8 }
+    };
+
+    return limitsById[activeButton?.id] || { essential: 2, flavors: 2 };
+  }
+
+  function updateIncludedTotal(buttonId) {
+    const elements = {
+      pure: document.getElementById('pure-quantity'),
+      alkalete: document.getElementById('alkalete-quantity'),
+      resolve: document.getElementById('resolve-quantity'),
+      blender: document.getElementById('blender-quantity'),
+      workbook: document.getElementById('workbook-quantity'),
+      included: document.getElementById('included-total')
+    };
+
+    const presets = {
+      'transform-pack': { included: '6 of 6 included', pure: 1, alkalete: 2, resolve: 1, blender: 1, workbook: 1 },
+      'share-pack': { included: '10 of 10 included', pure: 2, alkalete: 4, resolve: 2, blender: 1, workbook: 1 },
+      'launch-pack': { included: '18 of 18 included', pure: 4, alkalete: 8, resolve: 4, blender: 1, workbook: 1 }
+    };
+
+    const preset = presets[buttonId];
+    if (!preset) return;
+
+    elements.pure.innerHTML = `x${preset.pure} (total)`;
+    elements.alkalete.innerHTML = `x${preset.alkalete} (total)`;
+    elements.resolve.innerHTML = `x${preset.resolve} (total)`;
+    elements.blender.innerHTML = `x${preset.blender} (total)`;
+    elements.workbook.innerHTML = `x${preset.workbook} (total)`;
+    elements.included.innerHTML = preset.included;
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Choose Your Pack",
+  "settings": [
+    { "type": "header", "content": "Title" },
+    { "type": "checkbox", "id": "show_title", "label": "Show title", "default": true },
+    { "type": "text", "id": "title_text", "label": "Title text", "default": "Style Your Pack Your Way" },
+    { "type": "select", "id": "title_font_family", "label": "Title font family", "options": [
+      { "value": "font-eina01-light", "label": "Eina 01 Light" },
+      { "value": "font-eina01-regular", "label": "Eina 01 Regular" },
+      { "value": "font-eina01-semibold", "label": "Eina 01 SemiBold" },
+      { "value": "font-eina01-bold", "label": "Eina 01 Bold" },
+      { "value": "font-eina-light", "label": "Eina 02 Light" },
+      { "value": "font-eina-regular", "label": "Eina 02 Regular" },
+      { "value": "font-eina-semibold", "label": "Eina 02 SemiBold" },
+      { "value": "font-reckless", "label": "Reckless Neue" },
+      { "value": "font-agrandir-bold", "label": "Agrandir Bold" }
+    ], "default": "font-eina01-bold" },
+    { "type": "select", "id": "title_font_size", "label": "Title font size", "options": [
+      { "value": "title-xs", "label": "Extra Small" },
+      { "value": "title-sm", "label": "Small" },
+      { "value": "title-md", "label": "Medium" },
+      { "value": "title-lg", "label": "Large" }
+    ], "default": "title-md" },
+    { "type": "select", "id": "title_font_size_mobile", "label": "Title font size (Mobile)", "options": [
+      { "value": "title-m-xs", "label": "Extra Small" },
+      { "value": "title-m-sm", "label": "Small" },
+      { "value": "title-m-md", "label": "Medium" },
+      { "value": "title-m-lg", "label": "Large" }
+    ], "default": "title-m-sm" },
+    { "type": "select", "id": "title_font_weight", "label": "Title font weight", "options": [
+      { "value": "title-fw-light", "label": "Light" },
+      { "value": "title-fw-normal", "label": "Normal" },
+      { "value": "title-fw-medium", "label": "Medium" },
+      { "value": "title-fw-semibold", "label": "Semi Bold" },
+      { "value": "title-fw-bold", "label": "Bold" }
+    ], "default": "title-fw-bold" },
+    { "type": "select", "id": "title_text_color", "label": "Title text color", "options": [
+      { "value": "text-blue", "label": "Blue" },
+      { "value": "text-gray", "label": "Gray" },
+      { "value": "text-neutral-dark", "label": "Brown" },
+      { "value": "text-brown-2", "label": "Brown 2" },
+      { "value": "text-gold", "label": "Gold" },
+      { "value": "text-black", "label": "Black" },
+      { "value": "text-white", "label": "White" }
+    ], "default": "text-neutral-dark" },
+
+    { "type": "header", "content": "Buttons" },
+
+    { "type": "checkbox", "id": "show_buttons", "label": "Show Buttons", "default": true },
+    { "type": "text", "id": "transform_button_text", "label": "Transform label", "default": "Transform Pack" },
+    { "type": "select", "id": "transform_button_font_family", "label": "Transform font family", "options": [
+      { "value": "font-eina01-light", "label": "Eina 01 Light" },
+      { "value": "font-eina01-regular", "label": "Eina 01 Regular" },
+      { "value": "font-eina01-semibold", "label": "Eina 01 SemiBold" },
+      { "value": "font-eina01-bold", "label": "Eina 01 Bold" },
+      { "value": "font-eina-light", "label": "Eina 02 Light" },
+      { "value": "font-eina-regular", "label": "Eina 02 Regular" },
+      { "value": "font-eina-semibold", "label": "Eina 02 SemiBold" },
+      { "value": "font-reckless", "label": "Reckless Neue" },
+      { "value": "font-agrandir-bold", "label": "Agrandir Bold" }
+    ], "default": "font-eina01-regular" },
+    { "type": "select", "id": "transform_button_font_size", "label": "Transform font size", "options": [
+      { "value": "btn-text-xs", "label": "Extra Small" },
+      { "value": "btn-text-sm", "label": "Small" },
+      { "value": "btn-text-md", "label": "Medium" },
+      { "value": "btn-text-lg", "label": "Large" }
+    ], "default": "btn-text-sm" },
+    { "type": "select", "id": "transform_button_font_size_mobile", "label": "Transform font size (Mobile)", "options": [
+      { "value": "btn-m-text-xs", "label": "Extra Small" },
+      { "value": "btn-m-text-sm", "label": "Small" },
+      { "value": "btn-m-text-md", "label": "Medium" },
+      { "value": "btn-m-text-lg", "label": "Large" }
+    ], "default": "btn-m-text-sm" },
+    { "type": "select", "id": "transform_button_font_weight", "label": "Transform font weight", "options": [
+      { "value": "btn-fw-light", "label": "Light" },
+      { "value": "btn-fw-normal", "label": "Normal" },
+      { "value": "btn-fw-medium", "label": "Medium" },
+      { "value": "btn-fw-semibold", "label": "Semi Bold" },
+      { "value": "btn-fw-bold", "label": "Bold" }
+    ], "default": "btn-fw-normal" },
+    { "type": "select", "id": "transform_button_bg_color", "label": "Transform background", "options": [
+      { "value": "btn-bg-cream", "label": "Cream" },
+      { "value": "btn-bg-white", "label": "White" },
+      { "value": "btn-bg-blue", "label": "Blue" },
+      { "value": "btn-bg-gold", "label": "Gold" }
+    ], "default": "btn-bg-cream" },
+    { "type": "select", "id": "transform_button_text_color", "label": "Transform text color", "options": [
+      { "value": "btn-text-dark", "label": "Dark" },
+      { "value": "btn-text-blue", "label": "Blue" },
+      { "value": "btn-text-brown", "label": "Brown" },
+      { "value": "btn-text-white", "label": "White" }
+    ], "default": "btn-text-dark" },
+
+    { "type": "text", "id": "share_button_text", "label": "Share label", "default": "Share Pack" },
+    { "type": "select", "id": "share_button_font_family", "label": "Share font family", "options": [
+      { "value": "font-eina01-light", "label": "Eina 01 Light" },
+      { "value": "font-eina01-regular", "label": "Eina 01 Regular" },
+      { "value": "font-eina01-semibold", "label": "Eina 01 SemiBold" },
+      { "value": "font-eina01-bold", "label": "Eina 01 Bold" },
+      { "value": "font-eina-light", "label": "Eina 02 Light" },
+      { "value": "font-eina-regular", "label": "Eina 02 Regular" },
+      { "value": "font-eina-semibold", "label": "Eina 02 SemiBold" },
+      { "value": "font-reckless", "label": "Reckless Neue" },
+      { "value": "font-agrandir-bold", "label": "Agrandir Bold" }
+    ], "default": "font-eina01-regular" },
+    { "type": "select", "id": "share_button_font_size", "label": "Share font size", "options": [
+      { "value": "btn-text-xs", "label": "Extra Small" },
+      { "value": "btn-text-sm", "label": "Small" },
+      { "value": "btn-text-md", "label": "Medium" },
+      { "value": "btn-text-lg", "label": "Large" }
+    ], "default": "btn-text-sm" },
+    { "type": "select", "id": "share_button_font_size_mobile", "label": "Share font size (Mobile)", "options": [
+      { "value": "btn-m-text-xs", "label": "Extra Small" },
+      { "value": "btn-m-text-sm", "label": "Small" },
+      { "value": "btn-m-text-md", "label": "Medium" },
+      { "value": "btn-m-text-lg", "label": "Large" }
+    ], "default": "btn-m-text-sm" },
+    { "type": "select", "id": "share_button_font_weight", "label": "Share font weight", "options": [
+      { "value": "btn-fw-light", "label": "Light" },
+      { "value": "btn-fw-normal", "label": "Normal" },
+      { "value": "btn-fw-medium", "label": "Medium" },
+      { "value": "btn-fw-semibold", "label": "Semi Bold" },
+      { "value": "btn-fw-bold", "label": "Bold" }
+    ], "default": "btn-fw-normal" },
+    { "type": "select", "id": "share_button_bg_color", "label": "Share background", "options": [
+      { "value": "btn-bg-cream", "label": "Cream" },
+      { "value": "btn-bg-white", "label": "White" },
+      { "value": "btn-bg-blue", "label": "Blue" },
+      { "value": "btn-bg-gold", "label": "Gold" }
+    ], "default": "btn-bg-cream" },
+    { "type": "select", "id": "share_button_text_color", "label": "Share text color", "options": [
+      { "value": "btn-text-dark", "label": "Dark" },
+      { "value": "btn-text-blue", "label": "Blue" },
+      { "value": "btn-text-brown", "label": "Brown" },
+      { "value": "btn-text-white", "label": "White" }
+    ], "default": "btn-text-dark" },
+
+    { "type": "text", "id": "launch_button_text", "label": "Launch label", "default": "Launch Pack" },
+    { "type": "select", "id": "launch_button_font_family", "label": "Launch font family", "options": [
+      { "value": "font-eina01-light", "label": "Eina 01 Light" },
+      { "value": "font-eina01-regular", "label": "Eina 01 Regular" },
+      { "value": "font-eina01-semibold", "label": "Eina 01 SemiBold" },
+      { "value": "font-eina01-bold", "label": "Eina 01 Bold" },
+      { "value": "font-eina-light", "label": "Eina 02 Light" },
+      { "value": "font-eina-regular", "label": "Eina 02 Regular" },
+      { "value": "font-eina-semibold", "label": "Eina 02 SemiBold" },
+      { "value": "font-reckless", "label": "Reckless Neue" },
+      { "value": "font-agrandir-bold", "label": "Agrandir Bold" }
+    ], "default": "font-eina01-regular" },
+    { "type": "select", "id": "launch_button_font_size", "label": "Launch font size", "options": [
+      { "value": "btn-text-xs", "label": "Extra Small" },
+      { "value": "btn-text-sm", "label": "Small" },
+      { "value": "btn-text-md", "label": "Medium" },
+      { "value": "btn-text-lg", "label": "Large" }
+    ], "default": "btn-text-sm" },
+    { "type": "select", "id": "launch_button_font_size_mobile", "label": "Launch font size (Mobile)", "options": [
+      { "value": "btn-m-text-xs", "label": "Extra Small" },
+      { "value": "btn-m-text-sm", "label": "Small" },
+      { "value": "btn-m-text-md", "label": "Medium" },
+      { "value": "btn-m-text-lg", "label": "Large" }
+    ], "default": "btn-m-text-sm" },
+    { "type": "select", "id": "launch_button_font_weight", "label": "Launch font weight", "options": [
+      { "value": "btn-fw-light", "label": "Light" },
+      { "value": "btn-fw-normal", "label": "Normal" },
+      { "value": "btn-fw-medium", "label": "Medium" },
+      { "value": "btn-fw-semibold", "label": "Semi Bold" },
+      { "value": "btn-fw-bold", "label": "Bold" }
+    ], "default": "btn-fw-normal" },
+    { "type": "select", "id": "launch_button_bg_color", "label": "Launch background", "options": [
+      { "value": "btn-bg-cream", "label": "Cream" },
+      { "value": "btn-bg-white", "label": "White" },
+      { "value": "btn-bg-blue", "label": "Blue" },
+      { "value": "btn-bg-gold", "label": "Gold" }
+    ], "default": "btn-bg-cream" },
+    { "type": "select", "id": "launch_button_text_color", "label": "Launch text color", "options": [
+      { "value": "btn-text-dark", "label": "Dark" },
+      { "value": "btn-text-blue", "label": "Blue" },
+      { "value": "btn-text-brown", "label": "Brown" },
+      { "value": "btn-text-white", "label": "White" }
+    ], "default": "btn-text-dark" },
+    { "type": "header", "content": "Pack List" }
+  ]
+}
+{% endschema %}

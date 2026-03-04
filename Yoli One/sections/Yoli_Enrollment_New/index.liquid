@@ -1,0 +1,2044 @@
+<link rel="stylesheet" href="{{ 'main_enrollment/styles.css' | asset_url }}">
+
+<!-- Neora Brand Partner Enrollment Configurator -->
+<section class="enrollment-configurator" id="enrollment-{{ section.id }}">
+  
+  {% assign membership_product = membership_products.first %}
+  {% assign images_array = images_array | default: enrollment_pack.images_array %}
+  
+  <!-- Full-Width Split Screen Container -->
+  <div class="enrollment-split-screen">
+    
+    <!-- LEFT COLUMN: Static Hero with Background Image (Sticky on Desktop) -->
+    {% assign hero_bg_url = 'https://www.neora.com/-/media/Website/Images/PC_Upgrade_To_BP/Box' %}
+    {% if section.settings.hero_bg_image != blank %}
+      {% assign hero_bg_url = section.settings.hero_bg_image | image_url: width: 1400 %}
+    {% endif %}
+    <div class="enrollment-hero" id="enrollment-hero-{{ section.id }}" style="background-image: url('{{ hero_bg_url }}');">
+      
+      <!-- Gradient Overlay -->
+      <div class="hero-gradient-overlay"></div>
+      
+      <!-- Hero Text Content -->
+      <div class="hero-content">
+        <div class="hero-text">
+          <h1 class="hero-title">{{ section.settings.hero_title | default: 'TURN WHAT YOU LOVE INTO WHAT YOU DO' }}</h1>
+          <p class="hero-subtitle">{{ section.settings.hero_subtitle | default: 'When you level up to Results + Perks as a Brand Partner, sharing Neora's clean-meets-performance skincare, hair care and wellness products can positively shape how you and your family live, grow and thrive. Start earning perks today!' }}</p>
+          
+          <!-- Value Props -->
+          <ul class="value-props">
+            {% for block in section.blocks %}
+              {% if block.type == 'value_prop' %}
+                <li class="value-prop" {{ block.fluid_attributes }}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                  <span>{{ block.settings.text }}</span>
+                </li>
+              {% endif %}
+            {% endfor %}
+            {% assign value_prop_blocks = section.blocks | where: "type", "value_prop" %}
+            {% if value_prop_blocks.size == 0 %}
+              <li class="value-prop"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg><span>Deep product discounts</span></li>
+              <li class="value-prop"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg><span>Earn commissions & perks</span></li>
+              <li class="value-prop"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg><span>Access to your own storefront</span></li>
+              <li class="value-prop"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg><span>Marketing materials included</span></li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <!-- RIGHT COLUMN: Scrollable Configurator Panel -->
+    <div class="enrollment-panel" id="enrollment-panel-{{ section.id }}">
+      
+      <!-- Starter Kit Section - Nectar Style -->
+      <div class="starter-kit-section" id="starter-kit-{{ section.id }}">
+        <!-- Header -->
+        <div class="starter-kit-header">
+          <span class="starter-kit-value">{{ section.settings.starter_kit_price | default: '$20' }} Starter Kit Included</span>
+        </div>
+        
+        <!-- Content: Image Left + Items Right -->
+        <div class="starter-kit-content">
+          <!-- Kit Image -->
+          <div class="starter-kit-image">
+            {% if section.settings.starter_kit_image != blank %}
+              <img src="{{ section.settings.starter_kit_image | image_url: width: 300 }}" alt="Brand Partner Starter Kit">
+            {% else %}
+              <img src="https://www.neora.com/-/media/Shared/Products/Product-Images/Enrollment-Basic-Kit/US-DigitalEnrollmentKit.png?h=230" alt="Brand Partner Starter Kit">
+            {% endif %}
+          </div>
+          
+          <!-- Kit Items List -->
+          <div class="starter-kit-items">
+            {% assign kit_items = section.settings.starter_kit_includes | split: '|' %}
+            {% if kit_items.size > 0 %}
+              {% for item in kit_items %}
+                <div class="starter-kit-item">
+                  <div class="kit-item-info">
+                    <span class="kit-item-name">{{ item | strip }}</span>
+                  </div>
+                  <div class="kit-item-status">
+                    <span class="kit-item-included">Included</span>
+                    <svg class="kit-item-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                      <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                  </div>
+                </div>
+              {% endfor %}
+            {% else %}
+              <div class="starter-kit-item">
+                <div class="kit-item-info">
+                  <span class="kit-item-name">Personal e-commerce website</span>
+                </div>
+                <div class="kit-item-status">
+                  <span class="kit-item-included">Included</span>
+                  <svg class="kit-item-check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="16 10 11 15 8 12"></polyline>
+                  </svg>
+                </div>
+              </div>
+              <div class="starter-kit-item">
+                <div class="kit-item-info">
+                  <span class="kit-item-name">Marketing materials & training</span>
+                </div>
+                <div class="kit-item-status">
+                  <span class="kit-item-included">Included</span>
+                  <svg class="kit-item-check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="16 10 11 15 8 12"></polyline>
+                  </svg>
+                </div>
+              </div>
+              <div class="starter-kit-item">
+                <div class="kit-item-info">
+                  <span class="kit-item-name">Back-office access</span>
+                </div>
+                <div class="kit-item-status">
+                  <span class="kit-item-included">Included</span>
+                  <svg class="kit-item-check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="16 10 11 15 8 12"></polyline>
+                  </svg>
+                </div>
+              </div>
+              <div class="starter-kit-item">
+                <div class="kit-item-info">
+                  <span class="kit-item-name">Mobile app access</span>
+                </div>
+                <div class="kit-item-status">
+                  <span class="kit-item-included">Included</span>
+                  <svg class="kit-item-check" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="16 10 11 15 8 12"></polyline>
+                  </svg>
+                </div>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      
+      <!-- STEP 1: Choose Your Launch Pack -->
+      <div class="config-step" data-step="packs" id="step-packs-{{ section.id }}">
+        <div class="step-header">
+          <span class="step-number">1</span>
+          <div class="step-header-text">
+            <h2 class="step-title">{{ section.settings.packs_title | default: 'Choose your Launch Pack' }}</h2>
+            <p class="step-description">
+              {{ section.settings.packs_description | default: 'Select a discounted product bundle to jumpstart your business. One plan for you and your customers.' }}
+              <button type="button" class="view-pack-contents-link" id="pack-details-trigger-{{ section.id }}">
+                View full pack contents
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+            </p>
+          </div>
+        </div>
+        
+        <div class="step-content">
+          
+          <!-- Nectar-Style Pack Cards -->
+          <div class="pack-cards-grid">
+            {% for block in section.blocks %}
+              {% if block.type == 'pack_option' %}
+                <div class="pack-card-wrapper {% if block.settings.is_best_value %}has-badge{% endif %}">
+                  <!-- Most Popular Badge (appears above card) -->
+                  {% if block.settings.is_best_value %}
+                    <div class="pack-popular-badge">MOST POPULAR</div>
+                  {% endif %}
+                  
+                  <div class="pack-card {% if block.settings.is_selected %}selected{% endif %}" 
+                       data-pack-id="{{ block.settings.pack_id }}" 
+                       data-price="{{ block.settings.pack_price_value }}"
+                       {{ block.fluid_attributes }}>
+                    
+                    <!-- Card Header: Name + Radio -->
+                    <div class="pack-card-header">
+                      <h3 class="pack-name">{{ block.settings.pack_name }}</h3>
+                      <div class="pack-radio-wrapper">
+                        <input type="radio" name="pack-selection" id="pack-{{ block.id }}" value="{{ block.settings.pack_id }}" {% if block.settings.is_selected %}checked{% endif %} class="pack-radio">
+                        <span class="pack-radio-custom"></span>
+                      </div>
+                    </div>
+                    
+                    <!-- Pack Image -->
+                    <div class="pack-image">
+                      {% if block.settings.pack_image != blank %}
+                        <img src="{{ block.settings.pack_image | image_url: width: 400 }}" alt="{{ block.settings.pack_name }}">
+                      {% elsif block.settings.pack_id contains 'ultimate' %}
+                        <img src="https://www.neora.com/-/media/Shared/Products/Product-Images/Ultimate-Launch-Pack---2509/US-EN_UltimatePack.png?h=230" alt="{{ block.settings.pack_name }}">
+                      {% else %}
+                        <img src="https://www.neora.com/-/media/Shared/Products/Product-Images/Premier-Launch-Pack---2306/US-EN_PremierPack.png?h=230" alt="{{ block.settings.pack_name }}">
+                      {% endif %}
+                    </div>
+                    
+                    <!-- Pack Features -->
+                    <ul class="pack-features">
+                      {% assign features = block.settings.pack_features | split: '|' %}
+                      {% for feature in features limit: 3 %}
+                        <li>
+                          <svg class="feature-check" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                          </svg>
+                          <span>{{ feature | strip | upcase }}</span>
+                        </li>
+                      {% endfor %}
+                    </ul>
+                  </div>
+                </div>
+              {% endif %}
+            {% endfor %}
+            
+            <!-- Default Neora Packs if no blocks -->
+            {% assign pack_blocks = section.blocks | where: "type", "pack_option" %}
+            {% if pack_blocks.size == 0 %}
+              
+              <!-- Premier Launch Pack -->
+              <div class="pack-card-wrapper">
+                <div class="pack-card" data-pack-id="premier-pack" data-price="500">
+                  <div class="pack-card-header">
+                    <h3 class="pack-name">Premier Launch Pack</h3>
+                    <div class="pack-radio-wrapper">
+                      <input type="radio" name="pack-selection" id="pack-premier" value="premier-pack" class="pack-radio">
+                      <span class="pack-radio-custom"></span>
+                    </div>
+                  </div>
+                  
+                  <div class="pack-image">
+                    <img src="https://www.neora.com/-/media/Shared/Products/Product-Images/Premier-Launch-Pack---2306/US-EN_PremierPack.png?h=230" alt="Premier Launch Pack">
+                  </div>
+                  
+                  <ul class="pack-features">
+                    <li><svg class="feature-check" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg><span>10 PRODUCTS INCLUDED</span></li>
+                    <li><svg class="feature-check" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg><span>SAVE $516 OFF RETAIL</span></li>
+                  </ul>
+                </div>
+              </div>
+              
+              <!-- Ultimate Launch Pack -->
+              <div class="pack-card-wrapper has-badge">
+                <div class="pack-popular-badge">MOST POPULAR</div>
+                <div class="pack-card selected" data-pack-id="ultimate-pack" data-price="1000">
+                  <div class="pack-card-header">
+                    <h3 class="pack-name">Ultimate Launch Pack</h3>
+                    <div class="pack-radio-wrapper">
+                      <input type="radio" name="pack-selection" id="pack-ultimate" value="ultimate-pack" checked class="pack-radio">
+                      <span class="pack-radio-custom"></span>
+                    </div>
+                  </div>
+                  
+                  <div class="pack-image">
+                    <img src="https://www.neora.com/-/media/Shared/Products/Product-Images/Ultimate-Launch-Pack---2509/US-EN_UltimatePack.png?h=230" alt="Ultimate Launch Pack">
+                  </div>
+                  
+                  <ul class="pack-features">
+                    <li><svg class="feature-check" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg><span>28 PRODUCTS INCLUDED</span></li>
+                    <li><svg class="feature-check" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg><span>SAVE $1,245 OFF RETAIL</span></li>
+                  </ul>
+                </div>
+              </div>
+              
+            {% endif %}
+          </div>
+          
+          <!-- Pack Details Content (toggled by link in description) -->
+          <div class="pack-details-content" id="pack-details-content-{{ section.id }}" style="display: none;">
+              <div class="pack-details-grid">
+                <!-- Premier Pack Details -->
+                <div class="pack-detail-column" data-for-pack="premier-pack">
+                  <h4>Premier Launch Pack Includes:</h4>
+                  <p class="pack-detail-intro">Think of this as your "business in a box," setting you up perfectly to launch your business.</p>
+                  
+                  <div class="detail-category">
+                    <h5>Skincare</h5>
+                    <ul>
+                      <li>4 Neo-FILLER Lift + Fill Corrective Elixirs</li>
+                      <li>1 Age IQ Night Cream</li>
+                      <li>1 Age IQ Day Cream</li>
+                      <li>1 Age IQ Face Wash</li>
+                      <li>1 Age IQ Eye Serum</li>
+                      <li>1 Eye-V Hydrogel Patches</li>
+                    </ul>
+                  </div>
+                  
+                  <div class="detail-category">
+                    <h5>Wellness</h5>
+                    <ul>
+                      <li>1 Youth Factor Powder</li>
+                    </ul>
+                  </div>
+                </div>
+                
+                <!-- Ultimate Pack Details -->
+                <div class="pack-detail-column" data-for-pack="ultimate-pack">
+                  <h4>Ultimate Launch Pack Includes:</h4>
+                  <p class="pack-detail-intro">Everything in the Premier Pack + products for your own personal transformation.</p>
+                  
+                  <div class="detail-category">
+                    <h5>Skincare</h5>
+                    <ul>
+                      <li>4 Neo-FILLER Lift + Fill Corrective Elixirs</li>
+                      <li>2 Age IQ Night Cream</li>
+                      <li>2 Age IQ Day Cream</li>
+                      <li>2 Eye-V Hydrogel Patches</li>
+                      <li>1 Age IQ Face Wash</li>
+                      <li>1 Age IQ Eye Serum</li>
+                      <li>1 Invisi-Bloc Sunscreen Gel SPF40</li>
+                      <li>1 IllumaBoost Brightening Vitamin C Serum</li>
+                      <li>1 Firm Body Contour Cream</li>
+                      <li>1 LashLush 3-in1 Lash & Brow Serum</li>
+                    </ul>
+                  </div>
+                  
+                  <div class="detail-category">
+                    <h5>Wellness</h5>
+                    <ul>
+                      <li>1 EHT Brain Formula</li>
+                      <li>1 Youth Factor Tablet</li>
+                      <li>1 Youth Factor Powder</li>
+                      <li>1 Sleep+ Wellness Chew</li>
+                      <li>1 Energy+ Wellness Chew</li>
+                    </ul>
+                  </div>
+                  
+                  <div class="detail-category">
+                    <h5>Weight Management</h5>
+                    <ul>
+                      <li>1 Slim + Skin Collagen Powder</li>
+                      <li>1 Block + Balance Pre & Probiotic Powder</li>
+                      <li>1 Cleanse + Calm Nightly Gentle Cleanse</li>
+                    </ul>
+                  </div>
+                  
+                  <div class="detail-category">
+                    <h5>Hair Care</h5>
+                    <ul>
+                      <li>1 ProLuxe Rebalancing Shampoo</li>
+                      <li>1 ProLuxe Rebalancing Conditioner</li>
+                      <li>1 ProLuxe Hair Mask</li>
+                      <li>1 ProLuxe Scalp Treatment</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          
+        </div>
+      </div>
+      
+      <!-- STEP 2: Choose Your SmartShop Order -->
+      <div class="config-step" data-step="smartshop" id="step-smartshop-{{ section.id }}">
+        <div class="step-header">
+          <span class="step-number">2</span>
+          <div class="step-header-text">
+            <h2 class="step-title">{{ section.settings.smartshop_title | default: 'Choose your SmartShop Order' }}</h2>
+            <p class="step-description">{{ section.settings.smartshop_description | default: 'Your Order. Your Way. Get the lowest prices on all Neora products with total flexibility—delay, change, or cancel anytime. Earn 3% free product credits as a Brand Partner.' }}</p>
+          </div>
+        </div>
+        
+        <div class="step-content">
+          <!-- Product Category Tabs -->
+          <div class="smartshop-tabs" id="smartshop-tabs-{{ section.id }}">
+            <button type="button" class="tab-btn active" data-category="all">All Products</button>
+            <button type="button" class="tab-btn" data-category="skincare">Skincare</button>
+            <button type="button" class="tab-btn" data-category="wellness">Wellness</button>
+            <button type="button" class="tab-btn" data-category="haircare">Hair Care</button>
+            <button type="button" class="tab-btn" data-category="weight">Weight</button>
+          </div>
+          
+          <!-- Search Bar -->
+          <div class="smartshop-search">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" id="smartshop-search-{{ section.id }}" placeholder="Search products..." class="search-input">
+          </div>
+          
+          <!-- Product Grid -->
+          <div class="smartshop-products-grid" id="products-grid-{{ section.id }}">
+            
+            {% comment %} 
+              Use Fluid's global 'products' object to access all products.
+              This works on enrollment_pack pages where collection context isn't available.
+              
+              Priority:
+              1. Fluid 'products' global (all catalog products)
+              2. Products from smartshop_product blocks  
+              3. Fallback placeholder products
+            {% endcomment %}
+            
+            {% assign smartshop_products_source = products %}
+            
+            {% if smartshop_products_source and smartshop_products_source.size > 0 %}
+              {% comment %} PRODUCTS FROM SUBSCRIPTION OR COLLECTION {% endcomment %}
+              {% for product in smartshop_products_source limit: section.settings.smartshop_products_limit | default: 20 %}
+                {% comment %} Determine category from product tags {% endcomment %}
+                {% assign product_category = 'skincare' %}
+                {% if product.tags contains 'wellness' %}
+                  {% assign product_category = 'wellness' %}
+                {% elsif product.tags contains 'haircare' or product.tags contains 'hair' %}
+                  {% assign product_category = 'haircare' %}
+                {% elsif product.tags contains 'weight' or product.tags contains 'neorafit' %}
+                  {% assign product_category = 'weight' %}
+                {% endif %}
+                
+                {% comment %} Extract numeric price for data attribute - handle both formatted and numeric prices {% endcomment %}
+                {% assign price_str = product.price | strip %}
+                {% assign price_numeric = price_str | remove: '$' | remove: ',' | remove: ' ' | times: 1.0 %}
+                {% comment %} If price is in cents (Shopify format), convert {% endcomment %}
+                {% if price_numeric > 10000 %}
+                  {% assign price_numeric = price_numeric | divided_by: 100.0 %}
+                {% endif %}
+                
+                {% comment %} Calculate compare at price and savings {% endcomment %}
+                {% assign compare_price_str = product.compare_at_price | default: product.retail_price | strip %}
+                {% assign compare_numeric = compare_price_str | remove: '$' | remove: ',' | remove: ' ' | times: 1.0 %}
+                {% if compare_numeric > 10000 %}
+                  {% assign compare_numeric = compare_numeric | divided_by: 100.0 %}
+                {% endif %}
+                
+                {% assign has_savings = false %}
+                {% assign savings_percent = 0 %}
+                {% assign savings_amount = 0 %}
+                {% if compare_numeric > price_numeric %}
+                  {% assign has_savings = true %}
+                  {% assign savings_amount = compare_numeric | minus: price_numeric %}
+                  {% assign savings_percent = savings_amount | times: 100 | divided_by: compare_numeric | round %}
+                {% endif %}
+                
+                {% comment %} Calculate QV (typically same as price or custom field) {% endcomment %}
+                {% assign qv_value = product.metafields.custom.qv | default: price_numeric | round %}
+                
+                <div class="smartshop-product-card" 
+                     data-product-id="{{ product.id }}"
+                     data-category="{{ product_category }}"
+                     data-price="{{ price_numeric }}"
+                     data-name="{{ product.title | downcase }}"
+                     data-qty="0">
+                  
+                  <!-- Product Info (Left) -->
+                  <div class="product-card-info">
+                    {% comment %} Savings Badge {% endcomment %}
+                    {% if has_savings and savings_percent > 0 %}
+                      <span class="product-savings-badge">SAVE {{ savings_percent }}%</span>
+                    {% endif %}
+                    
+                    <h4 class="product-card-name">{{ product.title }}</h4>
+                    
+                    <!-- Price & QV -->
+                    <div class="product-pricing">
+                      <span class="product-card-price">${{ price_numeric | round: 2 }} USD</span>
+                      <span class="product-qv">{{ qv_value }} QV</span>
+                    </div>
+                    
+                    <!-- Savings Info -->
+                    {% if has_savings %}
+                      <p class="product-savings-info">Save {{ savings_percent }}% (${{ compare_numeric | round: 2 }} USD Value)</p>
+                    {% endif %}
+                  </div>
+                  
+                  <!-- Product Image (Right) with Qty Controls -->
+                  <div class="product-card-media">
+                    <div class="product-card-image">
+                      {%- assign product_image = product.images.first.src | default: product.featured_media.url | default: product.image -%}
+                      {% if product_image != blank %}
+                        <img src="{{ product_image }}" alt="{{ product.title }}" loading="lazy">
+                      {% else %}
+                        <div class="product-image-placeholder">
+                          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                            <polyline points="21 15 16 10 5 21"></polyline>
+                          </svg>
+                        </div>
+                      {% endif %}
+                    </div>
+                    
+                    <!-- Qty Controls -->
+                    <div class="qty-controls">
+                      <!-- Add Button (shown when qty = 0) -->
+                      <button type="button" class="qty-add-btn" aria-label="Add to order">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                          <line x1="12" y1="5" x2="12" y2="19"></line>
+                          <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                      </button>
+                      
+                      <!-- Qty Stepper (shown when qty > 0) -->
+                      <div class="qty-stepper" style="display: none;">
+                        <button type="button" class="qty-minus-btn" aria-label="Decrease quantity">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                          </svg>
+                        </button>
+                        <span class="qty-value">0</span>
+                        <button type="button" class="qty-plus-btn" aria-label="Increase quantity">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+              
+            {% else %}
+              {% comment %} PRODUCTS FROM SECTION BLOCKS {% endcomment %}
+              {% for block in section.blocks %}
+                {% if block.type == 'smartshop_product' %}
+                  <div class="smartshop-product-card" 
+                       data-product-id="{{ block.settings.product_id }}"
+                       data-category="{{ block.settings.category }}"
+                       data-price="{{ block.settings.price_value }}"
+                       data-name="{{ block.settings.product_name | downcase }}"
+                       data-qty="0"
+                       {{ block.fluid_attributes }}>
+                    <!-- Product Info (Left) -->
+                    <div class="product-card-info">
+                      <h4 class="product-card-name">{{ block.settings.product_name }}</h4>
+                      <span class="product-card-price">{{ block.settings.price }}<span class="price-period">/mo</span></span>
+                    </div>
+                    
+                    <!-- Product Image (Right) with Qty Controls -->
+                    <div class="product-card-media">
+                      <div class="product-card-image">
+                        {% if block.settings.product_image != blank %}
+                          <img src="{{ block.settings.product_image | image_url: width: 200 }}" alt="{{ block.settings.product_name }}" loading="lazy">
+                        {% else %}
+                          <div class="product-image-placeholder">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                              <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                              <polyline points="21 15 16 10 5 21"></polyline>
+                            </svg>
+                          </div>
+                        {% endif %}
+                      </div>
+                      
+                      <!-- Qty Controls -->
+                      <div class="qty-controls">
+                        <button type="button" class="qty-add-btn" aria-label="Add to order">
+                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                          </svg>
+                        </button>
+                        <div class="qty-stepper" style="display: none;">
+                          <button type="button" class="qty-minus-btn" aria-label="Decrease quantity">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                              <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                          </button>
+                          <span class="qty-value">0</span>
+                          <button type="button" class="qty-plus-btn" aria-label="Increase quantity">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                              <line x1="12" y1="5" x2="12" y2="19"></line>
+                              <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+            
+            {% comment %} Default placeholder products if no subscription_products, collection, or blocks {% endcomment %}
+            {% assign smartshop_blocks = section.blocks | where: "type", "smartshop_product" %}
+            {% if smartshop_products_source == nil and smartshop_blocks.size == 0 %}
+              <!-- Sample SmartShop Products: name,price,retail,qv,category -->
+              {% assign sample_products = "Age IQ Night Cream,85,106,85,skincare|Age IQ Day Cream,85,106,85,skincare|Neo-FILLER Elixir,120,150,120,skincare|IllumaBoost Serum,89,112,89,skincare|Youth Factor Powder,75,94,75,wellness|EHT Brain Formula,65,82,65,wellness|ProLuxe Shampoo,45,56,45,haircare|ProLuxe Conditioner,45,56,45,haircare|Slim + Skin Collagen,55,69,55,weight" | split: "|" %}
+              {% for item in sample_products %}
+                {% assign parts = item | split: "," %}
+                {% assign product_name = parts[0] %}
+                {% assign product_price = parts[1] | times: 1 %}
+                {% assign product_retail = parts[2] | times: 1 %}
+                {% assign product_qv = parts[3] | times: 1 %}
+                {% assign product_category = parts[4] %}
+                {% assign product_id = product_name | handleize %}
+                {% assign sample_savings_amount = product_retail | minus: product_price %}
+                {% assign sample_savings_percent = sample_savings_amount | times: 100 | divided_by: product_retail | round %}
+                <div class="smartshop-product-card" 
+                     data-product-id="{{ product_id }}"
+                     data-category="{{ product_category }}"
+                     data-price="{{ product_price }}"
+                     data-name="{{ product_name | downcase }}"
+                     data-qty="0">
+                  
+                  <div class="product-card-info">
+                    <!-- Savings Badge -->
+                    <span class="product-savings-badge">SAVE {{ sample_savings_percent }}%</span>
+                    
+                    <h4 class="product-card-name">{{ product_name }}</h4>
+                    <div class="product-pricing">
+                      <span class="product-card-price">${{ product_price }}.00 USD</span>
+                      <span class="product-qv">{{ product_qv }} QV</span>
+                    </div>
+                    <p class="product-savings-info">Save {{ sample_savings_percent }}% (${{ product_retail }}.00 USD Value)</p>
+                  </div>
+                  <div class="product-card-media">
+                    <div class="product-card-image">
+                      <div class="product-image-placeholder">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                          <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                          <polyline points="21 15 16 10 5 21"></polyline>
+                        </svg>
+                      </div>
+                    </div>
+                    <div class="qty-controls">
+                      <button type="button" class="qty-add-btn" aria-label="Add to order">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                          <line x1="12" y1="5" x2="12" y2="19"></line>
+                          <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                      </button>
+                      <div class="qty-stepper" style="display: none;">
+                        <button type="button" class="qty-minus-btn" aria-label="Decrease quantity">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                          </svg>
+                        </button>
+                        <span class="qty-value">0</span>
+                        <button type="button" class="qty-plus-btn" aria-label="Increase quantity">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+            {% endif %}
+            
+          </div>
+          
+          <!-- Show More Products Button -->
+          <div class="smartshop-show-more" id="show-more-{{ section.id }}" style="display: none;">
+            <button type="button" class="show-more-btn">
+              <span>Show more products</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+          </div>
+          
+        </div>
+      </div>
+      
+      <!-- STEP 3: Shop Add-ons (One-Time) -->
+      <div class="config-step" data-step="addons" id="step-addons-{{ section.id }}">
+        <div class="step-header">
+          <span class="step-number">3</span>
+          <div class="step-header-text">
+            <h2 class="step-title">{{ section.settings.addons_title | default: 'Shop Add-ons!' }}</h2>
+            <p class="step-description">{{ section.settings.addons_description | default: 'Add your add-on picks to today\'s order and elevate your skincare, hair care and wellness results! Visit your SmartShop Manager in your Back Office to add items monthly.' }}</p>
+          </div>
+        </div>
+        
+        <div class="step-content">
+          <!-- Add-ons Info Banner -->
+          <div class="addons-info-banner">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="16" x2="12" y2="12"></line>
+              <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+            <span>These items are <strong>one-time purchases</strong> added to today's order</span>
+          </div>
+          
+          <!-- Add-on Category Tabs -->
+          <div class="addons-tabs" id="addons-tabs-{{ section.id }}">
+            <button type="button" class="tab-btn active" data-category="all">All</button>
+            <button type="button" class="tab-btn" data-category="skincare">Skincare</button>
+            <button type="button" class="tab-btn" data-category="wellness">Wellness</button>
+            <button type="button" class="tab-btn" data-category="haircare">Hair Care</button>
+            <button type="button" class="tab-btn" data-category="weight">Weight</button>
+          </div>
+          
+          <!-- Add-ons Product Grid -->
+          <div class="addons-products-grid" id="addons-grid-{{ section.id }}">
+            
+            {% comment %} 
+              Use Fluid's global 'products' object to access all products.
+              This works on enrollment_pack pages where collection context isn't available.
+              
+              Priority:
+              1. Fluid 'products' global (all catalog products)
+              2. Products from addon_product blocks
+              3. Fallback placeholder products
+            {% endcomment %}
+            
+            {% assign addons_products_source = products %}
+            
+            {% if addons_products_source and addons_products_source.size > 0 %}
+              {% comment %} PRODUCTS FROM SUBSCRIPTION OR COLLECTION {% endcomment %}
+              {% for product in addons_products_source limit: section.settings.addons_products_limit | default: 12 %}
+                {% comment %} Determine category from product tags {% endcomment %}
+                {% assign addon_category = 'skincare' %}
+                {% if product.tags contains 'wellness' %}
+                  {% assign addon_category = 'wellness' %}
+                {% elsif product.tags contains 'haircare' or product.tags contains 'hair' %}
+                  {% assign addon_category = 'haircare' %}
+                {% elsif product.tags contains 'weight' or product.tags contains 'neorafit' %}
+                  {% assign addon_category = 'weight' %}
+                {% endif %}
+                
+                {% comment %} Extract numeric price for data attribute - handle both formatted and numeric prices {% endcomment %}
+                {% assign addon_price_str = product.price | strip %}
+                {% assign addon_price_numeric = addon_price_str | remove: '$' | remove: ',' | remove: ' ' | times: 1.0 %}
+                {% comment %} If price is in cents (Shopify format), convert {% endcomment %}
+                {% if addon_price_numeric > 10000 %}
+                  {% assign addon_price_numeric = addon_price_numeric | divided_by: 100.0 %}
+                {% endif %}
+                
+                {% comment %} Calculate compare at price and savings for add-ons {% endcomment %}
+                {% assign addon_compare_str = product.compare_at_price | default: product.retail_price | strip %}
+                {% assign addon_compare_numeric = addon_compare_str | remove: '$' | remove: ',' | remove: ' ' | times: 1.0 %}
+                {% if addon_compare_numeric > 10000 %}
+                  {% assign addon_compare_numeric = addon_compare_numeric | divided_by: 100.0 %}
+                {% endif %}
+                
+                {% assign addon_has_savings = false %}
+                {% assign addon_savings_percent = 0 %}
+                {% assign addon_savings_amount = 0 %}
+                {% if addon_compare_numeric > addon_price_numeric %}
+                  {% assign addon_has_savings = true %}
+                  {% assign addon_savings_amount = addon_compare_numeric | minus: addon_price_numeric %}
+                  {% assign addon_savings_percent = addon_savings_amount | times: 100 | divided_by: addon_compare_numeric | round %}
+                {% endif %}
+                
+                {% comment %} Calculate QV for add-ons {% endcomment %}
+                {% assign addon_qv_value = product.metafields.custom.qv | default: addon_price_numeric | round %}
+                
+                <div class="addon-product-card" 
+                     data-product-id="{{ product.id }}"
+                     data-category="{{ addon_category }}"
+                     data-price="{{ addon_price_numeric }}"
+                     data-name="{{ product.title | downcase }}"
+                     data-qty="0">
+                  
+                  <!-- Product Info (Left) -->
+                  <div class="addon-product-info">
+                    {% comment %} Savings Badge {% endcomment %}
+                    {% if addon_has_savings and addon_savings_percent > 0 %}
+                      <span class="product-savings-badge">SAVE {{ addon_savings_percent }}%</span>
+                    {% endif %}
+                    
+                    <h4 class="addon-product-name">{{ product.title }}</h4>
+                    
+                    <!-- Price & QV -->
+                    <div class="product-pricing">
+                      <span class="addon-product-price">${{ addon_price_numeric | round: 2 }} USD</span>
+                      <span class="product-qv">{{ addon_qv_value }} QV</span>
+                    </div>
+                    
+                    <!-- Savings Info -->
+                    {% if addon_has_savings %}
+                      <p class="product-savings-info">Save {{ addon_savings_percent }}% (${{ addon_compare_numeric | round: 2 }} USD Value)</p>
+                    {% endif %}
+                  </div>
+                  
+                  <!-- Product Image (Right) with Qty Controls -->
+                  <div class="addon-product-media">
+                    <div class="addon-product-image">
+                      {%- assign addon_product_image = product.images.first.src | default: product.featured_media.url | default: product.image -%}
+                      {% if addon_product_image != blank %}
+                        <img src="{{ addon_product_image }}" alt="{{ product.title }}" loading="lazy">
+                      {% else %}
+                        <div class="addon-image-placeholder">
+                          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                            <polyline points="21 15 16 10 5 21"></polyline>
+                          </svg>
+                        </div>
+                      {% endif %}
+                    </div>
+                    
+                    <!-- Qty Controls -->
+                    <div class="qty-controls">
+                      <button type="button" class="qty-add-btn" aria-label="Add to order">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                          <line x1="12" y1="5" x2="12" y2="19"></line>
+                          <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                      </button>
+                      <div class="qty-stepper" style="display: none;">
+                        <button type="button" class="qty-minus-btn" aria-label="Decrease quantity">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                          </svg>
+                        </button>
+                        <span class="qty-value">0</span>
+                        <button type="button" class="qty-plus-btn" aria-label="Increase quantity">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+              
+            {% else %}
+              {% comment %} PRODUCTS FROM SECTION BLOCKS {% endcomment %}
+              {% for block in section.blocks %}
+                {% if block.type == 'addon_product' %}
+                  <div class="addon-product-card" 
+                       data-product-id="{{ block.settings.product_id }}"
+                       data-category="{{ block.settings.category }}"
+                       data-price="{{ block.settings.price_value }}"
+                       data-name="{{ block.settings.product_name | downcase }}"
+                       data-qty="0"
+                       {{ block.fluid_attributes }}>
+                    <!-- Product Info (Left) -->
+                    <div class="addon-product-info">
+                      <h4 class="addon-product-name">{{ block.settings.product_name }}</h4>
+                      <span class="addon-product-price">{{ block.settings.price }}</span>
+                    </div>
+                    
+                    <!-- Product Image (Right) with Qty Controls -->
+                    <div class="addon-product-media">
+                      <div class="addon-product-image">
+                        {% if block.settings.product_image != blank %}
+                          <img src="{{ block.settings.product_image | image_url: width: 200 }}" alt="{{ block.settings.product_name }}" loading="lazy">
+                        {% else %}
+                          <div class="addon-image-placeholder">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                              <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                              <polyline points="21 15 16 10 5 21"></polyline>
+                            </svg>
+                          </div>
+                        {% endif %}
+                      </div>
+                      
+                      <!-- Qty Controls -->
+                      <div class="qty-controls">
+                        <button type="button" class="qty-add-btn" aria-label="Add to order">
+                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                          </svg>
+                        </button>
+                        <div class="qty-stepper" style="display: none;">
+                          <button type="button" class="qty-minus-btn" aria-label="Decrease quantity">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                              <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                          </button>
+                          <span class="qty-value">0</span>
+                          <button type="button" class="qty-plus-btn" aria-label="Increase quantity">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                              <line x1="12" y1="5" x2="12" y2="19"></line>
+                              <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+            
+            {% comment %} Default placeholder add-ons if no subscription_products, collection, or blocks {% endcomment %}
+            {% assign addon_blocks = section.blocks | where: "type", "addon_product" %}
+            {% if addons_products_source == nil and addon_blocks.size == 0 %}
+              <!-- Sample Add-on Products: name,price,retail,qv,category -->
+              {% assign sample_addons = "Eye-V Hydrogel Patches,68,85,68,skincare|LashLush Serum,89,112,89,skincare|Firm Body Cream,75,94,75,skincare|Sleep+ Chews,45,56,45,wellness|Energy+ Chews,45,56,45,wellness|ProLuxe Hair Mask,42,53,42,haircare" | split: "|" %}
+              {% for item in sample_addons %}
+                {% assign parts = item | split: "," %}
+                {% assign addon_name = parts[0] %}
+                {% assign addon_price = parts[1] | times: 1 %}
+                {% assign addon_retail = parts[2] | times: 1 %}
+                {% assign addon_qv = parts[3] | times: 1 %}
+                {% assign addon_category = parts[4] %}
+                {% assign addon_id = addon_name | handleize %}
+                {% assign addon_sample_savings = addon_retail | minus: addon_price %}
+                {% assign addon_sample_savings_pct = addon_sample_savings | times: 100 | divided_by: addon_retail | round %}
+                <div class="addon-product-card" 
+                     data-product-id="{{ addon_id }}"
+                     data-category="{{ addon_category }}"
+                     data-price="{{ addon_price }}"
+                     data-name="{{ addon_name | downcase }}"
+                     data-qty="0">
+                  
+                  <div class="addon-product-info">
+                    <!-- Savings Badge -->
+                    <span class="product-savings-badge">SAVE {{ addon_sample_savings_pct }}%</span>
+                    
+                    <h4 class="addon-product-name">{{ addon_name }}</h4>
+                    <div class="product-pricing">
+                      <span class="addon-product-price">${{ addon_price }}.00 USD</span>
+                      <span class="product-qv">{{ addon_qv }} QV</span>
+                    </div>
+                    <p class="product-savings-info">Save {{ addon_sample_savings_pct }}% (${{ addon_retail }}.00 USD Value)</p>
+                  </div>
+                  <div class="addon-product-media">
+                    <div class="addon-product-image">
+                      <div class="addon-image-placeholder">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                          <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                          <polyline points="21 15 16 10 5 21"></polyline>
+                        </svg>
+                      </div>
+                    </div>
+                    <div class="qty-controls">
+                      <button type="button" class="qty-add-btn" aria-label="Add to order">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                          <line x1="12" y1="5" x2="12" y2="19"></line>
+                          <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                      </button>
+                      <div class="qty-stepper" style="display: none;">
+                        <button type="button" class="qty-minus-btn" aria-label="Decrease quantity">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                          </svg>
+                        </button>
+                        <span class="qty-value">0</span>
+                        <button type="button" class="qty-plus-btn" aria-label="Increase quantity">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+            {% endif %}
+            
+          </div>
+          
+                  </div>
+      </div>
+      
+      <!-- ORDER SUMMARY BAR (Inside Right Panel) -->
+      <div class="order-summary-bar" id="order-summary-{{ section.id }}">
+    <div class="summary-container">
+      
+      <!-- Order Summary Details -->
+      <div class="summary-left">
+        <div class="summary-breakdown">
+          <!-- One-Time Charges -->
+          <div class="summary-column">
+            <span class="summary-label">One-time total</span>
+            <div class="summary-amounts">
+              <span class="summary-amount" id="onetime-total">$20.00</span>
+            </div>
+          </div>
+          
+          <!-- Divider -->
+          <div class="summary-divider"></div>
+          
+          <!-- Recurring Charges -->
+          <div class="summary-column recurring">
+            <span class="summary-label">Monthly subscription</span>
+            <div class="summary-amounts">
+              <span class="summary-amount" id="recurring-total">$0.00</span>
+              <span class="summary-frequency">/month</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Order Items Count -->
+        <div class="summary-items">
+          <span id="item-count">1 item</span>
+          <button type="button" class="view-details-btn" id="toggle-details-{{ section.id }}">
+            View details
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+        </div>
+      </div>
+      
+      <!-- Checkout Action -->
+      <div class="summary-right">
+        <button
+          type="button"
+          class="checkout-btn"
+          id="checkout-btn-{{ section.id }}"
+          data-fluid-checkout-group
+          data-enrollment-pack='{{ enrollment_pack.id }}'
+          data-fluid-add-enrollment-pack="{{ enrollment_pack.id }}"
+        >
+          {{ section.settings.checkout_btn_text | default: 'Continue to Checkout' }}
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+        <p class="checkout-note">{{ section.settings.checkout_note | default: 'Secure checkout • 30-day money back guarantee' }}</p>
+      </div>
+      
+    </div>
+    
+    <!-- Expandable Order Details -->
+    <div class="order-details-panel" id="order-details-{{ section.id }}" style="display: none;">
+      <div class="details-container">
+        <h4>Order Summary</h4>
+        
+        <div class="details-section">
+          <h5>One-Time Purchases</h5>
+          <ul class="details-list" id="onetime-items">
+            <li>
+              <span>Brand Partner Starter Kit</span>
+              <span>$20.00</span>
+            </li>
+          </ul>
+          <div class="details-subtotal">
+            <span>Subtotal</span>
+            <span id="onetime-subtotal">$20.00</span>
+          </div>
+        </div>
+        
+        <div class="details-section recurring-section" id="recurring-section" style="display: none;">
+          <h5>Monthly Subscription</h5>
+          <ul class="details-list" id="recurring-items">
+            <!-- Populated by JS -->
+          </ul>
+          <div class="details-subtotal">
+            <span>Monthly Total</span>
+            <span id="recurring-subtotal">$0.00</span>
+          </div>
+          <p class="details-note">First charge on <span id="charge-date"></span></p>
+        </div>
+        
+        <div class="details-total">
+          <span>Due Today</span>
+          <span id="due-today">$20.00</span>
+        </div>
+        
+        <p class="details-disclaimer">{{ section.settings.order_disclaimer | default: 'Taxes and shipping calculated at checkout. Subscription can be modified or cancelled anytime.' }}</p>
+      </div>
+    </div>
+  </div>
+      
+    </div>
+    <!-- End enrollment-panel -->
+  </div>
+  <!-- End enrollment-split-screen -->
+  
+  <!-- Tooltip Popovers -->
+  <div class="tooltip-popover" id="tooltip-smartshop" role="tooltip" style="display: none;">
+    <button type="button" class="tooltip-close" aria-label="Close">&times;</button>
+    <h5>What is SmartShop?</h5>
+    <p>{{ section.settings.smartshop_tooltip | default: 'SmartShop is Neora\'s auto-delivery program. Get your favorite products shipped automatically each month at a 10% discount. You can skip, pause, or cancel anytime from your dashboard.' }}</p>
+  </div>
+  
+  <div class="tooltip-popover" id="tooltip-neoracash" role="tooltip" style="display: none;">
+    <button type="button" class="tooltip-close" aria-label="Close">&times;</button>
+    <h5>What is NeoraCash?</h5>
+    <p>{{ section.settings.neoracash_tooltip | default: 'NeoraCash is Neora\'s loyalty program. Earn credits with every purchase and subscription order. Redeem your credits for free products, exclusive items, or apply them to future orders.' }}</p>
+  </div>
+  
+</section>
+
+{% schema %}
+{
+  "name": "Neora Enrollment",
+  "tag": "section",
+  "class": "enrollment-section",
+  "enabled_on": {
+    "templates": ["enrollment_pack"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hero Section"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_bg_image",
+      "label": "Hero Background Image",
+      "info": "Full-screen background image for the left column. Recommended: product box or lifestyle image."
+    },
+    {
+      "type": "text",
+      "id": "hero_title",
+      "label": "Hero Title",
+      "default": "TURN WHAT YOU LOVE INTO WHAT YOU DO"
+    },
+    {
+      "type": "textarea",
+      "id": "hero_subtitle",
+      "label": "Hero Subtitle",
+      "default": "When you level up to Results + Perks as a Brand Partner, sharing Neora's clean-meets-performance skincare, hair care and wellness products can positively shape how you and your family live, grow and thrive. Start earning perks today!"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_product_previews",
+      "label": "Show Floating Product Previews",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Panel Section"
+    },
+    {
+      "type": "text",
+      "id": "panel_title",
+      "label": "Panel Title",
+      "default": "Build Your Starter Package"
+    },
+    {
+      "type": "text",
+      "id": "panel_subtitle",
+      "label": "Panel Subtitle",
+      "default": "Choose your kit and optional add-ons to get started"
+    },
+    {
+      "type": "header",
+      "content": "Starter Kit"
+    },
+    {
+      "type": "image_picker",
+      "id": "starter_kit_image",
+      "label": "Starter Kit Image"
+    },
+    {
+      "type": "text",
+      "id": "starter_kit_name",
+      "label": "Starter Kit Name",
+      "default": "Brand Partner Starter Kit"
+    },
+    {
+      "type": "text",
+      "id": "starter_kit_price",
+      "label": "Starter Kit Price",
+      "default": "$20.00"
+    },
+    {
+      "type": "textarea",
+      "id": "starter_kit_description",
+      "label": "Starter Kit Description",
+      "default": "Everything you need to launch your Neora business"
+    },
+    {
+      "type": "textarea",
+      "id": "starter_kit_includes",
+      "label": "Starter Kit Includes (separate with |)",
+      "default": "Personal e-commerce website|Marketing materials & training|Back-office access|Mobile app access"
+    },
+    {
+      "type": "header",
+      "content": "Launch Packs Section"
+    },
+    {
+      "type": "text",
+      "id": "packs_title",
+      "label": "Packs Section Title",
+      "default": "Choose your Launch Pack"
+    },
+    {
+      "type": "textarea",
+      "id": "packs_description",
+      "label": "Packs Section Description",
+      "default": "Select a discounted product bundle to jumpstart your business. One plan for you and your customers."
+    },
+    {
+      "type": "url",
+      "id": "catalog_url",
+      "label": "Full Catalog URL"
+    },
+    {
+      "type": "header",
+      "content": "SmartShop Section"
+    },
+    {
+      "type": "text",
+      "id": "smartshop_title",
+      "label": "SmartShop Section Title",
+      "default": "Choose your SmartShop Order"
+    },
+    {
+      "type": "textarea",
+      "id": "smartshop_description",
+      "label": "SmartShop Description",
+      "default": "Your Order. Your Way. Get the lowest prices on all Neora products with total flexibility—delay, change, or cancel anytime. Earn 3% free product credits as a Brand Partner."
+    },
+    {
+      "type": "number",
+      "id": "smartshop_products_limit",
+      "label": "Max Products to Show",
+      "default": 20,
+      "info": "Maximum number of products to display from the collection"
+    },
+    {
+      "type": "text",
+      "id": "subscription_title",
+      "label": "Subscription Title (legacy)",
+      "default": "SmartShop Auto-Delivery"
+    },
+    {
+      "type": "text",
+      "id": "sub_benefit_1_title",
+      "label": "Benefit 1 Title",
+      "default": "Save 10% on every order"
+    },
+    {
+      "type": "text",
+      "id": "sub_benefit_1_text",
+      "label": "Benefit 1 Text",
+      "default": "Exclusive subscriber pricing"
+    },
+    {
+      "type": "text",
+      "id": "sub_benefit_2_title",
+      "label": "Benefit 2 Title",
+      "default": "Earn NeoraCash credits"
+    },
+    {
+      "type": "text",
+      "id": "sub_benefit_2_text",
+      "label": "Benefit 2 Text",
+      "default": "Redeem for free products"
+    },
+    {
+      "type": "text",
+      "id": "sub_benefit_3_title",
+      "label": "Benefit 3 Title",
+      "default": "Free shipping on orders $100+"
+    },
+    {
+      "type": "text",
+      "id": "sub_benefit_3_text",
+      "label": "Benefit 3 Text",
+      "default": "Skip or cancel anytime"
+    },
+    {
+      "type": "header",
+      "content": "Add-ons Section"
+    },
+    {
+      "type": "text",
+      "id": "addons_title",
+      "label": "Add-ons Section Title",
+      "default": "Shop Add-ons!"
+    },
+    {
+      "type": "textarea",
+      "id": "addons_description",
+      "label": "Add-ons Description",
+      "default": "Add your add-on picks to today's order and elevate your skincare, hair care and wellness results! Visit your SmartShop Manager in your Back Office to add items monthly."
+    },
+    {
+      "type": "number",
+      "id": "addons_products_limit",
+      "label": "Max Add-ons to Show",
+      "default": 12,
+      "info": "Maximum number of add-on products to display from the collection"
+    },
+    {
+      "type": "header",
+      "content": "Tooltips"
+    },
+    {
+      "type": "textarea",
+      "id": "smartshop_tooltip",
+      "label": "SmartShop Tooltip Text",
+      "default": "SmartShop is Neora's auto-delivery program. Get your favorite products shipped automatically each month at a 10% discount. You can skip, pause, or cancel anytime from your dashboard."
+    },
+    {
+      "type": "textarea",
+      "id": "neoracash_tooltip",
+      "label": "NeoraCash Tooltip Text",
+      "default": "NeoraCash is Neora's loyalty program. Earn credits with every purchase and subscription order. Redeem your credits for free products, exclusive items, or apply them to future orders."
+    },
+    {
+      "type": "header",
+      "content": "Checkout"
+    },
+    {
+      "type": "text",
+      "id": "checkout_btn_text",
+      "label": "Checkout Button Text",
+      "default": "Continue to Checkout"
+    },
+    {
+      "type": "text",
+      "id": "checkout_note",
+      "label": "Checkout Note",
+      "default": "Secure checkout • 30-day money back guarantee"
+    },
+    {
+      "type": "textarea",
+      "id": "order_disclaimer",
+      "label": "Order Disclaimer",
+      "default": "Taxes and shipping calculated at checkout. Subscription can be modified or cancelled anytime."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "value_prop",
+      "name": "Value Proposition",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Deep product discounts"
+        }
+      ]
+    },
+    {
+      "type": "product_preview",
+      "name": "Product Preview",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Product Image"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Age IQ"
+        }
+      ]
+    },
+    {
+      "type": "pack_option",
+      "name": "Launch Pack",
+      "settings": [
+        {
+          "type": "text",
+          "id": "pack_id",
+          "label": "Pack ID",
+          "default": "premier-pack"
+        },
+        {
+          "type": "text",
+          "id": "pack_name",
+          "label": "Pack Name",
+          "default": "Premier Launch Pack"
+        },
+        {
+          "type": "text",
+          "id": "pack_subtitle",
+          "label": "Pack Subtitle",
+          "default": "10 Products • + FREE IllumaBoost"
+        },
+        {
+          "type": "image_picker",
+          "id": "pack_image",
+          "label": "Pack Image"
+        },
+        {
+          "type": "text",
+          "id": "discount_badge",
+          "label": "Discount Badge Text",
+          "default": "$516 OFF"
+        },
+        {
+          "type": "textarea",
+          "id": "pack_features",
+          "label": "Features (separate with |)",
+          "default": "4 Neo-FILLER Corrective Elixirs|Age IQ Night + Day Cream|Age IQ Face Wash + Eye Serum|Eye-V Hydrogel Patches|Youth Factor Powder"
+        },
+        {
+          "type": "text",
+          "id": "pack_price",
+          "label": "Pack Price Display",
+          "default": "$500.00"
+        },
+        {
+          "type": "number",
+          "id": "pack_price_value",
+          "label": "Pack Price Value (number)",
+          "default": 500
+        },
+        {
+          "type": "text",
+          "id": "pack_qv",
+          "label": "QV Points",
+          "default": "500 QV"
+        },
+        {
+          "type": "checkbox",
+          "id": "is_best_value",
+          "label": "Show 'Best Value' Badge",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "is_selected",
+          "label": "Selected by Default",
+          "default": false
+        }
+      ]
+    },
+    {
+      "type": "smartshop_product",
+      "name": "SmartShop Product",
+      "settings": [
+        {
+          "type": "text",
+          "id": "product_id",
+          "label": "Product ID",
+          "default": "product-1"
+        },
+        {
+          "type": "text",
+          "id": "product_name",
+          "label": "Product Name",
+          "default": "Age IQ Night Cream"
+        },
+        {
+          "type": "image_picker",
+          "id": "product_image",
+          "label": "Product Image"
+        },
+        {
+          "type": "text",
+          "id": "price",
+          "label": "Price Display",
+          "default": "$85"
+        },
+        {
+          "type": "number",
+          "id": "price_value",
+          "label": "Price Value (number)",
+          "default": 85
+        },
+        {
+          "type": "select",
+          "id": "category",
+          "label": "Category",
+          "options": [
+            { "value": "skincare", "label": "Skincare" },
+            { "value": "wellness", "label": "Wellness" },
+            { "value": "haircare", "label": "Hair Care" },
+            { "value": "weight", "label": "Weight Management" }
+          ],
+          "default": "skincare"
+        }
+      ]
+    },
+    {
+      "type": "addon_product",
+      "name": "Add-on Product",
+      "settings": [
+        {
+          "type": "text",
+          "id": "product_id",
+          "label": "Product ID",
+          "default": "addon-1"
+        },
+        {
+          "type": "text",
+          "id": "product_name",
+          "label": "Product Name",
+          "default": "Eye-V Hydrogel Patches"
+        },
+        {
+          "type": "image_picker",
+          "id": "product_image",
+          "label": "Product Image"
+        },
+        {
+          "type": "text",
+          "id": "price",
+          "label": "Price Display",
+          "default": "$68"
+        },
+        {
+          "type": "number",
+          "id": "price_value",
+          "label": "Price Value (number)",
+          "default": 68
+        },
+        {
+          "type": "select",
+          "id": "category",
+          "label": "Category",
+          "options": [
+            { "value": "skincare", "label": "Skincare" },
+            { "value": "wellness", "label": "Wellness" },
+            { "value": "haircare", "label": "Hair Care" },
+            { "value": "weight", "label": "Weight Management" }
+          ],
+          "default": "skincare"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Neora Enrollment",
+      "settings": {
+        "hero_title": "TURN WHAT YOU LOVE INTO WHAT YOU DO",
+        "hero_subtitle": "When you level up to Results + Perks as a Brand Partner, sharing Neora's clean-meets-performance skincare, hair care and wellness products can positively shape how you and your family live, grow and thrive. Start earning perks today!",
+        "badge_text": "Become a Brand Partner",
+        "panel_title": "Build Your Starter Package",
+        "starter_kit_price": "$20.00",
+        "bundles_savings_text": "Save up to 40%"
+      },
+      "blocks": [
+        {
+          "type": "value_prop",
+          "settings": { "text": "Deep product discounts" }
+        },
+        {
+          "type": "value_prop",
+          "settings": { "text": "Earn commissions & perks" }
+        },
+        {
+          "type": "value_prop",
+          "settings": { "text": "Access to your own storefront" }
+        },
+        {
+          "type": "value_prop",
+          "settings": { "text": "Marketing materials included" }
+        },
+        {
+          "type": "pack_option",
+          "settings": {
+            "pack_id": "premier-pack",
+            "pack_name": "Premier Launch Pack",
+            "pack_subtitle": "10 Products • + FREE IllumaBoost",
+            "discount_badge": "$516 OFF",
+            "pack_features": "4 Neo-FILLER Corrective Elixirs|Age IQ Night + Day Cream|Age IQ Face Wash + Eye Serum|Eye-V Hydrogel Patches|Youth Factor Powder",
+            "pack_price": "$500.00",
+            "pack_price_value": 500,
+            "pack_qv": "500 QV",
+            "is_best_value": false,
+            "is_selected": false
+          }
+        },
+        {
+          "type": "pack_option",
+          "settings": {
+            "pack_id": "ultimate-pack",
+            "pack_name": "Ultimate Launch Pack",
+            "pack_subtitle": "28 Products • + FREE IllumaBoost",
+            "discount_badge": "$1,245 OFF",
+            "pack_features": "Everything in Premier Pack|Full Skincare Collection (15 items)|Wellness Collection (5 items)|Weight Management (3 items)|ProLuxe Hair Care (4 items)",
+            "pack_price": "$1,000.00",
+            "pack_price_value": 1000,
+            "pack_qv": "1000 QV",
+            "is_best_value": true,
+            "is_selected": true
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const sectionId = '{{ section.id }}';
+  
+  // State management
+  const state = {
+    starterKit: { price: 20, selected: true },
+    selectedPack: { id: null, name: null, price: 0 },
+    subscription: { enabled: false, items: [], frequency: 30 },
+    addons: { items: [] }
+  };
+  
+  // Initialize components
+  initPackSelection(sectionId);
+  initPackDetailsToggle(sectionId);
+  initSmartShopBrowser(sectionId);
+  initAddonsSection(sectionId);
+  initOrderSummary(sectionId);
+  initTooltips(sectionId);
+  
+  // Pack Selection (radio-style single selection like Eight Sleep)
+  function initPackSelection(sectionId) {
+    const packCards = document.querySelectorAll('.pack-card');
+    
+    // Initialize state from pre-selected pack
+    const preSelectedCard = document.querySelector('.pack-card.selected');
+    if (preSelectedCard) {
+      updatePackState(preSelectedCard);
+    }
+    
+    packCards.forEach(card => {
+      // Click on card to select
+      card.addEventListener('click', function(e) {
+        // Deselect all cards
+        packCards.forEach(c => c.classList.remove('selected'));
+        
+        // Select this card
+        this.classList.add('selected');
+        
+        // Update radio button
+        const radio = this.querySelector('input[type="radio"]');
+        if (radio) {
+          radio.checked = true;
+        }
+        
+        // Update state
+        updatePackState(this);
+        updateOrderSummary(sectionId);
+      });
+    });
+    
+    // Radio button change (for keyboard navigation)
+    document.querySelectorAll('.pack-radio').forEach(radio => {
+      radio.addEventListener('change', function() {
+        if (this.checked) {
+          const card = this.closest('.pack-card');
+          packCards.forEach(c => c.classList.remove('selected'));
+          card.classList.add('selected');
+          updatePackState(card);
+          updateOrderSummary(sectionId);
+        }
+      });
+    });
+  }
+  
+  function updatePackState(card) {
+    if (!card) {
+      state.selectedPack = { id: null, name: null, price: 0 };
+      return;
+    }
+    
+    const price = parseFloat(card.dataset.price) || 0;
+    const name = card.querySelector('.pack-name')?.textContent || '';
+    const id = card.dataset.packId || '';
+    
+    state.selectedPack = { id, name, price };
+  }
+  
+  // Pack Details Toggle
+  function initPackDetailsToggle(sectionId) {
+    const trigger = document.getElementById('pack-details-trigger-' + sectionId);
+    const content = document.getElementById('pack-details-content-' + sectionId);
+    
+    if (!trigger || !content) return;
+    
+    trigger.addEventListener('click', function(e) {
+      e.preventDefault();
+      const isOpen = content.style.display !== 'none';
+      content.style.display = isOpen ? 'none' : 'block';
+      
+      // Toggle expanded class on the link for arrow rotation
+      this.classList.toggle('expanded', !isOpen);
+      
+      // Update link text
+      const linkText = isOpen ? 'View full pack contents' : 'Hide pack contents';
+      this.innerHTML = linkText + ' <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>';
+    });
+  }
+  
+  // SmartShop Product Browser (Qty-based like DoorDash)
+  function initSmartShopBrowser(sectionId) {
+    const tabsContainer = document.getElementById('smartshop-tabs-' + sectionId);
+    const searchInput = document.getElementById('smartshop-search-' + sectionId);
+    const productsGrid = document.getElementById('products-grid-' + sectionId);
+    
+    if (!productsGrid) return;
+    
+    const productCards = productsGrid.querySelectorAll('.smartshop-product-card');
+    
+    // Category Tab Filtering
+    if (tabsContainer) {
+      const tabBtns = tabsContainer.querySelectorAll('.tab-btn');
+      
+      tabBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          tabBtns.forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          const category = this.dataset.category;
+          filterProducts(category, searchInput?.value || '');
+        });
+      });
+    }
+    
+    // Search Filtering
+    if (searchInput) {
+      searchInput.addEventListener('input', function() {
+        const activeTab = tabsContainer?.querySelector('.tab-btn.active');
+        const category = activeTab?.dataset.category || 'all';
+        filterProducts(category, this.value);
+      });
+    }
+    
+    function filterProducts(category, searchTerm) {
+      const search = searchTerm.toLowerCase().trim();
+      productCards.forEach(card => {
+        const cardCategory = card.dataset.category;
+        const cardName = card.dataset.name || '';
+        const matchesCategory = category === 'all' || cardCategory === category;
+        const matchesSearch = !search || cardName.includes(search);
+        card.classList.toggle('hidden', !(matchesCategory && matchesSearch));
+      });
+    }
+    
+    // Qty-based Product Selection
+    productCards.forEach(card => {
+      const addBtn = card.querySelector('.qty-add-btn');
+      const stepper = card.querySelector('.qty-stepper');
+      const minusBtn = card.querySelector('.qty-minus-btn');
+      const plusBtn = card.querySelector('.qty-plus-btn');
+      const qtyValue = card.querySelector('.qty-value');
+      
+      if (!addBtn || !stepper) return;
+      
+      // Add button click
+      addBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        let qty = parseInt(card.dataset.qty) || 0;
+        qty = 1;
+        card.dataset.qty = qty;
+        qtyValue.textContent = qty;
+        addBtn.style.display = 'none';
+        stepper.style.display = 'flex';
+        card.classList.add('selected');
+        updateSmartShopState();
+        updateOrderSummary(sectionId);
+      });
+      
+      // Minus button click
+      minusBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        let qty = parseInt(card.dataset.qty) || 0;
+        qty = Math.max(0, qty - 1);
+        card.dataset.qty = qty;
+        qtyValue.textContent = qty;
+        
+        if (qty === 0) {
+          addBtn.style.display = 'flex';
+          stepper.style.display = 'none';
+          card.classList.remove('selected');
+        }
+        updateSmartShopState();
+        updateOrderSummary(sectionId);
+      });
+      
+      // Plus button click
+      plusBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        let qty = parseInt(card.dataset.qty) || 0;
+        qty = qty + 1;
+        card.dataset.qty = qty;
+        qtyValue.textContent = qty;
+        updateSmartShopState();
+        updateOrderSummary(sectionId);
+      });
+    });
+    
+    function updateSmartShopState() {
+      state.subscription.items = [];
+      state.subscription.enabled = false;
+      
+      productCards.forEach(card => {
+        const qty = parseInt(card.dataset.qty) || 0;
+        if (qty > 0) {
+          const price = parseFloat(card.dataset.price) || 0;
+          const name = card.querySelector('.product-card-name')?.textContent || '';
+          const id = card.dataset.productId || '';
+          state.subscription.items.push({ id, name, price, qty });
+          state.subscription.enabled = true;
+        }
+      });
+    }
+    
+    }
+  
+  // Add-ons Section (Qty-based like DoorDash)
+  function initAddonsSection(sectionId) {
+    const tabsContainer = document.getElementById('addons-tabs-' + sectionId);
+    const addonsGrid = document.getElementById('addons-grid-' + sectionId);
+    
+    if (!addonsGrid) return;
+    
+    const addonCards = addonsGrid.querySelectorAll('.addon-product-card');
+    
+    // Category Tab Filtering
+    if (tabsContainer) {
+      const tabBtns = tabsContainer.querySelectorAll('.tab-btn');
+      
+      tabBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          tabBtns.forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          const category = this.dataset.category;
+          filterAddons(category);
+        });
+      });
+    }
+    
+    function filterAddons(category) {
+      addonCards.forEach(card => {
+        const cardCategory = card.dataset.category;
+        const matchesCategory = category === 'all' || cardCategory === category;
+        card.classList.toggle('hidden', !matchesCategory);
+      });
+    }
+    
+    // Qty-based Product Selection
+    addonCards.forEach(card => {
+      const addBtn = card.querySelector('.qty-add-btn');
+      const stepper = card.querySelector('.qty-stepper');
+      const minusBtn = card.querySelector('.qty-minus-btn');
+      const plusBtn = card.querySelector('.qty-plus-btn');
+      const qtyValue = card.querySelector('.qty-value');
+      
+      if (!addBtn || !stepper) return;
+      
+      // Add button click
+      addBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        let qty = 1;
+        card.dataset.qty = qty;
+        qtyValue.textContent = qty;
+        addBtn.style.display = 'none';
+        stepper.style.display = 'flex';
+        card.classList.add('selected');
+        updateAddonsState();
+        updateOrderSummary(sectionId);
+      });
+      
+      // Minus button click
+      minusBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        let qty = parseInt(card.dataset.qty) || 0;
+        qty = Math.max(0, qty - 1);
+        card.dataset.qty = qty;
+        qtyValue.textContent = qty;
+        
+        if (qty === 0) {
+          addBtn.style.display = 'flex';
+          stepper.style.display = 'none';
+          card.classList.remove('selected');
+        }
+        updateAddonsState();
+        updateOrderSummary(sectionId);
+      });
+      
+      // Plus button click
+      plusBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        let qty = parseInt(card.dataset.qty) || 0;
+        qty = qty + 1;
+        card.dataset.qty = qty;
+        qtyValue.textContent = qty;
+        updateAddonsState();
+        updateOrderSummary(sectionId);
+      });
+    });
+    
+    function updateAddonsState() {
+      state.addons.items = [];
+      
+      addonCards.forEach(card => {
+        const qty = parseInt(card.dataset.qty) || 0;
+        if (qty > 0) {
+          const price = parseFloat(card.dataset.price) || 0;
+          const name = card.querySelector('.addon-product-name')?.textContent || '';
+          const id = card.dataset.productId || '';
+          state.addons.items.push({ id, name, price, qty });
+        }
+      });
+    }
+  }
+  
+  // Order Summary
+  function initOrderSummary(sectionId) {
+    const toggleBtn = document.getElementById('toggle-details-' + sectionId);
+    const detailsPanel = document.getElementById('order-details-' + sectionId);
+    
+    if (toggleBtn && detailsPanel) {
+      toggleBtn.addEventListener('click', function() {
+        const isOpen = detailsPanel.style.display !== 'none';
+        detailsPanel.style.display = isOpen ? 'none' : 'block';
+        
+        const icon = this.querySelector('svg');
+        if (icon) {
+          icon.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+        }
+        
+        this.querySelector('span') || this.childNodes[0];
+        if (!isOpen) {
+          this.innerHTML = 'Hide details <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>';
+        } else {
+          this.innerHTML = 'View details <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>';
+        }
+      });
+    }
+    
+    // Initial update
+    updateOrderSummary(sectionId);
+  }
+  
+  function updateOrderSummary(sectionId) {
+    // Calculate one-time total (starter kit + pack + add-ons with qty)
+    let onetimeTotal = state.starterKit.price;
+    if (state.selectedPack.price > 0) {
+      onetimeTotal += state.selectedPack.price;
+    }
+    // Add one-time add-ons (multiply by qty)
+    let addonsTotal = 0;
+    if (state.addons.items.length > 0) {
+      state.addons.items.forEach(i => addonsTotal += (i.price * (i.qty || 1)));
+      onetimeTotal += addonsTotal;
+    }
+    
+    // Calculate recurring total (multiply by qty)
+    let recurringTotal = 0;
+    if (state.subscription.enabled) {
+      state.subscription.items.forEach(i => recurringTotal += (i.price * (i.qty || 1)));
+    }
+    
+    // Update display
+    const onetimeEl = document.getElementById('onetime-total');
+    const recurringEl = document.getElementById('recurring-total');
+    const dueTodayEl = document.getElementById('due-today');
+    const onetimeSubtotalEl = document.getElementById('onetime-subtotal');
+    const itemCountEl = document.getElementById('item-count');
+    
+    const formatPrice = (price) => '$' + price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    
+    if (onetimeEl) onetimeEl.textContent = formatPrice(onetimeTotal);
+    if (recurringEl) recurringEl.textContent = formatPrice(recurringTotal);
+    if (dueTodayEl) dueTodayEl.textContent = formatPrice(onetimeTotal);
+    if (onetimeSubtotalEl) onetimeSubtotalEl.textContent = formatPrice(onetimeTotal);
+    
+    // Update item count (total qty across all items)
+    const addonsQty = state.addons.items.reduce((sum, i) => sum + (i.qty || 1), 0);
+    const subscriptionQty = state.subscription.items.reduce((sum, i) => sum + (i.qty || 1), 0);
+    const itemCount = 1 + (state.selectedPack.price > 0 ? 1 : 0) + addonsQty + subscriptionQty;
+    if (itemCountEl) itemCountEl.textContent = itemCount + (itemCount === 1 ? ' item' : ' items');
+    
+    // Update order details list
+    updateOrderDetailsList(sectionId);
+    
+    // Show/hide recurring in summary
+    const recurringSummary = document.querySelector('.summary-column.recurring');
+    if (recurringSummary) {
+      recurringSummary.style.opacity = state.subscription.enabled && recurringTotal > 0 ? '1' : '0.5';
+    }
+    
+    // Show/hide recurring section in order details panel
+    const recurringSection = document.getElementById('recurring-section');
+    if (recurringSection) {
+      recurringSection.style.display = state.subscription.enabled && recurringTotal > 0 ? 'block' : 'none';
+    }
+  }
+  
+  function updateOrderDetailsList(sectionId) {
+    const onetimeList = document.getElementById('onetime-items');
+    const recurringList = document.getElementById('recurring-items');
+    
+    const formatPrice = (price) => '$' + price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    
+    if (onetimeList) {
+      let html = '<li><span>Brand Partner Starter Kit</span><span>' + formatPrice(state.starterKit.price) + '</span></li>';
+      if (state.selectedPack.price > 0) {
+        html += '<li><span>' + state.selectedPack.name + '</span><span>' + formatPrice(state.selectedPack.price) + '</span></li>';
+      }
+      // Add one-time add-ons to the list with qty
+      state.addons.items.forEach(i => {
+        const qty = i.qty || 1;
+        const lineTotal = i.price * qty;
+        const qtyLabel = qty > 1 ? qty + 'x ' : '';
+        html += '<li><span>' + qtyLabel + i.name + '</span><span>' + formatPrice(lineTotal) + '</span></li>';
+      });
+      onetimeList.innerHTML = html;
+    }
+    
+    if (recurringList && state.subscription.enabled) {
+      let html = '';
+      state.subscription.items.forEach(i => {
+        const qty = i.qty || 1;
+        const lineTotal = i.price * qty;
+        const qtyLabel = qty > 1 ? qty + 'x ' : '';
+        html += '<li><span>' + qtyLabel + i.name + '</span><span>' + formatPrice(lineTotal) + '/mo</span></li>';
+      });
+      recurringList.innerHTML = html || '<li><span>No subscription products selected</span><span>$0.00</span></li>';
+    }
+  }
+  
+  // Tooltips
+  function initTooltips(sectionId) {
+    const tooltipBtns = document.querySelectorAll('.info-tooltip');
+    
+    tooltipBtns.forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const tooltipId = 'tooltip-' + this.dataset.tooltip;
+        const tooltip = document.getElementById(tooltipId);
+        
+        if (tooltip) {
+          // Position tooltip near button
+          const rect = this.getBoundingClientRect();
+          tooltip.style.top = (rect.bottom + 10) + 'px';
+          tooltip.style.left = Math.max(20, rect.left - 100) + 'px';
+          tooltip.style.display = 'block';
+        }
+      });
+    });
+    
+    // Close tooltips
+    document.querySelectorAll('.tooltip-close').forEach(btn => {
+      btn.addEventListener('click', function() {
+        this.closest('.tooltip-popover').style.display = 'none';
+      });
+    });
+    
+    // Close on click outside
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.tooltip-popover') && !e.target.closest('.info-tooltip')) {
+        document.querySelectorAll('.tooltip-popover').forEach(t => t.style.display = 'none');
+      }
+    });
+  }
+  
+  // Initialize shipping date
+  function updateShippingDate(sectionId) {
+    const chargeDateEl = document.getElementById('charge-date');
+    if (chargeDateEl) {
+      const nextMonth = new Date();
+      nextMonth.setMonth(nextMonth.getMonth() + 1);
+      chargeDateEl.textContent = nextMonth.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    }
+  }
+  updateShippingDate(sectionId);
+});
+</script>

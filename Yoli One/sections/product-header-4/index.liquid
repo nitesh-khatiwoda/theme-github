@@ -1,0 +1,4248 @@
+<link rel="stylesheet" href="{{ 'product-header-4/styles.css' | asset_url }}">
+
+{% assign not_purchasable = product.out_of_stock || product.available_for_country != true || product.active != true %}
+
+{% comment %} 
+  Variant Selection Logic
+  - Uses root-level selected_variant_id (from variables service) which resolves from option_value_ids params
+  - Falls back to variant_id query param (for single-variant dropdown with no options)
+  - Falls back to product.selected_or_first_available_variant.id if not available
+{% endcomment %}
+{% assign variants = product.variants %}
+{% assign active_variants = product.variants | where: "active", true %}
+{% comment %} variant_id from query params is a string; convert to int so variant.id == selected_variant_id works {% endcomment %}
+{% if request.query_parameters.variant_id %}
+  {% assign selected_variant_id = request.query_parameters.variant_id | plus: 0 %}
+{% endif %}
+{% assign selected_variant_id = selected_variant_id | default: product.selected_or_first_available_variant.id %}
+
+{% comment %} Find the selected variant object {% endcomment %}
+{% assign selected_variant = null %}
+{% for variant in active_variants %}
+  {% if variant.id == selected_variant_id %}
+    {% assign selected_variant = variant %}
+    {% break %}
+  {% endif %}
+{% endfor %}
+
+{% comment %} Fallback to first active variant if not found {% endcomment %}
+{% if selected_variant == null %}
+  {% assign selected_variant = active_variants.first %}
+  {% if selected_variant %}
+    {% assign selected_variant_id = selected_variant.id %}
+  {% endif %}
+{% endif %}
+
+{% comment %} Set active_variant for pricing - use variant country data if available {% endcomment %}
+{% if selected_variant.variant_countries.first %}
+  {% assign active_variant = selected_variant.variant_countries.first %}
+{% else %}
+  {% assign active_variant = product %}
+{% endif %}
+
+<!-- Product Header 4 Section -->
+<section class="product-header-4 product-details-section {{ section.settings.background_color | default: 'bg-white' }} {{section.settings.padding_top_mobile}} {{section.settings.padding_bottom_mobile}} {{section.settings.padding_x_mobile}}  lg:{{section.settings.padding_top_desktop}} lg:{{section.settings.padding_bottom_desktop}} lg:{{section.settings.padding_x_desktop}} {{ section.settings.section_border_radius | default: 'rounded-none' }}" id="product-header-{{ section.id }}" {% if section.settings.background_image %}data-bg="{{ section.settings.background_image | image_url }}"{% endif %}>
+  
+  <div class="{{ section.settings.container_layout_width | default: 'container' }}">
+    <div class="product-header-inner font-body {{ section.settings.container_background_color }} {{ section.settings.container_border_radius | default: 'rounded-none' }} {{ section.settings.container_padding_y_mobile | default: 'py-0' }} {{ section.settings.container_padding_y_desktop | default: 'lg:py-3xl' }} {{ section.settings.container_padding_x_mobile | default: 'px-md' }} {{ section.settings.container_padding_x_desktop | default: 'lg:px-md' }}" {% if section.settings.container_background_image %}data-bg="{{ section.settings.container_background_image | image_url }}"{% endif %}>
+      <div class="product-layout">
+        
+        <!-- Left Column: Media Gallery -->
+        {% if section.settings.show_media_gallery %}
+        <div class="media-column">
+    
+          <!-- Thumbnail Carousel -->
+          <div class="thumbnail-carousel-wrapper {% if section.settings.gallery_layout == 'left' %}gallery-layout-left{% endif %} thumbnail-size-{{ section.settings.thumbnail_size | default: 'small' }}" id="carousel-{{ section.id }}">
+            <!-- Thumbnails (shown first when layout is left) -->
+            {% if section.settings.gallery_layout == 'left' %}
+            <div class="carousel-thumbnails-wrapper carousel-thumbnails-wrapper-vertical">
+              <div class="carousel-thumbnails-container carousel-thumbnails-left" id="carousel-thumbnails-{{ section.id }}">
+                <div class="carousel-thumbnails-track carousel-thumbnails-vertical" style="gap: {{ section.settings.thumbnail_gap | default: '2' }}px;">
+                {% for image in product.images %}
+                  <button class="carousel-thumbnail {% if forloop.first %}active{% endif %}" data-index="{{ forloop.index0 }}" style="cursor: pointer; border-radius: {{ section.settings.gallery_border_radius | default: '8' }}px;" aria-label="View image {{ forloop.index }}">
+                    <img src="{{ image.src | img_url: '200x' }}" alt="{{ image.alt | default: product.title }}" draggable="false" style="border-radius: {{ section.settings.gallery_border_radius | default: '8' }}px;">
+                  </button>
+                {% endfor %}
+                </div>
+              </div>
+              <!-- Fade gradients for vertical scroller -->
+              <div class="thumbnail-fade thumbnail-fade-top"></div>
+              <div class="thumbnail-fade thumbnail-fade-bottom"></div>
+            </div>
+            {% endif %}
+            
+            <!-- Main Carousel -->
+            <div class="carousel-main-container" id="carousel-main-{{ section.id }}" style="border-radius: {{ section.settings.gallery_border_radius | default: '16' }}px;">
+              <div class="carousel-track" id="carousel-track-{{ section.id }}">
+                {% for image in product.images %}
+                  <div class="carousel-slide" data-index="{{ forloop.index0 }}">
+                    <img src="{{ image.src | img_url: '1200x' }}" alt="{{ image.alt | default: product.title }}" {% if forloop.first %}loading="eager"{% else %}loading="lazy"{% endif %} draggable="false">
+                  </div>
+                {% endfor %}
+              </div>
+              
+              <!-- Navigation Buttons Group -->
+              <div class="results-carousel-nav-buttons {% if section.settings.arrow_position == 'sides' %}nav-position-sides{% endif %}">
+                <button 
+                  class="results-carousel-nav-btn results-carousel-prev bg-white text-black" 
+                  id="carousel-prev-{{ section.id }}" 
+                  aria-label="Previous image">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M15 19l-7-7 7-7"/>
+                  </svg>
+                </button>
+                
+                <button 
+                  class="results-carousel-nav-btn results-carousel-next bg-white text-black" 
+                  id="carousel-next-{{ section.id }}" 
+                  aria-label="Next image">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 5l7 7-7 7"/>
+                  </svg>
+                </button>
+              </div>
+              
+            </div>
+            
+            <!-- Thumbnails (shown below when layout is below) -->
+            {% unless section.settings.gallery_layout == 'left' %}
+            <div class="carousel-thumbnails-wrapper">
+              <div class="carousel-thumbnails-container" id="carousel-thumbnails-{{ section.id }}">
+                <div class="carousel-thumbnails-track" style="gap: {{ section.settings.thumbnail_gap | default: '2' }}px;">
+                {% for image in product.images %}
+                  <button class="carousel-thumbnail {% if forloop.first %}active{% endif %}" data-index="{{ forloop.index0 }}" style="cursor: pointer; border-radius: {{ section.settings.gallery_border_radius | default: '8' }}px;" aria-label="View image {{ forloop.index }}">
+                    <img src="{{ image.src | img_url: '200x' }}" alt="{{ image.alt | default: product.title }}" draggable="false" style="border-radius: {{ section.settings.gallery_border_radius | default: '8' }}px;">
+                  </button>
+                {% endfor %}
+                </div>
+              </div>
+              <!-- Fade gradients -->
+              <div class="thumbnail-fade thumbnail-fade-left"></div>
+              <div class="thumbnail-fade thumbnail-fade-right"></div>
+            </div>
+            {% endunless %}
+          </div>
+          
+          <!-- Hover Zoom Panel (Amazon-style) - positioned outside carousel to avoid overflow:hidden -->
+          {% if section.settings.zoom_lens_liquid_glass %}
+          <!-- SVG Filter for Liquid Glass Effect -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position: absolute; overflow: hidden;">
+            <defs>
+              <filter id="liquid-glass-distortion-{{ section.id }}" x="0%" y="0%" width="100%" height="100%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.008 0.008" numOctaves="1" seed="42" result="noise"></feTurbulence>
+                <feGaussianBlur in="noise" stdDeviation="4" result="blurred"></feGaussianBlur>
+                <feDisplacementMap in="SourceGraphic" in2="blurred" scale="12" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap>
+              </filter>
+            </defs>
+          </svg>
+          {% endif %}
+          <div class="carousel-zoom-lens {% if section.settings.zoom_lens_liquid_glass %}liquid-glass{% endif %}" id="zoom-lens-{{ section.id }}" {% if section.settings.zoom_lens_liquid_glass %}style="--liquid-filter: url(#liquid-glass-distortion-{{ section.id }});"{% endif %}></div>
+          <div class="carousel-zoom-panel" id="zoom-panel-{{ section.id }}"></div>
+          
+        </div>
+        {% endif %}
+        
+        <!-- Right Column: Product Info (Sticky) -->
+        <div class="info-column">
+          <div class="info-sticky">
+              
+            
+            <!-- Product Image and Title Row -->
+            <div class="product-image-title-row">
+              <!-- Product Image (Left) -->
+              {% if section.settings.show_right_column_image and product.images.first %}
+              {% assign image_width = section.settings.right_column_image_width | default: 80 %}
+              {% assign image_height = section.settings.right_column_image_height | default: 80 %}
+              {% assign br_tl = section.settings.right_column_image_border_radius_top_left | default: 'rounded-lg' %}
+              {% assign br_tr = section.settings.right_column_image_border_radius_top_right | default: 'rounded-lg' %}
+              {% assign br_bl = section.settings.right_column_image_border_radius_bottom_left | default: 'rounded-lg' %}
+              {% assign br_br = section.settings.right_column_image_border_radius_bottom_right | default: 'rounded-lg' %}
+              {% assign border_width = section.settings.right_column_image_border_width | default: 0 %}
+              {% assign border_color = section.settings.right_column_image_border_color | default: 'border-neutral' %}
+              {% assign object_fit = section.settings.right_column_image_object_fit | default: 'cover' %}
+              
+              <div class="right-column-product-image {{ border_color }}" style="width: {{ image_width }}px; height: {{ image_height }}px; border-width: {{ border_width }}px;">
+                <div class="right-column-product-image-inner" 
+                     data-br-tl="{{ br_tl }}"
+                     data-br-tr="{{ br_tr }}"
+                     data-br-bl="{{ br_bl }}"
+                     data-br-br="{{ br_br }}">
+                  <img 
+                    src="{{ product.images.first.src | img_url: '400x' }}" 
+                    alt="{{ product.images.first.alt | default: product.title }}" 
+                    loading="lazy"
+                    class="right-column-product-img"
+                    style="object-fit: {{ object_fit }}; box-shadow: none !important;"
+                  >
+                </div>
+              </div>
+              {% endif %}
+              
+              <!-- Title and Rating Group (Right) -->
+              <div class="product-title-rating-group">
+                
+                <!-- Product Title with Code -->
+                {% if section.settings.show_product_code or section.settings.show_product_title or section.settings.show_new_badge %}
+                <div class="product-title-wrapper">
+                  {% if section.settings.show_product_code and section.settings.product_code != blank %}
+                  <div class="product-code-badge">
+                    <span class="{{ section.settings.code_font_size | default: 'text-base' }} {{ section.settings.code_color | default: 'text-primary' }}">
+                      {{ section.settings.product_code }}<sup>{{ section.settings.code_superscript | default: '™' }}</sup>
+                    </span>
+                  </div>
+                  {% endif %}
+                  
+                  {% if section.settings.show_product_title %}
+                  <h1 class="{{ section.settings.title_font_family | default: 'font-primary' }} {{ section.settings.title_font_size | default: 'text-2xl' }} {{ section.settings.title_font_size_desktop | default: 'lg:text-3xl' }} {{ section.settings.title_font_weight | default: 'font-normal' }} {{ section.settings.title_color | default: 'text-primary' }} leading-heading">
+                    {{ product.title }}
+                  </h1>
+                  {% endif %}
+                  
+                  {% if section.settings.show_new_badge %}
+                  <span class="new-badge {{ section.settings.badge_background_color | default: 'bg-accent-warm' }}">
+                    <span class="{{ section.settings.badge_font_size | default: 'text-xs' }} {{ section.settings.badge_text_color | default: 'text-primary' }}">
+                      {{ section.settings.badge_text | default: 'New' }}
+                    </span>
+                  </span>
+                  {% endif %}
+                </div>
+                {% endif %}
+                <!-- Selling Points Headline -->
+                {% if section.settings.show_selling_points_headline and section.settings.selling_points_headline != blank %}
+                  <span class="{{ section.settings.selling_points_font_family | default: 'font-body' }} {{ section.settings.selling_points_font_size | default: 'text-base' }} {{ section.settings.selling_points_font_size_desktop | default: 'lg:text-base' }} {{ section.settings.selling_points_font_weight | default: 'font-normal' }} {{ section.settings.selling_points_color | default: 'text-primary' }} leading-body">
+                    {{ section.settings.selling_points_headline }}
+                  </span>
+                {% endif %}
+                <!-- Rating & Reviews -->
+                {% if section.settings.show_rating %}
+                <div class="rating-wrapper">
+                  <!-- Star Rating Display -->
+                  <div class="star-rating-selector" id="starRating-{{ section.id }}" data-rating="{{ section.settings.rating_value | default: '4.8' }}">
+                    {% for i in (1..5) %}
+                      <div class="star-container" data-star="{{ i }}">
+                        <i class="fas fa-star star-icon star-full" data-value="{{ i }}"></i>
+                        <i class="fas fa-star-half-alt star-icon star-half" data-value="{{ i }}.5"></i>
+                        <div class="star-overlay"></div>
+                      </div>
+                    {% endfor %}
+                    <span class="rating-text {{ section.settings.rating_color | default: 'text-primary' }}">(<span id="ratingValue-{{ section.id }}">{{ section.settings.rating_value | default: '4.8' }}</span> stars)</span>
+                  {% if section.settings.show_reviews_link %}
+                  <span class="rating-separator {{ section.settings.rating_color | default: 'text-primary' }}">•</span>
+                  <a href="{{ section.settings.reviews_link | default: '#reviews' }}" class="reviews-link {{ section.settings.rating_color | default: 'text-primary' }}">
+                    {{ section.settings.reviews_text | default: '18 Reviews' }}
+                  </a>
+                  </div>
+                  {% endif %}
+                </div>
+                {% endif %}
+              </div>
+            </div>
+          
+            
+            <!-- Unavailable message: same UI for out of stock, not available in country, or inactive -->
+            {% assign error_message_class = "hidden" %}
+            {% if not_purchasable %}
+              {% assign error_message_class = "" %}
+            {% endif %}
+            
+            <div class="error-messages-container {{ error_message_class }} out-of-stock-section">
+              <div class="error-message text-sm font-medium" style="background-color: #fee2e2; color: #dc2626; padding: 12px; border-radius: 6px; margin: 8px 0;">
+                {% if product.available_for_country != true %}
+                  {{ section.settings.not_available_country_message | default: 'This product is not available in your country' }}
+                {% else %}
+                  {{ section.settings.out_of_stock_message | default: 'This product is out of stock' }}
+                {% endif %}
+              </div>
+            </div>
+            
+            <!-- Price Section (use root-level price like Fluid main_product - formatted with currency) -->
+            {% if section.settings.show_price %}
+            <div class="price-section">
+              <span class="price {{ section.settings.price_font_family | default: 'font-primary' }} {{ section.settings.price_font_size | default: 'text-xl' }} {{ section.settings.price_font_size_desktop | default: 'lg:text-2xl' }} {{ section.settings.price_font_weight | default: 'font-normal' }} {{ section.settings.price_color | default: 'text-primary' }}">
+                {{ price }}
+              </span>
+            </div>
+            {% endif %}
+            
+            <!-- Subscription Options -->
+            
+            
+            
+            
+            {% if allow_subscription %}
+              
+            <div class="subscription-options-section {{ section.settings.subscription_spacing_top_mobile | default: 'mt-md' }} {{ section.settings.subscription_spacing_top_desktop | default: 'lg:mt-md' }} {{ section.settings.subscription_spacing_bottom_mobile | default: 'mb-md' }} {{ section.settings.subscription_spacing_bottom_desktop | default: 'lg:mb-md' }}">
+              <div class="subscription-options-wrapper">
+                
+                <!-- Subscribe & Save Option -->
+                {% comment %} Match Fluid main_product: use root-level subscription_price (formatted) like Fluid; only override when we have plans to show selected plan's display_subscription_price. Do NOT assign from product.subscription_price - it can be raw (13.0) in some contexts. {% endcomment %}
+                {% assign subscription_plan_id = '' %}
+                {% if product.subscription_plans.size > 1 %}
+                  {% assign subscription_plan_id = product.subscription_plans.first.id %}
+                  {% assign subscription_price = product.subscription_plans.first.display_subscription_price %}
+                  {% for subscription_plan in product.subscription_plans %}
+                    {% if subscription_plan.selected %}
+                      {% assign subscription_plan_id = subscription_plan.id %}
+                      {% assign subscription_price = subscription_plan.display_subscription_price %}
+                      {% break %}
+                    {% endif %}
+                  {% endfor %}
+                {% endif %}
+                <div class="subscription-option-card {{ section.settings.subscription_card_border_radius | default: 'rounded-lg' }} {% if request.query_parameters.subscribe or subscription_only %}selected{% endif %}" data-option="1" style="border-width: {{ section.settings.subscription_card_border_width | default: '2px' }};" data-subscription-plan-id="{{ subscription_plan_id }}">
+                  {% assign saved_percentage = product.saved_percentage_on_subscription | plus: 0 %}
+                  {% if saved_percentage > 1 %}
+                  <div class="most-popular-badge {{ section.settings.banner_bottom_spacing | default: 'mb-xs' }}">
+                    <span class="text-sm font-medium text-white">
+                      Most Popular
+                    </span>
+                  </div>
+                  {% endif %}
+                  
+                  <label class="subscription-option-label {{ section.settings.subscription_card_padding | default: 'p-md' }}">
+                    <div class="subscription-option-content">
+                      <div class="subscription-option-header">
+                        <span class="subscription-option-title text-lg font-semibold text-primary">
+                          {{ 'product.subscribe' | t | default: 'Subscribe & Save' }}
+                        </span>
+                        <div class="subscription-option-price-group">
+                          <span class="subscription-option-price text-lg font-semibold text-primary subscription-price">
+                            {{ subscription_price }}
+                          </span>
+                          <input 
+                            type="radio" 
+                            name="fluid-checkout-subscribe" 
+                            value="subscription"
+                            id="subscribe-and-save-{{ section.id }}"
+                            class="subscription-radio"
+                            {% if request.query_parameters.subscribe or subscription_only %}checked{% endif %}
+                          >
+                        </div>
+                      </div>
+                      {% assign subscription_benefit_blocks = section.blocks | where: "type", "subscription_benefit" %}
+                      {% if subscription_benefit_blocks.size > 0 %}
+                      <ul class="subscription-option-benefits">
+                        {% for block in subscription_benefit_blocks %}
+                          {% if block.settings.benefit_text != blank %}
+                            {% assign benefit_text = block.settings.benefit_text %}
+                            {% if block.settings.show_savings_percentage and saved_percentage > 1 %}
+                              {% assign benefit_text = benefit_text | replace: '{savings}', product.saved_percentage_on_subscription %}
+                            {% endif %}
+                            <li class="{{ block.settings.benefit_font_size | default: 'text-sm' }} {{ block.settings.benefit_color | default: 'text-primary' }} flex align-center space-md" {{ block.fluid_attributes }}>
+                              <span>•&nbsp;&nbsp;{{ benefit_text }}</span>
+                            </li>
+                          {% endif %}
+                        {% endfor %}
+                      </ul>
+                      {% endif %}
+                    </div>
+                  </label>
+                </div>
+                
+                <!-- One-Time Purchase Option -->
+                {% unless subscription_only %}
+                <div class="subscription-option-card {{ section.settings.subscription_card_border_radius | default: 'rounded-lg' }} {% unless request.query_parameters.subscribe %}selected{% endunless %}" data-option="2" style="border-width: {{ section.settings.subscription_card_border_width | default: '2px' }};">
+                  <label class="subscription-option-label {{ section.settings.subscription_card_padding | default: 'p-md' }}">
+                    <div class="subscription-option-content">
+                      <div class="subscription-option-header">
+                        <span class="subscription-option-title text-lg font-semibold text-primary">
+                          {{ 'product.one_time_purchase' | t | default: 'One-Time Purchase' }}
+                        </span>
+                        <div class="subscription-option-price-group">
+                          <span class="subscription-option-price text-lg font-semibold text-primary">
+                            {{ price }}
+                          </span>
+                          <input 
+                            type="radio" 
+                            name="fluid-checkout-subscribe" 
+                            value="regular" 
+                            id="one-time-purchase-{{ section.id }}"
+                            class="subscription-radio"
+                            {% unless request.query_parameters.subscribe %}checked{% endunless %}
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </label>
+                </div>
+                {% endunless %}
+                
+              </div>
+              
+              <!-- Subscription Plans: show when any plans exist (match Fluid main_product); hidden by default, shown when Subscribe is selected -->
+              {% if product.subscription_plans.size > 1 %}
+              <div class="subscription-plans mt-md" {% unless request.query_parameters.subscribe %}style="display: none;"{% endunless %}>
+                <div class="flex flex-col space-sm">
+                  <p class="text-base font-medium mb-sm">Subscription Plan</p>
+                  <select class="subscription-plans-dropdown custom-select" style="width: 100%; padding: 12px; border: 1px solid #d1d5db; border-radius: 6px;">
+                    {% for subscription_plan in product.subscription_plans %}
+                      <option {% if subscription_plan.selected %}selected{% endif %} value="{{ subscription_plan.id }}" data-subscription-price="{{ subscription_plan.display_subscription_price }}">{{ subscription_plan.name }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+              {% endif %}
+            </div>
+            {% endif %}
+            
+            <!-- Product Variant Options -->
+            {% if variants.size > 1 %}
+              <div class="product-variant-section flex flex-col space-sm mb-md {% if not_purchasable %}product-variant-section-out-of-stock{% endif %}">
+                {% if product.available_values.size > 0 %}
+                  <div class="variant-groups-wrapper flex flex-wrap gap-md">
+                    {% for option in product.available_values %}
+                      <div class="variant-option-group" style="flex: 1; min-width: 150px;">
+                        <p class="text-sm font-medium mb-xs text-neutral-500">{{ option.presentation | default: option.name }}</p>
+                        <div class="custom-select-wrapper">
+                          <select 
+                            class="variation-dropdown custom-select" 
+                            style="width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 4px; background-color: white; font-size: 14px;"
+                            data-option-index="{{ forloop.index0 }}"
+                            onchange="handleVariantChange(this)"
+                            {% if not_purchasable %}disabled{% endif %}
+                          >
+
+                            {% for value in option.values %}
+                              {% comment %} Determine if this value is currently selected {% endcomment %}
+                              {% assign is_selected = false %}
+                              {% for variant_option in selected_variant.option_values %}
+                                {% if variant_option.id == value.id %}
+                                  {% assign is_selected = true %}
+                                  {% break %}
+                                {% endif %}
+                              {% endfor %}
+                              <option value="{{ value.id }}" {% if is_selected %}selected{% endif %}>
+                                {{ value.presentation | default: value.name }}
+                              </option>
+                            {% endfor %}
+                          </select>
+                        </div>
+                      </div>
+                    {% endfor %}
+                  </div>
+                {% else %}
+                  {% comment %} Single dropdown listing all variants (no buttons) {% endcomment %}
+                  <div class="variant-groups-wrapper flex flex-wrap gap-md">
+                    <div class="variant-option-group" style="flex: 1; min-width: 150px;">
+                      <p class="text-sm font-medium mb-xs text-neutral-500">Variant</p>
+                      <div class="custom-select-wrapper">
+                        <select
+                          class="variation-dropdown variant-single-dropdown custom-select"
+                          style="width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 4px; background-color: white; font-size: 14px;"
+                          data-option-index="0"
+                          onchange="if(this.value && !window._selectVariantInFlight) { var e = arguments[0] || window.event; if (e && e.stopImmediatePropagation) e.stopImmediatePropagation(); selectVariant(this.value); }"
+                          {% if not_purchasable %}disabled{% endif %}
+                        >
+                          {% for variant in variants %}
+                            <option
+                              value="{{ variant.id }}"
+                              data-option-value-ids="{{ variant.option_values | map: 'id' | join: ',' }}"
+                              {% if variant.id == selected_variant_id %}selected{% endif %}
+                            >
+                              {{ variant.title }}
+                            </option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                {% endif %}
+              </div>
+            {% endif %}
+            
+            <!-- Add to Cart Section -->
+            {% unless not_purchasable %}
+            {% if section.settings.show_cta %}
+            {% assign quantity_layout = section.settings.quantity_layout | default: 'above' %}
+            {% assign quantity_type = section.settings.quantity_type | default: 'dropdown' %}
+            <div class="add-to-cart-section {% if quantity_layout == 'side' %}quantity-side{% else %}quantity-above{% endif %}">
+              <!-- Quantity Selector -->
+              <div class="quantity-wrapper">
+                {% if quantity_type == 'stepper' %}
+                  <!-- Stepper -->
+                  <div class="quantity-stepper-wrapper">
+                    {% assign quantity_border_radius = section.settings.quantity_border_radius | default: 'use_theme' %}
+                    {% if quantity_border_radius == 'use_theme' %}
+                      {% assign quantity_radius_class = settings.button_border_radius | default: 'rounded-md' %}
+                    {% else %}
+                      {% assign quantity_radius_class = quantity_border_radius %}
+                    {% endif %}
+                    <div class="quantity-stepper {{ quantity_radius_class }}" data-quantity-stepper>
+                      <button type="button" class="quantity-stepper-btn quantity-stepper-minus" aria-label="Decrease quantity" data-quantity-decrement>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <line x1="4" y1="8" x2="12" y2="8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                      </button>
+                      <input type="number" id="quantity-stepper-{{ section.id }}" name="quantity" class="quantity-stepper-input" value="{{ section.settings.default_quantity | default: 1 }}" min="1" max="{% if product.buyable_quantity %}{{ product.buyable_quantity }}{% else %}{{ section.settings.max_quantity | default: 10 }}{% endif %}" readonly data-quantity-input>
+                      <button type="button" class="quantity-stepper-btn quantity-stepper-plus" aria-label="Increase quantity" data-quantity-increment>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <line x1="8" y1="4" x2="8" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                          <line x1="4" y1="8" x2="12" y2="8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                {% else %}
+                  <!-- Dropdown -->
+                  <div class="quantity-select-wrapper">
+                    {% assign quantity_border_radius = section.settings.quantity_border_radius | default: 'use_theme' %}
+                    {% if quantity_border_radius == 'use_theme' %}
+                      {% assign quantity_radius_class = settings.button_border_radius | default: 'rounded-md' %}
+                    {% else %}
+                      {% assign quantity_radius_class = quantity_border_radius %}
+                    {% endif %}
+                    {% assign max_qty = product.buyable_quantity | default: section.settings.max_quantity | default: 10 %}
+                    <select id="quantity-select-{{ section.id }}" name="quantity" class="quantity-select {{ quantity_radius_class }}" data-quantity-select>
+                      {% assign quantity_label_text = section.settings.quantity_label | default: 'Quantity' %}
+                      {% for i in (1..max_qty) %}
+                        <option value="{{ i }}" {% if i == section.settings.default_quantity %}selected{% endif %} data-display-number="{{ i }}">{{ quantity_label_text }} {{ i }}</option>
+                      {% endfor %}
+                    </select>
+                    <span class="quantity-display-number" id="quantity-display-{{ section.id }}"></span>
+                  </div>
+                {% endif %}
+              </div>
+              
+              <!-- Add to Cart Button -->
+              <div class="add-to-cart-wrapper">
+                <button 
+                  type="button"
+                  class="add-to-cart-btn btn btn-{{ section.settings.button_style | default: 'filled' }}-{{ section.settings.button_color | default: 'primary' }} {{ section.settings.button_size | default: 'btn-md' }} {{ section.settings.button_font_weight | default: 'font-medium' }} {{ settings.button_border_radius | default: 'rounded-md' }} font-body w-full"
+                  data-fluid-add-to-cart="{{ selected_variant_id }}"
+                  data-fluid-quantity="1"
+                  data-fluid-subscribe="{% if request.query_parameters.subscribe or product.subscription_only %}true{% else %}false{% endif %}"
+                  {% if request.query_parameters.subscribe or product.subscription_only %}
+                    data-fluid-subscription-plan-id="{{ product.selected_subscription_plan_id }}"
+                  {% endif %}
+                  id="add-to-cart-btn-{{ section.id }}"
+                >
+                  {{ section.settings.cta_text | default: 'Add to Cart' }}
+                </button>
+              </div>
+            </div>
+            {% endif %}
+            {% endunless %}
+
+          <!-- Product Description -->
+            {% if section.settings.show_description %}
+            <div class="product-description">
+              <p class="{{ section.settings.description_font_family | default: 'font-body' }} {{ section.settings.description_font_size | default: 'text-base' }} {{ section.settings.description_font_size_desktop | default: 'lg:text-base' }} {{ section.settings.description_font_weight | default: 'font-normal' }} {{ section.settings.description_color | default: 'text-primary' }} leading-body">
+                {% if product.feature_text %}
+                  {{ product.feature_text }}
+                {% endif %}
+              </p>
+            </div>
+            {% endif %}
+            
+
+            <!-- Product Description Content -->
+            {% if section.settings.show_product_description_content %}
+            <div class="product-description-content {{ section.settings.product_description_font_size | default: 'text-base' }} {{ section.settings.product_description_color | default: 'text-primary' }}">
+              <div class="product-description-content-inner leading-body">
+                {{ product.description }}
+              </div>
+            </div>
+            {% endif %}
+            
+            <!-- Guarantee Text -->
+            {% if section.settings.show_guarantee_text and section.settings.guarantee_text != blank %}
+            <div class="guarantee-text {{ section.settings.guarantee_font_size | default: 'text-sm' }} {{ section.settings.guarantee_color | default: 'text-neutral' }}">
+              <div class="guarantee-content leading-body">
+                {{ section.settings.guarantee_text }}
+              </div>
+            </div>
+            {% endif %}
+            
+            <!-- Accordions -->
+            {% assign benefit_blocks = section.blocks | where: "type", "benefit_item" %}
+            {% if section.settings.show_benefits or section.settings.show_ingredients or section.settings.show_accordion_1 or section.settings.show_accordion_2 or section.settings.show_accordion_3 or section.settings.show_accordion_4 %}
+            <div class="accordions-wrapper">
+              
+              <!-- Benefits Accordion -->
+              {% if section.settings.show_benefits %}
+              <div class="accordion-item">
+                <button class="accordion-header">
+                  <span class="{{ section.settings.accordion_font_size | default: 'text-base' }} {{ section.settings.accordion_color | default: 'text-primary' }}">
+                    {{ section.settings.benefits_title | default: 'Benefits*' }}
+                  </span>
+                  <svg class="accordion-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M19 9L12 16L5 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+                <div class="accordion-content">
+                  {% if section.settings.benefits_content != blank %}
+                  <div class="ingredients-content {{ section.settings.benefits_content_font_size | default: 'text-sm' }} {{ section.settings.benefits_content_color | default: 'text-primary' }}" style="margin-bottom: {% if benefit_blocks.size > 0 %}var(--space-md){% else %}0{% endif %};">
+                    {{ section.settings.benefits_content }}
+                  </div>
+                  {% endif %}
+                  {% if benefit_blocks.size > 0 %}
+                  <ul class="benefits-list">
+                    {% for block in benefit_blocks %}
+                      {% if block.settings.benefit_text != blank %}
+                      <li class="{{ section.settings.benefit_font_size | default: 'text-base' }} {{ section.settings.benefit_color | default: 'text-primary' }}" {{ block.fluid_attributes }}>
+                        {{ block.settings.benefit_text }}
+                      </li>
+                      {% endif %}
+                    {% endfor %}
+                  </ul>
+                  {% endif %}
+                </div>
+              </div>
+              {% endif %}
+              
+              <!-- Ingredients/Details Accordion -->
+              {% if section.settings.show_ingredients %}
+              <div class="accordion-item">
+                <button class="accordion-header">
+                  <span class="{{ section.settings.accordion_font_size | default: 'text-base' }} {{ section.settings.accordion_color | default: 'text-primary' }}">
+                    {{ section.settings.ingredients_title | default: 'Details' }}
+                  </span>
+                  <svg class="accordion-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M19 9L12 16L5 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+                <div class="accordion-content">
+                  <div class="ingredients-content {{ section.settings.ingredients_font_size | default: 'text-sm' }} {{ section.settings.ingredients_color | default: 'text-primary' }}">
+                    {{ section.settings.ingredients_content }}
+                  </div>
+                </div>
+              </div>
+              {% endif %}
+              
+              <!-- Accordion 1 -->
+              {% if section.settings.show_accordion_1 %}
+              <div class="accordion-item">
+                <button class="accordion-header">
+                  <span class="{{ section.settings.accordion_font_size | default: 'text-base' }} {{ section.settings.accordion_color | default: 'text-primary' }}">
+                    {{ section.settings.accordion_1_title | default: 'Accordion 1' }}
+                  </span>
+                  <svg class="accordion-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M19 9L12 16L5 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+                <div class="accordion-content">
+                  {% if section.settings.accordion_1_content != blank %}
+                  <div class="ingredients-content {{ section.settings.accordion_font_size | default: 'text-sm' }} {{ section.settings.accordion_color | default: 'text-primary' }}">
+                    {{ section.settings.accordion_1_content }}
+                  </div>
+                  {% endif %}
+                </div>
+              </div>
+              {% endif %}
+              
+              <!-- Accordion 2 -->
+              {% if section.settings.show_accordion_2 %}
+              <div class="accordion-item">
+                <button class="accordion-header">
+                  <span class="{{ section.settings.accordion_font_size | default: 'text-base' }} {{ section.settings.accordion_color | default: 'text-primary' }}">
+                    {{ section.settings.accordion_2_title | default: 'Accordion 2' }}
+                  </span>
+                  <svg class="accordion-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M19 9L12 16L5 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+                <div class="accordion-content">
+                  {% if section.settings.accordion_2_content != blank %}
+                  <div class="ingredients-content {{ section.settings.accordion_font_size | default: 'text-sm' }} {{ section.settings.accordion_color | default: 'text-primary' }}">
+                    {{ section.settings.accordion_2_content }}
+                  </div>
+                  {% endif %}
+                </div>
+              </div>
+              {% endif %}
+              
+              <!-- Accordion 3 -->
+              {% if section.settings.show_accordion_3 %}
+              <div class="accordion-item">
+                <button class="accordion-header">
+                  <span class="{{ section.settings.accordion_font_size | default: 'text-base' }} {{ section.settings.accordion_color | default: 'text-primary' }}">
+                    {{ section.settings.accordion_3_title | default: 'Accordion 3' }}
+                  </span>
+                  <svg class="accordion-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M19 9L12 16L5 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+                <div class="accordion-content">
+                  {% if section.settings.accordion_3_content != blank %}
+                  <div class="ingredients-content {{ section.settings.accordion_font_size | default: 'text-sm' }} {{ section.settings.accordion_color | default: 'text-primary' }}">
+                    {{ section.settings.accordion_3_content }}
+                  </div>
+                  {% endif %}
+                </div>
+              </div>
+              {% endif %}
+              
+              <!-- Accordion 4 -->
+              {% if section.settings.show_accordion_4 %}
+              <div class="accordion-item">
+                <button class="accordion-header">
+                  <span class="{{ section.settings.accordion_font_size | default: 'text-base' }} {{ section.settings.accordion_color | default: 'text-primary' }}">
+                    {{ section.settings.accordion_4_title | default: 'Accordion 4' }}
+                  </span>
+                  <svg class="accordion-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M19 9L12 16L5 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+                <div class="accordion-content">
+                  {% if section.settings.accordion_4_content != blank %}
+                  <div class="ingredients-content {{ section.settings.accordion_font_size | default: 'text-sm' }} {{ section.settings.accordion_color | default: 'text-primary' }}">
+                    {{ section.settings.accordion_4_content }}
+                  </div>
+                  {% endif %}
+                </div>
+              </div>
+              {% endif %}
+              
+            </div>
+            {% endif %}
+          </div>
+        </div>
+        
+      </div>
+      
+    </div>
+  </div>
+</section>
+
+<script>
+// Define handleVariantChange function - make it globally available for inline handlers and after section replacement
+function handleVariantChange(el) {
+  // If triggered from clone, sync clone dropdown values to main section first
+  const cloneSection = el ? $(el).closest('.fluid-sidebar-clone') : null;
+  if (cloneSection.length) {
+    const mainSection = $('section.product-header-4:not(.fluid-sidebar-clone section)');
+    if (mainSection.length) {
+      // Sync clone dropdowns to main section dropdowns by data-option-index
+      cloneSection.find('select.variation-dropdown:not(.variant-single-dropdown)').each(function() {
+        const cloneIndex = $(this).attr('data-option-index');
+        const cloneValue = $(this).val();
+        const mainDropdown = mainSection.find(`select.variation-dropdown[data-option-index="${cloneIndex}"]:not(.variant-single-dropdown)`);
+        if (mainDropdown.length && cloneValue) {
+          mainDropdown.val(cloneValue);
+        }
+      });
+    }
+  }
+  
+  // Collect from main section only (exclude clone to avoid duplicates)
+  const mainSection = $('section.product-header-4:not(.fluid-sidebar-clone section)');
+  let option_value_ids = [];
+  mainSection.find('select.variation-dropdown:not(.variant-single-dropdown)').each(function () {
+    const val = $(this).val();
+    if (val) {
+      option_value_ids.push(val);
+    }
+  });
+  
+  const url = window.location.href.split('?')[0];
+  const data = {
+    option_value_ids: option_value_ids,
+    subscription_plan: mainSection.find('select.subscription-plans-dropdown')?.val() || $('select.subscription-plans-dropdown')?.val()
+  };
+  
+  const subscribeChecked = mainSection.find('input[name="fluid-checkout-subscribe"]:checked')[0] || $('input[name="fluid-checkout-subscribe"]:checked')[0];
+  if (subscribeChecked && subscribeChecked.value == 'subscription') {
+    data.subscribe = true;
+  }
+  
+  $.ajax({
+    url: url,
+    data: data,
+    success: function(response) {
+      const newSection = $(response).find('section.product-header-4.product-details-section').first();
+      const mainSectionEl = document.querySelector('section.product-header-4:not(.fluid-sidebar-clone section)');
+      if (newSection.length && mainSectionEl) {
+        $(mainSectionEl).replaceWith(newSection);
+        
+        // Helper function to re-clone sidebar for desktop view
+        function reCloneSidebar() {
+          if (window.innerWidth <= 1024) return;
+          
+          const sidebar = document.querySelector('.product-layout-grid-sidebar');
+          if (!sidebar) return;
+          
+          // Remove old clone
+          const oldClone = sidebar.querySelector('.fluid-sidebar-clone');
+          if (oldClone) {
+            oldClone.remove();
+          }
+          
+          // Create new clone from updated main section
+          const headerSection = document.querySelector('[data-fluid-section="lgp_product_header"]');
+          const infoColumn = headerSection?.querySelector('.info-column');
+          if (infoColumn) {
+            const clonedInfoColumn = infoColumn.cloneNode(true);
+            const wrapper = document.createElement('section');
+            wrapper.className = 'fluid-sidebar-clone';
+            wrapper.setAttribute('data-fluid-section', 'lgp_product_header');
+            wrapper.setAttribute('data-fluid-section-type', 'product-header-4');
+            wrapper.appendChild(clonedInfoColumn);
+            sidebar.appendChild(wrapper);
+          }
+        }
+        
+        // Re-clone sidebar for desktop view (this will get updated prices and variant selections from the new section)
+        reCloneSidebar();
+        
+        // Re-initialize any scripts that need to run after section replacement
+        if (typeof updateSubcriptionValue === 'function') {
+          updateSubcriptionValue();
+        }
+        if (typeof updateSubscriptionPrice === 'function') {
+          updateSubscriptionPrice();
+        }
+        if (typeof updateSubscribeUI === 'function') {
+          updateSubscribeUI();
+        }
+      }
+    }
+  });
+}
+
+// Make function globally available for inline handlers and after section replacement
+window.handleVariantChange = handleVariantChange;
+
+// For single-variant dropdown: send variant_id directly
+// Works from both main section and sidebar clone
+function selectVariant(variantId) {
+  if (!variantId) return;
+  if (window._selectVariantInFlight) return; // Prevent re-entry / reset loop
+  window._selectVariantInFlight = true;
+  
+  // Find main section (not clone) - always use main section as source of truth
+  const section = document.querySelector('section.product-header-4:not(.fluid-sidebar-clone section)');
+  if (!section) { window._selectVariantInFlight = false; return; }
+  
+  const baseUrl = window.location.href.split('?')[0];
+  const data = {
+    variant_id: variantId,
+    subscription_plan: section.querySelector('.subscription-plans-dropdown')?.value
+  };
+  
+  if (section.querySelector('input[name="fluid-checkout-subscribe"]:checked')?.value === 'subscription') {
+    data.subscribe = true;
+  }
+  
+  $.ajax({
+    url: baseUrl,
+    data: data,
+    success: function(response) {
+      // Target only product-header-4 section (not other product-details-section blocks)
+      const newSection = $(response).find('section.product-header-4.product-details-section').first();
+      const mainSectionEl = document.querySelector('section.product-header-4:not(.fluid-sidebar-clone section)');
+      if (newSection.length && mainSectionEl) {
+        $(mainSectionEl).replaceWith(newSection);
+        
+        // Update URL so variant is preserved on refresh
+        try {
+          const url = new URL(baseUrl);
+          url.searchParams.set('variant_id', String(variantId));
+          if (data.subscribe) url.searchParams.set('subscribe', 'true');
+          if (data.subscription_plan) url.searchParams.set('subscription_plan', data.subscription_plan);
+          window.history.replaceState({}, '', url.toString());
+        } catch (e) {}
+        
+        // Re-clone sidebar for desktop view
+        function reCloneSidebar() {
+          if (window.innerWidth <= 1024) return;
+          
+          const sidebar = document.querySelector('.product-layout-grid-sidebar');
+          if (!sidebar) return;
+          
+          const oldClone = sidebar.querySelector('.fluid-sidebar-clone');
+          if (oldClone) {
+            oldClone.remove();
+          }
+          
+          const headerSection = document.querySelector('[data-fluid-section="lgp_product_header"]');
+          const infoColumn = headerSection?.querySelector('.info-column');
+          if (infoColumn) {
+            const clonedInfoColumn = infoColumn.cloneNode(true);
+            const wrapper = document.createElement('section');
+            wrapper.className = 'fluid-sidebar-clone';
+            wrapper.setAttribute('data-fluid-section', 'lgp_product_header');
+            wrapper.setAttribute('data-fluid-section-type', 'product-header-4');
+            wrapper.appendChild(clonedInfoColumn);
+            sidebar.appendChild(wrapper);
+          }
+        }
+        
+        reCloneSidebar();
+        
+        // Re-initialize scripts
+        if (typeof updateSubcriptionValue === 'function') {
+          updateSubcriptionValue();
+        }
+        if (typeof updateSubscriptionPrice === 'function') {
+          updateSubscriptionPrice();
+        }
+        if (typeof updateSubscribeUI === 'function') {
+          updateSubscribeUI();
+        }
+      }
+      window._selectVariantInFlight = false;
+    },
+    error: function() {
+      window._selectVariantInFlight = false;
+    }
+  });
+}
+
+// Make function globally available for inline handlers and after section replacement
+window.selectVariant = selectVariant;
+
+(function() {
+  const sectionId = '{{ section.id }}';
+  
+  // Thumbnail Carousel functionality
+  const carouselWrapper = document.getElementById('carousel-' + sectionId);
+  if (carouselWrapper) {
+    const carouselTrack = document.getElementById('carousel-track-' + sectionId);
+    const carouselContainer = document.getElementById('carousel-main-' + sectionId);
+    const prevBtn = document.getElementById('carousel-prev-' + sectionId);
+    const nextBtn = document.getElementById('carousel-next-' + sectionId);
+    const thumbnailsContainer = document.getElementById('carousel-thumbnails-' + sectionId);
+    const thumbnails = carouselWrapper.querySelectorAll('.carousel-thumbnail');
+    const slides = carouselWrapper.querySelectorAll('.carousel-slide');
+    
+    if (carouselTrack && slides.length > 0) {
+      let currentIndex = 0;
+      let isDragging = false;
+      let startX = 0;
+      let currentX = 0;
+      let offsetX = 0;
+      let startTime = 0;
+      let lastX = 0;
+      let lastTime = 0;
+      let velocity = 0;
+      
+      // Update carousel position
+      function updateCarouselPosition(animate = true) {
+        if (!carouselContainer || !carouselTrack) return;
+        
+        const containerWidth = carouselContainer.offsetWidth || 1;
+        
+        // Set explicit track width to ensure proper alignment
+        const totalWidth = containerWidth * slides.length;
+        carouselTrack.style.width = totalWidth + 'px';
+        
+        // Ensure each slide is exactly container width with no gaps
+        slides.forEach(slide => {
+          slide.style.width = containerWidth + 'px';
+          slide.style.minWidth = containerWidth + 'px';
+          slide.style.maxWidth = containerWidth + 'px';
+          slide.style.margin = '0';
+          slide.style.padding = '0';
+          slide.style.border = 'none';
+          slide.style.outline = 'none';
+          const img = slide.querySelector('img');
+          if (img) {
+            img.style.margin = '0';
+            img.style.padding = '0';
+            img.style.border = 'none';
+            img.style.outline = 'none';
+            img.style.width = '100%';
+            img.style.height = '100%';
+          }
+        });
+        
+        const targetX = -currentIndex * containerWidth + offsetX;
+        
+        if (animate && !isDragging) {
+          carouselTrack.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+        } else {
+          carouselTrack.style.transition = 'none';
+        }
+        
+        carouselTrack.style.transform = `translateX(${targetX}px)`;
+        
+        // Update navigation buttons
+        if (prevBtn) {
+          prevBtn.disabled = currentIndex === 0;
+        }
+        if (nextBtn) {
+          nextBtn.disabled = currentIndex === slides.length - 1;
+        }
+      }
+      
+      // Initialize track width on load and resize
+      function initializeTrackWidth() {
+        if (!carouselContainer || !carouselTrack) return;
+        const containerWidth = carouselContainer.offsetWidth || 1;
+        const totalWidth = containerWidth * slides.length;
+        carouselTrack.style.width = totalWidth + 'px';
+        carouselTrack.style.margin = '0';
+        carouselTrack.style.padding = '0';
+        carouselTrack.style.gap = '0';
+        
+        slides.forEach(slide => {
+          slide.style.width = containerWidth + 'px';
+          slide.style.minWidth = containerWidth + 'px';
+          slide.style.maxWidth = containerWidth + 'px';
+          slide.style.margin = '0';
+          slide.style.padding = '0';
+          slide.style.border = 'none';
+          slide.style.outline = 'none';
+          const img = slide.querySelector('img');
+          if (img) {
+            img.style.margin = '0';
+            img.style.padding = '0';
+            img.style.border = 'none';
+            img.style.outline = 'none';
+            img.style.width = '100%';
+            img.style.height = '100%';
+            img.style.display = 'block';
+            img.style.verticalAlign = 'top';
+          }
+        });
+      }
+      
+      // Match thumbnail wrapper height to carousel container (for left layout) and set thumbnail count (for stretch layout)
+      function matchThumbnailHeight() {
+        if (!carouselContainer || !carouselWrapper) return;
+        
+        const carouselHeight = carouselContainer.offsetHeight;
+        
+        // Handle left layout (vertical thumbnails)
+        const isLeftLayout = carouselWrapper.classList.contains('gallery-layout-left');
+        if (isLeftLayout && carouselHeight > 0) {
+          const thumbnailWrapper = carouselWrapper.querySelector('.carousel-thumbnails-wrapper-vertical');
+          if (thumbnailWrapper) {
+            thumbnailWrapper.style.height = carouselHeight + 'px';
+          }
+        }
+        
+        // Handle stretch layout (set CSS variable for thumbnail count)
+        const isStretchLayout = carouselWrapper.classList.contains('thumbnail-size-stretch');
+        if (isStretchLayout) {
+          const thumbnailTrack = carouselWrapper.querySelector('.carousel-thumbnails-track');
+          if (thumbnailTrack) {
+            // Set CSS variable for number of thumbnails so grid knows how many columns
+            const thumbnailCount = thumbnailTrack.querySelectorAll('.carousel-thumbnail').length;
+            thumbnailTrack.style.setProperty('--thumbnail-count', thumbnailCount);
+          }
+        }
+      }
+      
+      // Handle window resize
+      let resizeTimeout;
+      window.addEventListener('resize', function() {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(function() {
+          initializeTrackWidth();
+          updateCarouselPosition(false);
+          updateThumbnails(true);
+          updateThumbnailFades();
+          matchThumbnailHeight();
+        }, 100);
+      });
+      
+      // Smooth scroll function with custom duration
+      function smoothScrollTo(element, target, isVertical, duration = 600) {
+        const start = isVertical ? element.scrollTop : element.scrollLeft;
+        const distance = target - start;
+        const startTime = performance.now();
+        
+        function animate(currentTime) {
+          const elapsed = currentTime - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          // Easing function (ease-out)
+          const ease = 1 - Math.pow(1 - progress, 3);
+          const current = start + distance * ease;
+          
+          if (isVertical) {
+            element.scrollTop = current;
+          } else {
+            element.scrollLeft = current;
+          }
+          
+          if (progress < 1) {
+            requestAnimationFrame(animate);
+          }
+        }
+        
+        requestAnimationFrame(animate);
+      }
+      
+      // Update thumbnail active state and scroll position
+      function updateThumbnails(shouldScroll = true, slowScroll = false) {
+        thumbnails.forEach((thumb, index) => {
+          if (index === currentIndex) {
+            thumb.classList.add('active');
+          } else {
+            thumb.classList.remove('active');
+          }
+        });
+        
+        // Scroll thumbnails to center active thumbnail (only if shouldScroll is true)
+        if (shouldScroll && thumbnailsContainer && thumbnails[currentIndex]) {
+          const activeThumb = thumbnails[currentIndex];
+          const isVertical = thumbnailsContainer.classList.contains('carousel-thumbnails-left');
+          
+          if (isVertical) {
+            // Vertical scrolling (left layout)
+            const containerHeight = thumbnailsContainer.offsetHeight;
+            const thumbTop = activeThumb.offsetTop;
+            const thumbHeight = activeThumb.offsetHeight;
+            const centerOffset = containerHeight / 2 - thumbHeight / 2;
+            const scrollPosition = thumbTop - centerOffset;
+            
+            if (slowScroll) {
+              smoothScrollTo(thumbnailsContainer, scrollPosition, true, 800);
+            } else {
+              thumbnailsContainer.scrollTo({
+                top: scrollPosition,
+                behavior: 'smooth'
+              });
+            }
+          } else {
+            // Horizontal scrolling (below layout)
+            const containerWidth = thumbnailsContainer.offsetWidth;
+            const thumbLeft = activeThumb.offsetLeft;
+            const thumbWidth = activeThumb.offsetWidth;
+            const centerOffset = containerWidth / 2 - thumbWidth / 2;
+            const scrollPosition = thumbLeft - centerOffset;
+            
+            if (slowScroll) {
+              smoothScrollTo(thumbnailsContainer, scrollPosition, false, 800);
+            } else {
+              thumbnailsContainer.scrollTo({
+                left: scrollPosition,
+                behavior: 'smooth'
+              });
+            }
+          }
+        }
+        
+        // Update fade gradients after scrolling
+        updateThumbnailFades();
+      }
+      
+      // Update fade gradient visibility based on scroll position
+      function updateThumbnailFades() {
+        if (!thumbnailsContainer) return;
+        
+        const wrapper = thumbnailsContainer.closest('.carousel-thumbnails-wrapper');
+        if (!wrapper) return;
+        
+        const isVertical = thumbnailsContainer.classList.contains('carousel-thumbnails-left');
+        
+        if (isVertical) {
+          // Vertical scrolling (left layout) - top/bottom fades
+          const fadeTop = wrapper.querySelector('.thumbnail-fade-top');
+          const fadeBottom = wrapper.querySelector('.thumbnail-fade-bottom');
+          if (!fadeTop || !fadeBottom) return;
+          
+          const scrollTop = thumbnailsContainer.scrollTop;
+          const scrollHeight = thumbnailsContainer.scrollHeight;
+          const clientHeight = thumbnailsContainer.clientHeight;
+          const maxScroll = scrollHeight - clientHeight;
+          
+          // Check if there's overflow
+          const hasOverflow = scrollHeight > clientHeight;
+          
+          if (!hasOverflow) {
+            // No overflow - hide both fades
+            fadeTop.classList.remove('visible');
+            fadeBottom.classList.remove('visible');
+          } else {
+            // Has overflow - show/hide based on scroll position
+            if (scrollTop <= 1) {
+              // At the top edge
+              fadeTop.classList.remove('visible');
+              fadeBottom.classList.add('visible');
+            } else if (scrollTop >= maxScroll - 1) {
+              // At the bottom edge
+              fadeTop.classList.add('visible');
+              fadeBottom.classList.remove('visible');
+            } else {
+              // In the middle
+              fadeTop.classList.add('visible');
+              fadeBottom.classList.add('visible');
+            }
+          }
+        } else {
+          // Horizontal scrolling (below layout) - left/right fades
+          const fadeLeft = wrapper.querySelector('.thumbnail-fade-left');
+          const fadeRight = wrapper.querySelector('.thumbnail-fade-right');
+          if (!fadeLeft || !fadeRight) return;
+          
+          const scrollLeft = thumbnailsContainer.scrollLeft;
+          const scrollWidth = thumbnailsContainer.scrollWidth;
+          const clientWidth = thumbnailsContainer.clientWidth;
+          const maxScroll = scrollWidth - clientWidth;
+          
+          // Check if there's overflow
+          const hasOverflow = scrollWidth > clientWidth;
+          
+          if (!hasOverflow) {
+            // No overflow - hide both fades
+            fadeLeft.classList.remove('visible');
+            fadeRight.classList.remove('visible');
+          } else {
+            // Has overflow - show/hide based on scroll position
+            if (scrollLeft <= 1) {
+              // At the left edge
+              fadeLeft.classList.remove('visible');
+              fadeRight.classList.add('visible');
+            } else if (scrollLeft >= maxScroll - 1) {
+              // At the right edge
+              fadeLeft.classList.add('visible');
+              fadeRight.classList.remove('visible');
+            } else {
+              // In the middle
+              fadeLeft.classList.add('visible');
+              fadeRight.classList.add('visible');
+            }
+          }
+        }
+      }
+      
+      // Go to specific index
+      function goToIndex(index, animate = true, scrollThumbnails = true, slowScroll = false) {
+        currentIndex = Math.max(0, Math.min(slides.length - 1, index));
+        offsetX = 0;
+        updateCarouselPosition(animate);
+        updateThumbnails(scrollThumbnails, slowScroll);
+      }
+      
+      // Previous slide
+      function goToPrev() {
+        if (currentIndex > 0) {
+          goToIndex(currentIndex - 1);
+        }
+      }
+      
+      // Next slide
+      function goToNext() {
+        if (currentIndex < slides.length - 1) {
+          goToIndex(currentIndex + 1);
+        }
+      }
+      
+      // Drag start
+      function handleDragStart(e) {
+        isDragging = true;
+        carouselTrack.classList.add('dragging');
+        const clientX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
+        startX = clientX;
+        lastX = clientX;
+        startTime = Date.now();
+        lastTime = startTime;
+        offsetX = 0;
+        velocity = 0;
+      }
+      
+      // Drag move
+      function handleDragMove(e) {
+        if (!isDragging) return;
+        
+        const clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
+        const currentTime = Date.now();
+        const deltaX = clientX - lastX;
+        const deltaTime = currentTime - lastTime;
+        
+        // Calculate velocity
+        if (deltaTime > 0) {
+          velocity = deltaX / deltaTime;
+        }
+        
+        currentX = clientX;
+        offsetX = currentX - startX;
+        
+        // Apply elastic resistance
+        const containerWidth = carouselContainer.offsetWidth || 1;
+        const maxOffset = containerWidth * 0.2;
+        if (Math.abs(offsetX) > maxOffset) {
+          offsetX = offsetX > 0 ? maxOffset : -maxOffset;
+        }
+        
+        lastX = clientX;
+        lastTime = currentTime;
+        
+        updateCarouselPosition(false);
+      }
+      
+      // Drag end
+      function handleDragEnd(e) {
+        if (!isDragging) return;
+        
+        isDragging = false;
+        carouselTrack.classList.remove('dragging');
+        
+        const containerWidth = carouselContainer.offsetWidth || 1;
+        
+        // Determine new index based on offset and velocity
+        let newIndex = currentIndex;
+        
+        // If fast swipe, use velocity (threshold: 0.5px/ms = 500px/s)
+        if (Math.abs(velocity) > 0.5) {
+          newIndex = velocity > 0 ? currentIndex - 1 : currentIndex + 1;
+        }
+        // Otherwise use offset threshold (30% of container width)
+        else if (Math.abs(offsetX) > containerWidth * 0.3) {
+          newIndex = offsetX > 0 ? currentIndex - 1 : currentIndex + 1;
+        }
+        
+        // Clamp index
+        newIndex = Math.max(0, Math.min(slides.length - 1, newIndex));
+        
+        offsetX = 0;
+        velocity = 0;
+        goToIndex(newIndex, true, true);
+      }
+      
+      // Event listeners for navigation buttons
+      if (prevBtn) {
+        prevBtn.addEventListener('click', goToPrev);
+      }
+      if (nextBtn) {
+        nextBtn.addEventListener('click', goToNext);
+      }
+      
+      // Check if thumbnail is at the edge (leftmost/rightmost visible or topmost/bottommost)
+      function isThumbnailAtEdge(thumb) {
+        if (!thumbnailsContainer || !thumb) return false;
+        
+        const isVertical = thumbnailsContainer.classList.contains('carousel-thumbnails-left');
+        const threshold = 10; // pixels tolerance
+        
+        if (isVertical) {
+          // Vertical layout: check topmost or bottommost
+          const scrollTop = thumbnailsContainer.scrollTop;
+          const thumbTop = thumb.offsetTop;
+          const thumbBottom = thumbTop + thumb.offsetHeight;
+          const containerHeight = thumbnailsContainer.clientHeight;
+          const visibleTop = scrollTop;
+          const visibleBottom = scrollTop + containerHeight;
+          
+          // Check if it's topmost visible (within threshold of visible top)
+          const isTopmost = thumbTop >= visibleTop - threshold && thumbTop <= visibleTop + threshold;
+          // Check if it's bottommost visible (within threshold of visible bottom)
+          const isBottommost = thumbBottom >= visibleBottom - threshold && thumbBottom <= visibleBottom + threshold;
+          
+          return isTopmost || isBottommost;
+        } else {
+          // Horizontal layout: check leftmost or rightmost
+          const scrollLeft = thumbnailsContainer.scrollLeft;
+          const thumbLeft = thumb.offsetLeft;
+          const thumbRight = thumbLeft + thumb.offsetWidth;
+          const containerWidth = thumbnailsContainer.clientWidth;
+          const visibleLeft = scrollLeft;
+          const visibleRight = scrollLeft + containerWidth;
+          
+          // Check if it's leftmost visible (within threshold of visible left)
+          const isLeftmost = thumbLeft >= visibleLeft - threshold && thumbLeft <= visibleLeft + threshold;
+          // Check if it's rightmost visible (within threshold of visible right)
+          const isRightmost = thumbRight >= visibleRight - threshold && thumbRight <= visibleRight + threshold;
+          
+          return isLeftmost || isRightmost;
+        }
+      }
+      
+      // Event listeners for thumbnails
+      let autoScrollInterval = null;
+      let autoScrollTimeout = null;
+      
+      thumbnails.forEach((thumb, index) => {
+        // Click to navigate
+        thumb.addEventListener('click', () => {
+          // Clear any auto-scroll when clicking
+          if (autoScrollInterval) {
+            clearInterval(autoScrollInterval);
+            autoScrollInterval = null;
+          }
+          if (autoScrollTimeout) {
+            clearTimeout(autoScrollTimeout);
+            autoScrollTimeout = null;
+          }
+          goToIndex(index);
+        });
+        
+        // Hover to preview (only auto-scroll if at edge or last thumbnail)
+        thumb.addEventListener('mouseenter', () => {
+          // Clear any existing auto-scroll
+          if (autoScrollInterval) {
+            clearInterval(autoScrollInterval);
+            autoScrollInterval = null;
+          }
+          if (autoScrollTimeout) {
+            clearTimeout(autoScrollTimeout);
+            autoScrollTimeout = null;
+          }
+          
+          // Always update the main image
+          goToIndex(index, false, false, false);
+          
+          const isLastThumbnail = index === thumbnails.length - 1;
+          const shouldAutoScroll = isThumbnailAtEdge(thumb) || isLastThumbnail;
+          
+          if (shouldAutoScroll) {
+            // Start auto-scroll: move one thumbnail at a time with pauses
+            const isVertical = thumbnailsContainer.classList.contains('carousel-thumbnails-left');
+            
+            // Determine scroll direction based on which edge we're at
+            let scrollDirection = 1; // Default: scroll forward (down/right)
+            if (isVertical) {
+              const scrollTop = thumbnailsContainer.scrollTop;
+              const thumbTop = thumb.offsetTop;
+              const containerHeight = thumbnailsContainer.clientHeight;
+              const visibleTop = scrollTop;
+              const isTopmost = thumbTop >= visibleTop - 10 && thumbTop <= visibleTop + 10;
+              // If topmost, scroll backwards (up); if bottommost or last, scroll forwards (down)
+              scrollDirection = isTopmost ? -1 : 1;
+            } else {
+              const scrollLeft = thumbnailsContainer.scrollLeft;
+              const thumbLeft = thumb.offsetLeft;
+              const visibleLeft = scrollLeft;
+              const isLeftmost = thumbLeft >= visibleLeft - 10 && thumbLeft <= visibleLeft + 10;
+              // If leftmost, scroll backwards (left); if rightmost or last, scroll forwards (right)
+              scrollDirection = isLeftmost ? -1 : 1;
+            }
+            
+            function scrollOneThumbnail() {
+              if (!thumbnailsContainer) return;
+              
+              const currentScroll = isVertical ? thumbnailsContainer.scrollTop : thumbnailsContainer.scrollLeft;
+              const thumbSize = isVertical ? thumb.offsetHeight : thumb.offsetWidth;
+              const scrollAmount = thumbSize * scrollDirection; // One thumbnail worth in the right direction
+              
+              // Check if we can scroll more in the desired direction
+              if (isVertical) {
+                const maxScroll = thumbnailsContainer.scrollHeight - thumbnailsContainer.clientHeight;
+                const atEnd = scrollDirection > 0 ? (currentScroll >= maxScroll - 1) : (currentScroll <= 1);
+                
+                if (atEnd) {
+                  // At the end, pause before checking again
+                  clearInterval(autoScrollInterval);
+                  autoScrollInterval = null;
+                  
+                  // If still on last thumbnail, wait and try again
+                  if (isLastThumbnail) {
+                    autoScrollTimeout = setTimeout(() => {
+                      // Check if mouse is still on the thumbnail
+                      const hoveredThumb = document.elementFromPoint(
+                        thumb.getBoundingClientRect().left + thumb.offsetWidth / 2,
+                        thumb.getBoundingClientRect().top + thumb.offsetHeight / 2
+                      );
+                      if (hoveredThumb && (hoveredThumb === thumb || thumb.contains(hoveredThumb))) {
+                        scrollOneThumbnail();
+                      }
+                    }, 500); // 500ms pause
+                  }
+                  return;
+                }
+              } else {
+                const maxScroll = thumbnailsContainer.scrollWidth - thumbnailsContainer.clientWidth;
+                const atEnd = scrollDirection > 0 ? (currentScroll >= maxScroll - 1) : (currentScroll <= 1);
+                
+                if (atEnd) {
+                  // At the end, pause before checking again
+                  clearInterval(autoScrollInterval);
+                  autoScrollInterval = null;
+                  
+                  // If still on last thumbnail, wait and try again
+                  if (isLastThumbnail) {
+                    autoScrollTimeout = setTimeout(() => {
+                      // Check if mouse is still on the thumbnail
+                      const hoveredThumb = document.elementFromPoint(
+                        thumb.getBoundingClientRect().left + thumb.offsetWidth / 2,
+                        thumb.getBoundingClientRect().top + thumb.offsetHeight / 2
+                      );
+                      if (hoveredThumb && (hoveredThumb === thumb || thumb.contains(hoveredThumb))) {
+                        scrollOneThumbnail();
+                      }
+                    }, 500); // 500ms pause
+                  }
+                  return;
+                }
+              }
+              
+              // Scroll one thumbnail worth
+              const newScroll = currentScroll + scrollAmount;
+              
+              if (isVertical) {
+                smoothScrollTo(thumbnailsContainer, newScroll, true, 300);
+              } else {
+                smoothScrollTo(thumbnailsContainer, newScroll, false, 300);
+              }
+            }
+            
+            // Start scrolling after a brief initial delay
+            autoScrollTimeout = setTimeout(() => {
+              scrollOneThumbnail();
+              // Then continue scrolling at intervals
+              autoScrollInterval = setInterval(scrollOneThumbnail, 600); // 600ms between scrolls
+            }, 300); // Initial 300ms delay
+          }
+        });
+        
+        thumb.addEventListener('mouseleave', () => {
+          // Stop auto-scroll when mouse leaves
+          if (autoScrollInterval) {
+            clearInterval(autoScrollInterval);
+            autoScrollInterval = null;
+          }
+          if (autoScrollTimeout) {
+            clearTimeout(autoScrollTimeout);
+            autoScrollTimeout = null;
+          }
+        });
+      });
+      
+      // Event listener for thumbnail scroll (for fade gradients)
+      if (thumbnailsContainer) {
+        thumbnailsContainer.addEventListener('scroll', updateThumbnailFades);
+      }
+      
+      // Event listeners for drag/swipe
+      if (carouselTrack) {
+        // Mouse events
+        carouselTrack.addEventListener('mousedown', handleDragStart);
+        document.addEventListener('mousemove', handleDragMove);
+        document.addEventListener('mouseup', handleDragEnd);
+        
+        // Touch events
+        carouselTrack.addEventListener('touchstart', handleDragStart, { passive: true });
+        carouselTrack.addEventListener('touchmove', handleDragMove, { passive: true });
+        carouselTrack.addEventListener('touchend', handleDragEnd);
+        
+        // Prevent image dragging
+        carouselTrack.addEventListener('dragstart', (e) => e.preventDefault());
+      }
+      
+      // Initialize - defer to ensure layout is settled
+      function initializeCarousel() {
+        initializeTrackWidth();
+        updateCarouselPosition(false);
+        updateThumbnails(true);
+        matchThumbnailHeight();
+        updateThumbnailFades();
+      }
+      
+      // Wait for layout to settle before initializing
+      // Use requestAnimationFrame to ensure CSS has been applied
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          initializeCarousel();
+          
+          // Also reinitialize after a short delay to catch any late layout shifts
+          setTimeout(initializeCarousel, 100);
+        });
+      });
+      
+      // Reinitialize when all images are loaded (images can affect container size)
+      const allImages = carouselWrapper.querySelectorAll('img');
+      let loadedCount = 0;
+      const totalImages = allImages.length;
+      
+      if (totalImages > 0) {
+        allImages.forEach(function(img) {
+          if (img.complete) {
+            loadedCount++;
+          } else {
+            img.addEventListener('load', function() {
+              loadedCount++;
+              if (loadedCount === totalImages) {
+                initializeCarousel();
+              }
+            });
+          }
+        });
+        
+        // If all images were already loaded
+        if (loadedCount === totalImages) {
+          requestAnimationFrame(initializeCarousel);
+        }
+      }
+      
+      // Also listen for window load event as a fallback
+      window.addEventListener('load', function() {
+        requestAnimationFrame(initializeCarousel);
+      });
+    }
+  }
+  
+  // Accordion functionality
+  const accordions = document.querySelectorAll('#product-header-' + sectionId + ' .accordion-header');
+  
+  accordions.forEach(header => {
+    header.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      const item = this.parentElement;
+      if (item && item.classList) {
+        item.classList.toggle('active');
+      }
+    });
+  });
+  
+  // Star Rating Selector functionality
+  const starRatingSelector = document.getElementById('starRating-' + sectionId);
+  const ratingValueDisplay = document.getElementById('ratingValue-' + sectionId);
+  
+  if (starRatingSelector) {
+    const initialRating = parseFloat(starRatingSelector.getAttribute('data-rating')) || 0;
+    let currentRating = initialRating;
+    
+    // Get all star containers and icons
+    const starContainers = starRatingSelector.querySelectorAll('.star-container');
+    const starIcons = starRatingSelector.querySelectorAll('.star-icon');
+    
+    function updateStarDisplay(rating) {
+      starContainers.forEach((container, index) => {
+        const starNumber = index + 1;
+        const fullStar = container.querySelector('.star-full');
+        const halfStar = container.querySelector('.star-half');
+        
+        // Remove all active classes
+        fullStar.classList.remove('active');
+        halfStar.classList.remove('active');
+        
+        if (rating >= starNumber) {
+          // Full star - show full star as active
+          fullStar.classList.add('active');
+          halfStar.style.opacity = '0';
+        } else if (rating >= starNumber - 0.5) {
+          // Half star - show half star as active
+          halfStar.classList.add('active');
+          fullStar.style.opacity = '1';
+        } else {
+          // No star - ensure both are inactive
+          fullStar.style.opacity = '1';
+          halfStar.style.opacity = '0';
+        }
+      });
+    }
+    
+    // Initialize display
+    updateStarDisplay(currentRating);
+    
+    // Handle clicks on star containers
+    starContainers.forEach((container, index) => {
+      const starNumber = index + 1;
+      const overlay = container.querySelector('.star-overlay');
+      
+      // Click handler
+      function handleClick(e) {
+        const rect = container.getBoundingClientRect();
+        const clickX = e.clientX - rect.left;
+        const containerWidth = rect.width;
+        
+        // If click is on left half, set full star; right half, set half star
+        if (clickX < containerWidth / 2) {
+          currentRating = starNumber;
+        } else {
+          currentRating = starNumber - 0.5;
+        }
+        
+        updateStarDisplay(currentRating);
+        updateRatingValue(currentRating);
+      }
+      
+      container.addEventListener('click', handleClick);
+      if (overlay) {
+        overlay.addEventListener('click', handleClick);
+      }
+      
+      // Hover effect
+      function handleMouseMove(e) {
+        const rect = container.getBoundingClientRect();
+        const mouseX = e.clientX - rect.left;
+        const containerWidth = rect.width;
+        
+        if (mouseX < containerWidth / 2) {
+          previewRating(starNumber, false);
+        } else {
+          previewRating(starNumber, true);
+        }
+      }
+      
+      container.addEventListener('mousemove', handleMouseMove);
+      container.addEventListener('mouseleave', function() {
+        updateStarDisplay(currentRating);
+      });
+    });
+    
+    function previewRating(starNumber, isHalf) {
+      starContainers.forEach((container, index) => {
+        const currentStarNumber = index + 1;
+        const fullStar = container.querySelector('.star-full');
+        const halfStar = container.querySelector('.star-half');
+        
+        fullStar.classList.remove('active');
+        halfStar.classList.remove('active');
+        
+        if (currentStarNumber < starNumber) {
+          // Stars before the hovered star - full
+          fullStar.classList.add('active');
+          halfStar.style.opacity = '0';
+        } else if (currentStarNumber === starNumber) {
+          // The hovered star
+          if (isHalf) {
+            halfStar.classList.add('active');
+            fullStar.style.opacity = '1';
+          } else {
+            fullStar.classList.add('active');
+            halfStar.style.opacity = '0';
+          }
+        } else {
+          // Stars after the hovered star - inactive
+          fullStar.style.opacity = '1';
+          halfStar.style.opacity = '0';
+        }
+      });
+    }
+    
+    function updateRatingValue(rating) {
+      if (ratingValueDisplay) {
+        ratingValueDisplay.textContent = rating.toFixed(1);
+      }
+      // You can also dispatch a custom event here if you need to notify other parts of the app
+      starRatingSelector.dispatchEvent(new CustomEvent('rating-changed', { 
+        detail: { rating: rating } 
+      }));
+    }
+  }
+  
+  
+  // Subscription Options Radio Button functionality
+  const subscriptionCards = document.querySelectorAll('#product-header-' + sectionId + ' .subscription-option-card');
+  const subscriptionRadios = document.querySelectorAll('#product-header-' + sectionId + ' .subscription-radio');
+  
+  
+  subscriptionCards.forEach(card => {
+    card.addEventListener('click', function(e) {
+      // Don't trigger if clicking directly on the radio input
+      if (e.target.type === 'radio') {
+        return;
+      }
+      
+      const radio = this.querySelector('.subscription-radio');
+      if (radio) {
+        radio.checked = true;
+        updateSelectedCard(sectionId);
+      }
+    });
+  });
+  
+  subscriptionRadios.forEach(radio => {
+    radio.addEventListener('change', function() {
+      updateSelectedCard(sectionId);
+    });
+  });
+  
+  function updateSelectedCard(sectionId) {
+    // Subscription Options Radio Button functionality
+    const cards = document.querySelectorAll('#product-header-' + sectionId + ' .subscription-option-card');
+    const radios = document.querySelectorAll('#product-header-' + sectionId + ' .subscription-radio');
+    
+    radios.forEach((radio, index) => {
+      if (radio.checked) {
+        cards[index].classList.add('selected');
+          } else {
+        cards[index].classList.remove('selected');
+          }
+        });
+      }
+    
+  // Initialize selected state on load
+  // updateSelectedCard(sectionId);
+  
+  $(document).on('click', '.subscription-option-card', function(e){
+    e.preventDefault();
+    const selectedCard = $(this).attr('data-option');
+    $('.subscription-option-card').each(function () {
+      if ($(this).attr('data-option') === selectedCard) {
+        $(this).find('.subscription-radio').prop('checked', true);
+        $(this).addClass('selected');
+      }else {
+        $(this).find('.subscription-radio').prop('checked', false);
+        $(this).removeClass('selected');
+      }
+    });
+
+    // When Subscribe is selected: set subscribe flag and plan id so cart shows subscription price
+    const isSubscribe = selectedCard === '1';
+    const planId = isSubscribe
+      ? ($('select.subscription-plans-dropdown').val() || $(this).attr('data-subscription-plan-id') || '')
+      : '';
+    $('.add-to-cart-wrapper button').each(function () {
+      $(this).attr('data-fluid-subscribe', isSubscribe ? 'true' : 'false');
+      $(this).attr('data-fluid-subscription-plan-id', planId);
+    });
+
+    // Sync add-to-cart button with dropdown (ensures subscription plan id is set for cart/checkout)
+    if (typeof updateSubscribeUI === 'function') {
+      updateSubscribeUI();
+    }
+  });
+  
+  
+  // Quantity Selector functionality
+  const quantitySelect = document.getElementById('quantity-select-' + sectionId);
+  const quantityStepper = document.querySelector('#product-header-' + sectionId + ' [data-quantity-stepper]');
+  const quantityStepperInput = document.getElementById('quantity-stepper-' + sectionId);
+  const addToCartBtn = document.getElementById('add-to-cart-btn-' + sectionId);
+  const quantityDisplayNumber = document.getElementById('quantity-display-' + sectionId);
+  const addToCartSection = (quantitySelect || quantityStepper) ? (quantitySelect || quantityStepper).closest('.add-to-cart-section') : null;
+  const isSideMode = addToCartSection && addToCartSection.classList.contains('quantity-side');
+  
+  function updateQuantityDisplay() {
+    if (quantitySelect && quantityDisplayNumber && isSideMode) {
+      const selectedOption = quantitySelect.options[quantitySelect.selectedIndex];
+      const displayNumber = selectedOption ? selectedOption.getAttribute('data-display-number') || selectedOption.value : quantitySelect.value;
+      quantityDisplayNumber.textContent = displayNumber;
+    }
+  }
+  
+  function updateAddToCartQuantity(quantity) {
+    if (addToCartBtn) {
+      addToCartBtn.setAttribute('data-fluid-quantity', quantity);
+    }
+  }
+  
+  // Dropdown quantity selector
+  if (quantitySelect && addToCartBtn) {
+    // Initialize display number if in side mode
+    if (isSideMode && quantityDisplayNumber) {
+      updateQuantityDisplay();
+    }
+    
+    quantitySelect.addEventListener('change', function() {
+      const quantity = this.value;
+      // Update display number if in side mode
+      if (isSideMode && quantityDisplayNumber) {
+        updateQuantityDisplay();
+      }
+      // Update main add to cart button
+      updateAddToCartQuantity(quantity);
+    });
+  }
+  
+  // Stepper quantity selector
+  if (quantityStepper && quantityStepperInput && addToCartBtn && false) {
+    const maxQty = parseInt(quantityStepperInput.getAttribute('max')) || 10;
+    const minQty = parseInt(quantityStepperInput.getAttribute('min')) || 1;
+    const decrementBtn = quantityStepper.querySelector('[data-quantity-decrement]');
+    const incrementBtn = quantityStepper.querySelector('[data-quantity-increment]');
+    
+    function updateStepperButtons() {
+      const currentValue = parseInt(quantityStepperInput.value) || minQty;
+      if (decrementBtn) {
+        decrementBtn.disabled = currentValue <= minQty;
+      }
+      if (incrementBtn) {
+        incrementBtn.disabled = currentValue >= maxQty;
+      }
+    }
+    
+    function setQuantity(value) {
+      const numValue = parseInt(value) || minQty;
+      const clampedValue = Math.max(minQty, Math.min(maxQty, numValue));
+      quantityStepperInput.value = clampedValue;
+      updateStepperButtons();
+      updateAddToCartQuantity(clampedValue);
+    }
+    
+    // Initialize
+    updateStepperButtons();
+    updateAddToCartQuantity(quantityStepperInput.value);
+     $(document).on('click','.quantity-stepper-plus',function(){
+        console.log('click');
+      })
+    // Decrement button
+    if (decrementBtn) {
+     
+      decrementBtn.addEventListener('click', function() {
+        const currentValue = parseInt(quantityStepperInput.value) || minQty;
+        if (currentValue > minQty) {
+          setQuantity(currentValue - 1);
+        }
+      });
+    }
+    
+    // Increment button
+    if (incrementBtn) {
+      incrementBtn.addEventListener('click', function() {
+        const currentValue = parseInt(quantityStepperInput.value) || minQty;
+        if (currentValue < maxQty) {
+          setQuantity(currentValue + 1);
+        }
+      });
+    }
+    
+    // Handle direct input (if user types)
+    quantityStepperInput.addEventListener('change', function() {
+      setQuantity(this.value);
+    });
+    
+    // Prevent invalid input
+    quantityStepperInput.addEventListener('blur', function() {
+      setQuantity(this.value);
+    });
+  }
+  
+  // ==========================================
+  // Image Hover Zoom
+  // ==========================================
+  function initHoverZoom() {
+    const zoomMode = '{{ section.settings.zoom_mode | default: "panel" }}';
+    
+    // Exit if zoom is disabled
+    if (zoomMode === 'none') return;
+    
+    const container = document.querySelector('#carousel-main-' + sectionId);
+    const track = document.querySelector('#carousel-track-' + sectionId);
+    const lens = document.querySelector('#zoom-lens-' + sectionId);
+    const panel = document.querySelector('#zoom-panel-' + sectionId);
+    const mediaColumn = container?.closest('.media-column');
+    
+    if (!container || !track || !mediaColumn) return;
+    
+    // Only enable on desktop
+    if (window.innerWidth < 1024) return;
+    
+    // Zoom configuration
+    const zoomLevel = 3; // Magnification level
+    const panelAspectRatio = 1 / 1; // Panel aspect ratio (1:1 square)
+    
+    // Calculate lens size based on container size and zoom level
+    const containerRect = container.getBoundingClientRect();
+    const lensWidth = containerRect.width / zoomLevel;
+    const lensHeight = (containerRect.width / zoomLevel) / panelAspectRatio;
+    
+    function getCurrentSlideImage() {
+      const activeThumbnail = document.querySelector('#carousel-' + sectionId + ' .carousel-thumbnail.active');
+      if (activeThumbnail) {
+        const slideIndex = parseInt(activeThumbnail.getAttribute('data-index')) || 0;
+        const slides = track.querySelectorAll('.carousel-slide');
+        return slides[slideIndex]?.querySelector('img');
+      }
+      const transform = track.style.transform;
+      const match = transform.match(/translateX\(-?(\d+(?:\.\d+)?)(px|%)?\)/);
+      let slideIndex = 0;
+      if (match) {
+        const value = parseFloat(match[1]);
+        const unit = match[2];
+        if (unit === '%') {
+          slideIndex = Math.round(value / 100);
+        } else {
+          const containerWidth = container.getBoundingClientRect().width;
+          slideIndex = containerWidth > 0 ? Math.round(value / containerWidth) : 0;
+        }
+      }
+      const slides = track.querySelectorAll('.carousel-slide');
+      return slides[slideIndex]?.querySelector('img');
+    }
+    
+    // ==========================================
+    // PANEL MODE (Amazon-style zoom panel on right)
+    // ==========================================
+    if (zoomMode === 'panel') {
+      if (!lens || !panel) return;
+      
+      container.classList.add('zoom-enabled');
+      lens.style.width = lensWidth + 'px';
+      lens.style.height = lensHeight + 'px';
+      
+      function updatePanelZoom(e) {
+        const containerRect = container.getBoundingClientRect();
+        const mediaColumnRect = mediaColumn.getBoundingClientRect();
+        const img = getCurrentSlideImage();
+        
+        if (!img) return;
+        
+        const x = e.clientX - containerRect.left;
+        const y = e.clientY - containerRect.top;
+        
+        let lensX = x - lensWidth / 2;
+        let lensY = y - lensHeight / 2;
+        
+        lensX = Math.max(0, Math.min(lensX, containerRect.width - lensWidth));
+        lensY = Math.max(0, Math.min(lensY, containerRect.height - lensHeight));
+        
+        const lensOffsetX = containerRect.left - mediaColumnRect.left;
+        const lensOffsetY = containerRect.top - mediaColumnRect.top;
+        
+        lens.style.left = (lensX + lensOffsetX) + 'px';
+        lens.style.top = (lensY + lensOffsetY) + 'px';
+        
+        const maxLensX = containerRect.width - lensWidth;
+        const maxLensY = containerRect.height - lensHeight;
+        const percentX = maxLensX > 0 ? (lensX / maxLensX) * 100 : 0;
+        const percentY = maxLensY > 0 ? (lensY / maxLensY) * 100 : 0;
+        
+        const highResUrl = img.src.replace(/width=\d+/, 'width=2400');
+        panel.style.backgroundImage = 'url("' + highResUrl + '")';
+        panel.style.backgroundSize = (zoomLevel * 100) + '%';
+        panel.style.backgroundPosition = percentX + '% ' + percentY + '%';
+      }
+      
+      container.addEventListener('mousemove', updatePanelZoom);
+      
+      container.addEventListener('mouseenter', function() {
+        mediaColumn.classList.add('zoom-active');
+        const img = getCurrentSlideImage();
+        if (img) {
+          const highResUrl = img.src.replace(/width=\d+/, 'width=2400');
+          const preload = new Image();
+          preload.src = highResUrl;
+        }
+      });
+      
+      container.addEventListener('mouseleave', function() {
+        mediaColumn.classList.remove('zoom-active');
+      });
+      
+      const observer = new MutationObserver(function() {
+        const img = getCurrentSlideImage();
+        if (img && panel.style.backgroundImage) {
+          const highResUrl = img.src.replace(/width=\d+/, 'width=2400');
+          panel.style.backgroundImage = 'url("' + highResUrl + '")';
+        }
+      });
+      observer.observe(track, { attributes: true, attributeFilter: ['style'] });
+    }
+    
+    // ==========================================
+    // IN-PLACE MODE (zoom directly on image)
+    // ==========================================
+    if (zoomMode === 'inplace') {
+      container.classList.add('zoom-inplace');
+      
+      function updateInplaceZoom(e) {
+        const containerRect = container.getBoundingClientRect();
+        const img = getCurrentSlideImage();
+        
+        if (!img) return;
+        
+        // Calculate cursor position as percentage
+        const x = e.clientX - containerRect.left;
+        const y = e.clientY - containerRect.top;
+        const percentX = (x / containerRect.width) * 100;
+        const percentY = (y / containerRect.height) * 100;
+        
+        // Set transform origin on the current slide image
+        img.style.transformOrigin = percentX + '% ' + percentY + '%';
+      }
+      
+      container.addEventListener('mousemove', updateInplaceZoom);
+      
+      container.addEventListener('mouseenter', function() {
+        container.classList.add('zoom-inplace-active');
+      });
+      
+      container.addEventListener('mouseleave', function() {
+        container.classList.remove('zoom-inplace-active');
+        // Reset transform origin
+        const img = getCurrentSlideImage();
+        if (img) {
+          img.style.transformOrigin = 'center center';
+        }
+      });
+    }
+    
+    // Handle window resize for both modes
+    window.addEventListener('resize', function() {
+      if (window.innerWidth < 1024) {
+        container.classList.remove('zoom-enabled', 'zoom-inplace', 'zoom-inplace-active');
+        mediaColumn.classList.remove('zoom-active');
+      } else {
+        if (zoomMode === 'panel') {
+          container.classList.add('zoom-enabled');
+        } else if (zoomMode === 'inplace') {
+          container.classList.add('zoom-inplace');
+        }
+      }
+    });
+  }
+   
+  // Initialize hover zoom
+  initHoverZoom();
+})();
+  
+</script>
+<script>
+  function updateCart(quantity){
+    $('.add-to-cart-btn').each(function(){
+        $(this).attr('data-fluid-quantity', quantity);
+    });
+    $('.quantity-stepper-input').each(function(){
+      $(this).val(quantity);
+    });
+  }
+  
+  function outOfStockHandler(showOutOfStockMessage){
+     $('.out-of-stock-section').each(function(){
+       if(showOutOfStockMessage){
+         $(this).removeClass('hidden');
+       } else {
+         $(this).addClass('hidden');
+       }
+     });
+  }
+  
+  function productIncrementHandler() {
+    $(document).on('click', '.quantity-stepper-plus', function(){
+      const oldVal = parseInt($(this).prev('.quantity-stepper-input').val(), 10);
+      const maxQuanity = parseInt($(this).prev('.quantity-stepper-input').attr('max'), 10) || 10;
+      const updatedQuantity = oldVal + 1;
+      
+      if (oldVal < maxQuanity) {
+         updateCart(updatedQuantity);
+      } 
+      if( updatedQuantity == maxQuanity ){
+        outOfStockHandler(true);
+      }
+    });
+  }
+  
+  function productDecrementHandler() {
+    $(document).on('click', '.quantity-stepper-minus', function(){
+      const oldVal = parseInt($(this).next('.quantity-stepper-input').val(), 10);
+      outOfStockHandler(false);
+      if (oldVal > 1) {
+         updateCart(oldVal - 1);
+      }
+    });
+  }
+  
+  productIncrementHandler();
+  productDecrementHandler();
+ 
+</script>
+
+{% schema %}
+{
+  "name": "Product Header 4",
+  "tag": "section",
+  "class": "product-header-4-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout Width (Container)"
+    },
+    {
+      "type": "select",
+      "id": "container_layout_width",
+      "label": "Layout Width (Container)",
+      "options": [
+        { "value": "container", "label": "Container" },
+        { "value": "container-full", "label": "Full Width (Container Full)" }
+      ],
+      "default": "container",
+      "info": "Choose whether the container is constrained to the width of the page or full width"
+    },
+    {
+      "type": "header",
+      "content": "Gallery Images"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_media_gallery",
+      "label": "Show Media Gallery",
+      "default": true,
+      "info": "Show or hide the entire media gallery column"
+    },
+    {
+      "type": "select",
+      "id": "zoom_mode",
+      "label": "Image Zoom Mode",
+      "options": [
+        { "value": "none", "label": "No Zoom" },
+        { "value": "panel", "label": "Zoom Panel (Amazon-style)" },
+        { "value": "inplace", "label": "In-Place Zoom" }
+      ],
+      "default": "panel",
+      "info": "Panel shows zoomed view to the right. In-place zooms directly on the image."
+    },
+    {
+      "type": "checkbox",
+      "id": "zoom_lens_liquid_glass",
+      "label": "Liquid Glass Lens Effect",
+      "default": false,
+      "info": "Enable liquid glass distortion effect on the zoom lens indicator"
+    },
+    {
+      "type": "select",
+      "id": "gallery_layout",
+      "label": "Gallery Layout",
+      "options": [
+        { "value": "below", "label": "Thumbnails Below" },
+        { "value": "left", "label": "Thumbnails on Left" }
+      ],
+      "default": "below",
+      "info": "Choose whether thumbnails appear below the main image or on the left side"
+    },
+    {
+      "type": "select",
+      "id": "arrow_position",
+      "label": "Arrow Button Position",
+      "options": [
+        { "value": "bottom_right", "label": "Bottom Right" },
+        { "value": "sides", "label": "Left & Right Sides" }
+      ],
+      "default": "bottom_right",
+      "info": "Position of carousel navigation arrows"
+    },
+    {
+      "type": "select",
+      "id": "thumbnail_size",
+      "label": "Thumbnail Size",
+      "options": [
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" },
+        { "value": "xl", "label": "Extra Large" },
+        { "value": "2xl", "label": "2X Large" },
+        { "value": "3xl", "label": "3X Large" },
+        { "value": "stretch", "label": "Stretch (Full Width Row)" }
+      ],
+      "default": "small",
+      "info": "Size of thumbnail images in the gallery. 'Stretch' makes thumbnails fill the full width evenly."
+    },
+    {
+      "type": "select",
+      "id": "gallery_border_radius",
+      "label": "Gallery Border Radius",
+      "options": [
+        { "value": "0", "label": "None (0px)" },
+        { "value": "4", "label": "Small (4px)" },
+        { "value": "8", "label": "Medium (8px)" },
+        { "value": "12", "label": "Large (12px)" },
+        { "value": "16", "label": "Extra Large (16px)" },
+        { "value": "20", "label": "2X Large (20px)" },
+        { "value": "24", "label": "3X Large (24px)" },
+        { "value": "9999", "label": "Full (Circle)" }
+      ],
+      "default": "16",
+      "info": "Border radius for the main preview image and thumbnails"
+    },
+    {
+      "type": "select",
+      "id": "thumbnail_gap",
+      "label": "Thumbnail Spacing",
+      "options": [
+        { "value": "0", "label": "None (0px)" },
+        { "value": "2", "label": "Extra Small (2px)" },
+        { "value": "4", "label": "Small (4px)" },
+        { "value": "6", "label": "Medium (6px)" },
+        { "value": "8", "label": "Large (8px)" },
+        { "value": "12", "label": "Extra Large (12px)" },
+        { "value": "16", "label": "2X Large (16px)" },
+        { "value": "20", "label": "3X Large (20px)" }
+      ],
+      "default": "2",
+      "info": "Spacing between thumbnail images"
+    },
+    {
+      "type": "image_picker",
+      "id": "gallery_image_1",
+      "label": "Gallery Image 1",
+      "info": "Additional product image"
+    },
+    {
+      "type": "image_picker",
+      "id": "gallery_image_2",
+      "label": "Gallery Image 2",
+      "info": "Additional product image"
+    },
+    {
+      "type": "image_picker",
+      "id": "gallery_image_3",
+      "label": "Gallery Image 3",
+      "info": "Additional product image"
+    },
+    {
+      "type": "image_picker",
+      "id": "gallery_image_4",
+      "label": "Gallery Image 4",
+      "info": "Additional product image"
+    },
+    {
+      "type": "image_picker",
+      "id": "gallery_image_5",
+      "label": "Gallery Image 5",
+      "info": "Additional product image"
+    },
+    {
+      "type": "image_picker",
+      "id": "gallery_image_6",
+      "label": "Gallery Image 6",
+      "info": "Additional product image"
+    },
+    {
+      "type": "image_picker",
+      "id": "gallery_image_7",
+      "label": "Gallery Image 7",
+      "info": "Additional product image"
+    },
+    {
+      "type": "image_picker",
+      "id": "gallery_image_8",
+      "label": "Gallery Image 8",
+      "info": "Additional product image"
+    },
+    {
+      "type": "image_picker",
+      "id": "gallery_image_9",
+      "label": "Gallery Image 9",
+      "info": "Additional product image"
+    },
+    {
+      "type": "image_picker",
+      "id": "gallery_image_10",
+      "label": "Gallery Image 10",
+      "info": "Additional product image"
+    },
+    {
+      "type": "image_picker",
+      "id": "gallery_image_11",
+      "label": "Gallery Image 11",
+      "info": "Additional product image"
+    },
+    {
+      "type": "image_picker",
+      "id": "gallery_image_12",
+      "label": "Gallery Image 12",
+      "info": "Additional product image"
+    },
+    {
+      "type": "image_picker",
+      "id": "gallery_image_13",
+      "label": "Gallery Image 13",
+      "info": "Additional product image"
+    },
+    {
+      "type": "image_picker",
+      "id": "gallery_image_14",
+      "label": "Gallery Image 14",
+      "info": "Additional product image"
+    },
+    {
+      "type": "image_picker",
+      "id": "gallery_image_15",
+      "label": "Gallery Image 15",
+      "info": "Additional product image"
+    },
+    {
+      "type": "header",
+      "content": "Right Column Product Image"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_right_column_image",
+      "label": "Show Product Image in Right Column",
+      "default": false,
+      "info": "Display a product image at the top of the right column"
+    },
+    {
+      "type": "image_picker",
+      "id": "right_column_image",
+      "label": "Right Column Product Image",
+      "info": "Product image displayed at the top of the right column"
+    },
+    {
+      "type": "text",
+      "id": "right_column_image_alt",
+      "label": "Image Alt Text",
+      "default": "Product image",
+      "info": "Alternative text for the image"
+    },
+    {
+      "type": "range",
+      "id": "right_column_image_width",
+      "label": "Image Width (px)",
+      "min": 0,
+      "max": 200,
+      "step": 5,
+      "default": 80,
+      "unit": "px",
+      "info": "Width of the image container"
+    },
+    {
+      "type": "range",
+      "id": "right_column_image_height",
+      "label": "Image Height (px)",
+      "min": 0,
+      "max": 200,
+      "step": 5,
+      "default": 80,
+      "unit": "px",
+      "info": "Height of the image container"
+    },
+    {
+      "type": "select",
+      "id": "right_column_image_object_fit",
+      "label": "Image Fit",
+      "options": [
+        { "value": "contain", "label": "Fit" },
+        { "value": "cover", "label": "Fill" }
+      ],
+      "default": "cover",
+      "info": "How the image should fit within its container"
+    },
+    {
+      "type": "range",
+      "id": "right_column_image_border_width",
+      "label": "Border Width (px)",
+      "min": 0,
+      "max": 8,
+      "step": 1,
+      "default": 0,
+      "unit": "px",
+      "info": "Width of the border around the image"
+    },
+    {
+      "type": "select",
+      "id": "right_column_image_border_color",
+      "label": "Border Color",
+      "options": [
+        { "value": "border-white", "label": "White" },
+        { "value": "border-black", "label": "Black" },
+        { "value": "border-primary", "label": "Primary" },
+        { "value": "border-secondary", "label": "Secondary" },
+        { "value": "border-tertiary", "label": "Tertiary" },
+        { "value": "border-quaternary", "label": "Quaternary" },
+        { "value": "border-success", "label": "Success" },
+        { "value": "border-warning", "label": "Warning" },
+        { "value": "border-error", "label": "Error" },
+        { "value": "border-info", "label": "Info" },
+        { "value": "border-neutral", "label": "Neutral" },
+        { "value": "border-neutral-light", "label": "Neutral Light" },
+        { "value": "border-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "border-neutral",
+      "info": "Color of the border around the image"
+    },
+    {
+      "type": "select",
+      "id": "right_column_image_border_radius_top_left",
+      "label": "Top Left Corner Radius",
+      "options": [
+        { "value": "rounded-none", "label": "None" },
+        { "value": "rounded-sm", "label": "Small" },
+        { "value": "rounded", "label": "Base" },
+        { "value": "rounded-md", "label": "Medium" },
+        { "value": "rounded-lg", "label": "Large" },
+        { "value": "rounded-xl", "label": "Extra Large" },
+        { "value": "rounded-2xl", "label": "2X Large" },
+        { "value": "rounded-3xl", "label": "3X Large" }
+      ],
+      "default": "rounded-lg"
+    },
+    {
+      "type": "select",
+      "id": "right_column_image_border_radius_top_right",
+      "label": "Top Right Corner Radius",
+      "options": [
+        { "value": "rounded-none", "label": "None" },
+        { "value": "rounded-sm", "label": "Small" },
+        { "value": "rounded", "label": "Base" },
+        { "value": "rounded-md", "label": "Medium" },
+        { "value": "rounded-lg", "label": "Large" },
+        { "value": "rounded-xl", "label": "Extra Large" },
+        { "value": "rounded-2xl", "label": "2X Large" },
+        { "value": "rounded-3xl", "label": "3X Large" }
+      ],
+      "default": "rounded-lg"
+    },
+    {
+      "type": "select",
+      "id": "right_column_image_border_radius_bottom_left",
+      "label": "Bottom Left Corner Radius",
+      "options": [
+        { "value": "rounded-none", "label": "None" },
+        { "value": "rounded-sm", "label": "Small" },
+        { "value": "rounded", "label": "Base" },
+        { "value": "rounded-md", "label": "Medium" },
+        { "value": "rounded-lg", "label": "Large" },
+        { "value": "rounded-xl", "label": "Extra Large" },
+        { "value": "rounded-2xl", "label": "2X Large" },
+        { "value": "rounded-3xl", "label": "3X Large" }
+      ],
+      "default": "rounded-lg"
+    },
+    {
+      "type": "select",
+      "id": "right_column_image_border_radius_bottom_right",
+      "label": "Bottom Right Corner Radius",
+      "options": [
+        { "value": "rounded-none", "label": "None" },
+        { "value": "rounded-sm", "label": "Small" },
+        { "value": "rounded", "label": "Base" },
+        { "value": "rounded-md", "label": "Medium" },
+        { "value": "rounded-lg", "label": "Large" },
+        { "value": "rounded-xl", "label": "Extra Large" },
+        { "value": "rounded-2xl", "label": "2X Large" },
+        { "value": "rounded-3xl", "label": "3X Large" }
+      ],
+      "default": "rounded-lg"
+    },
+    {
+      "type": "header",
+      "content": "Product Code"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_product_code",
+      "label": "Show Product Code",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "product_code",
+      "label": "Product Code",
+      "default": "DM-02",
+      "info": "e.g., DM-02"
+    },
+    {
+      "type": "text",
+      "id": "code_superscript",
+      "label": "Code Superscript",
+      "default": "™"
+    },
+    {
+      "type": "select",
+      "id": "code_font_size",
+      "label": "Code Font Size",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" }
+      ],
+      "default": "text-base"
+    },
+    {
+      "type": "select",
+      "id": "code_color",
+      "label": "Code Color",
+      "options": [
+        { "value": "text-primary", "label": "Primary Text" },
+        { "value": "text-secondary", "label": "Secondary Text" },
+        { "value": "text-inverse", "label": "Inverse" },
+        { "value": "text-accent", "label": "Accent" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-white", "label": "White" }
+      ],
+      "default": "text-primary"
+    },
+    {
+      "type": "header",
+      "content": "Product Title"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_product_title",
+      "label": "Show Product Title",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "title_font_family",
+      "label": "Title Font Family",
+      "options": [
+        { "value": "font-primary", "label": "Primary Text" },
+        { "value": "font-body", "label": "Body" },
+        { "value": "font-handwritten", "label": "Handwritten" },
+        { "value": "font-serif", "label": "Serif" }
+      ],
+      "default": "font-primary"
+    },
+    {
+      "type": "select",
+      "id": "title_font_size",
+      "label": "Title Font Size (Mobile)",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" },
+        { "value": "text-xl", "label": "Extra Large" },
+        { "value": "text-2xl", "label": "2X Large" },
+        { "value": "text-3xl", "label": "3X Large" },
+        { "value": "text-4xl", "label": "4X Large" }
+      ],
+      "default": "text-2xl"
+    },
+    {
+      "type": "select",
+      "id": "title_font_size_desktop",
+      "label": "Title Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-xs", "label": "Extra Small" },
+        { "value": "lg:text-sm", "label": "Small" },
+        { "value": "lg:text-base", "label": "Base" },
+        { "value": "lg:text-lg", "label": "Large" },
+        { "value": "lg:text-xl", "label": "Extra Large" },
+        { "value": "lg:text-2xl", "label": "2X Large" },
+        { "value": "lg:text-3xl", "label": "3X Large" },
+        { "value": "lg:text-4xl", "label": "4X Large" }
+      ],
+      "default": "lg:text-3xl"
+    },
+    {
+      "type": "select",
+      "id": "title_font_weight",
+      "label": "Title Font Weight",
+      "options": [
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semibold" }
+      ],
+      "default": "font-semibold"
+    },
+    {
+      "type": "select",
+      "id": "title_color",
+      "label": "Title Color",
+      "options": [
+        { "value": "text-primary", "label": "Primary Text" },
+        { "value": "text-secondary", "label": "Secondary Text" },
+        { "value": "text-inverse", "label": "Inverse" },
+        { "value": "text-muted", "label": "Muted" },
+        { "value": "text-accent", "label": "Accent" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-white", "label": "White" }
+      ],
+      "default": "text-primary"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_new_badge",
+      "label": "Show 'New' Badge",
+      "default": true,
+      "info": "Display badge next to product title"
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Badge Text",
+      "default": "New"
+    },
+    {
+      "type": "select",
+      "id": "badge_font_size",
+      "label": "Badge Font Size",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" }
+      ],
+      "default": "text-xs"
+    },
+    {
+      "type": "select",
+      "id": "badge_text_color",
+      "label": "Badge Text Color",
+      "options": [
+        { "value": "text-primary", "label": "Primary Text" },
+        { "value": "text-secondary", "label": "Secondary Text" },
+        { "value": "text-inverse", "label": "Inverse" },
+        { "value": "text-muted", "label": "Muted" },
+        { "value": "text-accent", "label": "Accent" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-white", "label": "White" }
+      ],
+      "default": "text-primary"
+    },
+    {
+      "type": "select",
+      "id": "badge_background_color",
+      "label": "Badge Background Color",
+      "options": [
+        { "value": "bg-accent-warm", "label": "Accent Warm" },
+        { "value": "bg-accent-dark", "label": "Accent Dark" },
+        { "value": "bg-accent-soft", "label": "Accent Soft" },
+        { "value": "bg-banner", "label": "Banner" },
+        { "value": "bg-primary", "label": "Brand Primary" },
+        { "value": "bg-secondary", "label": "Secondary" },
+        { "value": "bg-secondary-light", "label": "Secondary Light" },
+        { "value": "bg-secondary-lighter", "label": "Secondary Lighter" },
+        { "value": "bg-card-primary", "label": "Card Primary" },
+        { "value": "bg-card-secondary", "label": "Card Secondary" },
+        { "value": "bg-accent-1", "label": "Accent 1" },
+        { "value": "bg-accent-2", "label": "Accent 2" },
+        { "value": "bg-accent-3", "label": "Accent 3" },
+        { "value": "bg-accent-4", "label": "Accent 4" },
+        { "value": "bg-accent-5", "label": "Accent 5" },
+        { "value": "bg-accent-6", "label": "Accent 6" },
+        { "value": "bg-accent-7", "label": "Accent 7" },
+        { "value": "bg-neutral-dark", "label": "Neutral Dark" },
+        { "value": "bg-neutral", "label": "Neutral" },
+        { "value": "bg-neutral-medium", "label": "Neutral Medium" },
+        { "value": "bg-neutral-light", "label": "Neutral Light" },
+        { "value": "bg-neutral-lighter", "label": "Neutral Lighter" },
+        { "value": "bg-success", "label": "Success" },
+        { "value": "bg-warning", "label": "Warning" },
+        { "value": "bg-error", "label": "Error" },
+        { "value": "bg-info", "label": "Info" },
+        { "value": "bg-white", "label": "White" },
+        { "value": "bg-black", "label": "Black" },
+        { "value": "bg-page", "label": "Page" },
+        { "value": "bg-surface", "label": "Surface" }
+      ],
+      "default": "bg-accent-warm"
+    },
+    {
+      "type": "header",
+      "content": "Rating & Reviews"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "label": "Show Rating",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "stars_image",
+      "label": "Stars Image",
+      "info": "Upload a stars rating image"
+    },
+    {
+      "type": "text",
+      "id": "rating_value",
+      "label": "Rating Value",
+      "default": "4.8"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_reviews_link",
+      "label": "Show Reviews Link",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "reviews_text",
+      "label": "Reviews Text",
+      "default": "18 Reviews"
+    },
+    {
+      "type": "url",
+      "id": "reviews_link",
+      "label": "Reviews Link",
+      "default": "#reviews"
+    },
+    {
+      "type": "select",
+      "id": "rating_font_size",
+      "label": "Rating Font Size",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" }
+      ],
+      "default": "text-sm"
+    },
+    {
+      "type": "select",
+      "id": "rating_color",
+      "label": "Rating Color",
+      "options": [
+        { "value": "text-primary", "label": "Primary Text" },
+        { "value": "text-secondary", "label": "Secondary Text" },
+        { "value": "text-inverse", "label": "Inverse" },
+        { "value": "text-muted", "label": "Muted" },
+        { "value": "text-accent", "label": "Accent" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-white", "label": "White" }
+      ],
+      "default": "text-primary"
+    },
+    {
+      "type": "header",
+      "content": "Selling Points Headline"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_selling_points_headline",
+      "label": "Show Selling Points Headline",
+      "default": false,
+      "info": "Display a selling points headline under the reviews"
+    },
+    {
+      "type": "text",
+      "id": "selling_points_headline",
+      "label": "Headline Text",
+      "default": "Your key selling points go here"
+    },
+    {
+      "type": "select",
+      "id": "selling_points_font_family",
+      "label": "Font Family",
+      "options": [
+        { "value": "font-primary", "label": "Primary" },
+        { "value": "font-body", "label": "Body" },
+        { "value": "font-handwritten", "label": "Handwritten" },
+        { "value": "font-serif", "label": "Serif" }
+      ],
+      "default": "font-body"
+    },
+    {
+      "type": "select",
+      "id": "selling_points_font_size",
+      "label": "Font Size (Mobile)",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" },
+        { "value": "text-xl", "label": "Extra Large" }
+      ],
+      "default": "text-base"
+    },
+    {
+      "type": "select",
+      "id": "selling_points_font_size_desktop",
+      "label": "Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-xs", "label": "Extra Small" },
+        { "value": "lg:text-sm", "label": "Small" },
+        { "value": "lg:text-base", "label": "Base" },
+        { "value": "lg:text-lg", "label": "Large" },
+        { "value": "lg:text-xl", "label": "Extra Large" }
+      ],
+      "default": "lg:text-base"
+    },
+    {
+      "type": "select",
+      "id": "selling_points_font_weight",
+      "label": "Font Weight",
+      "options": [
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semibold" },
+        { "value": "font-bold", "label": "Bold" }
+      ],
+      "default": "font-normal"
+    },
+    {
+      "type": "select",
+      "id": "selling_points_color",
+      "label": "Text Color",
+      "options": [
+        { "value": "text-primary", "label": "Primary Text" },
+        { "value": "text-secondary", "label": "Secondary Text" },
+        { "value": "text-inverse", "label": "Inverse" },
+        { "value": "text-muted", "label": "Muted" },
+        { "value": "text-accent", "label": "Accent" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-white", "label": "White" }
+      ],
+      "default": "text-primary"
+    },
+    {
+      "type": "select",
+      "id": "selling_points_spacing_top",
+      "label": "Spacing Top",
+      "options": [
+        { "value": "mt-0", "label": "None" },
+        { "value": "mt-xs", "label": "Extra Small" },
+        { "value": "mt-sm", "label": "Small" },
+        { "value": "mt-md", "label": "Medium" },
+        { "value": "mt-lg", "label": "Large" }
+      ],
+      "default": "mt-sm"
+    },
+    {
+      "type": "select",
+      "id": "selling_points_spacing_bottom",
+      "label": "Spacing Bottom",
+      "options": [
+        { "value": "mb-0", "label": "None" },
+        { "value": "mb-xs", "label": "Extra Small" },
+        { "value": "mb-sm", "label": "Small" },
+        { "value": "mb-md", "label": "Medium" },
+        { "value": "mb-lg", "label": "Large" }
+      ],
+      "default": "mb-sm"
+    },
+    {
+      "type": "header",
+      "content": "Description"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_description",
+      "label": "Show Description",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "description_font_family",
+      "label": "Description Font Family",
+      "options": [
+        { "value": "font-primary", "label": "Primary Text" },
+        { "value": "font-body", "label": "Body" },
+        { "value": "font-handwritten", "label": "Handwritten" },
+        { "value": "font-serif", "label": "Serif" }
+      ],
+      "default": "font-body"
+    },
+    {
+      "type": "select",
+      "id": "description_font_size",
+      "label": "Description Font Size (Mobile)",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" }
+      ],
+      "default": "text-base"
+    },
+    {
+      "type": "select",
+      "id": "description_font_size_desktop",
+      "label": "Description Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-xs", "label": "Extra Small" },
+        { "value": "lg:text-sm", "label": "Small" },
+        { "value": "lg:text-base", "label": "Base" },
+        { "value": "lg:text-lg", "label": "Large" }
+      ],
+      "default": "lg:text-base"
+    },
+    {
+      "type": "select",
+      "id": "description_font_weight",
+      "label": "Description Font Weight",
+      "options": [
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semibold" }
+      ],
+      "default": "font-semibold"
+    },
+    {
+      "type": "select",
+      "id": "description_color",
+      "label": "Description Color",
+      "options": [
+        { "value": "text-primary", "label": "Primary Text" },
+        { "value": "text-secondary", "label": "Secondary Text" },
+        { "value": "text-inverse", "label": "Inverse" },
+        { "value": "text-muted", "label": "Muted" },
+        { "value": "text-accent", "label": "Accent" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-white", "label": "White" }
+      ],
+      "default": "text-primary"
+    },
+    {
+      "type": "header",
+      "content": "Subscription Blocks"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_subscription_blocks",
+      "label": "Show Subscription Blocks",
+      "default": true,
+      "info": "Toggle to show or hide the subscription option cards"
+    },
+    {
+      "type": "text",
+      "content": "**Card Style Settings**"
+    },
+    {
+      "type": "select",
+      "id": "banner_bottom_spacing",
+      "label": "Banner Bottom Spacing",
+      "options": [
+        { "value": "mb-0", "label": "None" },
+        { "value": "mb-xs", "label": "Extra Small" },
+        { "value": "mb-sm", "label": "Small" },
+        { "value": "mb-md", "label": "Medium" },
+        { "value": "mb-lg", "label": "Large" }
+      ],
+      "default": "mb-xs",
+      "info": "Space between the banner and content below"
+    },
+    {
+      "type": "select",
+      "id": "subscription_card_border_width",
+      "label": "Border Thickness",
+      "options": [
+        { "value": "0px", "label": "None" },
+        { "value": "1px", "label": "1px (Thin)" },
+        { "value": "2px", "label": "2px (Default)" },
+        { "value": "3px", "label": "3px (Medium)" },
+        { "value": "4px", "label": "4px (Thick)" },
+        { "value": "5px", "label": "5px (Extra Thick)" },
+        { "value": "6px", "label": "6px" },
+        { "value": "8px", "label": "8px (Very Thick)" }
+      ],
+      "default": "2px",
+      "info": "Border thickness for subscription option cards"
+    },
+    {
+      "type": "select",
+      "id": "subscription_card_border_radius",
+      "label": "Corner Rounding",
+      "options": [
+        { "value": "rounded-none", "label": "None (0px)" },
+        { "value": "rounded-sm", "label": "Small (2px)" },
+        { "value": "rounded", "label": "Base (4px)" },
+        { "value": "rounded-md", "label": "Medium (6px)" },
+        { "value": "rounded-lg", "label": "Large (8px)" },
+        { "value": "rounded-xl", "label": "Extra Large (12px)" },
+        { "value": "rounded-2xl", "label": "2X Large (16px)" },
+        { "value": "rounded-3xl", "label": "3X Large (24px)" }
+      ],
+      "default": "rounded-lg",
+      "info": "Corner radius for subscription option cards"
+    },
+    {
+      "type": "select",
+      "id": "subscription_card_padding",
+      "label": "Inner Padding",
+      "options": [
+        { "value": "p-0", "label": "None" },
+        { "value": "p-xs", "label": "Extra Small" },
+        { "value": "p-sm", "label": "Small" },
+        { "value": "p-md", "label": "Medium (Default)" },
+        { "value": "p-lg", "label": "Large" },
+        { "value": "p-xl", "label": "Extra Large" },
+        { "value": "p-2xl", "label": "2X Large" },
+        { "value": "p-3xl", "label": "3X Large" }
+      ],
+      "default": "p-md",
+      "info": "Padding inside the subscription option cards"
+    },
+    {
+      "type": "text",
+      "content": "**Spacing Settings**"
+    },
+    {
+      "type": "select",
+      "id": "subscription_spacing_top_mobile",
+      "label": "Top Spacing (Mobile)",
+      "options": [
+        { "value": "mt-0", "label": "None" },
+        { "value": "mt-xs", "label": "Extra Small" },
+        { "value": "mt-sm", "label": "Small" },
+        { "value": "mt-md", "label": "Medium" },
+        { "value": "mt-lg", "label": "Large" },
+        { "value": "mt-xl", "label": "Extra Large" },
+        { "value": "mt-2xl", "label": "2X Large" },
+        { "value": "mt-3xl", "label": "3X Large" }
+      ],
+      "default": "mt-md",
+      "info": "Space above the subscription options cards"
+    },
+    {
+      "type": "select",
+      "id": "subscription_spacing_top_desktop",
+      "label": "Top Spacing (Desktop)",
+      "options": [
+        { "value": "lg:mt-0", "label": "None" },
+        { "value": "lg:mt-xs", "label": "Extra Small" },
+        { "value": "lg:mt-sm", "label": "Small" },
+        { "value": "lg:mt-md", "label": "Medium" },
+        { "value": "lg:mt-lg", "label": "Large" },
+        { "value": "lg:mt-xl", "label": "Extra Large" },
+        { "value": "lg:mt-2xl", "label": "2X Large" },
+        { "value": "lg:mt-3xl", "label": "3X Large" }
+      ],
+      "default": "lg:mt-md",
+      "info": "Space above the subscription options cards on desktop"
+    },
+    {
+      "type": "select",
+      "id": "subscription_spacing_bottom_mobile",
+      "label": "Bottom Spacing (Mobile)",
+      "options": [
+        { "value": "mb-0", "label": "None" },
+        { "value": "mb-xs", "label": "Extra Small" },
+        { "value": "mb-sm", "label": "Small" },
+        { "value": "mb-md", "label": "Medium" },
+        { "value": "mb-lg", "label": "Large" },
+        { "value": "mb-xl", "label": "Extra Large" },
+        { "value": "mb-2xl", "label": "2X Large" },
+        { "value": "mb-3xl", "label": "3X Large" }
+      ],
+      "default": "mb-md",
+      "info": "Space below the subscription options cards"
+    },
+    {
+      "type": "select",
+      "id": "subscription_spacing_bottom_desktop",
+      "label": "Bottom Spacing (Desktop)",
+      "options": [
+        { "value": "lg:mb-0", "label": "None" },
+        { "value": "lg:mb-xs", "label": "Extra Small" },
+        { "value": "lg:mb-sm", "label": "Small" },
+        { "value": "lg:mb-md", "label": "Medium" },
+        { "value": "lg:mb-lg", "label": "Large" },
+        { "value": "lg:mb-xl", "label": "Extra Large" },
+        { "value": "lg:mb-2xl", "label": "2X Large" },
+        { "value": "lg:mb-3xl", "label": "3X Large" }
+      ],
+      "default": "lg:mb-md",
+      "info": "Space below the subscription options cards on desktop"
+    },
+    {
+      "type": "header",
+      "content": "Price"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_price",
+      "label": "Show Price",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "price_font_family",
+      "label": "Price Font Family",
+      "options": [
+        { "value": "font-primary", "label": "Primary Text" },
+        { "value": "font-body", "label": "Body" },
+        { "value": "font-handwritten", "label": "Handwritten" },
+        { "value": "font-serif", "label": "Serif" }
+      ],
+      "default": "font-primary"
+    },
+    {
+      "type": "select",
+      "id": "price_font_size",
+      "label": "Price Font Size (Mobile)",
+      "options": [
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" },
+        { "value": "text-xl", "label": "Extra Large" },
+        { "value": "text-2xl", "label": "2X Large" },
+        { "value": "text-3xl", "label": "3X Large" }
+      ],
+      "default": "text-xl"
+    },
+    {
+      "type": "select",
+      "id": "price_font_size_desktop",
+      "label": "Price Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-base", "label": "Base" },
+        { "value": "lg:text-lg", "label": "Large" },
+        { "value": "lg:text-xl", "label": "Extra Large" },
+        { "value": "lg:text-2xl", "label": "2X Large" },
+        { "value": "lg:text-3xl", "label": "3X Large" }
+      ],
+      "default": "lg:text-2xl"
+    },
+    {
+      "type": "select",
+      "id": "price_font_weight",
+      "label": "Price Font Weight",
+      "options": [
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semibold" }
+      ],
+      "default": "font-semibold"
+    },
+    {
+      "type": "select",
+      "id": "price_color",
+      "label": "Price Color",
+      "options": [
+        { "value": "text-primary", "label": "Primary Text" },
+        { "value": "text-secondary", "label": "Secondary Text" },
+        { "value": "text-inverse", "label": "Inverse" },
+        { "value": "text-muted", "label": "Muted" },
+        { "value": "text-accent", "label": "Accent" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-white", "label": "White" }
+      ],
+      "default": "text-primary"
+    },
+    {
+      "type": "header",
+      "content": "Add to Cart Button"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_cta",
+      "label": "Show Add to Cart Button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "product_variant_id",
+      "label": "Product Variant ID",
+      "info": "Enter the product variant ID for add to cart functionality"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Button Text",
+      "default": "Add to Cart"
+    },
+    {
+      "type": "header",
+      "content": "Quantity Settings"
+    },
+    {
+      "type": "select",
+      "id": "quantity_type",
+      "label": "Quantity Selector Type",
+      "options": [
+        { "value": "dropdown", "label": "Dropdown" },
+        { "value": "stepper", "label": "Stepper (Plus/Minus)" }
+      ],
+      "default": "dropdown",
+      "info": "Choose between a dropdown selector or a stepper with plus/minus buttons"
+    },
+    {
+      "type": "select",
+      "id": "quantity_layout",
+      "label": "Quantity Layout",
+      "options": [
+        { "value": "above", "label": "Above Add to Cart" },
+        { "value": "side", "label": "Next to Add to Cart" }
+      ],
+      "default": "above",
+      "info": "Choose whether the quantity selector appears above or next to the add to cart button"
+    },
+    {
+      "type": "text",
+      "id": "quantity_label",
+      "label": "Quantity Label",
+      "default": "Quantity"
+    },
+    {
+      "type": "select",
+      "id": "quantity_border_radius",
+      "label": "Quantity Selector Border Radius",
+      "options": [
+        { "value": "use_theme", "label": "Use Theme Button Setting" },
+        { "value": "rounded-none", "label": "None" },
+        { "value": "rounded-sm", "label": "Small" },
+        { "value": "rounded", "label": "Base" },
+        { "value": "rounded-md", "label": "Medium" },
+        { "value": "rounded-lg", "label": "Large" },
+        { "value": "rounded-xl", "label": "Extra Large" },
+        { "value": "rounded-2xl", "label": "2X Large" },
+        { "value": "rounded-3xl", "label": "3X Large" },
+        { "value": "rounded-full", "label": "Full (Pills)" }
+      ],
+      "default": "use_theme",
+      "info": "Choose the border radius for the quantity selector (dropdown or stepper). 'Use Theme Button Setting' will match your theme's default button border radius."
+    },
+    {
+      "type": "select",
+      "id": "quantity_label_font_size",
+      "label": "Quantity Label Font Size",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" }
+      ],
+      "default": "text-sm"
+    },
+    {
+      "type": "select",
+      "id": "quantity_label_color",
+      "label": "Quantity Label Color",
+      "options": [
+        { "value": "text-primary", "label": "Primary Text" },
+        { "value": "text-secondary", "label": "Secondary Text" },
+        { "value": "text-inverse", "label": "Inverse" },
+        { "value": "text-muted", "label": "Muted" },
+        { "value": "text-accent", "label": "Accent" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-white", "label": "White" }
+      ],
+      "default": "text-primary"
+    },
+    {
+      "type": "text",
+      "id": "default_quantity",
+      "label": "Default Quantity",
+      "default": 1,
+      "info": "Default quantity selected"
+    },
+    {
+      "type": "text",
+      "id": "max_quantity",
+      "label": "Maximum Quantity",
+      "default": 10,
+      "info": "Maximum quantity available in dropdown or stepper"
+    },
+    {
+      "type": "header",
+      "content": "Button Settings"
+    },
+    {
+      "type": "select",
+      "id": "button_style",
+      "label": "Button Style",
+      "options": [
+        { "value": "filled", "label": "Filled" },
+        { "value": "outline", "label": "Outline" },
+        { "value": "ghost", "label": "Ghost" }
+      ],
+      "default": "filled"
+    },
+    {
+      "type": "select",
+      "id": "button_color",
+      "label": "Button Color",
+      "options": [
+        { "value": "primary", "label": "Primary Text" },
+        { "value": "secondary", "label": "Secondary Text" },
+        { "value": "accent-1", "label": "Accent" },
+        { "value": "quaternary", "label": "Accent Alt" },
+        { "value": "success", "label": "Success" },
+        { "value": "warning", "label": "Warning" },
+        { "value": "error", "label": "Error" },
+        { "value": "info", "label": "Info" },
+        { "value": "neutral", "label": "Neutral" },
+        { "value": "white", "label": "White" }
+      ],
+      "default": "primary"
+    },
+    {
+      "type": "select",
+      "id": "button_size",
+      "label": "Button Size",
+      "options": [
+        { "value": "btn-xs", "label": "Extra Small" },
+        { "value": "btn-sm", "label": "Small" },
+        { "value": "btn-md", "label": "Medium" },
+        { "value": "btn-lg", "label": "Large" },
+        { "value": "btn-xl", "label": "Extra Large" }
+      ],
+      "default": "btn-md"
+    },
+    {
+      "type": "select",
+      "id": "button_font_weight",
+      "label": "Button Font Weight",
+      "options": [
+        { "value": "font-light", "label": "Light" },
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semi Bold" },
+        { "value": "font-bold", "label": "Bold" }
+      ],
+      "default": "font-medium"
+    },
+{
+  "type": "header",
+  "content": "Product Description"
+},
+{
+  "type": "checkbox",
+  "id": "show_product_description_content",
+  "label": "Show Product Description",
+  "default": false,
+  "info": "Displays the product description in a formatted content area above the benefits accordion"
+},
+{
+  "type": "select",
+  "id": "product_description_font_size",
+  "label": "Description Font Size",
+  "options": [
+    { "value": "text-xs", "label": "Extra Small" },
+    { "value": "text-sm", "label": "Small" },
+    { "value": "text-base", "label": "Base" },
+    { "value": "text-lg", "label": "Large" }
+  ],
+  "default": "text-base"
+},
+{
+  "type": "select",
+  "id": "product_description_color",
+  "label": "Description Color",
+  "options": [
+    { "value": "text-primary", "label": "Primary Text" },
+    { "value": "text-secondary", "label": "Secondary Text" },
+    { "value": "text-inverse", "label": "Inverse" },
+    { "value": "text-muted", "label": "Muted" },
+    { "value": "text-accent", "label": "Accent" },
+    { "value": "text-black", "label": "Black" },
+    { "value": "text-white", "label": "White" }
+  ],
+  "default": "text-primary"
+},
+    {
+      "type": "header",
+      "content": "Guarantee Text"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_guarantee_text",
+      "label": "Show Guarantee Text",
+      "default": true
+    },
+    {
+      "type": "richtext",
+      "id": "guarantee_text",
+      "label": "Guarantee Text",
+      "default": "<p>30-day risk-free guarantee. Free US shipping.</p>"
+    },
+    {
+      "type": "select",
+      "id": "guarantee_font_size",
+      "label": "Guarantee Font Size",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" }
+      ],
+      "default": "text-sm"
+    },
+    {
+      "type": "select",
+      "id": "guarantee_color",
+      "label": "Guarantee Color",
+      "options": [
+        { "value": "text-primary", "label": "Primary Text" },
+        { "value": "text-secondary", "label": "Secondary Text" },
+        { "value": "text-inverse", "label": "Inverse" },
+        { "value": "text-muted", "label": "Muted" },
+        { "value": "text-accent", "label": "Accent" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-white", "label": "White" }
+      ],
+      "default": "text-neutral"
+    },
+    {
+      "type": "header",
+      "content": "Accordions"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_benefits",
+      "label": "Show Benefits Accordion",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "benefits_title",
+      "label": "Benefits Section Title",
+      "default": "Benefits*"
+    },
+    {
+      "type": "richtext",
+      "id": "benefits_content",
+      "label": "Benefits Description",
+      "info": "Add description or content for the benefits accordion"
+    },
+    {
+      "type": "select",
+      "id": "benefits_content_font_size",
+      "label": "Benefits Description Font Size",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" }
+      ],
+      "default": "text-sm"
+    },
+    {
+      "type": "select",
+      "id": "benefits_content_color",
+      "label": "Benefits Description Color",
+      "options": [
+        { "value": "text-primary", "label": "Primary Text" },
+        { "value": "text-secondary", "label": "Secondary Text" },
+        { "value": "text-inverse", "label": "Inverse" },
+        { "value": "text-muted", "label": "Muted" },
+        { "value": "text-accent", "label": "Accent" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-white", "label": "White" }
+      ],
+      "default": "text-primary"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_ingredients",
+      "label": "Show Ingredients Section",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "ingredients_title",
+      "label": "Ingredients Section Title",
+      "default": "Ingredients"
+    },
+    {
+      "type": "textarea",
+      "id": "ingredients_content",
+      "label": "Ingredients Content",
+      "info": "Add ingredient details here"
+    },
+    {
+      "type": "select",
+      "id": "accordion_font_size",
+      "label": "Accordion Title Font Size",
+      "options": [
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" }
+      ],
+      "default": "text-base"
+    },
+    {
+      "type": "select",
+      "id": "accordion_color",
+      "label": "Accordion Title Color",
+      "options": [
+        { "value": "text-primary", "label": "Primary Text" },
+        { "value": "text-secondary", "label": "Secondary Text" },
+        { "value": "text-inverse", "label": "Inverse" },
+        { "value": "text-muted", "label": "Muted" },
+        { "value": "text-accent", "label": "Accent" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-white", "label": "White" }
+      ],
+      "default": "text-primary"
+    },
+    {
+      "type": "select",
+      "id": "benefit_font_size",
+      "label": "Benefit Font Size",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" }
+      ],
+      "default": "text-base"
+    },
+    {
+      "type": "select",
+      "id": "benefit_color",
+      "label": "Benefit Color",
+      "options": [
+        { "value": "text-primary", "label": "Primary Text" },
+        { "value": "text-secondary", "label": "Secondary Text" },
+        { "value": "text-inverse", "label": "Inverse" },
+        { "value": "text-muted", "label": "Muted" },
+        { "value": "text-accent", "label": "Accent" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-white", "label": "White" }
+      ],
+      "default": "text-primary"
+    },
+    {
+      "type": "select",
+      "id": "ingredients_font_size",
+      "label": "Ingredients Font Size",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" }
+      ],
+      "default": "text-sm"
+    },
+    {
+      "type": "select",
+      "id": "ingredients_color",
+      "label": "Ingredients Color",
+      "options": [
+        { "value": "text-primary", "label": "Primary Text" },
+        { "value": "text-secondary", "label": "Secondary Text" },
+        { "value": "text-inverse", "label": "Inverse" },
+        { "value": "text-muted", "label": "Muted" },
+        { "value": "text-accent", "label": "Accent" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-white", "label": "White" }
+      ],
+      "default": "text-primary"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_accordion_1",
+      "label": "Show Accordion 1",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "accordion_1_title",
+      "label": "Accordion 1 Title",
+      "default": "Accordion 1"
+    },
+    {
+      "type": "textarea",
+      "id": "accordion_1_content",
+      "label": "Accordion 1 Content",
+      "info": "Add content for accordion 1"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_accordion_2",
+      "label": "Show Accordion 2",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "accordion_2_title",
+      "label": "Accordion 2 Title",
+      "default": "Accordion 2"
+    },
+    {
+      "type": "textarea",
+      "id": "accordion_2_content",
+      "label": "Accordion 2 Content",
+      "info": "Add content for accordion 2"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_accordion_3",
+      "label": "Show Accordion 3",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "accordion_3_title",
+      "label": "Accordion 3 Title",
+      "default": "Accordion 3"
+    },
+    {
+      "type": "textarea",
+      "id": "accordion_3_content",
+      "label": "Accordion 3 Content",
+      "info": "Add content for accordion 3"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_accordion_4",
+      "label": "Show Accordion 4",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "accordion_4_title",
+      "label": "Accordion 4 Title",
+      "default": "Accordion 4"
+    },
+    {
+      "type": "textarea",
+      "id": "accordion_4_content",
+      "label": "Accordion 4 Content",
+      "info": "Add content for accordion 4"
+    },
+    {
+      "type": "header",
+      "content": "Chat Help"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_chat_help",
+      "label": "Show Chat Help",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "chat_avatar_image",
+      "label": "Chat Avatar Image",
+      "info": "Profile picture for support representative"
+    },
+    {
+      "type": "text",
+      "id": "chat_avatar_alt",
+      "label": "Avatar Alt Text",
+      "default": "Support representative"
+    },
+    {
+      "type": "range",
+      "id": "chat_avatar_size",
+      "label": "Avatar Size",
+      "min": 48,
+      "max": 200,
+      "step": 4,
+      "default": 112,
+      "unit": "px",
+      "info": "Adjust the size of the avatar image"
+    },
+    {
+      "type": "select",
+      "id": "chat_gap",
+      "label": "Gap Between Image and Text",
+      "options": [
+        { "value": "var(--space-xs)", "label": "Extra Small" },
+        { "value": "var(--space-sm)", "label": "Small" },
+        { "value": "var(--space-md)", "label": "Medium" },
+        { "value": "var(--space-lg)", "label": "Large" },
+        { "value": "var(--space-xl)", "label": "Extra Large" },
+        { "value": "custom", "label": "Custom" }
+      ],
+      "default": "var(--space-sm)",
+      "info": "Spacing between the avatar image and text content"
+    },
+    {
+      "type": "range",
+      "id": "chat_gap_custom",
+      "label": "Custom Gap Size",
+      "min": 0,
+      "max": 80,
+      "step": 2,
+      "default": 12,
+      "unit": "px",
+      "info": "Only used when 'Custom' is selected above"
+    },
+    {
+      "type": "select",
+      "id": "chat_card_padding",
+      "label": "Card Internal Padding",
+      "options": [
+        { "value": "var(--space-xs)", "label": "Extra Small" },
+        { "value": "var(--space-sm)", "label": "Small" },
+        { "value": "var(--space-md)", "label": "Medium" },
+        { "value": "var(--space-lg)", "label": "Large" },
+        { "value": "var(--space-xl)", "label": "Extra Large" },
+        { "value": "custom", "label": "Custom" }
+      ],
+      "default": "var(--space-sm)",
+      "info": "Internal padding around the content inside the chat help card"
+    },
+    {
+      "type": "range",
+      "id": "chat_card_padding_custom",
+      "label": "Custom Padding Size",
+      "min": 0,
+      "max": 80,
+      "step": 2,
+      "default": 12,
+      "unit": "px",
+      "info": "Only used when 'Custom' is selected above"
+    },
+    {
+      "type": "select",
+      "id": "chat_avatar_border_radius",
+      "label": "Avatar Border Radius",
+      "options": [
+        { "value": "rounded-none", "label": "None" },
+        { "value": "rounded-sm", "label": "Small" },
+        { "value": "rounded", "label": "Base" },
+        { "value": "rounded-md", "label": "Medium" },
+        { "value": "rounded-lg", "label": "Large" },
+        { "value": "rounded-xl", "label": "Extra Large" },
+        { "value": "rounded-2xl", "label": "2X Large" },
+        { "value": "rounded-3xl", "label": "3X Large" },
+        { "value": "rounded-full", "label": "Full (Circle)" }
+      ],
+      "default": "rounded-full",
+      "info": "Corner radius of the avatar image"
+    },
+    {
+      "type": "text",
+      "id": "chat_avatar_border_width",
+      "label": "Avatar Border Width (px)",
+      "default": 2,
+      "info": "Thickness of the avatar border in pixels"
+    },
+    {
+      "type": "select",
+      "id": "chat_avatar_border_color",
+      "label": "Avatar Border Color",
+      "options": [
+        { "value": "white", "label": "White" },
+        { "value": "black", "label": "Black" },
+        { "value": "primary", "label": "Primary" },
+        { "value": "secondary", "label": "Secondary" },
+        { "value": "tertiary", "label": "Tertiary" },
+        { "value": "neutral", "label": "Neutral" },
+        { "value": "neutral-light", "label": "Neutral Light" },
+        { "value": "neutral-dark", "label": "Neutral Dark" },
+        { "value": "border-light", "label": "Border Light" },
+        { "value": "border-dark", "label": "Border Dark" },
+        { "value": "custom", "label": "Custom Color" }
+      ],
+      "default": "neutral",
+      "info": "Color of the avatar border"
+    },
+    {
+      "type": "color_background",
+      "id": "chat_avatar_border_color_custom",
+      "label": "Custom Border Color",
+      "default": "#E0E0E0",
+      "info": "Only used when 'Custom Color' is selected above"
+    },
+    {
+      "type": "text",
+      "id": "chat_heading",
+      "label": "Chat Heading",
+      "default": "Got Questions? I'm Here to Help!"
+    },
+    {
+      "type": "select",
+      "id": "chat_heading_font_size",
+      "label": "Heading Font Size",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" }
+      ],
+      "default": "text-base"
+    },
+    {
+      "type": "select",
+      "id": "chat_heading_font_weight",
+      "label": "Heading Font Weight",
+      "options": [
+        { "value": "font-light", "label": "Light" },
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semi Bold" },
+        { "value": "font-bold", "label": "Bold" }
+      ],
+      "default": "font-semibold"
+    },
+    {
+      "type": "select",
+      "id": "chat_heading_color",
+      "label": "Heading Color",
+      "options": [
+        { "value": "text-primary", "label": "Primary Text" },
+        { "value": "text-secondary", "label": "Secondary Text" },
+        { "value": "text-inverse", "label": "Inverse" },
+        { "value": "text-muted", "label": "Muted" },
+        { "value": "text-accent", "label": "Accent" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-white", "label": "White" }
+      ],
+      "default": "text-primary"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_chat_link",
+      "label": "Show Chat Link",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "chat_link_text",
+      "label": "Chat Link Text",
+      "default": "Live Chat"
+    },
+    {
+      "type": "url",
+      "id": "chat_link_url",
+      "label": "Chat Link URL",
+      "default": "#"
+    },
+    {
+      "type": "select",
+      "id": "chat_link_font_size",
+      "label": "Chat Link Font Size",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" }
+      ],
+      "default": "text-sm"
+    },
+    {
+      "type": "select",
+      "id": "chat_link_color",
+      "label": "Chat Link Color",
+      "options": [
+        { "value": "text-primary", "label": "Primary Text" },
+        { "value": "text-secondary", "label": "Secondary Text" },
+        { "value": "text-info", "label": "Info (Blue)" },
+        { "value": "text-accent", "label": "Accent" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-white", "label": "White" }
+      ],
+      "default": "text-info"
+    },
+    {
+      "type": "select",
+      "id": "chat_background",
+      "label": "Chat Card Background",
+      "options": [
+        { "value": "bg-page", "label": "Page (White)" },
+        { "value": "bg-card-primary", "label": "Card Primary" },
+        { "value": "bg-card-secondary", "label": "Card Secondary" },
+        { "value": "bg-banner", "label": "Banner" },
+        { "value": "bg-accent-warm", "label": "Accent Warm" },
+        { "value": "bg-accent-dark", "label": "Accent Dark" },
+        { "value": "bg-accent-soft", "label": "Accent Soft" },
+        { "value": "bg-primary", "label": "Brand Primary" },
+        { "value": "bg-white", "label": "White" },
+        { "value": "bg-secondary-light", "label": "Secondary Light" }
+      ],
+      "default": "bg-secondary-light"
+    },
+    {
+      "type": "select",
+      "id": "chat_card_border_radius",
+      "label": "Chat Card Border Radius",
+      "options": [
+        { "value": "rounded-none", "label": "None" },
+        { "value": "rounded-sm", "label": "Small" },
+        { "value": "rounded", "label": "Base" },
+        { "value": "rounded-md", "label": "Medium" },
+        { "value": "rounded-lg", "label": "Large" },
+        { "value": "rounded-xl", "label": "Extra Large" },
+        { "value": "rounded-2xl", "label": "2X Large" },
+        { "value": "rounded-3xl", "label": "3X Large" }
+      ],
+      "default": "rounded-lg",
+      "info": "Corner radius of the chat help card"
+    },
+    {
+      "type": "header",
+      "content": "Layout Settings"
+    },
+    {
+      "type": "select",
+      "id": "background_color",
+      "label": "Section Background Color",
+      "options": [
+        { "value": "bg-page", "label": "Page (White)" },
+        { "value": "bg-card-primary", "label": "Card Primary" },
+        { "value": "bg-card-secondary", "label": "Card Secondary" },
+        { "value": "bg-banner", "label": "Banner" },
+        { "value": "bg-accent-warm", "label": "Accent Warm" },
+        { "value": "bg-accent-dark", "label": "Accent Dark" },
+        { "value": "bg-accent-soft", "label": "Accent Soft" },
+        { "value": "bg-primary", "label": "Brand Primary" },
+        { "value": "bg-white", "label": "White" },
+        { "value": "bg-neutral-dark", "label": "Neutral Dark" },
+        { "value": "bg-neutral", "label": "Neutral" },
+        { "value": "bg-neutral-medium", "label": "Neutral Medium" },
+        { "value": "bg-neutral-light", "label": "Neutral Light" },
+        { "value": "bg-neutral-lighter", "label": "Neutral Lighter" }
+      ],
+      "default": "bg-page"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Section Background Image"
+    },
+   
+    {
+      "type": "select",
+      "id": "section_border_radius",
+      "label": "Section Border Radius",
+      "options": [
+        { "value": "rounded-none", "label": "None" },
+        { "value": "rounded-sm", "label": "Small" },
+        { "value": "rounded", "label": "Base" },
+        { "value": "rounded-md", "label": "Medium" },
+        { "value": "rounded-lg", "label": "Large" },
+        { "value": "rounded-xl", "label": "Extra Large" },
+        { "value": "rounded-2xl", "label": "2X Large" },
+        { "value": "rounded-3xl", "label": "3X Large" }
+      ],
+      "default": "rounded-none"
+    },
+    {
+      "type": "header",
+      "content": "Section spacing"
+    },
+    {
+      "type": "select",
+      "id": "padding_x_mobile",
+      "label": "Padding X (Mobile)",
+      "options": [
+        { "value": "px-0", "label": "None" },
+        { "value": "px-xs", "label": "Extra Small" },
+        { "value": "px-sm", "label": "Small" },
+        { "value": "px-md", "label": "Medium" },
+        { "value": "px-lg", "label": "Large" },
+        { "value": "px-xl", "label": "Extra Large" },
+        { "value": "px-2xl", "label": "2X Large" },
+        { "value": "px-3xl", "label": "3X Large" }
+      ],
+      "default": "px-0"
+    },
+    {
+      "type": "select",
+      "id": "padding_top_mobile",
+      "label": "Padding Top (Mobile)",
+      "options": [
+        { "value": "pt-0", "label": "None" },
+        { "value": "pt-xs", "label": "Extra Small" },
+        { "value": "pt-sm", "label": "Small" },
+        { "value": "pt-md", "label": "Medium" },
+        { "value": "pt-lg", "label": "Large" },
+        { "value": "pt-xl", "label": "Extra Large" },
+        { "value": "pt-2xl", "label": "2X Large" },
+        { "value": "pt-3xl", "label": "3X Large" }
+      ],
+      "default": "pt-0"
+    },
+    {
+      "type": "select",
+      "id": "padding_bottom_mobile",
+      "label": "Padding Bottom (Mobile)",
+      "options": [
+        { "value": "pb-0", "label": "None" },
+        { "value": "pb-xs", "label": "Extra Small" },
+        { "value": "pb-sm", "label": "Small" },
+        { "value": "pb-md", "label": "Medium" },
+        { "value": "pb-lg", "label": "Large" },
+        { "value": "pb-xl", "label": "Extra Large" },
+        { "value": "pb-2xl", "label": "2X Large" },
+        { "value": "pb-3xl", "label": "3X Large" }
+      ],
+      "default": "pb-0"
+    },
+    {
+      "type": "select",
+      "id": "padding_x_desktop",
+      "label": "Padding X (Desktop)",
+      "options": [
+        { "value": "px-0", "label": "None" },
+        { "value": "px-xs", "label": "Extra Small" },
+        { "value": "px-sm", "label": "Small" },
+        { "value": "px-md", "label": "Medium" },
+        { "value": "px-lg", "label": "Large" },
+        { "value": "px-xl", "label": "Extra Large" },
+        { "value": "px-2xl", "label": "2X Large" },
+        { "value": "px-3xl", "label": "3X Large" }
+      ],
+      "default": "px-0"
+    },
+    
+    {
+      "type": "select",
+      "id": "padding_top_desktop",
+      "label": "Padding Top (Desktop)",
+      "options": [
+        { "value": "pt-0", "label": "None" },
+        { "value": "pt-xs", "label": "Extra Small" },
+        { "value": "pt-sm", "label": "Small" },
+        { "value": "pt-md", "label": "Medium" },
+        { "value": "pt-lg", "label": "Large" },
+        { "value": "pt-xl", "label": "Extra Large" },
+        { "value": "pt-2xl", "label": "2X Large" },
+        { "value": "pt-3xl", "label": "3X Large" }
+      ],
+      "default": "pt-0"
+    },
+    {
+      "type": "select",
+      "id": "padding_bottom_desktop",
+      "label": "Padding Bottom (Desktop)",
+      "options": [
+        { "value": "pb-0", "label": "None" },
+        { "value": "pb-xs", "label": "Extra Small" },
+        { "value": "pb-sm", "label": "Small" },
+        { "value": "pb-md", "label": "Medium" },
+        { "value": "pb-lg", "label": "Large" },
+        { "value": "pb-xl", "label": "Extra Large" },
+        { "value": "pb-2xl", "label": "2X Large" },
+        { "value": "pb-3xl", "label": "3X Large" }
+      ],
+      "default": "pb-0"
+    },
+    {
+      "type": "header",
+      "content": "Container Settings"
+    },
+    {
+      "type": "select",
+      "id": "container_background_color",
+      "label": "Container Background Color",
+      "options": [
+        { "value": "", "label": "None (Transparent)" },
+        { "value": "bg-white", "label": "White" },
+        { "value": "bg-black", "label": "Black" },
+        { "value": "bg-primary", "label": "Primary Text" },
+        { "value": "bg-secondary", "label": "Secondary Text" },
+        { "value": "bg-accent-warm", "label": "Accent" },
+        { "value": "bg-banner", "label": "Accent Alt" },
+        { "value": "bg-success", "label": "Success" },
+        { "value": "bg-warning", "label": "Warning" },
+        { "value": "bg-error", "label": "Error" },
+        { "value": "bg-info", "label": "Info" },
+        { "value": "bg-neutral", "label": "Neutral" },
+        { "value": "bg-neutral-light", "label": "Neutral Light" },
+        { "value": "bg-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": ""
+    },
+    {
+      "type": "image_picker",
+      "id": "container_background_image",
+      "label": "Container Background Image"
+    },
+    {
+      "type": "select",
+      "id": "container_border_radius",
+      "label": "Container Border Radius",
+      "options": [
+        { "value": "rounded-none", "label": "None" },
+        { "value": "rounded-sm", "label": "Small" },
+        { "value": "rounded", "label": "Base" },
+        { "value": "rounded-md", "label": "Medium" },
+        { "value": "rounded-lg", "label": "Large" },
+        { "value": "rounded-xl", "label": "Extra Large" },
+        { "value": "rounded-2xl", "label": "2X Large" },
+        { "value": "rounded-3xl", "label": "3X Large" }
+      ],
+      "default": "rounded-none"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_y_mobile",
+      "label": "Container Padding Y (Mobile)",
+      "options": [
+        { "value": "py-xs", "label": "Extra Small" },
+        { "value": "py-sm", "label": "Small" },
+        { "value": "py-md", "label": "Medium" },
+        { "value": "py-lg", "label": "Large" },
+        { "value": "py-xl", "label": "Extra Large" },
+        { "value": "py-2xl", "label": "2X Large" },
+        { "value": "py-3xl", "label": "3X Large" }
+      ],
+      "default": "py-0"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_y_desktop",
+      "label": "Container Padding Y (Desktop)",
+      "options": [
+        { "value": "lg:py-xs", "label": "Extra Small" },
+        { "value": "lg:py-sm", "label": "Small" },
+        { "value": "lg:py-md", "label": "Medium" },
+        { "value": "lg:py-lg", "label": "Large" },
+        { "value": "lg:py-xl", "label": "Extra Large" },
+        { "value": "lg:py-2xl", "label": "2X Large" },
+        { "value": "lg:py-3xl", "label": "3X Large" }
+      ],
+      "default": "lg:py-3xl"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_x_mobile",
+      "label": "Container Padding X (Mobile)",
+      "options": [
+        { "value": "px-0", "label": "None" },
+        { "value": "px-xs", "label": "Extra Small" },
+        { "value": "px-sm", "label": "Small" },
+        { "value": "px-md", "label": "Medium" },
+        { "value": "px-lg", "label": "Large" },
+        { "value": "px-xl", "label": "Extra Large" },
+        { "value": "px-2xl", "label": "2X Large" },
+        { "value": "px-3xl", "label": "3X Large" }
+      ],
+      "default": "px-0"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_x_desktop",
+      "label": "Container Padding X (Desktop)",
+      "options": [
+        { "value": "lg:px-0", "label": "None" },
+        { "value": "lg:px-xs", "label": "Extra Small" },
+        { "value": "lg:px-sm", "label": "Small" },
+        { "value": "lg:px-md", "label": "Medium" },
+        { "value": "lg:px-lg", "label": "Large" },
+        { "value": "lg:px-xl", "label": "Extra Large" },
+        { "value": "lg:px-2xl", "label": "2X Large" },
+        { "value": "lg:px-3xl", "label": "3X Large" }
+      ],
+      "default": "lg:px-0"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "benefit_item",
+      "name": "Benefit Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "benefit_text",
+          "label": "Benefit Text",
+          "default": "Benefit description"
+        }
+      ]
+    },
+    {
+      "type": "subscription_benefit",
+      "name": "Subscription Benefit",
+      "settings": [
+        {
+          "type": "text",
+          "id": "benefit_text",
+          "label": "Benefit Text",
+          "default": "Benefit description",
+          "info": "Use {savings} as a placeholder for the subscription savings percentage"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_savings_percentage",
+          "label": "Replace {savings} with savings percentage",
+          "default": false,
+          "info": "When enabled, {savings} will be replaced with the product's subscription savings percentage"
+        },
+        {
+          "type": "select",
+          "id": "benefit_font_size",
+          "label": "Font Size",
+          "options": [
+            { "value": "text-xs", "label": "Extra Small" },
+            { "value": "text-sm", "label": "Small" },
+            { "value": "text-base", "label": "Base" }
+          ],
+          "default": "text-sm"
+        },
+        {
+          "type": "select",
+          "id": "benefit_color",
+          "label": "Text Color",
+          "options": [
+            { "value": "text-primary", "label": "Primary Text" },
+            { "value": "text-secondary", "label": "Secondary Text" },
+            { "value": "text-muted", "label": "Muted" },
+            { "value": "text-black", "label": "Black" },
+            { "value": "text-white", "label": "White" }
+          ],
+          "default": "text-primary"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Header 4",
+      "settings": {
+        "product_code": "DM-02",
+        "show_new_badge": true,
+        "show_cta": true,
+        "cta_text": "Add to Cart",
+        "default_quantity": 1,
+        "max_quantity": 10,
+        "show_rating": true,
+        "rating_value": "4.8",
+        "reviews_text": "18 Reviews",
+        "benefits_title": "Benefits*",
+        "show_ingredients": true,
+        "show_chat_help": true,
+        "chat_heading": "Got Questions? I'm Here to Help!",
+        "chat_link_text": "Live Chat"
+      },
+      "blocks": [
+        {
+          "type": "subscription_benefit",
+          "settings": {
+            "benefit_text": "Save {savings}% on every order",
+            "show_savings_percentage": true,
+            "benefit_font_size": "text-sm",
+            "benefit_color": "text-primary"
+          }
+        },
+        {
+          "type": "subscription_benefit",
+          "settings": {
+            "benefit_text": "Cancel or modify anytime",
+            "show_savings_percentage": false,
+            "benefit_font_size": "text-sm",
+            "benefit_color": "text-primary"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

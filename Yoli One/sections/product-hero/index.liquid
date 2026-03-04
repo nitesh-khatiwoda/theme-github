@@ -1,0 +1,1178 @@
+<link rel="stylesheet" href="{{ 'product-hero/styles.css' | asset_url }}">
+
+<section 
+  class="product-hero {{ section.settings.background_color | default: 'bg-white' }}"
+  style="
+    padding-top: var(--space-{{ section.settings.section_padding_y_mobile | default: '2xl' }});
+    padding-bottom: var(--space-{{ section.settings.section_padding_y_mobile | default: '2xl' }});
+  "
+>
+  <div class="product-hero-container container">
+    <div class="product-hero-grid">
+      
+      <!-- Left: Product Gallery -->
+      <div class="product-gallery">
+        
+        <!-- Main Product Image -->
+        <div class="main-product-image">
+          {% if section.settings.main_image != blank %}
+            <img src="{{ section.settings.main_image | image_url: width: 800 }}" alt="{{ section.settings.product_name }}" loading="eager">
+          {% else %}
+            <img src="{{ 'placeholder-image.svg' | asset_url }}" alt="Product" loading="eager">
+          {% endif %}
+        </div>
+        
+        <!-- Thumbnail Grid -->
+        <div class="thumbnail-grid">
+          {% for block in section.blocks %}
+            {% if block.type == 'thumbnail' %}
+            <div class="thumbnail-item" {{ block.fluid_attributes }}>
+              {% if block.settings.thumbnail_image != blank %}
+                <img src="{{ block.settings.thumbnail_image | image_url: width: 400 }}" alt="{{ block.settings.thumbnail_alt }}" loading="lazy">
+              {% else %}
+                <img src="{{ 'placeholder-image.svg' | asset_url }}" alt="Thumbnail" loading="lazy">
+              {% endif %}
+            </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+        
+      </div>
+      
+      <!-- Right: Product Details -->
+      <div class="product-details font-body">
+        
+        <!-- Product Title -->
+        {% if section.settings.product_name != blank %}
+        <div class="product-title mb-md">
+          <h1 class="{{ section.settings.title_font_family | default: 'font-primary' }} {{ section.settings.title_font_size | default: 'text-4xl' }} {{ section.settings.title_font_size_desktop | default: 'lg:text-6xl' }} {{ section.settings.title_font_weight | default: 'font-semibold' }} {{ section.settings.title_color | default: 'text-primary' }} uppercase leading-heading">
+            {{ section.settings.product_name }}
+          </h1>
+        </div>
+        {% endif %}
+        
+        <!-- Star Rating & Reviews -->
+        {% if section.settings.show_rating %}
+        <div class="product-rating mb-md">
+          <div class="rating-stars">
+            {% for i in (1..5) %}
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor" class="{{ section.settings.star_color | default: 'text-quaternary' }}">
+                <path d="M9 0L11.0206 6.90983H18.5595L12.7694 11.1803L14.7901 18.0902L9 13.8197L3.20993 18.0902L5.23058 11.1803L-0.559492 6.90983H6.97937L9 0Z"/>
+              </svg>
+            {% endfor %}
+          </div>
+          {% if section.settings.review_count != blank %}
+          <span class="{{ section.settings.review_font_size | default: 'text-sm' }} {{ section.settings.review_color | default: 'text-neutral-dark' }}">({{ section.settings.review_count }})</span>
+          {% endif %}
+        </div>
+        {% endif %}
+        
+        <!-- Product Description -->
+        {% if section.settings.description_line_1 != blank or section.settings.description_line_2 != blank or section.settings.description_line_3 != blank %}
+        <div class="product-description mb-md">
+          {% if section.settings.description_line_1 != blank %}
+          <p class="{{ section.settings.description_font_size | default: 'text-sm' }} {{ section.settings.description_font_size_desktop | default: 'lg:text-sm' }} {{ section.settings.description_font_weight | default: 'font-light' }} {{ section.settings.description_color | default: 'text-black' }} leading-body" style="line-height: 1.63; margin-bottom: 0;">
+            {{ section.settings.description_line_1 }}
+          </p>
+          {% endif %}
+          {% if section.settings.description_line_2 != blank %}
+          <p class="{{ section.settings.description_font_size | default: 'text-sm' }} {{ section.settings.description_font_size_desktop | default: 'lg:text-sm' }} {{ section.settings.description_font_weight | default: 'font-light' }} {{ section.settings.description_color | default: 'text-black' }} leading-body" style="line-height: 1.63; margin-bottom: 0;">
+            {{ section.settings.description_line_2 }}
+          </p>
+          {% endif %}
+          {% if section.settings.description_line_3 != blank %}
+          <p class="{{ section.settings.description_font_size | default: 'text-sm' }} {{ section.settings.description_font_size_desktop | default: 'lg:text-sm' }} {{ section.settings.description_font_weight | default: 'font-light' }} {{ section.settings.description_color | default: 'text-black' }} leading-body" style="line-height: 1.63;">
+            {{ section.settings.description_line_3 }}
+          </p>
+          {% endif %}
+        </div>
+        {% endif %}
+        
+        <!-- Product Size/Volume -->
+        {% if section.settings.product_size != blank %}
+        <div class="product-size mb-sm">
+          <p class="{{ section.settings.size_font_size | default: 'text-sm' }} {{ section.settings.size_font_weight | default: 'font-light' }} {{ section.settings.size_color | default: 'text-black' }} leading-body">
+            ({{ section.settings.product_size }})
+          </p>
+        </div>
+        {% endif %}
+        
+        <!-- Upsell Text -->
+        {% if section.settings.upsell_text != blank %}
+        <div class="product-upsell mb-md">
+          <p class="{{ section.settings.upsell_font_size | default: 'text-sm' }} {{ section.settings.upsell_font_weight | default: 'font-medium' }} {{ section.settings.upsell_color | default: 'text-black' }} leading-body">
+            {{ section.settings.upsell_text }}
+          </p>
+        </div>
+        {% endif %}
+        
+        <!-- Modal Link (e.g., "What is Propolis?") -->
+        {% if section.settings.show_modal_link and section.settings.modal_link_text != blank %}
+        <div class="modal-link mb-md">
+          <a href="{{ section.settings.modal_link_url | default: '#' }}" class="modal-link-button">
+            {% if section.settings.modal_icon != blank %}
+            <img src="{{ section.settings.modal_icon | image_url: width: 24 }}" alt="" class="modal-icon">
+            {% endif %}
+            <span class="{{ section.settings.modal_link_font_size | default: 'text-sm' }} {{ section.settings.modal_link_font_weight | default: 'font-medium' }} {{ section.settings.modal_link_color | default: 'text-success' }}" style="text-decoration: underline;">
+              {{ section.settings.modal_link_text }}
+            </span>
+          </a>
+        </div>
+        {% endif %}
+        
+        <!-- Delivery Options -->
+        <div class="delivery-options mb-md">
+          
+          <!-- Delivery Type Label -->
+          <div class="delivery-label mb-xs">
+            <span class="{{ section.settings.label_font_size | default: 'text-sm' }} {{ section.settings.label_color | default: 'text-black' }}">{{ section.settings.delivery_label | default: 'Select Delivery:' }}</span>
+            <span class="{{ section.settings.label_font_size | default: 'text-sm' }} {{ section.settings.label_color | default: 'text-black' }}">{{ section.settings.selected_option | default: 'One Time Delivery' }}</span>
+          </div>
+          
+          <!-- One Time Delivery Option -->
+          <div class="delivery-option one-time-delivery {{ section.settings.onetime_selected | default: 'selected' }}" style="background-color: {{ section.settings.onetime_bg | default: '#fffbea' }}; border-color: {{ section.settings.onetime_border | default: '#f8da52' }};">
+            <div class="delivery-option-radio">
+              <div class="radio-outer">
+                {% if section.settings.onetime_selected %}
+                <div class="radio-inner"></div>
+                {% endif %}
+              </div>
+            </div>
+            
+            <div class="delivery-option-content">
+              <div class="delivery-option-header">
+                <span class="{{ section.settings.option_font_size | default: 'text-base' }} {{ section.settings.option_font_weight | default: 'font-normal' }} {{ section.settings.option_color | default: 'text-black' }}">
+                  {{ section.settings.onetime_title | default: 'One Time Delivery' }}
+                </span>
+                <span class="{{ section.settings.price_font_size | default: 'text-base' }} {{ section.settings.price_font_weight | default: 'font-medium' }} {{ section.settings.price_color | default: 'text-black' }}">
+                  ${{ section.settings.onetime_price | default: '13.99' }}
+                </span>
+              </div>
+              
+              <p class="{{ section.settings.helper_font_size | default: 'text-sm' }} {{ section.settings.helper_color | default: 'text-black' }} leading-body" style="margin-bottom: 12px;">
+                {{ section.settings.onetime_helper | default: 'Select quantity for one-time delivery.' }}
+              </p>
+              
+              <!-- Quantity Label -->
+              <p class="{{ section.settings.quantity_label_font_size | default: 'text-xs' }} {{ section.settings.quantity_label_color | default: 'text-black' }} leading-body" style="margin-bottom: 12px;">
+                {{ section.settings.quantity_label | default: 'Quantity Single' }}
+              </p>
+              
+              <!-- Pack Picker Buttons -->
+              <div class="pack-picker">
+                <button class="pack-option selected" style="background-color: {{ section.settings.selected_pack_bg | default: '#f8da52' }}; border-color: {{ section.settings.selected_pack_border | default: '#000' }};">
+                  <span class="{{ section.settings.pack_font_size | default: 'text-base' }} {{ section.settings.pack_color | default: 'text-black' }}">{{ section.settings.pack_1_label | default: 'Single' }}</span>
+                </button>
+                <button class="pack-option" style="border-color: {{ section.settings.unselected_pack_border | default: 'grey' }};">
+                  <span class="{{ section.settings.pack_font_size | default: 'text-sm' }} {{ section.settings.pack_color | default: 'text-black' }}">{{ section.settings.pack_2_label | default: '2 Pack' }}</span>
+                  {% if section.settings.pack_2_discount != blank %}
+                  <div class="pack-badge" style="background-color: {{ section.settings.badge_bg | default: '#f8da52' }};">
+                    <span class="{{ section.settings.badge_font_size | default: 'text-xs' }} {{ section.settings.badge_font_weight | default: 'font-bold' }} {{ section.settings.badge_color | default: 'text-black' }}">{{ section.settings.pack_2_discount }}</span>
+                  </div>
+                  {% endif %}
+                </button>
+                <button class="pack-option" style="border-color: {{ section.settings.unselected_pack_border | default: 'grey' }};">
+                  <span class="{{ section.settings.pack_font_size | default: 'text-base' }} {{ section.settings.pack_color | default: 'text-black' }}">{{ section.settings.pack_4_label | default: '4 Pack' }}</span>
+                  {% if section.settings.pack_4_discount != blank %}
+                  <div class="pack-badge" style="background-color: {{ section.settings.badge_bg | default: '#f8da52' }};">
+                    <span class="{{ section.settings.badge_font_size | default: 'text-xs' }} {{ section.settings.badge_font_weight | default: 'font-bold' }} {{ section.settings.badge_color | default: 'text-black' }}">{{ section.settings.pack_4_discount }}</span>
+                  </div>
+                  {% endif %}
+                </button>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Subscribe & Save Option -->
+          <div class="delivery-option subscribe-save" style="border-color: {{ section.settings.subscribe_border | default: '#aaaaaa' }};">
+            <div class="delivery-option-radio">
+              <div class="radio-outer"></div>
+            </div>
+            
+            <div class="delivery-option-content">
+              <div class="delivery-option-header">
+                <span class="{{ section.settings.option_font_size | default: 'text-base' }} {{ section.settings.option_font_weight | default: 'font-normal' }} {{ section.settings.option_color | default: 'text-black' }}">
+                  {{ section.settings.subscribe_title | default: 'Subscribe & Save' }}
+                </span>
+                <div class="subscribe-badge" style="background-color: {{ section.settings.subscribe_badge_bg | default: '#f8da52' }};">
+                  <span class="{{ section.settings.subscribe_badge_font_size | default: 'text-xs' }} {{ section.settings.subscribe_badge_font_weight | default: 'font-bold' }} {{ section.settings.subscribe_badge_color | default: 'text-black' }}">
+                    {{ section.settings.subscribe_badge_text | default: '15% Off + Free Shipping' }}
+                  </span>
+                </div>
+                <div class="subscribe-price">
+                  <span class="{{ section.settings.price_font_size | default: 'text-base' }} {{ section.settings.price_font_weight | default: 'font-medium' }} text-neutral-dark" style="text-decoration: line-through;">
+                    ${{ section.settings.subscribe_original_price | default: '13.99' }}
+                  </span>
+                  <span class="{{ section.settings.price_font_size | default: 'text-base' }} {{ section.settings.price_font_weight | default: 'font-medium' }} {{ section.settings.price_color | default: 'text-black' }}">
+                    ${{ section.settings.subscribe_price | default: '11.89' }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+        
+        <!-- Add to Cart Button -->
+        {% if section.settings.show_add_to_cart %}
+        <div class="add-to-cart-wrapper mb-md">
+          <button class="add-to-cart-btn" style="background: {{ section.settings.button_gradient | default: 'linear-gradient(179deg, rgb(0, 0, 0) 0%, rgb(0, 0, 0) 10%, rgba(0, 0, 0, 0.07) 10%, rgba(0, 0, 0, 0.07) 100%), linear-gradient(90deg, rgb(0, 0, 0) 0%, rgb(0, 0, 0) 100%)' }}; border-radius:px;">
+            <span class="{{ section.settings.button_font_size | default: 'text-sm' }} text-white" style="text-transform: uppercase; letter-spacing: 1px;">
+              {{ section.settings.button_text | default: 'Add to cart' }}
+            </span>
+          </button>
+        </div>
+        {% endif %}
+        
+        <!-- Guarantee Text -->
+        {% if section.settings.guarantee_text != blank %}
+        <div class="guarantee-text mb-lg text-center">
+          <p class="{{ section.settings.guarantee_font_size | default: 'text-xs' }} {{ section.settings.guarantee_font_weight | default: 'font-light' }} {{ section.settings.guarantee_color | default: 'text-black' }} leading-body">
+            {{ section.settings.guarantee_text }}
+          </p>
+        </div>
+        {% endif %}
+        
+        <!-- Feature Icons -->
+        {% if section.settings.show_feature_icons %}
+        <div class="feature-icons mb-lg">
+          {% for block in section.blocks %}
+            {% if block.type == 'feature_icon' %}
+            <div class="feature-icon-item" {{ block.fluid_attributes }}>
+              {% if block.settings.icon_image != blank %}
+                <img src="{{ block.settings.icon_image | image_url: width: 70 }}" alt="{{ block.settings.icon_alt }}">
+              {% endif %}
+            </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+        {% endif %}
+        
+        <!-- Accordion Sections -->
+        <div class="product-accordions">
+          {% for block in section.blocks %}
+            {% if block.type == 'accordion' %}
+            <div class="accordion-item" {{ block.fluid_attributes }} style="background-color: {{ block.settings.accordion_bg | default: '#f4f4f4' }};">
+              <button class="accordion-button">
+                <span class="{{ block.settings.accordion_font_size | default: 'text-sm' }} {{ block.settings.accordion_font_weight | default: 'font-normal' }} {{ block.settings.accordion_color | default: 'text-black' }}" style="text-transform: uppercase; letter-spacing: 1px;">
+                  {{ block.settings.accordion_title }}
+                </span>
+                <svg width="18" height="9" viewBox="0 0 18 9" fill="none" xmlns="http://www.w3.org/2000/svg" class="accordion-arrow">
+                  <path d="M1 1L9 8L17 1" stroke="black" stroke-width="2"/>
+                </svg>
+              </button>
+              <div class="accordion-content">
+                <div class="{{ block.settings.content_font_size | default: 'text-sm' }} {{ block.settings.content_color | default: 'text-black' }}">
+                  {{ block.settings.accordion_content }}
+                </div>
+              </div>
+            </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+        
+      </div>
+      
+    </div>
+  </div>
+</section>
+
+<script>
+(function() {
+  // Accordion functionality
+  const accordionButtons = document.querySelectorAll('.accordion-button');
+  
+  accordionButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const accordionItem = button.closest('.accordion-item');
+      const content = accordionItem.querySelector('.accordion-content');
+      const arrow = button.querySelector('.accordion-arrow');
+      
+      // Toggle active state
+      accordionItem.classList.toggle('active');
+      
+      // Rotate arrow
+      if (accordionItem.classList.contains('active')) {
+        arrow.style.transform = 'rotate(180deg)';
+        content.style.maxHeight = content.scrollHeight + 'px';
+      } else {
+        arrow.style.transform = 'rotate(0deg)';
+        content.style.maxHeight = '0';
+      }
+    });
+  });
+  
+  // Pack picker functionality
+  const packButtons = document.querySelectorAll('.pack-option');
+  
+  packButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      packButtons.forEach(btn => btn.classList.remove('selected'));
+      button.classList.add('selected');
+    });
+  });
+  
+  // Delivery option selection
+  const deliveryOptions = document.querySelectorAll('.delivery-option');
+  
+  deliveryOptions.forEach(option => {
+    option.addEventListener('click', () => {
+      deliveryOptions.forEach(opt => opt.classList.remove('selected'));
+      option.classList.add('selected');
+      
+      // Update radio buttons
+      const allRadios = document.querySelectorAll('.radio-inner');
+      allRadios.forEach(radio => radio.style.display = 'none');
+      
+      const selectedRadio = option.querySelector('.radio-inner');
+      if (selectedRadio) {
+        selectedRadio.style.display = 'block';
+      } else {
+        const radioOuter = option.querySelector('.radio-outer');
+        const newInner = document.createElement('div');
+        newInner.className = 'radio-inner';
+        radioOuter.appendChild(newInner);
+      }
+    });
+  });
+  
+  // Thumbnail click to change main image
+  const thumbnails = document.querySelectorAll('.thumbnail-item');
+  const mainImage = document.querySelector('.main-product-image img');
+  
+  thumbnails.forEach(thumbnail => {
+    thumbnail.addEventListener('click', () => {
+      const img = thumbnail.querySelector('img');
+      if (img && mainImage) {
+        mainImage.src = img.src.replace('width=400', 'width=800');
+      }
+    });
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Product Hero",
+  "tag": "section",
+  "class": "product-hero-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Product Images"
+    },
+    {
+      "type": "image_picker",
+      "id": "main_image",
+      "label": "Main Product Image"
+    },
+    {
+      "type": "header",
+      "content": "Product Title"
+    },
+    {
+      "type": "textarea",
+      "id": "product_name",
+      "label": "Product Name",
+      "default": "Lorem Ipsum Dolor\nSit Amet Product"
+    },
+    {
+      "type": "select",
+      "id": "title_font_size",
+      "label": "Title Font Size (Mobile)",
+      "options": [
+        { "value": "text-xl", "label": "Extra Large" },
+        { "value": "text-2xl", "label": "2X Large" },
+        { "value": "text-3xl", "label": "3X Large" },
+        { "value": "text-4xl", "label": "4X Large" },
+        { "value": "text-5xl", "label": "5X Large" }
+      ],
+      "default": "text-3xl"
+    },
+    {
+      "type": "select",
+      "id": "title_font_size_desktop",
+      "label": "Title Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-xl", "label": "Extra Large" },
+        { "value": "lg:text-2xl", "label": "2X Large" },
+        { "value": "lg:text-3xl", "label": "3X Large" },
+        { "value": "lg:text-4xl", "label": "4X Large" },
+        { "value": "lg:text-5xl", "label": "5X Large" }
+      ],
+      "default": "lg:text-4xl"
+    },
+    {
+      "type": "select",
+      "id": "title_font_weight",
+      "label": "Title Font Weight",
+      "options": [
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semibold" }
+      ],
+      "default": "font-medium"
+    },
+    {
+      "type": "select",
+      "id": "title_color",
+      "label": "Title Color",
+      "options": [
+        { "value": "text-primary", "label": "Primary Text" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "text-primary"
+    },
+    {
+      "type": "header",
+      "content": "Rating & Reviews"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "label": "Show Rating",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "review_count",
+      "label": "Review Count",
+      "default": "468"
+    },
+    {
+      "type": "select",
+      "id": "star_color",
+      "label": "Star Color",
+      "options": [
+        { "value": "text-accent", "label": "Quaternary (Gold)" },
+        { "value": "text-accent", "label": "Tertiary (Orange)" },
+        { "value": "text-secondary", "label": "Secondary (Yellow)" }
+      ],
+      "default": "text-quaternary"
+    },
+    {
+      "type": "select",
+      "id": "review_font_size",
+      "label": "Review Count Font Size",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" }
+      ],
+      "default": "text-sm"
+    },
+    {
+      "type": "select",
+      "id": "review_color",
+      "label": "Review Count Color",
+      "options": [
+        { "value": "text-neutral-dark", "label": "Neutral Dark" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-neutral", "label": "Neutral" }
+      ],
+      "default": "text-primary"
+    },
+    {
+      "type": "header",
+      "content": "Product Description"
+    },
+    {
+      "type": "textarea",
+      "id": "description_line_1",
+      "label": "Description Line 1",
+      "default": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod"
+    },
+    {
+      "type": "textarea",
+      "id": "description_line_2",
+      "label": "Description Line 2",
+      "default": "tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim"
+    },
+    {
+      "type": "textarea",
+      "id": "description_line_3",
+      "label": "Description Line 3",
+      "default": "veniam quis nostrud exercitation."
+    },
+    {
+      "type": "select",
+      "id": "description_font_size",
+      "label": "Description Font Size (Mobile)",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" }
+      ],
+      "default": "text-sm"
+    },
+    {
+      "type": "select",
+      "id": "description_font_size_desktop",
+      "label": "Description Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-xs", "label": "Extra Small" },
+        { "value": "lg:text-sm", "label": "Small" },
+        { "value": "lg:text-base", "label": "Base" }
+      ],
+      "default": "lg:text-sm"
+    },
+    {
+      "type": "select",
+      "id": "description_font_weight",
+      "label": "Description Font Weight",
+      "options": [
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" }
+      ],
+      "default": "font-light"
+    },
+    {
+      "type": "select",
+      "id": "description_color",
+      "label": "Description Color",
+      "options": [
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" },
+        { "value": "text-neutral", "label": "Neutral" }
+      ],
+      "default": "text-primary"
+    },
+    {
+      "type": "header",
+      "content": "Product Size/Volume"
+    },
+    {
+      "type": "text",
+      "id": "product_size",
+      "label": "Product Size",
+      "default": "30mL"
+    },
+    {
+      "type": "select",
+      "id": "size_font_size",
+      "label": "Size Font Size",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" }
+      ],
+      "default": "text-sm"
+    },
+    {
+      "type": "select",
+      "id": "size_font_weight",
+      "label": "Size Font Weight",
+      "options": [
+        { "value": "font-normal", "label": "Normal" }
+      ],
+      "default": "font-light"
+    },
+    {
+      "type": "select",
+      "id": "size_color",
+      "label": "Size Color",
+      "options": [
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "text-primary"
+    },
+    {
+      "type": "header",
+      "content": "Upsell Text"
+    },
+    {
+      "type": "text",
+      "id": "upsell_text",
+      "label": "Upsell Text",
+      "default": "Save 10% when you upgrade to a 4-pack."
+    },
+    {
+      "type": "select",
+      "id": "upsell_font_size",
+      "label": "Upsell Font Size",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" }
+      ],
+      "default": "text-sm"
+    },
+    {
+      "type": "select",
+      "id": "upsell_font_weight",
+      "label": "Upsell Font Weight",
+      "options": [
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semibold" }
+      ],
+      "default": "font-medium"
+    },
+    {
+      "type": "select",
+      "id": "upsell_color",
+      "label": "Upsell Color",
+      "options": [
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-primary", "label": "Primary Text" }
+      ],
+      "default": "text-primary"
+    },
+    {
+      "type": "header",
+      "content": "Modal Link (e.g., 'What is Propolis?')"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_modal_link",
+      "label": "Show Modal Link",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "modal_icon",
+      "label": "Modal Link Icon"
+    },
+    {
+      "type": "text",
+      "id": "modal_link_text",
+      "label": "Modal Link Text",
+      "default": "Lorem ipsum dolor?"
+    },
+    {
+      "type": "url",
+      "id": "modal_link_url",
+      "label": "Modal Link URL",
+      "default": "#"
+    },
+    {
+      "type": "select",
+      "id": "modal_link_font_size",
+      "label": "Modal Link Font Size",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" }
+      ],
+      "default": "text-sm"
+    },
+    {
+      "type": "select",
+      "id": "modal_link_font_weight",
+      "label": "Modal Link Font Weight",
+      "options": [
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semibold" }
+      ],
+      "default": "font-medium"
+    },
+    {
+      "type": "select",
+      "id": "modal_link_color",
+      "label": "Modal Link Color",
+      "options": [
+        { "value": "text-success", "label": "Success (Green)" },
+        { "value": "text-primary", "label": "Primary Text" },
+        { "value": "text-secondary", "label": "Secondary Text" }
+      ],
+      "default": "text-success"
+    },
+    {
+      "type": "header",
+      "content": "Delivery Options - General"
+    },
+    {
+      "type": "text",
+      "id": "delivery_label",
+      "label": "Delivery Label",
+      "default": "Select Delivery:"
+    },
+    {
+      "type": "text",
+      "id": "selected_option",
+      "label": "Selected Option Text",
+      "default": "One Time Delivery"
+    },
+    {
+      "type": "select",
+      "id": "label_font_size",
+      "label": "Label Font Size",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" }
+      ],
+      "default": "text-sm"
+    },
+    {
+      "type": "select",
+      "id": "label_color",
+      "label": "Label Color",
+      "options": [
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "text-primary"
+    },
+    {
+      "type": "header",
+      "content": "One Time Delivery Option"
+    },
+    {
+      "type": "checkbox",
+      "id": "onetime_selected",
+      "label": "One Time Selected by Default",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "onetime_title",
+      "label": "One Time Title",
+      "default": "One Time Delivery"
+    },
+    {
+      "type": "text",
+      "id": "onetime_price",
+      "label": "One Time Price",
+      "default": "13.99"
+    },
+    {
+      "type": "color",
+      "id": "onetime_bg",
+      "label": "One Time Background Color",
+      "default": "#fffbea"
+    },
+    {
+      "type": "color",
+      "id": "onetime_border",
+      "label": "One Time Border Color",
+      "default": "#f8da52"
+    },
+    {
+      "type": "text",
+      "id": "onetime_helper",
+      "label": "One Time Helper Text",
+      "default": "Select quantity for one-time delivery."
+    },
+    {
+      "type": "text",
+      "id": "quantity_label",
+      "label": "Quantity Label",
+      "default": "Quantity Single"
+    },
+    {
+      "type": "header",
+      "content": "Pack Options"
+    },
+    {
+      "type": "text",
+      "id": "pack_1_label",
+      "label": "Pack 1 Label",
+      "default": "Single"
+    },
+    {
+      "type": "text",
+      "id": "pack_2_label",
+      "label": "Pack 2 Label",
+      "default": "2 Pack"
+    },
+    {
+      "type": "text",
+      "id": "pack_2_discount",
+      "label": "Pack 2 Discount Badge",
+      "default": "Save 5%"
+    },
+    {
+      "type": "text",
+      "id": "pack_4_label",
+      "label": "Pack 4 Label",
+      "default": "4 Pack"
+    },
+    {
+      "type": "text",
+      "id": "pack_4_discount",
+      "label": "Pack 4 Discount Badge",
+      "default": "Save 10%"
+    },
+    {
+      "type": "color",
+      "id": "selected_pack_bg",
+      "label": "Selected Pack Background",
+      "default": "#f8da52"
+    },
+    {
+      "type": "color",
+      "id": "selected_pack_border",
+      "label": "Selected Pack Border",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "unselected_pack_border",
+      "label": "Unselected Pack Border",
+      "default": "#808080"
+    },
+    {
+      "type": "color",
+      "id": "badge_bg",
+      "label": "Discount Badge Background",
+      "default": "#f8da52"
+    },
+    {
+      "type": "select",
+      "id": "pack_font_size",
+      "label": "Pack Font Size",
+      "options": [
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" }
+      ],
+      "default": "text-base"
+    },
+    {
+      "type": "select",
+      "id": "pack_color",
+      "label": "Pack Text Color",
+      "options": [
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-primary", "label": "Primary Text" }
+      ],
+      "default": "text-primary"
+    },
+    {
+      "type": "header",
+      "content": "Subscribe & Save Option"
+    },
+    {
+      "type": "text",
+      "id": "subscribe_title",
+      "label": "Subscribe Title",
+      "default": "Subscribe & Save"
+    },
+    {
+      "type": "text",
+      "id": "subscribe_badge_text",
+      "label": "Subscribe Badge Text",
+      "default": "15% Off + Free Shipping"
+    },
+    {
+      "type": "text",
+      "id": "subscribe_original_price",
+      "label": "Subscribe Original Price",
+      "default": "13.99"
+    },
+    {
+      "type": "text",
+      "id": "subscribe_price",
+      "label": "Subscribe Discounted Price",
+      "default": "11.89"
+    },
+    {
+      "type": "color",
+      "id": "subscribe_border",
+      "label": "Subscribe Border Color",
+      "default": "#aaaaaa"
+    },
+    {
+      "type": "color",
+      "id": "subscribe_badge_bg",
+      "label": "Subscribe Badge Background",
+      "default": "#f8da52"
+    },
+    {
+      "type": "header",
+      "content": "Add to Cart Button"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_add_to_cart",
+      "label": "Show Add to Cart Button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Add to cart"
+    },
+    {
+      "type": "text",
+      "id": "button_gradient",
+      "label": "Button Gradient CSS",
+      "default": "linear-gradient(179deg, rgb(0, 0, 0) 0%, rgb(0, 0, 0) 10%, rgba(0, 0, 0, 0.07) 10%, rgba(0, 0, 0, 0.07) 100%), linear-gradient(90deg, rgb(0, 0, 0) 0%, rgb(0, 0, 0) 100%)"
+    },
+    {
+      "type": "select",
+      "id": "button_font_size",
+      "label": "Button Font Size",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" }
+      ],
+      "default": "text-sm"
+    },
+    {
+      "type": "select",
+      "id": "button_font_weight",
+      "label": "Button Font Weight",
+      "options": [
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" }
+      ],
+      "default": "font-normal"
+    },
+    {
+      "type": "header",
+      "content": "Guarantee Text"
+    },
+    {
+      "type": "text",
+      "id": "guarantee_text",
+      "label": "Guarantee Text",
+      "default": "100% Money Back Guarantee | Free Shipping on Orders $60+"
+    },
+    {
+      "type": "select",
+      "id": "guarantee_font_size",
+      "label": "Guarantee Font Size",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" }
+      ],
+      "default": "text-xs"
+    },
+    {
+      "type": "select",
+      "id": "guarantee_font_weight",
+      "label": "Guarantee Font Weight",
+      "options": [
+        { "value": "font-normal", "label": "Normal" }
+      ],
+      "default": "font-light"
+    },
+    {
+      "type": "select",
+      "id": "guarantee_color",
+      "label": "Guarantee Color",
+      "options": [
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "text-primary"
+    },
+    {
+      "type": "header",
+      "content": "Feature Icons"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_feature_icons",
+      "label": "Show Feature Icons",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Layout Settings"
+    },
+    {
+      "type": "select",
+      "id": "background_color",
+      "label": "Section Background Color",
+      "options": [
+        { "value": "bg-white", "label": "White" },
+        { "value": "bg-neutral-light", "label": "Neutral Light" },
+        { "value": "bg-neutral", "label": "Neutral" }
+      ],
+      "default": "bg-page"
+    },
+    {
+      "type": "select",
+      "id": "section_padding_y_mobile",
+      "label": "Section Padding Y (Mobile)",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "xs", "label": "Extra Small" },
+        { "value": "sm", "label": "Small" },
+        { "value": "md", "label": "Medium" },
+        { "value": "lg", "label": "Large" },
+        { "value": "xl", "label": "Extra Large" },
+        { "value": "2xl", "label": "2X Large" },
+        { "value": "3xl", "label": "3X Large" }
+      ],
+      "default": "2xl"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "thumbnail",
+      "name": "Product Thumbnail",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "thumbnail_image",
+          "label": "Thumbnail Image"
+        },
+        {
+          "type": "text",
+          "id": "thumbnail_alt",
+          "label": "Image Alt Text",
+          "default": "Product thumbnail"
+        }
+      ]
+    },
+    {
+      "type": "feature_icon",
+      "name": "Feature Icon",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon_image",
+          "label": "Icon Image"
+        },
+        {
+          "type": "text",
+          "id": "icon_alt",
+          "label": "Icon Alt Text",
+          "default": "Feature icon"
+        }
+      ]
+    },
+    {
+      "type": "accordion",
+      "name": "Accordion Section",
+      "settings": [
+        {
+          "type": "text",
+          "id": "accordion_title",
+          "label": "Accordion Title",
+          "default": "Lorem Ipsum"
+        },
+        {
+          "type": "richtext",
+          "id": "accordion_content",
+          "label": "Accordion Content",
+          "default": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>"
+        },
+        {
+          "type": "color",
+          "id": "accordion_bg",
+          "label": "Accordion Background",
+          "default": "#f4f4f4"
+        },
+        {
+          "type": "select",
+          "id": "accordion_font_size",
+          "label": "Title Font Size",
+          "options": [
+            { "value": "text-xs", "label": "Extra Small" },
+            { "value": "text-sm", "label": "Small" },
+            { "value": "text-base", "label": "Base" }
+          ],
+          "default": "text-sm"
+        },
+        {
+          "type": "select",
+          "id": "accordion_font_weight",
+          "label": "Title Font Weight",
+          "options": [
+            { "value": "font-normal", "label": "Normal" },
+            { "value": "font-medium", "label": "Medium" }
+          ],
+          "default": "font-normal"
+        },
+        {
+          "type": "select",
+          "id": "accordion_color",
+          "label": "Title Color",
+          "options": [
+            { "value": "text-black", "label": "Black" },
+            { "value": "text-primary", "label": "Primary Text" }
+          ],
+          "default": "text-primary"
+        },
+        {
+          "type": "select",
+          "id": "content_font_size",
+          "label": "Content Font Size",
+          "options": [
+            { "value": "text-xs", "label": "Extra Small" },
+            { "value": "text-sm", "label": "Small" },
+            { "value": "text-base", "label": "Base" }
+          ],
+          "default": "text-sm"
+        },
+        {
+          "type": "select",
+          "id": "content_color",
+          "label": "Content Color",
+          "options": [
+            { "value": "text-black", "label": "Black" },
+            { "value": "text-neutral-dark", "label": "Neutral Dark" }
+          ],
+          "default": "text-primary"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Hero",
+      "blocks": [
+        {
+          "type": "thumbnail"
+        },
+        {
+          "type": "thumbnail"
+        },
+        {
+          "type": "thumbnail"
+        },
+        {
+          "type": "thumbnail"
+        },
+        {
+          "type": "feature_icon"
+        },
+        {
+          "type": "feature_icon"
+        },
+        {
+          "type": "feature_icon"
+        },
+        {
+          "type": "feature_icon"
+        },
+        {
+          "type": "accordion",
+          "settings": {
+            "accordion_title": "How To Use"
+          }
+        },
+        {
+          "type": "accordion",
+          "settings": {
+            "accordion_title": "Ingredients"
+          }
+        },
+        {
+          "type": "accordion",
+          "settings": {
+            "accordion_title": "FAQ"
+          }
+        },
+        {
+          "type": "accordion",
+          "settings": {
+            "accordion_title": "The No List"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+

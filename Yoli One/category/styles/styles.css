@@ -1,0 +1,142 @@
+/* Shop by Solution Section Styles */
+
+.shop-by-solution {
+    position: relative;
+  }
+  
+  /* Category Grid */
+  .shop-by-solution .category-grid {
+    width: 100%;
+  }
+  
+  /* Category Card */
+  .shop-by-solution .category-card {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+  }
+  
+  .shop-by-solution .category-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  }
+  
+  .shop-by-solution .category-card:focus {
+    outline: 2px solid var(--clr-primary);
+    outline-offset: 4px;
+  }
+  
+  .shop-by-solution .category-card:focus:not(:focus-visible) {
+    outline: none;
+  }
+  
+  /* Background Image */
+  .shop-by-solution .category-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+  
+  .shop-by-solution .category-bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+  
+  /* Overlay */
+  .shop-by-solution .category-overlay {
+    transition: background-color 0.3s ease;
+    height: 100%;
+    width: 100%;
+  }
+  
+  .shop-by-solution .category-card:hover .category-overlay {
+    background-color: rgba(0, 0, 0, 0.5) !important;
+  }
+  
+  /* Content - Perfect Vertical and Horizontal Centering */
+  .shop-by-solution .category-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    inset: 0;
+    z-index: 20;
+  }
+  
+  .shop-by-solution .content-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Icon */
+  .shop-by-solution .category-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+  }
+  
+  .shop-by-solution .category-card:hover .category-icon {
+    transform: scale(1.1);
+  }
+  
+  .shop-by-solution .category-icon img {
+    display: block;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+  
+  /* Title */
+  .shop-by-solution .category-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+  }
+  
+  .shop-by-solution .category-card:hover .content-wrapper {
+    transform: translateY(-2px);
+  }
+  
+  .shop-by-solution .category-title h3 {
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Responsive Grid */
+  @media (max-width: 767px) {
+    .shop-by-solution .category-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .shop-by-solution .category-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .shop-by-solution .category-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+  
+  /* Accessibility - ensure text is always readable */
+  .shop-by-solution .category-title h3 {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Loading states */
+  .shop-by-solution .category-bg img[loading="lazy"] {
+    background-color: var(--clr-neutral-light);
+  }
+  
+  

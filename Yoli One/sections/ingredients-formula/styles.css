@@ -1,0 +1,131 @@
+/* Ingredients Formula Section Styles */
+
+.ingredients-formula {
+  position: relative;
+  width: 100%;
+}
+
+.ingredients-formula-inner {
+  position: relative;
+  width: 100%;
+}
+
+/* Header Section */
+.ingredients-formula-header {
+  width: 100%;
+}
+
+.ingredients-formula-heading h2 {
+  line-height: 1;
+}
+
+@media (min-width: 1024px) {
+  .ingredients-formula-heading h2 {
+    line-height: 1.1;
+  }
+}
+
+.ingredients-formula-description {
+  width: 100%;
+}
+
+.ingredients-formula-description p {
+  line-height: 1.5;
+}
+
+/* Ingredients Items */
+.ingredients-formula-items {
+  width: 100%;
+}
+
+.ingredients-items-list {
+  width: 100%;
+}
+
+.ingredient-item {
+  width: 100%;
+  align-items: flex-start;
+}
+
+.ingredient-image-wrapper {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.ingredient-image {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ingredient-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.ingredient-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.ingredient-title {
+  width: 100%;
+}
+
+.ingredient-title h3 {
+  line-height: 1.4;
+}
+
+.ingredient-description {
+  width: 100%;
+}
+
+.ingredient-description p {
+  line-height: 1.5;
+}
+
+/* Fine Print */
+.ingredients-formula-fineprint {
+  width: 100%;
+}
+
+.ingredients-formula-fineprint p {
+  line-height: 1.5;
+}
+
+/* Background Image Handling */
+.ingredients-formula[data-bg] {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.ingredients-formula-inner[data-bg] {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .ingredient-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-md);
+  }
+  
+  .ingredient-image-wrapper {
+    align-self: flex-start;
+  }
+}
+
+@media (min-width: 1024px) {
+  .ingredient-item {
+    align-items: center;
+  }
+}
+

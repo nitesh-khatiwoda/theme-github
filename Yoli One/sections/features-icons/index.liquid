@@ -1,0 +1,755 @@
+<!-- Features Icons Section -->
+<section class="features-icons {{ section.settings.background_color | default: 'bg-secondary' }} {{ section.settings.section_padding_y_mobile | default: 'py-lg' }} {{ section.settings.section_padding_y_desktop | default: 'lg:py-2xl' }} {{ section.settings.section_border_radius | default: 'rounded-none' }}" id="features-{{ section.id }}" {% if section.settings.background_image %}data-bg="{{ section.settings.background_image | image_url }}"{% endif %}>
+  
+  <div class="{{section.settings.container_layout_width | default: 'container'}}">
+    <div class="features-inner font-body {{ section.settings.container_background_color }} {{ section.settings.container_border_radius | default: 'rounded-none' }} {{ section.settings.container_padding_y_mobile | default: 'py-0' }} {{ section.settings.container_padding_y_desktop | default: 'lg:py-0' }} {{ section.settings.container_padding_x_mobile | default: 'px-0' }} {{ section.settings.container_padding_x_desktop | default: 'lg:px-0' }}" {% if section.settings.container_background_image %}data-bg="{{ section.settings.container_background_image | image_url }}"{% endif %}>
+      
+      <!-- Heading Section -->
+      <div class="features-header text-center mb-3xl">
+        
+        <!-- Eyebrow Text -->
+        {% if section.settings.eyebrow != blank %}
+        <div class="mb-xs">
+          <p class="{{ section.settings.eyebrow_font_size | default: 'text-base' }} {{ section.settings.eyebrow_font_size_desktop | default: 'lg:text-lg' }} {{ section.settings.eyebrow_font_weight | default: 'font-normal' }} {{ section.settings.eyebrow_color | default: 'text-black' }} leading-body">
+            {{ section.settings.eyebrow }}
+          </p>
+        </div>
+        {% endif %}
+        
+        <!-- Main Heading -->
+        {% if section.settings.heading_line_1 != blank or section.settings.heading_line_2 != blank %}
+        <div class="features-heading">
+          <h2 class="{{ section.settings.heading_font_size | default: 'text-3xl' }} {{ section.settings.heading_font_size_desktop | default: 'lg:text-4xl' }} {{ section.settings.heading_font_weight | default: 'font-medium' }} {{ section.settings.heading_color | default: 'text-black' }} uppercase leading-heading" style="line-height: 1.1; letter-spacing: -0.03em;">
+            {% if section.settings.heading_line_1 != blank %}
+              {{ section.settings.heading_line_1 }}<br>
+            {% endif %}
+            {% if section.settings.heading_line_2 != blank %}
+              {{ section.settings.heading_line_2 }}
+            {% endif %}
+          </h2>
+        </div>
+        {% endif %}
+        
+      </div>
+      
+      <!-- Features Grid -->
+      {% if section.blocks.size > 0 %}
+      <div class="features-grid">
+        {% for block in section.blocks %}
+          {% if block.type == 'feature_card' %}
+          
+          <div class="feature-card {{ section.settings.card_background_color | default: 'bg-quaternary' }}" {{ block.fluid_attributes }} style="border-radius: {{ section.settings.card_border_radius | default: '13' }}px;">
+            
+            <!-- Icon Badge -->
+            <div class="feature-icon-badge {{ section.settings.icon_badge_background | default: 'bg-black' }}" style="width: {{ section.settings.icon_badge_size | default: '112' }}px; height: {{ section.settings.icon_badge_size | default: '112' }}px;">
+              {% if block.settings.icon != blank %}
+                <img src="{{ block.settings.icon | image_url: width: 70 }}" alt="{{ block.settings.title }}" style="width: {{ section.settings.icon_size | default: '65' }}px; height: auto;">
+              {% else %}
+                <!-- Default placeholder icon -->
+                <svg width="{{ section.settings.icon_size | default: '65' }}" height="{{ section.settings.icon_size | default: '65' }}" viewBox="0 0 65 65" fill="none" xmlns="http://www.w3.org/2000/svg" class="{{ section.settings.icon_color | default: 'text-secondary' }}">
+                  <circle cx="32.5" cy="32.5" r="28" stroke="currentColor" stroke-width="2"/>
+                  <circle cx="32.5" cy="32.5" r="10" fill="currentColor"/>
+                </svg>
+              {% endif %}
+            </div>
+            
+            <!-- Card Content -->
+            <div class="feature-card-content">
+              
+              <!-- Title -->
+              {% if block.settings.title != blank %}
+              <div class="feature-title mb-sm">
+                <h3 class="{{ block.settings.title_font_size | default: 'text-lg' }} {{ block.settings.title_font_size_desktop | default: 'lg:text-xl' }} {{ block.settings.title_font_weight | default: 'font-medium' }} {{ block.settings.title_color | default: 'text-black' }} text-center leading-heading">
+                  {{ block.settings.title }}
+                </h3>
+              </div>
+              {% endif %}
+              
+              <!-- Description -->
+              {% if block.settings.description != blank %}
+              <div class="feature-description">
+                <p class="{{ block.settings.description_font_size | default: 'text-base' }} {{ block.settings.description_font_size_desktop | default: 'lg:text-lg' }} {{ block.settings.description_font_weight | default: 'font-normal' }} {{ block.settings.description_color | default: 'text-black' }} text-center leading-body">
+                  {{ block.settings.description }}
+                </p>
+              </div>
+              {% endif %}
+              
+            </div>
+            
+          </div>
+          
+          {% endif %}
+        {% endfor %}
+      </div>
+      {% endif %}
+      
+    </div>
+  </div>
+  
+</section>
+
+{% schema %}
+{
+  "name": "Features Icons",
+  "tag": "section",
+  "class": "features-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout Width (Container)"
+    },
+    {
+      "type": "select",
+      "id": "container_layout_width",
+      "label": "Layout Width (Container)",
+      "options": [
+        { "value": "container", "label": "Container" },
+        { "value": "container-full", "label": "Full Width (Container Full)" }
+      ],
+      "default": "container",
+      "info": "Choose whether the container is constrained to the width of the page or full width"
+    },
+    {
+      "type": "header",
+      "content": "Eyebrow Settings"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow Text",
+      "default": "What's Inside Counts"
+    },
+    {
+      "type": "select",
+      "id": "eyebrow_font_size",
+      "label": "Eyebrow Font Size (Mobile)",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" },
+        { "value": "text-xl", "label": "Extra Large" },
+        { "value": "text-2xl", "label": "2X Large" },
+        { "value": "text-3xl", "label": "3X Large" },
+        { "value": "text-4xl", "label": "4X Large" },
+        { "value": "text-5xl", "label": "5X Large" },
+        { "value": "text-6xl", "label": "6X Large" },
+        { "value": "text-7xl", "label": "7X Large" },
+        { "value": "text-8xl", "label": "8X Large" },
+        { "value": "text-9xl", "label": "9X Large" }
+      ],
+      "default": "text-base"
+    },
+    {
+      "type": "select",
+      "id": "eyebrow_font_size_desktop",
+      "label": "Eyebrow Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-xs", "label": "Extra Small" },
+        { "value": "lg:text-sm", "label": "Small" },
+        { "value": "lg:text-base", "label": "Base" },
+        { "value": "lg:text-lg", "label": "Large" },
+        { "value": "lg:text-xl", "label": "Extra Large" },
+        { "value": "lg:text-2xl", "label": "2X Large" },
+        { "value": "lg:text-3xl", "label": "3X Large" },
+        { "value": "lg:text-4xl", "label": "4X Large" },
+        { "value": "lg:text-5xl", "label": "5X Large" },
+        { "value": "lg:text-6xl", "label": "6X Large" },
+        { "value": "lg:text-7xl", "label": "7X Large" },
+        { "value": "lg:text-8xl", "label": "8X Large" },
+        { "value": "lg:text-9xl", "label": "9X Large" }
+      ],
+      "default": "lg:text-lg"
+    },
+    {
+      "type": "select",
+      "id": "eyebrow_font_weight",
+      "label": "Eyebrow Font Weight",
+      "options": [
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semibold" }
+      ],
+      "default": "font-normal"
+    },
+    {
+      "type": "select",
+      "id": "eyebrow_color",
+      "label": "Eyebrow Color",
+      "options": [
+        { "value": "text-primary", "label": "Primary Text" },
+        { "value": "text-secondary", "label": "Secondary Text" },
+        { "value": "text-inverse", "label": "Inverse" },
+        { "value": "text-muted", "label": "Muted" },
+        { "value": "text-accent", "label": "Accent" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-white", "label": "White" }
+      ],
+      "default": "text-primary"
+    },
+    {
+      "type": "header",
+      "content": "Heading Settings"
+    },
+    {
+      "type": "text",
+      "id": "heading_line_1",
+      "label": "Heading Line 1",
+      "default": "We Don't Fake Flavor."
+    },
+    {
+      "type": "text",
+      "id": "heading_line_2",
+      "label": "Heading Line 2",
+      "default": "We Build It From the Root Up."
+    },
+    {
+      "type": "select",
+      "id": "heading_font_size",
+      "label": "Heading Font Size (Mobile)",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" },
+        { "value": "text-xl", "label": "Extra Large" },
+        { "value": "text-2xl", "label": "2X Large" },
+        { "value": "text-3xl", "label": "3X Large" },
+        { "value": "text-4xl", "label": "4X Large" },
+        { "value": "text-5xl", "label": "5X Large" },
+        { "value": "text-6xl", "label": "6X Large" },
+        { "value": "text-7xl", "label": "7X Large" },
+        { "value": "text-8xl", "label": "8X Large" },
+        { "value": "text-9xl", "label": "9X Large" }
+      ],
+      "default": "text-3xl"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_size_desktop",
+      "label": "Heading Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-xs", "label": "Extra Small" },
+        { "value": "lg:text-sm", "label": "Small" },
+        { "value": "lg:text-base", "label": "Base" },
+        { "value": "lg:text-lg", "label": "Large" },
+        { "value": "lg:text-xl", "label": "Extra Large" },
+        { "value": "lg:text-2xl", "label": "2X Large" },
+        { "value": "lg:text-3xl", "label": "3X Large" },
+        { "value": "lg:text-4xl", "label": "4X Large" },
+        { "value": "lg:text-5xl", "label": "5X Large" },
+        { "value": "lg:text-6xl", "label": "6X Large" },
+        { "value": "lg:text-7xl", "label": "7X Large" },
+        { "value": "lg:text-8xl", "label": "8X Large" },
+        { "value": "lg:text-9xl", "label": "9X Large" }
+      ],
+      "default": "lg:text-4xl"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_weight",
+      "label": "Heading Font Weight",
+      "options": [
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semibold" }
+      ],
+      "default": "font-medium"
+    },
+    {
+      "type": "select",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "options": [
+        { "value": "text-primary", "label": "Primary Text" },
+        { "value": "text-secondary", "label": "Secondary Text" },
+        { "value": "text-inverse", "label": "Inverse" },
+        { "value": "text-muted", "label": "Muted" },
+        { "value": "text-accent", "label": "Accent" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-white", "label": "White" }
+      ],
+      "default": "text-primary"
+    },
+    {
+      "type": "header",
+      "content": "Card Styling"
+    },
+    {
+      "type": "select",
+      "id": "card_background_color",
+      "label": "Card Background Color",
+      "options": [
+        { "value": "bg-page", "label": "Page (White)" },
+        { "value": "bg-card-primary", "label": "Card Primary" },
+        { "value": "bg-card-secondary", "label": "Card Secondary" },
+        { "value": "bg-banner", "label": "Banner" },
+        { "value": "bg-accent-warm", "label": "Accent Warm" },
+        { "value": "bg-accent-dark", "label": "Accent Dark" },
+        { "value": "bg-accent-soft", "label": "Accent Soft" },
+        { "value": "bg-primary", "label": "Brand Primary" },
+        { "value": "bg-white", "label": "White" }
+      ],
+      "default": "bg-quaternary"
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "label": "Card Border Radius (px)",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "default": 13
+    },
+    {
+      "type": "header",
+      "content": "Icon Badge Settings"
+    },
+    {
+      "type": "select",
+      "id": "icon_badge_background",
+      "label": "Icon Badge Background",
+      "options": [
+        { "value": "bg-white", "label": "White" },
+        { "value": "bg-black", "label": "Black" },
+        { "value": "bg-primary", "label": "Primary Text" },
+        { "value": "bg-secondary", "label": "Secondary Text" },
+        { "value": "bg-accent-warm", "label": "Accent" },
+        { "value": "bg-banner", "label": "Accent Alt" },
+        { "value": "bg-success", "label": "Success" },
+        { "value": "bg-warning", "label": "Warning" },
+        { "value": "bg-error", "label": "Error" },
+        { "value": "bg-info", "label": "Info" },
+        { "value": "bg-neutral", "label": "Neutral" },
+        { "value": "bg-neutral-light", "label": "Neutral Light" },
+        { "value": "bg-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "bg-black"
+    },
+    {
+      "type": "range",
+      "id": "icon_badge_size",
+      "label": "Icon Badge Size (px)",
+      "min": 80,
+      "max": 150,
+      "step": 4,
+      "default": 112
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "label": "Icon Size (px)",
+      "min": 40,
+      "max": 100,
+      "step": 5,
+      "default": 65
+    },
+    {
+      "type": "select",
+      "id": "icon_color",
+      "label": "Default Icon Color",
+      "options": [
+        { "value": "text-primary", "label": "Primary Text" },
+        { "value": "text-secondary", "label": "Secondary Text" },
+        { "value": "text-inverse", "label": "Inverse" },
+        { "value": "text-muted", "label": "Muted" },
+        { "value": "text-accent", "label": "Accent" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-white", "label": "White" }
+      ],
+      "default": "text-secondary"
+    },
+    {
+      "type": "header",
+      "content": "Layout Settings"
+    },
+    {
+      "type": "select",
+      "id": "background_color",
+      "label": "Background Color",
+      "options": [
+        { "value": "bg-page", "label": "Page (White)" },
+        { "value": "bg-card-primary", "label": "Card Primary" },
+        { "value": "bg-card-secondary", "label": "Card Secondary" },
+        { "value": "bg-banner", "label": "Banner" },
+        { "value": "bg-accent-warm", "label": "Accent Warm" },
+        { "value": "bg-accent-dark", "label": "Accent Dark" },
+        { "value": "bg-accent-soft", "label": "Accent Soft" },
+        { "value": "bg-primary", "label": "Brand Primary" },
+        { "value": "bg-white", "label": "White" }
+      ],
+      "default": "bg-secondary"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background Image"
+    },
+    {
+      "type": "select",
+      "id": "section_padding_y_mobile",
+      "label": "Section Vertical Padding (Mobile)",
+      "options": [
+        { "value": "py-xs", "label": "Extra Small" },
+        { "value": "py-sm", "label": "Small" },
+        { "value": "py-md", "label": "Medium" },
+        { "value": "py-lg", "label": "Large" },
+        { "value": "py-xl", "label": "Extra Large" },
+        { "value": "py-2xl", "label": "2X Large" },
+        { "value": "py-3xl", "label": "3X Large" }
+      ],
+      "default": "py-lg"
+    },
+    {
+      "type": "select",
+      "id": "section_padding_y_desktop",
+      "label": "Section Vertical Padding (Desktop)",
+      "options": [
+        { "value": "lg:py-xs", "label": "Extra Small" },
+        { "value": "lg:py-sm", "label": "Small" },
+        { "value": "lg:py-md", "label": "Medium" },
+        { "value": "lg:py-lg", "label": "Large" },
+        { "value": "lg:py-xl", "label": "Extra Large" },
+        { "value": "lg:py-2xl", "label": "2X Large" },
+        { "value": "lg:py-3xl", "label": "3X Large" }
+      ],
+      "default": "lg:py-2xl"
+    },
+    {
+      "type": "select",
+      "id": "section_border_radius",
+      "label": "Section Border Radius",
+      "options": [
+        { "value": "rounded-none", "label": "None" },
+        { "value": "rounded-sm", "label": "Small" },
+        { "value": "rounded", "label": "Base" },
+        { "value": "rounded-md", "label": "Medium" },
+        { "value": "rounded-lg", "label": "Large" },
+        { "value": "rounded-xl", "label": "Extra Large" },
+        { "value": "rounded-2xl", "label": "2X Large" },
+        { "value": "rounded-3xl", "label": "3X Large" }
+      ],
+      "default": "rounded-none"
+    },
+    {
+      "type": "header",
+      "content": "Container Settings"
+    },
+    {
+      "type": "select",
+      "id": "container_background_color",
+      "label": "Container Background Color",
+      "options": [
+        { "value": "", "label": "None (Transparent)" },
+        { "value": "bg-white", "label": "White" },
+        { "value": "bg-black", "label": "Black" },
+        { "value": "bg-primary", "label": "Primary Text" },
+        { "value": "bg-secondary", "label": "Secondary Text" },
+        { "value": "bg-accent-warm", "label": "Accent" },
+        { "value": "bg-banner", "label": "Accent Alt" },
+        { "value": "bg-success", "label": "Success" },
+        { "value": "bg-warning", "label": "Warning" },
+        { "value": "bg-error", "label": "Error" },
+        { "value": "bg-info", "label": "Info" },
+        { "value": "bg-neutral", "label": "Neutral" },
+        { "value": "bg-neutral-light", "label": "Neutral Light" },
+        { "value": "bg-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": ""
+    },
+    {
+      "type": "image_picker",
+      "id": "container_background_image",
+      "label": "Container Background Image"
+    },
+    {
+      "type": "select",
+      "id": "container_border_radius",
+      "label": "Container Border Radius",
+      "options": [
+        { "value": "rounded-none", "label": "None" },
+        { "value": "rounded-sm", "label": "Small" },
+        { "value": "rounded", "label": "Base" },
+        { "value": "rounded-md", "label": "Medium" },
+        { "value": "rounded-lg", "label": "Large" },
+        { "value": "rounded-xl", "label": "Extra Large" },
+        { "value": "rounded-2xl", "label": "2X Large" },
+        { "value": "rounded-3xl", "label": "3X Large" }
+      ],
+      "default": "rounded-none"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_y_mobile",
+      "label": "Container Padding Y (Mobile)",
+      "options": [
+        { "value": "py-xs", "label": "Extra Small" },
+        { "value": "py-sm", "label": "Small" },
+        { "value": "py-md", "label": "Medium" },
+        { "value": "py-lg", "label": "Large" },
+        { "value": "py-xl", "label": "Extra Large" },
+        { "value": "py-2xl", "label": "2X Large" },
+        { "value": "py-3xl", "label": "3X Large" }
+      ],
+      "default": "py-0"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_y_desktop",
+      "label": "Container Padding Y (Desktop)",
+      "options": [
+        { "value": "lg:py-xs", "label": "Extra Small" },
+        { "value": "lg:py-sm", "label": "Small" },
+        { "value": "lg:py-md", "label": "Medium" },
+        { "value": "lg:py-lg", "label": "Large" },
+        { "value": "lg:py-xl", "label": "Extra Large" },
+        { "value": "lg:py-2xl", "label": "2X Large" },
+        { "value": "lg:py-3xl", "label": "3X Large" }
+      ],
+      "default": "lg:py-0"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_x_mobile",
+      "label": "Container Padding X (Mobile)",
+      "options": [
+        { "value": "px-0", "label": "None" },
+        { "value": "px-xs", "label": "Extra Small" },
+        { "value": "px-sm", "label": "Small" },
+        { "value": "px-md", "label": "Medium" },
+        { "value": "px-lg", "label": "Large" },
+        { "value": "px-xl", "label": "Extra Large" },
+        { "value": "px-2xl", "label": "2X Large" },
+        { "value": "px-3xl", "label": "3X Large" }
+      ],
+      "default": "px-0"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_x_desktop",
+      "label": "Container Padding X (Desktop)",
+      "options": [
+        { "value": "lg:px-0", "label": "None" },
+        { "value": "lg:px-xs", "label": "Extra Small" },
+        { "value": "lg:px-sm", "label": "Small" },
+        { "value": "lg:px-md", "label": "Medium" },
+        { "value": "lg:px-lg", "label": "Large" },
+        { "value": "lg:px-xl", "label": "Extra Large" },
+        { "value": "lg:px-2xl", "label": "2X Large" },
+        { "value": "lg:px-3xl", "label": "3X Large" }
+      ],
+      "default": "lg:px-0"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature_card",
+      "name": "Feature Card",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Icon"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon Image",
+          "info": "Upload a custom icon (recommended size: 65x65px)"
+        },
+        {
+          "type": "header",
+          "content": "Title"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Real Ingredients"
+        },
+        {
+          "type": "select",
+          "id": "title_font_size",
+          "label": "Title Font Size (Mobile)",
+          "options": [
+            { "value": "text-xs", "label": "Extra Small" },
+            { "value": "text-sm", "label": "Small" },
+            { "value": "text-base", "label": "Base" },
+            { "value": "text-lg", "label": "Large" },
+            { "value": "text-xl", "label": "Extra Large" },
+            { "value": "text-2xl", "label": "2X Large" },
+            { "value": "text-3xl", "label": "3X Large" },
+            { "value": "text-4xl", "label": "4X Large" },
+            { "value": "text-5xl", "label": "5X Large" },
+            { "value": "text-6xl", "label": "6X Large" },
+            { "value": "text-7xl", "label": "7X Large" },
+            { "value": "text-8xl", "label": "8X Large" },
+            { "value": "text-9xl", "label": "9X Large" }
+          ],
+          "default": "text-lg"
+        },
+        {
+          "type": "select",
+          "id": "title_font_size_desktop",
+          "label": "Title Font Size (Desktop)",
+          "options": [
+            { "value": "lg:text-xs", "label": "Extra Small" },
+            { "value": "lg:text-sm", "label": "Small" },
+            { "value": "lg:text-base", "label": "Base" },
+            { "value": "lg:text-lg", "label": "Large" },
+            { "value": "lg:text-xl", "label": "Extra Large" },
+            { "value": "lg:text-2xl", "label": "2X Large" },
+            { "value": "lg:text-3xl", "label": "3X Large" },
+            { "value": "lg:text-4xl", "label": "4X Large" },
+            { "value": "lg:text-5xl", "label": "5X Large" },
+            { "value": "lg:text-6xl", "label": "6X Large" },
+            { "value": "lg:text-7xl", "label": "7X Large" },
+            { "value": "lg:text-8xl", "label": "8X Large" },
+            { "value": "lg:text-9xl", "label": "9X Large" }
+          ],
+          "default": "lg:text-xl"
+        },
+        {
+          "type": "select",
+          "id": "title_font_weight",
+          "label": "Title Font Weight",
+          "options": [
+            { "value": "font-normal", "label": "Normal" },
+            { "value": "font-medium", "label": "Medium" },
+            { "value": "font-semibold", "label": "Semibold" }
+          ],
+          "default": "font-medium"
+        },
+        {
+          "type": "select",
+          "id": "title_color",
+          "label": "Title Color",
+          "options": [
+            { "value": "text-primary", "label": "Primary Text" },
+        { "value": "text-secondary", "label": "Secondary Text" },
+        { "value": "text-inverse", "label": "Inverse" },
+        { "value": "text-muted", "label": "Muted" },
+        { "value": "text-accent", "label": "Accent" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-white", "label": "White" }
+          ],
+          "default": "text-primary"
+        },
+        {
+          "type": "header",
+          "content": "Description"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+        },
+        {
+          "type": "select",
+          "id": "description_font_size",
+          "label": "Description Font Size (Mobile)",
+          "options": [
+            { "value": "text-xs", "label": "Extra Small" },
+            { "value": "text-sm", "label": "Small" },
+            { "value": "text-base", "label": "Base" },
+            { "value": "text-lg", "label": "Large" },
+            { "value": "text-xl", "label": "Extra Large" },
+            { "value": "text-2xl", "label": "2X Large" },
+            { "value": "text-3xl", "label": "3X Large" },
+            { "value": "text-4xl", "label": "4X Large" },
+            { "value": "text-5xl", "label": "5X Large" },
+            { "value": "text-6xl", "label": "6X Large" },
+            { "value": "text-7xl", "label": "7X Large" },
+            { "value": "text-8xl", "label": "8X Large" },
+            { "value": "text-9xl", "label": "9X Large" }
+          ],
+          "default": "text-base"
+        },
+        {
+          "type": "select",
+          "id": "description_font_size_desktop",
+          "label": "Description Font Size (Desktop)",
+          "options": [
+            { "value": "lg:text-xs", "label": "Extra Small" },
+            { "value": "lg:text-sm", "label": "Small" },
+            { "value": "lg:text-base", "label": "Base" },
+            { "value": "lg:text-lg", "label": "Large" },
+            { "value": "lg:text-xl", "label": "Extra Large" },
+            { "value": "lg:text-2xl", "label": "2X Large" },
+            { "value": "lg:text-3xl", "label": "3X Large" },
+            { "value": "lg:text-4xl", "label": "4X Large" },
+            { "value": "lg:text-5xl", "label": "5X Large" },
+            { "value": "lg:text-6xl", "label": "6X Large" },
+            { "value": "lg:text-7xl", "label": "7X Large" },
+            { "value": "lg:text-8xl", "label": "8X Large" },
+            { "value": "lg:text-9xl", "label": "9X Large" }
+          ],
+          "default": "lg:text-lg"
+        },
+        {
+          "type": "select",
+          "id": "description_font_weight",
+          "label": "Description Font Weight",
+          "options": [
+            { "value": "font-normal", "label": "Normal" },
+            { "value": "font-medium", "label": "Medium" },
+            { "value": "font-semibold", "label": "Semibold" }
+          ],
+          "default": "font-normal"
+        },
+        {
+          "type": "select",
+          "id": "description_color",
+          "label": "Description Color",
+          "options": [
+            { "value": "text-primary", "label": "Primary Text" },
+        { "value": "text-secondary", "label": "Secondary Text" },
+        { "value": "text-inverse", "label": "Inverse" },
+        { "value": "text-muted", "label": "Muted" },
+        { "value": "text-accent", "label": "Accent" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-white", "label": "White" }
+          ],
+          "default": "text-primary"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Features Icons",
+      "blocks": [
+        {
+          "type": "feature_card",
+          "settings": {
+            "title": "Real Ingredients",
+            "description": "We use fresh, organic ginger, turmeric, lemon, and black pepper."
+          }
+        },
+        {
+          "type": "feature_card",
+          "settings": {
+            "title": "No Junk Ever",
+            "description": "No added sugar, no fake fillers, and absolutely nothing artificial."
+          }
+        },
+        {
+          "type": "feature_card",
+          "settings": {
+            "title": "Flavor That Hits Back",
+            "description": "Spicy. Zesty. Cold-pressed. A wake up call in a bottle"
+          }
+        },
+        {
+          "type": "feature_card",
+          "settings": {
+            "title": "Rooted in Ritual, Not Hype",
+            "description": "It's a real food ritual with real bite."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+

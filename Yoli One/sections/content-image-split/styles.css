@@ -1,0 +1,174 @@
+/* Content + Image Split Section Styles */
+
+.content-image-split {
+  position: relative;
+  overflow: hidden;
+}
+
+.content-image-inner {
+  position: relative;
+}
+
+/* Grid Layout */
+.content-image-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xl);
+  width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .content-image-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-2xl);
+    align-items: center;
+  }
+
+  /* Flipped layout: Image on left, content on right */
+  .content-image-grid--flipped {
+    direction: rtl;
+  }
+
+  .content-image-grid--flipped > * {
+    direction: ltr;
+  }
+}
+
+/* Content Column */
+.content-column {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* Eyebrow Text */
+.eyebrow-text p {
+  margin: 0;
+  line-height: normal;
+}
+
+/* Heading */
+.heading-wrapper h2 {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.heading-line-1,
+.heading-line-2 {
+  display: block;
+}
+
+/* Subheading */
+.subheading p {
+  margin: 0;
+  line-height: normal;
+}
+
+/* Body Paragraphs */
+.body-paragraphs p {
+  margin: 0;
+}
+
+/* Pill Badges */
+.pill-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+.pill-badge {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 6px 18px;
+  border-radius: 50px;
+  height: 34px;
+  white-space: nowrap;
+}
+
+.pill-badge svg {
+  flex-shrink: 0;
+  width: 23px;
+  height: 23px;
+}
+
+.pill-badge span {
+  line-height: 39.39px;
+  white-space: nowrap;
+}
+
+/* CTA Section */
+.cta-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  align-items: flex-start;
+  max-width: 550px;
+}
+
+.cta-button {
+  width: 100%;
+}
+
+.cta-button .btn {
+  width: 100%;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Shipping Notice */
+.shipping-notice {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.shipping-notice svg {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+}
+
+.shipping-notice p {
+  margin: 0;
+  line-height: normal;
+}
+
+/* Image Column */
+.image-column {
+  display: flex;
+  width: 100%;
+  max-width: 643px;
+  margin: 0 auto;
+}
+
+@media (min-width: 1024px) {
+  .image-column {
+    margin: 0;
+  }
+}
+
+.main-image-wrapper {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.main-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+@media (min-width: 1024px) {
+  .main-image {
+    max-height: 536px;
+  }
+}
+

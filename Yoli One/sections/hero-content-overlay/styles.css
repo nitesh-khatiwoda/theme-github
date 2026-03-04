@@ -1,0 +1,127 @@
+/* Hero Content Overlay Section */
+
+.hero-content-overlay {
+  position: relative;
+  overflow: hidden;
+  min-height: var(--base-height, 400px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Double height mode - responsive heights */
+.hero-content-overlay--double {
+  min-height: calc(var(--base-height, 400px) * 1.2); /* Mobile: 1.2x */
+}
+
+@media (min-width: 768px) {
+  .hero-content-overlay--double {
+    min-height: calc(var(--base-height, 400px) * 1.35); /* Tablet: 1.35x */
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-content-overlay--double {
+    min-height: calc(var(--base-height, 400px) * 1.5); /* Desktop: 1.5x */
+  }
+}
+
+/* Background Image Handling */
+.hero-content-overlay[data-bg] {
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-attachment: scroll;
+}
+
+/* Ensure background image is visible - override any background color classes */
+.hero-content-overlay[data-bg].bg-white,
+.hero-content-overlay[data-bg].bg-black,
+.hero-content-overlay[data-bg].bg-primary,
+.hero-content-overlay[data-bg].bg-secondary,
+.hero-content-overlay[data-bg].bg-tertiary,
+.hero-content-overlay[data-bg].bg-quaternary,
+.hero-content-overlay[data-bg].bg-success,
+.hero-content-overlay[data-bg].bg-warning,
+.hero-content-overlay[data-bg].bg-error,
+.hero-content-overlay[data-bg].bg-info,
+.hero-content-overlay[data-bg].bg-neutral,
+.hero-content-overlay[data-bg].bg-neutral-light,
+.hero-content-overlay[data-bg].bg-neutral-dark {
+  background-color: transparent !important;
+}
+
+/* Override global [data-bg]::before if it exists */
+.hero-content-overlay[data-bg]::before {
+  display: none;
+}
+
+.hero-content-overlay-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.hero-content-overlay-inner {
+  position: relative;
+  z-index: 2;
+}
+
+.hero-content-overlay-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  align-items: flex-start;
+  text-align: left;
+}
+
+@media (min-width: 1024px) {
+  .hero-content-overlay-content {
+    gap: var(--space-lg);
+  }
+}
+
+/* Heading */
+.heading-wrapper {
+  width: 100%;
+}
+
+.heading {
+  line-height: 1;
+  text-align: left;
+}
+
+@media (min-width: 1024px) {
+  .heading {
+    line-height: 1.12;
+  }
+}
+
+/* Paragraphs */
+.paragraph-wrapper {
+  width: 100%;
+}
+
+.paragraph {
+  line-height: 1.5;
+  text-align: left;
+}
+
+.paragraph-one-wrapper {
+  margin-top: 0;
+}
+
+.paragraph-two-wrapper {
+  margin-top: 0;
+}
+
+@media (min-width: 1024px) {
+  .paragraph {
+    line-height: 1.5;
+  }
+}
+

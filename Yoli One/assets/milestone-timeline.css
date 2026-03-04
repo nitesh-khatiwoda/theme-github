@@ -1,0 +1,294 @@
+/* Milestone Timeline Section */
+
+.milestone-timeline {
+  position: relative;
+  width: 100%;
+}
+
+.milestone-timeline-inner {
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xl, 48px);
+}
+
+/* Header */
+.milestone-timeline-header {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md, 16px);
+  width: 100%;
+}
+
+.milestone-timeline-title {
+  margin: 0;
+  line-height: 1.2;
+}
+
+.milestone-timeline-subtext {
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Timeline Steps Container */
+.milestone-timeline-steps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl, 32px);
+  width: 100%;
+  position: relative;
+}
+
+@media (min-width: 768px) {
+  .milestone-timeline-steps {
+    flex-direction: row;
+    gap: 0;
+    align-items: flex-start;
+    position: relative;
+  }
+  
+  /* Continuous horizontal line connecting all dots */
+  .milestone-timeline-steps::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 10px; /* Align with center of dots */
+    width: 100%;
+    height: 2px;
+    background-color: rgba(0, 0, 0, 0.1);
+    z-index: 0;
+    /* Fade out on left and right edges */
+    mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+  }
+}
+
+/* Individual Step */
+.milestone-step {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md, 16px);
+  width: 100%;
+  position: relative;
+  flex: 1;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.milestone-step.animate-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (min-width: 768px) {
+  .milestone-step {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 0 var(--space-sm, 8px);
+    justify-content: flex-start;
+  }
+  
+  /* Hide mirrored content on desktop - only show regular content below dot */
+  .milestone-step-content-mirrored {
+    display: none;
+  }
+}
+
+/* Marker Row (Dot + Connector) */
+.milestone-step-marker-row {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  position: relative;
+  min-height: 24px;
+}
+
+@media (min-width: 768px) {
+  .milestone-step-marker-row {
+    width: 100%;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+    height: 24px; /* Fixed height to align with line */
+    display: flex;
+    align-items: center;
+    margin: 0;
+  }
+}
+
+/* Dot - Filled style matching sticky-timeline-steps */
+.milestone-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: var(--clr-primary);
+  border: 3px solid var(--clr-primary);
+  flex-shrink: 0;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 1;
+}
+
+@media (min-width: 768px) {
+  .milestone-dot {
+    width: 20px;
+    height: 20px;
+    border-width: 4px;
+    /* Center the dot on the line - dot center should align with line center */
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
+/* Connector Line - Hidden on desktop (using continuous line instead) */
+.milestone-connector {
+  flex: 1;
+  height: 2px;
+  margin-left: var(--space-sm, 8px);
+  opacity: 0.3;
+}
+
+@media (min-width: 768px) {
+  .milestone-connector {
+    display: none; /* Hide individual connectors, use continuous line instead */
+  }
+}
+
+/* Step Content */
+.milestone-step-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm, 8px);
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .milestone-step-content {
+    width: 100%;
+    margin-top: var(--space-md, 16px);
+    align-items: center;
+    text-align: center;
+  }
+}
+
+.milestone-step-title {
+  margin: 0;
+  line-height: 1.3;
+}
+
+.milestone-step-text {
+  margin: 0;
+  line-height: 1.5;
+}
+
+@media (min-width: 768px) {
+  .milestone-step-title,
+  .milestone-step-text {
+    text-align: center;
+    width: 100%;
+  }
+}
+
+/* Button Above Timeline */
+.milestone-timeline-button-above {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: var(--space-lg, 24px);
+}
+
+/* Footer Button Below Timeline */
+.milestone-timeline-footer {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: var(--space-lg, 24px);
+}
+
+.milestone-button {
+  text-decoration: none;
+}
+
+/* Mobile: Vertical Layout - Full Width Content */
+@media (max-width: 767px) {
+  .milestone-timeline-steps {
+    position: relative;
+    padding: 0 var(--space-md, 16px);
+    gap: var(--space-xl, 32px);
+  }
+  
+  /* Hide the vertical center line on mobile */
+  .milestone-timeline-steps::before {
+    display: none;
+  }
+  
+  .milestone-step {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    z-index: 1;
+  }
+  
+  .milestone-step-marker-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-bottom: var(--space-md, 16px);
+  }
+  
+  .milestone-dot {
+    width: 20px;
+    height: 20px;
+    border-width: 4px;
+    position: relative;
+    z-index: 2;
+    flex-shrink: 0;
+  }
+  
+  .milestone-connector {
+    display: none; /* Hide connectors on mobile */
+  }
+  
+  /* Show regular content, full width */
+  .milestone-step-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm, 8px);
+    text-align: center;
+  }
+  
+  /* Hide mirrored content on mobile - use regular content only */
+  .milestone-step-content-mirrored {
+    display: none;
+  }
+  
+  .milestone-step-title,
+  .milestone-step-text {
+    margin: 0;
+  }
+}
+
+/* Ensure dots align on single horizontal axis on tablet and desktop */
+@media (min-width: 768px) {
+  /* Ensure dots sit on the continuous line */
+  .milestone-dot {
+    position: relative;
+    z-index: 2;
+  }
+  
+  /* Ensure marker row centers the dot */
+  .milestone-step-marker-row {
+    justify-content: center;
+  }
+}
+

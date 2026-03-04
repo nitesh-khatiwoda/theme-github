@@ -1,0 +1,939 @@
+<link rel="stylesheet" href="{{ 'video-content-hero/styles.css' | asset_url }}">
+
+<!-- Video Content Hero Section -->
+<section 
+  class="video-content-hero {{ section.settings.background_color | default: 'bg-black' }} {{section.settings.padding_top_mobile}} {{section.settings.padding_bottom_mobile}} {{section.settings.padding_x_mobile}}  lg:{{section.settings.padding_top_desktop}} lg:{{section.settings.padding_bottom_desktop}} lg:{{section.settings.padding_x_desktop}} {{ section.settings.section_border_radius | default: 'rounded-none' }}" 
+  id="video-content-hero-{{ section.id }}" 
+  {% if section.settings.background_image %}data-bg="{{ section.settings.background_image | image_url }}" style="background-image: url('{{ section.settings.background_image | image_url }}');"{% endif %}>
+  
+  <!-- Background Overlay -->
+  {% if section.settings.background_image and section.settings.overlay_enabled %}
+  <div class="video-content-hero-overlay" style="background-color: rgba(0, 0, 0, {{ section.settings.overlay_opacity | default: 0.6 }});"></div>
+  {% endif %}
+  
+  <div class="{{section.settings.container_layout_width | default : 'container'}}">
+    <div class="video-content-hero-inner {{ section.settings.container_background_color }} {{ section.settings.container_border_radius | default: 'rounded-none' }} {{ section.settings.container_padding_y_mobile | default: 'py-lg' }} {{ section.settings.container_padding_y_desktop | default: 'lg:py-2xl' }} {{ section.settings.container_padding_x_mobile | default: 'px-md' }} {{ section.settings.container_padding_x_desktop | default: 'lg:px-xl' }}" 
+      {% if section.settings.container_background_image %}data-bg="{{ section.settings.container_background_image | image_url }}" style="background-image: url('{{ section.settings.container_background_image | image_url }}');"{% endif %}>
+      
+      <div class="video-content-hero-wrapper video-content-hero-align-{{ section.settings.content_alignment | default: 'center' }}">
+        
+        <!-- Text Content -->
+        <div class="video-content-hero-text" {% if section.settings.text_max_width != blank and section.settings.text_max_width != 0 %}style="max-width: {{ section.settings.text_max_width }}px;"{% endif %}>
+          
+          {% if section.settings.heading != blank %}
+          <div class="video-content-hero-heading {{ section.settings.heading_font_family | default: 'font-serif' }} {{ section.settings.heading_font_size | default: 'text-4xl' }} {{ section.settings.heading_font_size_desktop | default: 'lg:text-5xl' }} {{ section.settings.heading_font_weight | default: 'font-normal' }} {{ section.settings.heading_color | default: 'text-white' }}">
+            {{ section.settings.heading }}
+          </div>
+          {% endif %}
+          
+          {% if section.settings.description != blank %}
+          <div class="video-content-hero-description {{ section.settings.description_font_family | default: 'font-body' }} {{ section.settings.description_font_size | default: 'text-base' }} {{ section.settings.description_font_size_desktop | default: 'lg:text-lg' }} {{ section.settings.description_font_weight | default: 'font-normal' }} {{ section.settings.description_color | default: 'text-white' }}">
+            {{ section.settings.description }}
+          </div>
+          {% endif %}
+          
+        </div>
+        
+        <!-- Video Blocks -->
+        {% if section.blocks.size > 0 %}
+        <div class="video-content-hero-video-wrapper {{ section.settings.block_spacing_mobile | default: 'gap-xl' }} {{ section.settings.block_spacing_desktop | default: 'lg:gap-2xl' }}" {% if section.settings.video_max_width != blank and section.settings.video_max_width != 0 %}style="max-width: {{ section.settings.video_max_width }}px;"{% endif %}>
+          {% for block in section.blocks %}
+            {% if block.type == 'video' %}
+            <div class="video-content-hero-video-container {{ block.settings.video_border_radius | default: 'rounded-lg' }}" 
+                 style="border: {{ block.settings.video_border_width | default: 2 }}px solid {{ block.settings.video_border_color | default: '#e5ac40' }};" 
+                 {{ block.fluid_attributes }}
+                 data-video-container="{{ block.id }}"
+                 {% if block.settings.video_url != blank %}data-video-url="{{ block.settings.video_url }}"{% endif %}
+                 {% if block.settings.youtube_id != blank %}data-youtube-id="{{ block.settings.youtube_id }}"{% endif %}
+                 {% if block.settings.vimeo_id != blank %}data-vimeo-id="{{ block.settings.vimeo_id }}"{% endif %}>
+              
+              <!-- Thumbnail State -->
+              <div class="video-thumbnail-state" data-thumbnail-state="{{ block.id }}">
+                {% if block.settings.video_thumbnail != blank %}
+                <img 
+                  src="{{ block.settings.video_thumbnail | image_url: width: 1200 }}" 
+                  alt="{{ block.settings.video_alt | default: 'Video thumbnail' }}"
+                  class="video-content-hero-thumbnail"
+                  loading="lazy">
+                {% else %}
+                <img 
+                  src="{{ 'placeholder-image.png' | asset_url }}" 
+                  alt="Video thumbnail placeholder"
+                  class="video-content-hero-thumbnail"
+                  loading="lazy">
+                {% endif %}
+                
+                {% if block.settings.show_play_button %}
+                <div class="video-content-hero-play-wrapper">
+                  <button class="video-content-hero-play-button" type="button" aria-label="Play video" data-play-button="{{ block.id }}">
+                    <svg width="75" height="75" viewBox="0 0 75 75" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="37.5" cy="37.5" r="37.5" fill="white" fill-opacity="0.9"/>
+                      <path d="M30 25L50 37.5L30 50V25Z" fill="currentColor"/>
+                    </svg>
+                  </button>
+                </div>
+                {% endif %}
+              </div>
+              
+              <!-- Video Embed State (hidden by default) -->
+              <div class="video-embed-state" data-embed-state="{{ block.id }}" style="display: none;">
+                <!-- Video will be injected here via JavaScript -->
+              </div>
+              
+            </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+        {% endif %}
+        
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .video-content-hero {
+    position: relative;
+  }
+  
+  .video-content-hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+  }
+  
+  .video-content-hero-inner {
+    position: relative;
+    z-index: 2;
+  }
+  
+  .video-content-hero-video-container {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+    width: 100%;
+  }
+  
+  .video-thumbnail-state {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .video-content-hero-thumbnail {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .video-content-hero-play-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s ease;
+  }
+  
+  .video-content-hero-play-button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    color: #333;
+  }
+  
+  .video-content-hero-play-button:hover {
+    transform: scale(1.1);
+  }
+  
+  .video-embed-state {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .video-embed-state iframe,
+  .video-embed-state video {
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+  
+  /* Alignment classes */
+  .video-content-hero-align-left {
+    text-align: left;
+  }
+  
+  .video-content-hero-align-left .video-content-hero-video-wrapper {
+    margin-left: 0;
+    margin-right: auto;
+  }
+  
+  .video-content-hero-align-center {
+    text-align: center;
+  }
+  
+  .video-content-hero-align-center .video-content-hero-video-wrapper {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .video-content-hero-align-right {
+    text-align: right;
+  }
+  
+  .video-content-hero-align-right .video-content-hero-video-wrapper {
+    margin-left: auto;
+    margin-right: 0;
+  }
+  
+  .video-content-hero-video-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .video-content-hero-text {
+    margin-bottom: 2rem;
+  }
+  
+  .video-content-hero-heading {
+    white-space: pre-line;
+    margin-bottom: 1rem;
+  }
+</style>
+
+<script>
+(function() {
+  const section = document.getElementById('video-content-hero-{{ section.id }}');
+  if (!section) return;
+  
+  const playButtons = section.querySelectorAll('[data-play-button]');
+  
+  playButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      const blockId = this.getAttribute('data-play-button');
+      const container = section.querySelector(`[data-video-container="${blockId}"]`);
+      const thumbnailState = section.querySelector(`[data-thumbnail-state="${blockId}"]`);
+      const embedState = section.querySelector(`[data-embed-state="${blockId}"]`);
+      
+      if (!container || !thumbnailState || !embedState) return;
+      
+      const videoUrl = container.getAttribute('data-video-url');
+      const youtubeId = container.getAttribute('data-youtube-id');
+      const vimeoId = container.getAttribute('data-vimeo-id');
+      
+      let embedHtml = '';
+      
+      // Check for YouTube
+      if (youtubeId) {
+        embedHtml = `<iframe 
+          src="https://www.youtube.com/embed/${youtubeId}?autoplay=1&rel=0" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+          allowfullscreen
+          title="YouTube video player"></iframe>`;
+      }
+      // Check for Vimeo
+      else if (vimeoId) {
+        embedHtml = `<iframe 
+          src="https://player.vimeo.com/video/${vimeoId}?autoplay=1" 
+          allow="autoplay; fullscreen; picture-in-picture" 
+          allowfullscreen
+          title="Vimeo video player"></iframe>`;
+      }
+      // Check for direct video URL (MP4, etc.)
+      else if (videoUrl) {
+        // Check if it's a YouTube URL
+        const ytMatch = videoUrl.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+        if (ytMatch) {
+          embedHtml = `<iframe 
+            src="https://www.youtube.com/embed/${ytMatch[1]}?autoplay=1&rel=0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen
+            title="YouTube video player"></iframe>`;
+        }
+        // Check if it's a Vimeo URL
+        else if (videoUrl.includes('vimeo.com')) {
+          const vimeoMatch = videoUrl.match(/vimeo\.com\/(\d+)/);
+          if (vimeoMatch) {
+            embedHtml = `<iframe 
+              src="https://player.vimeo.com/video/${vimeoMatch[1]}?autoplay=1" 
+              allow="autoplay; fullscreen; picture-in-picture" 
+              allowfullscreen
+              title="Vimeo video player"></iframe>`;
+          }
+        }
+        // Direct video file (MP4, WebM, etc.)
+        else {
+          embedHtml = `<video autoplay controls playsinline>
+            <source src="${videoUrl}" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>`;
+        }
+      }
+      
+      if (embedHtml) {
+        // Hide thumbnail, show embed
+        thumbnailState.style.display = 'none';
+        embedState.innerHTML = embedHtml;
+        embedState.style.display = 'block';
+      }
+    });
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Video Content Hero",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout Width (Container)"
+    },
+    {
+      "type": "select",
+      "id": "container_layout_width",
+      "label": "Layout Width (Container)",
+      "options": [
+        { "value": "container", "label": "Container" },
+        { "value": "container-full", "label": "Full Width (Container Full)" }
+      ],
+      "default": "container",
+      "info": "Choose whether the container is constrained to the width of the page or full width"
+    },
+    {
+      "type": "header",
+      "content": "Heading"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading Text",
+      "default": "The Truth About Your\nOmega Levels"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_family",
+      "label": "Font Family",
+      "options": [
+        { "value": "font-primary", "label": "Primary" },
+        { "value": "font-body", "label": "Body" },
+        { "value": "font-handwritten", "label": "Handwritten" },
+        { "value": "font-serif", "label": "Serif" }
+      ],
+      "default": "font-serif"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_size",
+      "label": "Font Size (Mobile)",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" },
+        { "value": "text-xl", "label": "Extra Large" },
+        { "value": "text-2xl", "label": "2X Large" },
+        { "value": "text-3xl", "label": "3X Large" },
+        { "value": "text-4xl", "label": "4X Large" },
+        { "value": "text-5xl", "label": "5X Large" },
+        { "value": "text-6xl", "label": "6X Large" },
+        { "value": "text-7xl", "label": "7X Large" },
+        { "value": "text-8xl", "label": "8X Large" },
+        { "value": "text-9xl", "label": "9X Large" }
+      ],
+      "default": "text-4xl"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_size_desktop",
+      "label": "Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-xs", "label": "Extra Small" },
+        { "value": "lg:text-sm", "label": "Small" },
+        { "value": "lg:text-base", "label": "Base" },
+        { "value": "lg:text-lg", "label": "Large" },
+        { "value": "lg:text-xl", "label": "Extra Large" },
+        { "value": "lg:text-2xl", "label": "2X Large" },
+        { "value": "lg:text-3xl", "label": "3X Large" },
+        { "value": "lg:text-4xl", "label": "4X Large" },
+        { "value": "lg:text-5xl", "label": "5X Large" },
+        { "value": "lg:text-6xl", "label": "6X Large" },
+        { "value": "lg:text-7xl", "label": "7X Large" },
+        { "value": "lg:text-8xl", "label": "8X Large" },
+        { "value": "lg:text-9xl", "label": "9X Large" }
+      ],
+      "default": "lg:text-5xl"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_weight",
+      "label": "Font Weight",
+      "options": [
+        { "value": "font-light", "label": "Light" },
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semi Bold" },
+        { "value": "font-bold", "label": "Bold" }
+      ],
+      "default": "font-normal"
+    },
+    {
+      "type": "select",
+      "id": "heading_color",
+      "label": "Text Color",
+      "options": [
+        { "value": "text-white", "label": "White" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-primary", "label": "Primary" },
+        { "value": "text-secondary", "label": "Secondary" },
+        { "value": "text-tertiary", "label": "Tertiary" },
+        { "value": "text-quaternary", "label": "Quaternary" },
+        { "value": "text-success", "label": "Success" },
+        { "value": "text-warning", "label": "Warning" },
+        { "value": "text-error", "label": "Error" },
+        { "value": "text-info", "label": "Info" },
+        { "value": "text-neutral", "label": "Neutral" },
+        { "value": "text-neutral-light", "label": "Neutral Light" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "text-white"
+    },
+    {
+      "type": "header",
+      "content": "Description"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description Text",
+      "default": "Two leading experts break down what your numbers really mean, and how improving them can transform your health."
+    },
+    {
+      "type": "select",
+      "id": "description_font_family",
+      "label": "Font Family",
+      "options": [
+        { "value": "font-primary", "label": "Primary" },
+        { "value": "font-body", "label": "Body" },
+        { "value": "font-handwritten", "label": "Handwritten" },
+        { "value": "font-serif", "label": "Serif" }
+      ],
+      "default": "font-body"
+    },
+    {
+      "type": "select",
+      "id": "description_font_size",
+      "label": "Font Size (Mobile)",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" },
+        { "value": "text-xl", "label": "Extra Large" },
+        { "value": "text-2xl", "label": "2X Large" },
+        { "value": "text-3xl", "label": "3X Large" },
+        { "value": "text-4xl", "label": "4X Large" },
+        { "value": "text-5xl", "label": "5X Large" },
+        { "value": "text-6xl", "label": "6X Large" },
+        { "value": "text-7xl", "label": "7X Large" },
+        { "value": "text-8xl", "label": "8X Large" },
+        { "value": "text-9xl", "label": "9X Large" }
+      ],
+      "default": "text-base"
+    },
+    {
+      "type": "select",
+      "id": "description_font_size_desktop",
+      "label": "Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-xs", "label": "Extra Small" },
+        { "value": "lg:text-sm", "label": "Small" },
+        { "value": "lg:text-base", "label": "Base" },
+        { "value": "lg:text-lg", "label": "Large" },
+        { "value": "lg:text-xl", "label": "Extra Large" },
+        { "value": "lg:text-2xl", "label": "2X Large" },
+        { "value": "lg:text-3xl", "label": "3X Large" },
+        { "value": "lg:text-4xl", "label": "4X Large" },
+        { "value": "lg:text-5xl", "label": "5X Large" },
+        { "value": "lg:text-6xl", "label": "6X Large" },
+        { "value": "lg:text-7xl", "label": "7X Large" },
+        { "value": "lg:text-8xl", "label": "8X Large" },
+        { "value": "lg:text-9xl", "label": "9X Large" }
+      ],
+      "default": "lg:text-lg"
+    },
+    {
+      "type": "select",
+      "id": "description_font_weight",
+      "label": "Font Weight",
+      "options": [
+        { "value": "font-light", "label": "Light" },
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semi Bold" },
+        { "value": "font-bold", "label": "Bold" }
+      ],
+      "default": "font-normal"
+    },
+    {
+      "type": "select",
+      "id": "description_color",
+      "label": "Text Color",
+      "options": [
+        { "value": "text-white", "label": "White" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-primary", "label": "Primary" },
+        { "value": "text-secondary", "label": "Secondary" },
+        { "value": "text-tertiary", "label": "Tertiary" },
+        { "value": "text-quaternary", "label": "Quaternary" },
+        { "value": "text-success", "label": "Success" },
+        { "value": "text-warning", "label": "Warning" },
+        { "value": "text-error", "label": "Error" },
+        { "value": "text-info", "label": "Info" },
+        { "value": "text-neutral", "label": "Neutral" },
+        { "value": "text-neutral-light", "label": "Neutral Light" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "text-white"
+    },
+    {
+      "type": "header",
+      "content": "Layout Settings"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "Content Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center",
+      "info": "Horizontal alignment for heading, description, and video"
+    },
+    {
+      "type": "text",
+      "id": "text_max_width",
+      "label": "Text Max Width (px)",
+      "default": "",
+      "info": "Maximum width for heading/description. Leave empty for full container width."
+    },
+    {
+      "type": "text",
+      "id": "video_max_width",
+      "label": "Video Max Width (px)",
+      "default": "",
+      "info": "Maximum width of the video container in pixels. Leave empty for full container width."
+    },
+    {
+      "type": "select",
+      "id": "block_spacing_mobile",
+      "label": "Spacing Between Blocks (Mobile)",
+      "options": [
+        { "value": "gap-xs", "label": "Extra Small" },
+        { "value": "gap-sm", "label": "Small" },
+        { "value": "gap-md", "label": "Medium" },
+        { "value": "gap-lg", "label": "Large" },
+        { "value": "gap-xl", "label": "Extra Large" },
+        { "value": "gap-2xl", "label": "2X Large" },
+        { "value": "gap-3xl", "label": "3X Large" }
+      ],
+      "default": "gap-xl",
+      "info": "Spacing between video blocks on mobile"
+    },
+    {
+      "type": "select",
+      "id": "block_spacing_desktop",
+      "label": "Spacing Between Blocks (Desktop)",
+      "options": [
+        { "value": "lg:gap-xs", "label": "Extra Small" },
+        { "value": "lg:gap-sm", "label": "Small" },
+        { "value": "lg:gap-md", "label": "Medium" },
+        { "value": "lg:gap-lg", "label": "Large" },
+        { "value": "lg:gap-xl", "label": "Extra Large" },
+        { "value": "lg:gap-2xl", "label": "2X Large" },
+        { "value": "lg:gap-3xl", "label": "3X Large" }
+      ],
+      "default": "lg:gap-2xl",
+      "info": "Spacing between video blocks on desktop"
+    },
+    {
+      "type": "select",
+      "id": "background_color",
+      "label": "Section Background Color",
+      "options": [
+        { "value": "bg-white", "label": "White" },
+        { "value": "bg-black", "label": "Black" },
+        { "value": "bg-primary", "label": "Primary" },
+        { "value": "bg-secondary", "label": "Secondary" },
+        { "value": "bg-tertiary", "label": "Tertiary" },
+        { "value": "bg-quaternary", "label": "Quaternary" },
+        { "value": "bg-success", "label": "Success" },
+        { "value": "bg-warning", "label": "Warning" },
+        { "value": "bg-error", "label": "Error" },
+        { "value": "bg-info", "label": "Info" },
+        { "value": "bg-neutral", "label": "Neutral" },
+        { "value": "bg-neutral-light", "label": "Neutral Light" },
+        { "value": "bg-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "bg-black"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Section Background Image"
+    },
+    {
+      "type": "checkbox",
+      "id": "overlay_enabled",
+      "label": "Enable Background Overlay",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay Opacity",
+      "min": 0,
+      "max": 1,
+      "step": 0.1,
+      "default": 0.6,
+      "unit": "opacity"
+    },
+    {
+      "type": "header",
+      "content": "Section spacing"
+    },
+    {
+      "type": "select",
+      "id": "padding_x_mobile",
+      "label": "Padding X (Mobile)",
+      "options": [
+        { "value": "px-0", "label": "None" },
+        { "value": "px-xs", "label": "Extra Small" },
+        { "value": "px-sm", "label": "Small" },
+        { "value": "px-md", "label": "Medium" },
+        { "value": "px-lg", "label": "Large" },
+        { "value": "px-xl", "label": "Extra Large" },
+        { "value": "px-2xl", "label": "2X Large" },
+        { "value": "px-3xl", "label": "3X Large" }
+      ],
+      "default": "px-0"
+    },
+    {
+      "type": "select",
+      "id": "padding_top_mobile",
+      "label": "Padding Top (Mobile)",
+      "options": [
+        { "value": "pt-0", "label": "None" },
+        { "value": "pt-xs", "label": "Extra Small" },
+        { "value": "pt-sm", "label": "Small" },
+        { "value": "pt-md", "label": "Medium" },
+        { "value": "pt-lg", "label": "Large" },
+        { "value": "pt-xl", "label": "Extra Large" },
+        { "value": "pt-2xl", "label": "2X Large" },
+        { "value": "pt-3xl", "label": "3X Large" }
+      ],
+      "default": "pt-xl"
+    },
+    {
+      "type": "select",
+      "id": "padding_bottom_mobile",
+      "label": "Padding Bottom (Mobile)",
+      "options": [
+        { "value": "pb-0", "label": "None" },
+        { "value": "pb-xs", "label": "Extra Small" },
+        { "value": "pb-sm", "label": "Small" },
+        { "value": "pb-md", "label": "Medium" },
+        { "value": "pb-lg", "label": "Large" },
+        { "value": "pb-xl", "label": "Extra Large" },
+        { "value": "pb-2xl", "label": "2X Large" },
+        { "value": "pb-3xl", "label": "3X Large" }
+      ],
+      "default": "pb-xl"
+    },
+    {
+      "type": "select",
+      "id": "padding_x_desktop",
+      "label": "Padding X (Desktop)",
+      "options": [
+        { "value": "px-0", "label": "None" },
+        { "value": "px-xs", "label": "Extra Small" },
+        { "value": "px-sm", "label": "Small" },
+        { "value": "px-md", "label": "Medium" },
+        { "value": "px-lg", "label": "Large" },
+        { "value": "px-xl", "label": "Extra Large" },
+        { "value": "px-2xl", "label": "2X Large" },
+        { "value": "px-3xl", "label": "3X Large" }
+      ],
+      "default": "px-0"
+    },
+    {
+      "type": "select",
+      "id": "padding_top_desktop",
+      "label": "Padding Top (Desktop)",
+      "options": [
+        { "value": "pt-0", "label": "None" },
+        { "value": "pt-xs", "label": "Extra Small" },
+        { "value": "pt-sm", "label": "Small" },
+        { "value": "pt-md", "label": "Medium" },
+        { "value": "pt-lg", "label": "Large" },
+        { "value": "pt-xl", "label": "Extra Large" },
+        { "value": "pt-2xl", "label": "2X Large" },
+        { "value": "pt-3xl", "label": "3X Large" }
+      ],
+      "default": "pt-3xl"
+    },
+    {
+      "type": "select",
+      "id": "padding_bottom_desktop",
+      "label": "Padding Bottom (Desktop)",
+      "options": [
+        { "value": "pb-0", "label": "None" },
+        { "value": "pb-xs", "label": "Extra Small" },
+        { "value": "pb-sm", "label": "Small" },
+        { "value": "pb-md", "label": "Medium" },
+        { "value": "pb-lg", "label": "Large" },
+        { "value": "pb-xl", "label": "Extra Large" },
+        { "value": "pb-2xl", "label": "2X Large" },
+        { "value": "pb-3xl", "label": "3X Large" }
+      ],
+      "default": "pb-3xl"
+    },
+    {
+      "type": "select",
+      "id": "section_border_radius",
+      "label": "Section Border Radius",
+      "options": [
+        { "value": "rounded-none", "label": "None" },
+        { "value": "rounded-sm", "label": "Small" },
+        { "value": "rounded", "label": "Base" },
+        { "value": "rounded-md", "label": "Medium" },
+        { "value": "rounded-lg", "label": "Large" },
+        { "value": "rounded-xl", "label": "Extra Large" },
+        { "value": "rounded-2xl", "label": "2X Large" },
+        { "value": "rounded-3xl", "label": "3X Large" }
+      ],
+      "default": "rounded-none"
+    },
+    {
+      "type": "header",
+      "content": "Container Settings"
+    },
+    {
+      "type": "select",
+      "id": "container_background_color",
+      "label": "Container Background Color",
+      "options": [
+        { "value": "", "label": "None (Transparent)" },
+        { "value": "bg-white", "label": "White" },
+        { "value": "bg-black", "label": "Black" },
+        { "value": "bg-primary", "label": "Primary" },
+        { "value": "bg-secondary", "label": "Secondary" },
+        { "value": "bg-tertiary", "label": "Tertiary" },
+        { "value": "bg-quaternary", "label": "Quaternary" },
+        { "value": "bg-success", "label": "Success" },
+        { "value": "bg-warning", "label": "Warning" },
+        { "value": "bg-error", "label": "Error" },
+        { "value": "bg-info", "label": "Info" },
+        { "value": "bg-neutral", "label": "Neutral" },
+        { "value": "bg-neutral-light", "label": "Neutral Light" },
+        { "value": "bg-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": ""
+    },
+    {
+      "type": "image_picker",
+      "id": "container_background_image",
+      "label": "Container Background Image"
+    },
+    {
+      "type": "select",
+      "id": "container_border_radius",
+      "label": "Container Border Radius",
+      "options": [
+        { "value": "rounded-none", "label": "None" },
+        { "value": "rounded-sm", "label": "Small" },
+        { "value": "rounded", "label": "Base" },
+        { "value": "rounded-md", "label": "Medium" },
+        { "value": "rounded-lg", "label": "Large" },
+        { "value": "rounded-xl", "label": "Extra Large" },
+        { "value": "rounded-2xl", "label": "2X Large" },
+        { "value": "rounded-3xl", "label": "3X Large" }
+      ],
+      "default": "rounded-none"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_y_mobile",
+      "label": "Container Padding Y (Mobile)",
+      "options": [
+        { "value": "py-xs", "label": "Extra Small" },
+        { "value": "py-sm", "label": "Small" },
+        { "value": "py-md", "label": "Medium" },
+        { "value": "py-lg", "label": "Large" },
+        { "value": "py-xl", "label": "Extra Large" },
+        { "value": "py-2xl", "label": "2X Large" },
+        { "value": "py-3xl", "label": "3X Large" }
+      ],
+      "default": "py-lg"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_y_desktop",
+      "label": "Container Padding Y (Desktop)",
+      "options": [
+        { "value": "lg:py-xs", "label": "Extra Small" },
+        { "value": "lg:py-sm", "label": "Small" },
+        { "value": "lg:py-md", "label": "Medium" },
+        { "value": "lg:py-lg", "label": "Large" },
+        { "value": "lg:py-xl", "label": "Extra Large" },
+        { "value": "lg:py-2xl", "label": "2X Large" },
+        { "value": "lg:py-3xl", "label": "3X Large" }
+      ],
+      "default": "lg:py-2xl"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_x_mobile",
+      "label": "Container Padding X (Mobile)",
+      "options": [
+        { "value": "px-0", "label": "None" },
+        { "value": "px-xs", "label": "Extra Small" },
+        { "value": "px-sm", "label": "Small" },
+        { "value": "px-md", "label": "Medium" },
+        { "value": "px-lg", "label": "Large" },
+        { "value": "px-xl", "label": "Extra Large" },
+        { "value": "px-2xl", "label": "2X Large" },
+        { "value": "px-3xl", "label": "3X Large" }
+      ],
+      "default": "px-0"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_x_desktop",
+      "label": "Container Padding X (Desktop)",
+      "options": [
+        { "value": "lg:px-0", "label": "None" },
+        { "value": "lg:px-xs", "label": "Extra Small" },
+        { "value": "lg:px-sm", "label": "Small" },
+        { "value": "lg:px-md", "label": "Medium" },
+        { "value": "lg:px-lg", "label": "Large" },
+        { "value": "lg:px-xl", "label": "Extra Large" },
+        { "value": "lg:px-2xl", "label": "2X Large" },
+        { "value": "lg:px-3xl", "label": "3X Large" }
+      ],
+      "default": "lg:px-0"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "video",
+      "name": "Video",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Video Settings"
+        },
+        {
+          "type": "image_picker",
+          "id": "video_thumbnail",
+          "label": "Video Thumbnail Image",
+          "info": "Displayed before the video plays"
+        },
+        {
+          "type": "text",
+          "id": "video_alt",
+          "label": "Video Alt Text",
+          "default": "Video thumbnail"
+        },
+        {
+          "type": "header",
+          "content": "Video Source"
+        },
+        {
+          "type": "url",
+          "id": "video_url",
+          "label": "Video URL",
+          "info": "Supports YouTube, Vimeo, or direct video file URLs (.mp4, etc.)"
+        },
+        {
+          "type": "text",
+          "id": "youtube_id",
+          "label": "YouTube Video ID",
+          "info": "Alternative: Enter just the YouTube ID (e.g., 'dQw4w9WgXcQ')"
+        },
+        {
+          "type": "text",
+          "id": "vimeo_id",
+          "label": "Vimeo Video ID",
+          "info": "Alternative: Enter just the Vimeo ID (e.g., '123456789')"
+        },
+        {
+          "type": "header",
+          "content": "Video Container Styling"
+        },
+        {
+          "type": "text",
+          "id": "video_border_width",
+          "label": "Border Width (px)",
+          "default": "2"
+        },
+        {
+          "type": "color_background",
+          "id": "video_border_color",
+          "label": "Border Color",
+          "default": "#e5ac40"
+        },
+        {
+          "type": "select",
+          "id": "video_border_radius",
+          "label": "Border Radius",
+          "options": [
+            { "value": "rounded-none", "label": "None" },
+            { "value": "rounded-sm", "label": "Small" },
+            { "value": "rounded", "label": "Base" },
+            { "value": "rounded-md", "label": "Medium" },
+            { "value": "rounded-lg", "label": "Large" },
+            { "value": "rounded-xl", "label": "Extra Large" },
+            { "value": "rounded-2xl", "label": "2X Large" },
+            { "value": "rounded-3xl", "label": "3X Large" }
+          ],
+          "default": "rounded-lg"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_play_button",
+          "label": "Show Play Button",
+          "default": true
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Video Content Hero",
+      "blocks": [
+        {
+          "type": "video",
+          "settings": {
+            "video_border_width": "2",
+            "video_border_color": "#e5ac40",
+            "video_border_radius": "rounded-lg",
+            "show_play_button": true
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

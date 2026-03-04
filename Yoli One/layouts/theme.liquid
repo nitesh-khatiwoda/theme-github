@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="{{ request.locale.iso_code | default: 'en' }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ page_title | default: company.name }}</title>
+  
+  <!-- Custom Font Preloads for Better Performance -->
+  <link rel="preload" as="font" href="{{ 'basis-grotesque-regular.woff2' | asset_url }}" type="font/woff2" crossorigin>
+  <link rel="preload" as="font" href="{{ 'basis-grotesque-bold.woff2' | asset_url }}" type="font/woff2" crossorigin>
+  <link rel="preload" as="font" href="{{ 'RecklessNeue-Regular.woff2' | asset_url }}" type="font/woff2" crossorigin>
+  
+  <!-- External Libraries CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
+  {% style %}
+
+  /* Custom Font Face Declarations */
+      /* Basis-Grotesque Regular */
+      @font-face {
+        font-family: 'Basis-Grotesque';
+        src: 
+          url('{{ "basis-grotesque-regular.woff2" | asset_url }}') format('woff2'),
+          url('{{ "basis-grotesque-regular.woff" | asset_url }}') format('woff');
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      /* Basis-Grotesque Italic */
+      @font-face {
+        font-family: 'Basis-Grotesque';
+        src: 
+          url('{{ "basis-grotesque-italic.woff2" | asset_url }}') format('woff2'),
+          url('{{ "basis-grotesque-italic.woff" | asset_url }}') format('woff');
+        font-weight: 400;
+        font-style: italic;
+        font-display: swap;
+      }
+
+      /* Basis-Grotesque Bold */
+      @font-face {
+        font-family: 'Basis-Grotesque';
+        src: 
+          url('{{ "basis-grotesque-bold.woff2" | asset_url }}') format('woff2'),
+          url('{{ "basis-grotesque-bold.woff" | asset_url }}') format('woff');
+        font-weight: 700;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      /* Basis-Grotesque Bold Italic */
+      @font-face {
+        font-family: 'Basis-Grotesque';
+        src: 
+          url('{{ "basis-grotesque-bold-italic.woff2" | asset_url }}') format('woff2'),
+          url('{{ "basis-grotesque-bold-italic.woff" | asset_url }}') format('woff');
+        font-weight: 700;
+        font-style: italic;
+        font-display: swap;
+      }
+
+      /* RecklessNeue Regular */
+      @font-face {
+        font-family: 'RecklessNeue';
+        src: 
+          url('{{ "RecklessNeue-Regular.woff2" | asset_url }}') format('woff2'),
+          url('{{ "RecklessNeue-Regular.woff" | asset_url }}') format('woff');
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      /* RecklessNeue Regular Italic */
+      @font-face {
+        font-family: 'RecklessNeue';
+        src: 
+          url('{{ "RecklessNeue-RegularItalic.woff2" | asset_url }}') format('woff2'),
+          url('{{ "RecklessNeue-RegularItalic.woff" | asset_url }}') format('woff');
+        font-weight: 400;
+        font-style: italic;
+        font-display: swap;
+      }
+
+      /* Louize Regular (Script Font) */
+      @font-face {
+        font-family: 'Louize';
+        src: 
+          url('{{ "Louize - Regular-205TF.woff2" | asset_url }}') format('woff2'),
+          url('{{ "Louize - Regular-205TF.woff" | asset_url }}') format('woff');
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      /* Louize Italic (Script Font) */
+      @font-face {
+        font-family: 'Louize';
+        src: 
+          url('{{ "Louize - Italic-205TF.woff2" | asset_url }}') format('woff2'),
+          url('{{ "Louize - Italic-205TF.woff" | asset_url }}') format('woff');
+        font-weight: 400;
+        font-style: italic;
+        font-display: swap;
+      }
+  {% endstyle %}
+  
+  <!-- Theme CSS Variables -->
+  <style>
+    :root {
+      /* Core Brand Colors */
+      --clr-primary: {{ settings.color_primary | default: '#1C0F8A' }};
+      --clr-primary-hover: {{ settings.color_primary_hover | default: '#2917CC' }};
+      --clr-primary-active: {{ settings.color_primary_active | default: '#12096B' }};
+      --clr-secondary: {{ settings.color_secondary | default: '#4C2EFF' }};
+      --clr-secondary-light: {{ settings.color_secondary_light | default: '#E6EEFF' }};
+      --clr-secondary-lighter: {{ settings.color_secondary_lighter | default: '#F9F9FF' }};
+      --clr-tertiary: {{ settings.color_tertiary | default: '#F86F38' }};
+      --clr-quaternary: {{ settings.color_quaternary | default: '#FF8255' }};
+      
+      /* Accent Colors */
+      --clr-accent-1: {{ settings.color_accent_1 | default: '#E5FF65' }};
+      --clr-accent-2: {{ settings.color_accent_2 | default: '#FEE5F7' }};
+      --clr-accent-3: {{ settings.color_accent_3 | default: '#F86F38' }};
+      --clr-accent-4: {{ settings.color_accent_4 | default: '#FF8255' }};
+      --clr-accent-5: {{ settings.color_accent_5 | default: '#008A5B' }};
+      --clr-accent-6: {{ settings.color_accent_6 | default: '#29A69A' }};
+      --clr-accent-7: {{ settings.color_accent_7 | default: '#A68FFF' }};
+      
+      /* Extended Brand */
+      --clr-brand-dark: {{ settings.color_brand_dark | default: '#083B29' }};
+      --clr-brand-light: {{ settings.color_brand_light | default: '#EAE7FA' }};
+      --clr-brand-accent: {{ settings.color_brand_accent | default: '#F7FFAF' }};
+      --clr-brand-alt: {{ settings.color_brand_alt | default: '#1C0F8A' }};
+      
+      /* Neutrals */
+      --clr-neutral-dark: {{ settings.color_neutral_dark | default: '#1A1716' }};
+      --clr-neutral: {{ settings.color_neutral | default: '#3B302A' }};
+      --clr-neutral-medium: {{ settings.color_neutral_medium | default: '#80766D' }};
+      --clr-neutral-light: {{ settings.color_neutral_light | default: '#FAF3EC' }};
+      --clr-neutral-lighter: {{ settings.color_neutral_lighter | default: '#FDF9F5' }};
+      
+      /* Background Colors */
+      --clr-bg-page: {{ settings.color_background_page | default: '#FFFFFF' }};
+      --clr-bg-surface: {{ settings.color_background_surface | default: '#FFFFFF' }};
+      --clr-bg-card-primary: {{ settings.color_bg_card_primary | default: '#FAF3EC' }};
+      --clr-bg-card-secondary: {{ settings.color_bg_card_secondary | default: '#FEE5F7' }};
+      --clr-bg-banner: {{ settings.color_bg_banner | default: '#E5FF65' }};
+      --clr-bg-accent-warm: {{ settings.color_bg_accent_warm | default: '#FF8255' }};
+      --clr-bg-accent-dark: {{ settings.color_bg_accent_dark | default: '#083B29' }};
+      --clr-bg-footer: {{ settings.color_bg_footer | default: '#1C0F8A' }};
+      --clr-bg-accent-soft: {{ settings.color_bg_accent_soft | default: '#F5F3FF' }};
+      
+      /* Text Colors */
+      --clr-text-primary: {{ settings.color_text_primary | default: '#1A1716' }};
+      --clr-text-secondary: {{ settings.color_text_secondary | default: '#3B302A' }};
+      --clr-text-inverse: {{ settings.color_text_inverse | default: '#FFFFFF' }};
+      --clr-text-muted: {{ settings.color_text_muted | default: '#7A7067' }};
+      --clr-text-accent: {{ settings.color_text_accent | default: '#1C0F8A' }};
+      
+      /* Border Colors */
+      --clr-border-light: {{ settings.color_border_light | default: '#F0E8E2' }};
+      --clr-border-dark: {{ settings.color_border_dark | default: '#DAD0C9' }};
+      --clr-border-strong: {{ settings.color_border_strong | default: '#1C0F8A' }};
+      
+      /* Button Colors */
+      --clr-btn-primary: {{ settings.color_button_primary | default: '#1C0F8A' }};
+      --clr-btn-primary-hover: {{ settings.color_button_primary_hover | default: '#2714B8' }};
+      --clr-btn-primary-active: {{ settings.color_button_primary_active | default: '#15096A' }};
+      --clr-btn-primary-text: {{ settings.color_button_primary_text | default: '#FFFFFF' }};
+      --clr-btn-secondary: {{ settings.color_button_secondary | default: '#FAF3EC' }};
+      --clr-btn-secondary-hover: {{ settings.color_button_secondary_hover | default: '#F1E6DA' }};
+      --clr-btn-secondary-text: {{ settings.color_button_secondary_text | default: '#1A1716' }};
+      --clr-btn-highlight: {{ settings.color_button_highlight | default: '#E5FF65' }};
+      --clr-btn-highlight-text: {{ settings.color_button_highlight_text | default: '#1A1716' }};
+      --clr-btn-inverse: {{ settings.color_button_inverse | default: '#FFFFFF' }};
+      --clr-btn-inverse-hover: {{ settings.color_button_inverse_hover | default: '#F6F6F6' }};
+      --clr-btn-inverse-text: {{ settings.color_button_inverse_text | default: '#1A1716' }};
+      
+      /* System Colors */
+      --clr-success: {{ settings.color_success | default: '#18a558' }};
+      --clr-warning: {{ settings.color_warning | default: '#F59E0B' }};
+      --clr-error: {{ settings.color_error | default: '#EF4444' }};
+      --clr-info: {{ settings.color_info | default: '#3B82F6' }};
+      --clr-white: {{ settings.color_white | default: '#FFFFFF' }};
+      --clr-black: {{ settings.color_black | default: '#000000' }};
+      
+      /* Typography - Custom Fonts */
+      --font-primary: '{{ settings.font_primary | default: "Basis-Grotesque" }}', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      --font-body: '{{ settings.font_body | default: "Basis-Grotesque" }}', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      --font-serif: '{{ settings.font_serif | default: "RecklessNeue" }}', Georgia, "Times New Roman", Times, serif;
+      --font-handwritten: '{{ settings.font_handwritten | default: "Louize" }}', cursive, "Comic Sans MS", "Brush Script MT";
+      
+      /* Font Sizes */
+      --font-size-xs: {{ settings.font_size_xs | default: 12 }}px;
+      --font-size-sm: {{ settings.font_size_sm | default: 14 }}px;
+      --font-size-base: {{ settings.font_size_base | default: 16 }}px;
+      --font-size-lg: {{ settings.font_size_lg | default: 18 }}px;
+      --font-size-xl: {{ settings.font_size_xl | default: 20 }}px;
+      --font-size-2xl: {{ settings.font_size_2xl | default: 24 }}px;
+      --font-size-3xl: {{ settings.font_size_3xl | default: 30 }}px;
+      --font-size-4xl: {{ settings.font_size_4xl | default: 36 }}px;
+      --font-size-5xl: {{ settings.font_size_5xl | default: 48 }}px;
+      --font-size-6xl: {{ settings.font_size_6xl | default: 60 }}px;
+      --font-size-7xl: {{ settings.font_size_7xl | default: 72 }}px;
+      --font-size-8xl: {{ settings.font_size_8xl | default: 96 }}px;
+      --font-size-9xl: {{ settings.font_size_9xl | default: 128 }}px;
+      
+      /* Spacing */
+      --space-xs: {{ settings.space_xs | default: 4 }}px;
+      --space-sm: {{ settings.space_sm | default: 8 }}px;
+      --space-md: {{ settings.space_md | default: 16 }}px;
+      --space-lg: {{ settings.space_lg | default: 24 }}px;
+      --space-xl: {{ settings.space_xl | default: 32 }}px;
+      --space-2xl: {{ settings.space_2xl | default: 48 }}px;
+      --space-3xl: {{ settings.space_3xl | default: 64 }}px;
+      --space-4xl: {{ settings.space_4xl | default: 80 }}px;
+      --space-5xl: {{ settings.space_5xl | default: 96 }}px;
+      
+      /* Border Radius */
+      --radius-sm: {{ settings.border_radius_sm | default: 2 }}px;
+      --radius-base: {{ settings.border_radius_base | default: 4 }}px;
+      --radius-md: {{ settings.border_radius_md | default: 6 }}px;
+      --radius-lg: {{ settings.border_radius_lg | default: 13 }}px;
+      --radius-xl: {{ settings.border_radius_xl | default: 20 }}px;
+      --radius-2xl: {{ settings.border_radius_2xl | default: 32 }}px;
+      --radius-3xl: {{ settings.border_radius_3xl | default: 50 }}px;
+      --radius-4xl: {{ settings.border_radius_4xl | default: 100 }}px;
+      
+      /* Z-index layers */
+      --z-0: 0;
+      --z-10: 10;
+      --z-20: 20;
+      --z-30: 30;
+      --z-40: 40;
+      --z-50: 50;
+      
+      /* Container max width */
+      --container-max-width: 1408px;
+      --container-padding: 36px;
+    }
+    .px-0 { padding-left: 0px; padding-right:0px;  }
+  </style>
+  
+  <!-- Theme Design System CSS -->
+  <link rel="stylesheet" href="{{ 'reset.css' | asset_url }}">
+  <link rel="stylesheet" href="{{ 'design-system.css' | asset_url }}">
+  <link rel="stylesheet" href="{{ 'design-utilities.css' | asset_url }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  
+  <!-- External Libraries JavaScript -->
+  <script type="text/javascript" src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js" defer></script>
+  
+  
+  
+  <!-- Theme Stylesheet -->
+  {{ theme.global_stylesheet_with_variables | raw }}
+  
+  <!-- Custom Styles -->
+  {{ theme.custom_stylesheet | raw }}
+  
+  <!-- Shopify Required -->
+  {{ content_for_header }}
+</head>
+<body class="font-body">
+  
+  <!-- Announcement Bar -->
+  {% if settings.show_announcement_bar %}
+    {% section 'announcement-bar' %}
+  {% endif %}
+  
+  <!-- Header/Navigation -->
+  {% section 'navbar' %}
+  
+  <!-- Main Content -->
+  <main id="MainContent" role="main">
+    {{ content_for_layout }}
+  </main>
+  
+  <!-- Footer -->
+  {% section 'footer' %}
+  
+  <!-- Global JavaScript -->
+  <script src="{{ 'global.js' | asset_url }}" defer></script>
+  
+  <script defer>
+    $(document).ready(function () {
+      // video popup
+      $("[data-fancybox]").fancybox({
+        youtube: {
+          controls: 0,
+          modestbranding: 1, // Use modestbranding instead of showinfo
+        },
+      });
+    });
+  </script>
+  <script>
+    window.addEventListener('FLUID_OPEN_CART', function() { var chatFrame = document.getElementById('icChatButton'); if (chatFrame) { chatFrame.style.margin = '2rem'; var poll = setInterval(function() { if (document.body.style.overflow !== 'hidden') { var f = document.getElementById('icChatButton'); if (f) f.style.margin = '0'; clearInterval(poll); } }, 200); } });
+  </script>
+</body>
+</html>
+

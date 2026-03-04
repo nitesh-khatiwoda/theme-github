@@ -1,0 +1,530 @@
+/* Lifestyle Info */
+.lifestyle-info {
+  position: relative;
+  width: 100%;
+}
+
+.lifestyle-info-inner {
+  position: relative;
+  width: 100%;
+}
+
+/* Grid Layout */
+.lifestyle-info-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+  align-items: stretch;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .lifestyle-info-grid {
+    flex-direction: row;
+    gap: var(--space-xl);
+    align-items: flex-start;
+  }
+  
+  .lifestyle-info-grid--flipped {
+    flex-direction: row-reverse;
+  }
+}
+
+@media (min-width: 1024px) {
+  .lifestyle-info-grid {
+    gap: var(--space-2xl);
+  }
+}
+
+/* Content Column */
+.lifestyle-info-content-column {
+  width: 100%;
+  flex-shrink: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 768px) {
+  .lifestyle-info-content-column {
+    width: 50%;
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .lifestyle-info-content-column {
+    max-width: 616px;
+    flex-shrink: 0;
+  }
+}
+
+/* Heading */
+.lifestyle-info-heading-wrapper {
+  width: 100%;
+  min-width: 0;
+}
+
+.lifestyle-info-heading {
+  margin: 0;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+@media (min-width: 1024px) {
+  .lifestyle-info-heading {
+    line-height: 1.1;
+  }
+}
+
+/* Body Text */
+.lifestyle-info-body-wrapper {
+  width: 100%;
+  min-width: 0;
+}
+
+.lifestyle-info-body {
+  margin: 0;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+/* Features Grid - 2x2 Layout */
+.lifestyle-info-features {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  width: 100%;
+}
+
+/* Mobile dividers - auto-enabled by default */
+@media (max-width: 767px) {
+  .lifestyle-info-features {
+    row-gap: 0 !important;
+    position: relative;
+  }
+
+  .lifestyle-info-features .lifestyle-info-feature-item {
+    padding-top: var(--space-lg);
+    padding-bottom: var(--space-lg);
+    position: relative;
+  }
+
+  /* Horizontal faded divider line */
+  .lifestyle-info-features .lifestyle-info-feature-item::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(
+      to right,
+      transparent 0%,
+      var(--color-neutral, #d4d4d4) 20%,
+      var(--color-neutral, #d4d4d4) 80%,
+      transparent 100%
+    );
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Hide horizontal divider on last row items */
+  .lifestyle-info-features .lifestyle-info-feature-item:nth-last-child(-n+2)::after {
+    display: none;
+  }
+
+  /* Vertical faded divider lines in center of grid - two stacked with fade in middle */
+  .lifestyle-info-features::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1px;
+    background: linear-gradient(
+      to bottom,
+      transparent 0%,
+      var(--color-neutral, #d4d4d4) 20%,
+      var(--color-neutral, #d4d4d4) 80%,
+      transparent 100%
+    );
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .lifestyle-info-features::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1px;
+    background: linear-gradient(
+      to bottom,
+      transparent 0%,
+      var(--color-neutral, #d4d4d4) 20%,
+      var(--color-neutral, #d4d4d4) 80%,
+      transparent 100%
+    );
+    pointer-events: none;
+    z-index: 1;
+  }
+}
+
+/* Optional: Force dividers on desktop too with class */
+.lifestyle-info-features--with-dividers {
+  row-gap: 0 !important;
+  position: relative;
+}
+
+.lifestyle-info-features--with-dividers .lifestyle-info-feature-item {
+  padding-top: var(--space-lg);
+  padding-bottom: var(--space-lg);
+  position: relative;
+}
+
+/* Horizontal divider */
+.lifestyle-info-features--with-dividers .lifestyle-info-feature-item::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    var(--color-neutral, #d4d4d4) 20%,
+    var(--color-neutral, #d4d4d4) 80%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+.lifestyle-info-features--with-dividers .lifestyle-info-feature-item:nth-last-child(-n+2)::after {
+  display: none;
+}
+
+/* Vertical faded divider lines in center of grid - two stacked with fade in middle */
+.lifestyle-info-features--with-dividers::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 50%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1px;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    var(--color-neutral, #d4d4d4) 20%,
+    var(--color-neutral, #d4d4d4) 80%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+.lifestyle-info-features--with-dividers::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1px;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    var(--color-neutral, #d4d4d4) 20%,
+    var(--color-neutral, #d4d4d4) 80%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Gap between blocks - Mobile */
+.lifestyle-info-features--gap-xs {
+  gap: var(--space-xs);
+}
+
+.lifestyle-info-features--gap-sm {
+  gap: var(--space-sm);
+}
+
+.lifestyle-info-features--gap-md {
+  gap: var(--space-md);
+}
+
+.lifestyle-info-features--gap-lg {
+  gap: var(--space-lg);
+}
+
+.lifestyle-info-features--gap-xl {
+  gap: var(--space-xl);
+}
+
+.lifestyle-info-features--gap-2xl {
+  gap: var(--space-2xl);
+}
+
+.lifestyle-info-features--gap-3xl {
+  gap: var(--space-3xl);
+}
+
+@media (min-width: 768px) {
+  .lifestyle-info-features {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Gap between blocks - Desktop */
+@media (min-width: 1024px) {
+  .lifestyle-info-features--gap-desktop-xs {
+    gap: var(--space-xs);
+  }
+
+  .lifestyle-info-features--gap-desktop-sm {
+    gap: var(--space-sm);
+  }
+
+  .lifestyle-info-features--gap-desktop-md {
+    gap: var(--space-md);
+  }
+
+  .lifestyle-info-features--gap-desktop-lg {
+    gap: var(--space-lg);
+  }
+
+  .lifestyle-info-features--gap-desktop-xl {
+    gap: var(--space-xl);
+  }
+
+  .lifestyle-info-features--gap-desktop-2xl {
+    gap: var(--space-2xl);
+  }
+
+  .lifestyle-info-features--gap-desktop-3xl {
+    gap: var(--space-3xl);
+  }
+}
+
+/* Feature Item */
+.lifestyle-info-feature-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  min-width: 0;
+}
+
+@media (min-width: 768px) {
+  .lifestyle-info-feature-item {
+    align-items: flex-start;
+    text-align: left;
+  }
+}
+
+/* Gap between icon and text - Mobile */
+.lifestyle-info-feature-item--gap-xs {
+  gap: var(--space-xs);
+}
+
+.lifestyle-info-feature-item--gap-sm {
+  gap: var(--space-sm);
+}
+
+.lifestyle-info-feature-item--gap-md {
+  gap: var(--space-md);
+}
+
+.lifestyle-info-feature-item--gap-lg {
+  gap: var(--space-lg);
+}
+
+.lifestyle-info-feature-item--gap-xl {
+  gap: var(--space-xl);
+}
+
+.lifestyle-info-feature-item--gap-2xl {
+  gap: var(--space-2xl);
+}
+
+.lifestyle-info-feature-item--gap-3xl {
+  gap: var(--space-3xl);
+}
+
+/* Gap between icon and text - Desktop */
+@media (min-width: 1024px) {
+  .lifestyle-info-feature-item--gap-desktop-xs {
+    gap: var(--space-xs);
+  }
+
+  .lifestyle-info-feature-item--gap-desktop-sm {
+    gap: var(--space-sm);
+  }
+
+  .lifestyle-info-feature-item--gap-desktop-md {
+    gap: var(--space-md);
+  }
+
+  .lifestyle-info-feature-item--gap-desktop-lg {
+    gap: var(--space-lg);
+  }
+
+  .lifestyle-info-feature-item--gap-desktop-xl {
+    gap: var(--space-xl);
+  }
+
+  .lifestyle-info-feature-item--gap-desktop-2xl {
+    gap: var(--space-2xl);
+  }
+
+  .lifestyle-info-feature-item--gap-desktop-3xl {
+    gap: var(--space-3xl);
+  }
+}
+
+/* Icon */
+.lifestyle-info-feature-icon {
+  position: relative;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (min-width: 1024px) {
+  .lifestyle-info-feature-icon {
+    width: var(--icon-size-desktop, 32px) !important;
+    height: var(--icon-size-desktop, 32px) !important;
+  }
+}
+
+.lifestyle-info-feature-icon-img {
+  display: block;
+}
+
+.lifestyle-info-feature-icon-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.lifestyle-info-feature-icon-placeholder svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Feature Content */
+.lifestyle-info-feature-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  width: 100%;
+}
+
+/* Feature Title */
+.lifestyle-info-feature-title {
+  width: 100%;
+  min-width: 0;
+}
+
+.lifestyle-info-feature-title h3 {
+  margin: 0;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+/* Feature Description */
+.lifestyle-info-feature-description {
+  width: 100%;
+  min-width: 0;
+}
+
+.lifestyle-info-feature-description p {
+  margin: 0;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+/* Image Column */
+.lifestyle-info-image-column {
+  width: 100%;
+  flex-shrink: 1;
+  min-width: 0;
+}
+
+@media (min-width: 768px) {
+  .lifestyle-info-image-column {
+    width: 50%;
+    max-width: 500px;
+    flex-shrink: 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .lifestyle-info-image-column {
+    max-width: 616px;
+  }
+}
+
+.lifestyle-info-image-wrapper {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lifestyle-info-image {
+  width: 100%;
+  display: block;
+  object-position: center;
+}
+
+.lifestyle-info-image--fit {
+  height: auto;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.lifestyle-info-image--fill {
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Background Image Handling */
+.lifestyle-info[data-bg] {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.lifestyle-info-inner[data-bg] {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 767px) {
+  .lifestyle-info-grid {
+    gap: var(--space-lg);
+  }
+}
+

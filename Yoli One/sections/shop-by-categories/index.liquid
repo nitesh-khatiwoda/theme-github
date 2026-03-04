@@ -1,0 +1,1073 @@
+<!-- Swiper CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+
+<!-- Shop by Category Section -->
+<section class="shop-by-category {{ section.settings.background_color | default: 'bg-white' }} {{ section.settings.section_padding_y_mobile | default: 'py-xl' }} {{ section.settings.section_padding_y_desktop | default: 'lg:py-3xl' }} {{ section.settings.section_border_radius | default: 'rounded-none' }}" id="shop-by-category-{{ section.id }}" {% if section.settings.background_image %}data-bg="{{ section.settings.background_image | image_url }}"{% endif %}>
+  <div class="{{ section.settings.container_layout_width | default: 'container' }}">
+    <div class="shop-by-category-inner {{ section.settings.container_background_color }} {{ section.settings.container_border_radius | default: 'rounded-none' }} {{ section.settings.container_padding_y_mobile | default: 'py-lg' }} {{ section.settings.container_padding_y_desktop | default: 'lg:py-2xl' }} {{ section.settings.container_padding_x_mobile | default: 'px-md' }} {{ section.settings.container_padding_x_desktop | default: 'lg:px-xl' }}" {% if section.settings.container_background_image %}data-bg="{{ section.settings.container_background_image | image_url }}"{% endif %}>
+      
+      <!-- Section Header -->
+      <div class="shop-by-category-header text-center mb-2xl">
+        {% if section.settings.heading != blank %}
+        <h2 class="{{ section.settings.heading_font_family | default: 'font-primary' }} {{ section.settings.heading_font_size | default: 'text-3xl' }} {{ section.settings.heading_font_size_desktop | default: 'lg:text-5xl' }} {{ section.settings.heading_font_weight | default: 'font-bold' }} {{ section.settings.heading_color | default: 'text-black' }} leading-heading mb-md">
+          {{ section.settings.heading }}
+        </h2>
+        {% endif %}
+        
+        {% if section.settings.subtitle != blank %}
+        <p class="{{ section.settings.subtitle_font_family | default: 'font-body' }} {{ section.settings.subtitle_font_size | default: 'text-base' }} {{ section.settings.subtitle_font_size_desktop | default: 'lg:text-lg' }} {{ section.settings.subtitle_font_weight | default: 'font-normal' }} {{ section.settings.subtitle_color | default: 'text-black' }} leading-relaxed max-w-3xl mx-auto">
+          {{ section.settings.subtitle }}
+        </p>
+        {% endif %}
+      </div>
+      
+      <!-- Category Carousel -->
+      {%- if section.blocks.size > 0 -%}
+      <div class="shop-by-category-carousel-wrapper swiper" data-swiper-wrapper="{{ section.id }}">
+        <div class="swiper-wrapper shop-by-category-carousel-track {{ section.settings.carousel_card_gap | default: 'gap-md' }}" data-carousel-track="{{ section.id }}">
+            
+            {%- comment -%} Block-based categories (primary method) {%- endcomment -%}
+            {% for block in section.blocks %}
+                {% if block.type == 'category_item' %}
+                  {%- assign current_category = blank -%}
+                  {%- assign category_url = block.settings.category_url | default: '#' -%}
+                  {%- assign category_title = 'Category' -%}
+                  {%- assign background_image = block.settings.background_image -%}
+                  
+                  {%- comment -%} If category is selected, use its data {%- endcomment -%}
+                  {%- if block.settings.category != blank -%}
+                    {%- assign category_setting = block.settings.category -%}
+                    {%- assign category_id = blank -%}
+                    
+                    {%- comment -%} Handle both object and ID formats {%- endcomment -%}
+                    {%- if category_setting.id != blank -%}
+                      {%- assign category_id = category_setting.id -%}
+                    {%- elsif category_setting != blank -%}
+                      {%- assign category_id = category_setting -%}
+                    {%- endif -%}
+                    
+                    {%- comment -%} Find category from global categories object {%- endcomment -%}
+                    {%- if category_id != blank -%}
+                      {%- assign category_id_num = category_id | plus: 0 -%}
+                      {%- for cat in categories -%}
+                        {%- assign cat_id = cat.id | plus: 0 -%}
+                        {%- if cat_id == category_id_num -%}
+                          {%- assign current_category = cat -%}
+                          {%- break -%}
+                        {%- endif -%}
+                      {%- endfor -%}
+                    {%- endif -%}
+                    
+                    {%- if current_category != blank -%}
+                      {%- comment -%} Build shop URL with category filter - matching main_shop_list format {%- endcomment -%}
+                      {%- assign shop_url = section.settings.shop_page_url | default: '/shop' -%}
+                      {%- assign category_url = shop_url | append: '?filterrific[with_category_id][]=' | append: current_category.id -%}
+                      {%- comment -%} Always use category title when category is selected {%- endcomment -%}
+                      {%- assign category_title = current_category.title | default: 'Category' -%}
+                      {%- comment -%} Use category image only if manual image is not provided {%- endcomment -%}
+                      {%- if background_image == blank or background_image == null -%}
+                        {%- if current_category.image != blank -%}
+                          {%- assign background_image = current_category.image -%}
+                        {%- elsif current_category.products.first != blank and current_category.products.first.images.first != blank -%}
+                          {%- assign background_image = current_category.products.first.images.first -%}
+                        {%- endif -%}
+                      {%- endif -%}
+                    {%- endif -%}
+                  {%- endif -%}
+                  
+                  {%- comment -%} Use manual title if no category found or no category selected {%- endcomment -%}
+                  {%- if current_category == blank and block.settings.category_title != blank and block.settings.category_title != '' -%}
+                    {%- assign category_title = block.settings.category_title -%}
+                  {%- endif -%}
+                  
+                  <div class="swiper-slide">
+                    <a href="{{ category_url }}" 
+                       class="shop-by-category-card"
+                       style="border-radius: {{ section.settings.card_border_radius | default: 8 }}px; height: {{ section.settings.card_height | default: 400 }}px; min-width: {{ section.settings.card_width_mobile | default: 280 }}px; width: {{ section.settings.card_width_mobile | default: 280 }}px;"
+                       {{ block.fluid_attributes }}
+                       {% if current_category != blank %}data-category-id="{{ current_category.id }}"{% endif %}>
+                    
+                    <!-- Background Image -->
+                    <div class="shop-by-category-bg">
+                      {% if background_image %}
+                        <img src="{{ background_image | image_url: width: 800 }}" 
+                             alt="{{ category_title }}"
+                             class="w-full h-full object-cover"
+                             loading="lazy">
+                      {% else %}
+                        <img src="{{ 'placeholder-image.png' | asset_url }}" 
+                             alt="Placeholder"
+                             class="w-full h-full object-cover">
+                      {% endif %}
+                    </div>
+                    
+                    <!-- Overlay (optional) -->
+                    {% if section.settings.show_overlay %}
+                    <div class="shop-by-category-overlay" style="background-color: rgba(0, 0, 0, {{ section.settings.overlay_opacity | default: 0.3 }});"></div>
+                    {% endif %}
+                    
+                    <!-- Content - Bottom Left Aligned -->
+                    <div class="shop-by-category-content">
+                      <div class="shop-by-category-title-wrapper">
+                        {% if category_title != blank %}
+                        <h3 class="{{ block.settings.title_font_family | default: section.settings.title_font_family | default: 'font-primary' }} {{ block.settings.title_font_size | default: section.settings.title_font_size | default: 'text-xl' }} {{ block.settings.title_font_size_desktop | default: section.settings.title_font_size_desktop | default: 'lg:text-2xl' }} {{ block.settings.title_font_weight | default: section.settings.title_font_weight | default: 'font-semibold' }} {{ block.settings.title_color | default: section.settings.title_color | default: 'text-white' }}">
+                          {{ category_title }}
+                        </h3>
+                        {% endif %}
+                      </div>
+                    </div>
+                    
+                    </a>
+                  </div>
+                {% endif %}
+              {% endfor %}
+            
+        </div>
+      </div>
+      {%- endif -%}
+      
+    </div>
+  </div>
+</section>
+
+<style>
+  #shop-by-category-{{ section.id }} .shop-by-category-card {
+    min-width: {{ section.settings.card_width_mobile | default: 280 }}px;
+    width: {{ section.settings.card_width_mobile | default: 280 }}px;
+  }
+  @media (min-width: 640px) {
+    #shop-by-category-{{ section.id }} .shop-by-category-card {
+      min-width: {{ section.settings.card_width_tablet | default: 320 }}px;
+      width: {{ section.settings.card_width_tablet | default: 320 }}px;
+    }
+  }
+  @media (min-width: 1024px) {
+    #shop-by-category-{{ section.id }} .shop-by-category-card {
+      min-width: {{ section.settings.card_width_desktop | default: 400 }}px;
+      width: {{ section.settings.card_width_desktop | default: 400 }}px;
+    }
+  }
+</style>
+
+<!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<script>
+(function() {
+  try {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initSwiper);
+    } else {
+      initSwiper();
+    }
+    
+    function initSwiper() {
+      const sectionId = '{{ section.id }}';
+      const swiperWrapper = document.querySelector(`[data-swiper-wrapper="${sectionId}"]`);
+      
+      if (!swiperWrapper) {
+        return;
+      }
+      
+      // Get only original slides (exclude clones)
+      const slides = swiperWrapper.querySelectorAll('.swiper-slide:not([data-clone])');
+      
+      if (slides.length === 0) {
+        return;
+      }
+      
+      // For single slide, don't initialize Swiper or clone
+      if (slides.length === 1) {
+        return;
+      }
+      
+      // Prevent multiple initializations
+      if (swiperWrapper.swiper) {
+        swiperWrapper.swiper.destroy(true, true);
+      }
+      
+      // Remove any existing clones first
+      const wrapper = swiperWrapper.querySelector('.swiper-wrapper');
+      wrapper.querySelectorAll('[data-clone]').forEach(clone => clone.remove());
+      
+      const scrollSpeed = parseFloat('{{ section.settings.scroll_speed | default: 1 }}') || 1;
+      
+      // Get gap from CSS
+      const gap = parseInt(getComputedStyle(wrapper).gap) || parseInt(getComputedStyle(wrapper).columnGap) || 16;
+      
+      // Initialize Swiper without loop (we'll handle looping manually)
+      const swiper = new Swiper(swiperWrapper, {
+        slidesPerView: 'auto',
+        spaceBetween: gap,
+        loop: false, // Disable Swiper's loop, we'll handle it manually
+        speed: 1000,
+        allowTouchMove: true,
+        grabCursor: true,
+        freeMode: false,
+        watchSlidesProgress: true,
+        watchSlidesVisibility: true,
+      });
+      
+      // Get original slides array
+      const originalSlides = Array.from(slides);
+      
+      // Check if we should enable auto-scroll
+      // Below 1024px: Always scroll if more than 1 item
+      // Above 1024px: Only scroll if more than 3 items
+      function shouldAutoScroll() {
+        const viewportWidth = window.innerWidth;
+        if (viewportWidth <= 1024) {
+          return originalSlides.length > 1; // Always scroll below 1024px if more than 1 item
+        } else {
+          return originalSlides.length > 3; // Above 1024px, only scroll if more than 3 items
+        }
+      }
+      
+      // Only clone slides if we actually need auto-scroll
+      // This prevents showing duplicate blocks when scrolling isn't active
+      if (shouldAutoScroll()) {
+        const cloneCount = 2; // Clone twice for seamless looping
+        
+        for (let i = 0; i < cloneCount; i++) {
+          originalSlides.forEach(slide => {
+            const clone = slide.cloneNode(true);
+            clone.setAttribute('data-clone', 'true');
+            clone.setAttribute('aria-hidden', 'true');
+            wrapper.appendChild(clone);
+          });
+        }
+        
+        // Reinitialize Swiper to recognize new slides
+        swiper.update();
+      }
+      
+      // Custom continuous autoplay with seamless loop
+      let scrollPosition = 0;
+      let isPaused = false;
+      let lastTime = performance.now();
+      let animationFrameId = null;
+      const pixelsPerMs = scrollSpeed * 0.1; // Pixels per millisecond
+      
+      // Calculate original content width (for seamless reset)
+      function getOriginalWidth() {
+        let width = 0;
+        originalSlides.forEach((slide, index) => {
+          const slideWidth = slide.offsetWidth;
+          width += slideWidth;
+          if (index < originalSlides.length - 1) {
+            width += gap;
+          }
+        });
+        return width;
+      }
+      
+      let originalWidth = getOriginalWidth();
+      
+      function continuousScroll(currentTime) {
+        // Check if we should continue scrolling
+        if (!shouldAutoScroll()) {
+          // Reset position to 0 if we shouldn't scroll
+          scrollPosition = 0;
+          wrapper.style.transform = 'translate3d(0, 0, 0)';
+          animationFrameId = null;
+          return;
+        }
+        
+        if (!swiper || !swiper.slides || swiper.slides.length === 0) {
+          return;
+        }
+        
+        if (isPaused) {
+          lastTime = currentTime;
+          animationFrameId = requestAnimationFrame(continuousScroll);
+          return;
+        }
+        
+        const deltaTime = currentTime - lastTime;
+        lastTime = currentTime;
+        
+        scrollPosition += pixelsPerMs * deltaTime;
+        
+        // Recalculate width on resize
+        const currentOriginalWidth = getOriginalWidth();
+        if (currentOriginalWidth > 0 && currentOriginalWidth !== originalWidth) {
+          originalWidth = currentOriginalWidth;
+        }
+        
+        // Reset position seamlessly when scrolled past original content
+        if (originalWidth > 0 && scrollPosition >= originalWidth) {
+          scrollPosition = scrollPosition % originalWidth;
+        }
+        
+        // Apply transform directly to wrapper for smoother performance
+        wrapper.style.transform = `translate3d(-${scrollPosition}px, 0, 0)`;
+        wrapper.style.willChange = 'transform';
+        
+        animationFrameId = requestAnimationFrame(continuousScroll);
+      }
+      
+      // Handle resize to recalculate width and start/stop scrolling
+      let resizeTimeout;
+      window.addEventListener('resize', function() {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(function() {
+          originalWidth = getOriginalWidth();
+          // Adjust scroll position if needed
+          if (scrollPosition >= originalWidth) {
+            scrollPosition = scrollPosition % originalWidth;
+          }
+          
+          // Check if we need clones
+          const hasClones = wrapper.querySelectorAll('[data-clone]').length > 0;
+          const needsClones = shouldAutoScroll();
+          
+          // Add or remove clones based on conditions
+          if (needsClones && !hasClones) {
+            // Need clones but don't have them - add them
+            const cloneCount = 2;
+            for (let i = 0; i < cloneCount; i++) {
+              originalSlides.forEach(slide => {
+                const clone = slide.cloneNode(true);
+                clone.setAttribute('data-clone', 'true');
+                clone.setAttribute('aria-hidden', 'true');
+                wrapper.appendChild(clone);
+              });
+            }
+            swiper.update();
+          } else if (!needsClones && hasClones) {
+            // Don't need clones but have them - remove them
+            wrapper.querySelectorAll('[data-clone]').forEach(clone => clone.remove());
+            swiper.update();
+            scrollPosition = 0;
+            wrapper.style.transform = 'translate3d(0, 0, 0)';
+          }
+          
+          // Start or stop scrolling based on conditions
+          if (shouldAutoScroll() && !animationFrameId) {
+            lastTime = performance.now();
+            animationFrameId = requestAnimationFrame(continuousScroll);
+          } else if (!shouldAutoScroll() && animationFrameId) {
+            cancelAnimationFrame(animationFrameId);
+            animationFrameId = null;
+            scrollPosition = 0;
+            wrapper.style.transform = 'translate3d(0, 0, 0)';
+          }
+        }, 250);
+      });
+      
+      // Pause on hover
+      swiperWrapper.addEventListener('mouseenter', function() {
+        isPaused = true;
+      });
+      
+      swiperWrapper.addEventListener('mouseleave', function() {
+        isPaused = false;
+        lastTime = performance.now();
+      });
+      
+      // Start continuous scroll only if conditions are met
+      if (shouldAutoScroll()) {
+        lastTime = performance.now();
+        animationFrameId = requestAnimationFrame(continuousScroll);
+      } else {
+        // Reset to start position if not scrolling
+        wrapper.style.transform = 'translate3d(0, 0, 0)';
+      }
+      
+      // Store swiper instance for cleanup
+      swiperWrapper.swiper = swiper;
+    }
+  } catch (e) {
+    console.error('Shop by Category Swiper initialization error:', e);
+  }
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Shop by Category",
+  "tag": "section",
+  "class": "shop-by-category-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading Text",
+      "default": "Ready to Find Your Perfect Routine?"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_family",
+      "label": "Heading Font Family",
+      "options": [
+        { "value": "font-primary", "label": "Primary" },
+        { "value": "font-body", "label": "Body" },
+        { "value": "font-handwritten", "label": "Handwritten" },
+        { "value": "font-serif", "label": "Serif" }
+      ],
+      "default": "font-primary"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_size",
+      "label": "Heading Font Size (Mobile)",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" },
+        { "value": "text-xl", "label": "Extra Large" },
+        { "value": "text-2xl", "label": "2X Large" },
+        { "value": "text-3xl", "label": "3X Large" },
+        { "value": "text-4xl", "label": "4X Large" },
+        { "value": "text-5xl", "label": "5X Large" }
+      ],
+      "default": "text-3xl"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_size_desktop",
+      "label": "Heading Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-xs", "label": "Extra Small" },
+        { "value": "lg:text-sm", "label": "Small" },
+        { "value": "lg:text-base", "label": "Base" },
+        { "value": "lg:text-lg", "label": "Large" },
+        { "value": "lg:text-xl", "label": "Extra Large" },
+        { "value": "lg:text-2xl", "label": "2X Large" },
+        { "value": "lg:text-3xl", "label": "3X Large" },
+        { "value": "lg:text-4xl", "label": "4X Large" },
+        { "value": "lg:text-5xl", "label": "5X Large" },
+        { "value": "lg:text-6xl", "label": "6X Large" }
+      ],
+      "default": "lg:text-5xl"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_weight",
+      "label": "Heading Font Weight",
+      "options": [
+        { "value": "font-light", "label": "Light" },
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semi Bold" },
+        { "value": "font-bold", "label": "Bold" }
+      ],
+      "default": "font-bold"
+    },
+    {
+      "type": "select",
+      "id": "heading_color",
+      "label": "Heading Text Color",
+      "options": [
+        { "value": "text-white", "label": "White" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-primary", "label": "Primary" },
+        { "value": "text-secondary", "label": "Secondary" },
+        { "value": "text-accent-1", "label": "Accent 1" },
+        { "value": "text-accent-2", "label": "Accent 2" },
+        { "value": "text-accent-3", "label": "Accent 3" },
+        { "value": "text-success", "label": "Success" },
+        { "value": "text-warning", "label": "Warning" },
+        { "value": "text-error", "label": "Error" },
+        { "value": "text-info", "label": "Info" },
+        { "value": "text-neutral", "label": "Neutral" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "text-black"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle Text",
+      "default": "Yoli is your one-stop shop for total wellness. Hover and select a curated category below to explore products designed to work in harmony."
+    },
+    {
+      "type": "select",
+      "id": "subtitle_font_family",
+      "label": "Subtitle Font Family",
+      "options": [
+        { "value": "font-primary", "label": "Primary" },
+        { "value": "font-body", "label": "Body" },
+        { "value": "font-handwritten", "label": "Handwritten" },
+        { "value": "font-serif", "label": "Serif" }
+      ],
+      "default": "font-body"
+    },
+    {
+      "type": "select",
+      "id": "subtitle_font_size",
+      "label": "Subtitle Font Size (Mobile)",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" },
+        { "value": "text-xl", "label": "Extra Large" }
+      ],
+      "default": "text-base"
+    },
+    {
+      "type": "select",
+      "id": "subtitle_font_size_desktop",
+      "label": "Subtitle Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-xs", "label": "Extra Small" },
+        { "value": "lg:text-sm", "label": "Small" },
+        { "value": "lg:text-base", "label": "Base" },
+        { "value": "lg:text-lg", "label": "Large" },
+        { "value": "lg:text-xl", "label": "Extra Large" },
+        { "value": "lg:text-2xl", "label": "2X Large" }
+      ],
+      "default": "lg:text-lg"
+    },
+    {
+      "type": "select",
+      "id": "subtitle_font_weight",
+      "label": "Subtitle Font Weight",
+      "options": [
+        { "value": "font-light", "label": "Light" },
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semi Bold" },
+        { "value": "font-bold", "label": "Bold" }
+      ],
+      "default": "font-normal"
+    },
+    {
+      "type": "select",
+      "id": "subtitle_color",
+      "label": "Subtitle Text Color",
+      "options": [
+        { "value": "text-white", "label": "White" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-primary", "label": "Primary" },
+        { "value": "text-secondary", "label": "Secondary" },
+        { "value": "text-accent-1", "label": "Accent 1" },
+        { "value": "text-accent-2", "label": "Accent 2" },
+        { "value": "text-accent-3", "label": "Accent 3" },
+        { "value": "text-success", "label": "Success" },
+        { "value": "text-warning", "label": "Warning" },
+        { "value": "text-error", "label": "Error" },
+        { "value": "text-info", "label": "Info" },
+        { "value": "text-neutral", "label": "Neutral" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "text-black"
+    },
+    {
+      "type": "header",
+      "content": "Shop Page Settings"
+    },
+    {
+      "type": "text",
+      "id": "shop_page_url",
+      "label": "Shop Page URL",
+      "default": "/shop",
+      "info": "URL of the shop page where category filters will be applied"
+    },
+    {
+      "type": "header",
+      "content": "Carousel Settings"
+    },
+    {
+      "type": "range",
+      "id": "scroll_speed",
+      "label": "Scroll Speed",
+      "min": 0.5,
+      "max": 3,
+      "step": 0.1,
+      "default": 1,
+      "info": "Control the speed of the auto-scrolling carousel. Lower values = slower, higher values = faster. Only applies when there are multiple collection blocks."
+    },
+    {
+      "type": "select",
+      "id": "carousel_card_gap",
+      "label": "Gap Between Cards",
+      "options": [
+        { "value": "gap-xs", "label": "Extra Small" },
+        { "value": "gap-sm", "label": "Small" },
+        { "value": "gap-md", "label": "Medium" },
+        { "value": "gap-lg", "label": "Large" },
+        { "value": "gap-xl", "label": "Extra Large" },
+        { "value": "gap-2xl", "label": "2X Large" }
+      ],
+      "default": "gap-md"
+    },
+    {
+      "type": "header",
+      "content": "Card Styling"
+    },
+    {
+      "type": "range",
+      "id": "card_height",
+      "label": "Card Height (px)",
+      "min": 300,
+      "max": 600,
+      "step": 20,
+      "default": 400,
+      "info": "Height of each category card"
+    },
+    {
+      "type": "text",
+      "id": "card_width_mobile",
+      "label": "Card Width - Mobile (px)",
+      "default": "280",
+      "info": "Width of category cards on mobile devices"
+    },
+    {
+      "type": "text",
+      "id": "card_width_tablet",
+      "label": "Card Width - Tablet (px)",
+      "default": "320",
+      "info": "Width of category cards on tablet devices"
+    },
+    {
+      "type": "text",
+      "id": "card_width_desktop",
+      "label": "Card Width - Desktop (px)",
+      "default": "400",
+      "info": "Width of category cards on desktop devices"
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "label": "Card Border Radius (px)",
+      "min": 0,
+      "max": 32,
+      "step": 2,
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Overlay Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_overlay",
+      "label": "Show Dark Overlay",
+      "default": false,
+      "info": "Adds a dark overlay to improve text readability"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay Opacity",
+      "min": 0,
+      "max": 1,
+      "step": 0.1,
+      "default": 0.3
+    },
+    {
+      "type": "header",
+      "content": "Category Title Styling"
+    },
+    {
+      "type": "select",
+      "id": "title_font_family",
+      "label": "Title Font Family",
+      "options": [
+        { "value": "font-primary", "label": "Primary" },
+        { "value": "font-body", "label": "Body" },
+        { "value": "font-handwritten", "label": "Handwritten" },
+        { "value": "font-serif", "label": "Serif" }
+      ],
+      "default": "font-primary"
+    },
+    {
+      "type": "select",
+      "id": "title_font_size",
+      "label": "Title Font Size (Mobile)",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" },
+        { "value": "text-xl", "label": "Extra Large" },
+        { "value": "text-2xl", "label": "2X Large" },
+        { "value": "text-3xl", "label": "3X Large" }
+      ],
+      "default": "text-xl"
+    },
+    {
+      "type": "select",
+      "id": "title_font_size_desktop",
+      "label": "Title Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-xs", "label": "Extra Small" },
+        { "value": "lg:text-sm", "label": "Small" },
+        { "value": "lg:text-base", "label": "Base" },
+        { "value": "lg:text-lg", "label": "Large" },
+        { "value": "lg:text-xl", "label": "Extra Large" },
+        { "value": "lg:text-2xl", "label": "2X Large" },
+        { "value": "lg:text-3xl", "label": "3X Large" }
+      ],
+      "default": "lg:text-2xl"
+    },
+    {
+      "type": "select",
+      "id": "title_font_weight",
+      "label": "Title Font Weight",
+      "options": [
+        { "value": "font-light", "label": "Light" },
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semi Bold" },
+        { "value": "font-bold", "label": "Bold" }
+      ],
+      "default": "font-semibold"
+    },
+    {
+      "type": "select",
+      "id": "title_color",
+      "label": "Title Text Color",
+      "options": [
+        { "value": "text-white", "label": "White" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-primary", "label": "Primary" },
+        { "value": "text-secondary", "label": "Secondary" },
+        { "value": "text-accent-1", "label": "Accent 1" },
+        { "value": "text-accent-2", "label": "Accent 2" },
+        { "value": "text-accent-3", "label": "Accent 3" },
+        { "value": "text-success", "label": "Success" },
+        { "value": "text-warning", "label": "Warning" },
+        { "value": "text-error", "label": "Error" },
+        { "value": "text-info", "label": "Info" },
+        { "value": "text-neutral", "label": "Neutral" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "text-white"
+    },
+    {
+      "type": "header",
+      "content": "Layout Settings"
+    },
+    {
+      "type": "select",
+      "id": "container_layout_width",
+      "label": "Layout Width (Container)",
+      "options": [
+        { "value": "container", "label": "Container" },
+        { "value": "container-full", "label": "Full Width (Container Full)" }
+      ],
+      "default": "container",
+      "info": "Choose whether the container is constrained to the width of the page or full width"
+    },
+    {
+      "type": "select",
+      "id": "background_color",
+      "label": "Section Background Color",
+      "options": [
+        { "value": "bg-white", "label": "White" },
+        { "value": "bg-black", "label": "Black" },
+        { "value": "bg-primary", "label": "Primary" },
+        { "value": "bg-secondary", "label": "Secondary" },
+        { "value": "bg-accent-1", "label": "Accent 1" },
+        { "value": "bg-accent-warm", "label": "Accent Warm" },
+        { "value": "bg-success", "label": "Success" },
+        { "value": "bg-warning", "label": "Warning" },
+        { "value": "bg-error", "label": "Error" },
+        { "value": "bg-info", "label": "Info" },
+        { "value": "bg-neutral", "label": "Neutral" },
+        { "value": "bg-neutral-light", "label": "Neutral Light" },
+        { "value": "bg-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "bg-white"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Section Background Image"
+    },
+    {
+      "type": "select",
+      "id": "section_padding_y_mobile",
+      "label": "Section Vertical Padding (Mobile)",
+      "options": [
+        { "value": "py-xs", "label": "Extra Small" },
+        { "value": "py-sm", "label": "Small" },
+        { "value": "py-md", "label": "Medium" },
+        { "value": "py-lg", "label": "Large" },
+        { "value": "py-xl", "label": "Extra Large" },
+        { "value": "py-2xl", "label": "2X Large" },
+        { "value": "py-3xl", "label": "3X Large" }
+      ],
+      "default": "py-xl"
+    },
+    {
+      "type": "select",
+      "id": "section_padding_y_desktop",
+      "label": "Section Vertical Padding (Desktop)",
+      "options": [
+        { "value": "lg:py-xs", "label": "Extra Small" },
+        { "value": "lg:py-sm", "label": "Small" },
+        { "value": "lg:py-md", "label": "Medium" },
+        { "value": "lg:py-lg", "label": "Large" },
+        { "value": "lg:py-xl", "label": "Extra Large" },
+        { "value": "lg:py-2xl", "label": "2X Large" },
+        { "value": "lg:py-3xl", "label": "3X Large" }
+      ],
+      "default": "lg:py-3xl"
+    },
+    {
+      "type": "select",
+      "id": "section_border_radius",
+      "label": "Section Border Radius",
+      "options": [
+        { "value": "rounded-none", "label": "None" },
+        { "value": "rounded-sm", "label": "Small" },
+        { "value": "rounded", "label": "Base" },
+        { "value": "rounded-md", "label": "Medium" },
+        { "value": "rounded-lg", "label": "Large" },
+        { "value": "rounded-xl", "label": "Extra Large" },
+        { "value": "rounded-2xl", "label": "2X Large" },
+        { "value": "rounded-3xl", "label": "3X Large" }
+      ],
+      "default": "rounded-none"
+    },
+    {
+      "type": "header",
+      "content": "Container Settings"
+    },
+    {
+      "type": "select",
+      "id": "container_background_color",
+      "label": "Container Background Color",
+      "options": [
+        { "value": "", "label": "None (Transparent)" },
+        { "value": "bg-white", "label": "White" },
+        { "value": "bg-black", "label": "Black" },
+        { "value": "bg-primary", "label": "Primary" },
+        { "value": "bg-secondary", "label": "Secondary" },
+        { "value": "bg-accent-1", "label": "Accent 1" },
+        { "value": "bg-accent-warm", "label": "Accent Warm" },
+        { "value": "bg-success", "label": "Success" },
+        { "value": "bg-warning", "label": "Warning" },
+        { "value": "bg-error", "label": "Error" },
+        { "value": "bg-info", "label": "Info" },
+        { "value": "bg-neutral", "label": "Neutral" },
+        { "value": "bg-neutral-light", "label": "Neutral Light" },
+        { "value": "bg-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": ""
+    },
+    {
+      "type": "image_picker",
+      "id": "container_background_image",
+      "label": "Container Background Image"
+    },
+    {
+      "type": "select",
+      "id": "container_border_radius",
+      "label": "Container Border Radius",
+      "options": [
+        { "value": "rounded-none", "label": "None" },
+        { "value": "rounded-sm", "label": "Small" },
+        { "value": "rounded", "label": "Base" },
+        { "value": "rounded-md", "label": "Medium" },
+        { "value": "rounded-lg", "label": "Large" },
+        { "value": "rounded-xl", "label": "Extra Large" },
+        { "value": "rounded-2xl", "label": "2X Large" },
+        { "value": "rounded-3xl", "label": "3X Large" }
+      ],
+      "default": "rounded-none"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_y_mobile",
+      "label": "Container Padding Y (Mobile)",
+      "options": [
+        { "value": "py-xs", "label": "Extra Small" },
+        { "value": "py-sm", "label": "Small" },
+        { "value": "py-md", "label": "Medium" },
+        { "value": "py-lg", "label": "Large" },
+        { "value": "py-xl", "label": "Extra Large" },
+        { "value": "py-2xl", "label": "2X Large" },
+        { "value": "py-3xl", "label": "3X Large" }
+      ],
+      "default": "py-lg"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_y_desktop",
+      "label": "Container Padding Y (Desktop)",
+      "options": [
+        { "value": "lg:py-xs", "label": "Extra Small" },
+        { "value": "lg:py-sm", "label": "Small" },
+        { "value": "lg:py-md", "label": "Medium" },
+        { "value": "lg:py-lg", "label": "Large" },
+        { "value": "lg:py-xl", "label": "Extra Large" },
+        { "value": "lg:py-2xl", "label": "2X Large" },
+        { "value": "lg:py-3xl", "label": "3X Large" }
+      ],
+      "default": "lg:py-2xl"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_x_mobile",
+      "label": "Container Padding X (Mobile)",
+      "options": [
+        { "value": "px-0", "label": "None" },
+        { "value": "px-xs", "label": "Extra Small" },
+        { "value": "px-sm", "label": "Small" },
+        { "value": "px-md", "label": "Medium" },
+        { "value": "px-lg", "label": "Large" },
+        { "value": "px-xl", "label": "Extra Large" },
+        { "value": "px-2xl", "label": "2X Large" },
+        { "value": "px-3xl", "label": "3X Large" }
+      ],
+      "default": "px-md"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_x_desktop",
+      "label": "Container Padding X (Desktop)",
+      "options": [
+        { "value": "lg:px-0", "label": "None" },
+        { "value": "lg:px-xs", "label": "Extra Small" },
+        { "value": "lg:px-sm", "label": "Small" },
+        { "value": "lg:px-md", "label": "Medium" },
+        { "value": "lg:px-lg", "label": "Large" },
+        { "value": "lg:px-xl", "label": "Extra Large" },
+        { "value": "lg:px-2xl", "label": "2X Large" },
+        { "value": "lg:px-3xl", "label": "3X Large" }
+      ],
+      "default": "lg:px-xl"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category_item",
+      "name": "Category Item",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Category Item Content"
+        },
+        {
+          "type": "category",
+          "id": "category",
+          "label": "Category",
+          "info": "Select a category to display. If selected, the category's title, image, and URL will be used automatically."
+        },
+        {
+          "type": "text",
+          "id": "category_title",
+          "label": "Category Title (Manual Override)",
+          "default": "",
+          "info": "Only used if no category is selected above. When a category is selected, the category's title will be used automatically."
+        },
+        {
+          "type": "image_picker",
+          "id": "background_image",
+          "label": "Background Image (Manual Override)",
+          "info": "Only used if no category is selected above, or to override the category's image"
+        },
+        {
+          "type": "url",
+          "id": "category_url",
+          "label": "Category URL (Manual Override)",
+          "info": "Only used if no category is selected above, or to override the category's URL"
+        },
+        {
+          "type": "header",
+          "content": "Category Title Styling (Optional Override)"
+        },
+        {
+          "type": "select",
+          "id": "title_font_family",
+          "label": "Title Font Family",
+          "options": [
+            { "value": "", "label": "Use Section Default" },
+            { "value": "font-primary", "label": "Primary" },
+            { "value": "font-body", "label": "Body" },
+            { "value": "font-handwritten", "label": "Handwritten" },
+            { "value": "font-serif", "label": "Serif" }
+          ],
+          "default": ""
+        },
+        {
+          "type": "select",
+          "id": "title_font_size",
+          "label": "Title Font Size (Mobile)",
+          "options": [
+            { "value": "", "label": "Use Section Default" },
+            { "value": "text-xs", "label": "Extra Small" },
+            { "value": "text-sm", "label": "Small" },
+            { "value": "text-base", "label": "Base" },
+            { "value": "text-lg", "label": "Large" },
+            { "value": "text-xl", "label": "Extra Large" },
+            { "value": "text-2xl", "label": "2X Large" }
+          ],
+          "default": ""
+        },
+        {
+          "type": "select",
+          "id": "title_font_size_desktop",
+          "label": "Title Font Size (Desktop)",
+          "options": [
+            { "value": "", "label": "Use Section Default" },
+            { "value": "lg:text-xs", "label": "Extra Small" },
+            { "value": "lg:text-sm", "label": "Small" },
+            { "value": "lg:text-base", "label": "Base" },
+            { "value": "lg:text-lg", "label": "Large" },
+            { "value": "lg:text-xl", "label": "Extra Large" },
+            { "value": "lg:text-2xl", "label": "2X Large" }
+          ],
+          "default": ""
+        },
+        {
+          "type": "select",
+          "id": "title_font_weight",
+          "label": "Title Font Weight",
+          "options": [
+            { "value": "", "label": "Use Section Default" },
+            { "value": "font-light", "label": "Light" },
+            { "value": "font-normal", "label": "Normal" },
+            { "value": "font-medium", "label": "Medium" },
+            { "value": "font-semibold", "label": "Semi Bold" },
+            { "value": "font-bold", "label": "Bold" }
+          ],
+          "default": ""
+        },
+        {
+          "type": "select",
+          "id": "title_color",
+          "label": "Title Text Color",
+          "options": [
+            { "value": "", "label": "Use Section Default" },
+            { "value": "text-white", "label": "White" },
+            { "value": "text-black", "label": "Black" },
+            { "value": "text-primary", "label": "Primary" },
+            { "value": "text-secondary", "label": "Secondary" },
+            { "value": "text-accent-1", "label": "Accent 1" },
+            { "value": "text-accent-2", "label": "Accent 2" },
+            { "value": "text-accent-3", "label": "Accent 3" },
+            { "value": "text-success", "label": "Success" },
+            { "value": "text-warning", "label": "Warning" },
+            { "value": "text-error", "label": "Error" },
+            { "value": "text-info", "label": "Info" },
+            { "value": "text-neutral", "label": "Neutral" },
+            { "value": "text-neutral-dark", "label": "Neutral Dark" }
+          ],
+          "default": ""
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shop by Category",
+      "blocks": [
+        {
+          "type": "category_item"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

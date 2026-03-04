@@ -1,0 +1,385 @@
+/* Testimonial Carousel Section Styles */
+
+.testimonial-carousel {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Container */
+.testimonial-container {
+  max-width: 1920px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3xl);
+}
+
+@media (max-width: 1024px) {
+  .testimonial-container {
+    flex-direction: column;
+    gap: var(--space-2xl);
+  }
+}
+
+/* Left Content Area */
+.testimonial-left {
+  width: 100%;
+  max-width: 450px;
+  flex-shrink: 0;
+  padding-left: var(--space-3xl);
+}
+
+@media (max-width: 1280px) {
+  .testimonial-left {
+    padding-left: var(--space-2xl);
+  }
+}
+
+@media (max-width: 1024px) {
+  .testimonial-left {
+    max-width: 600px;
+    padding-left: var(--space-2xl);
+    padding-right: var(--space-2xl);
+  }
+}
+
+@media (max-width: 768px) {
+  .testimonial-left {
+    padding-left: var(--space-lg);
+    padding-right: var(--space-lg);
+  }
+}
+
+.testimonial-heading h2 {
+  margin: 0;
+  white-space: pre-line;
+}
+
+.review-stats p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* CTA Button */
+.testimonial-cta {
+  display: inline-block;
+}
+
+.testimonial-cta .btn {
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Right Carousel Area */
+.testimonial-right {
+  flex: 1;
+  position: relative;
+  overflow: visible;
+  min-width: 0;
+  /* Extend to right edge */
+  margin-right: calc(-1 * var(--space-3xl));
+}
+
+@media (max-width: 1280px) {
+  .testimonial-right {
+    margin-right: calc(-1 * var(--space-2xl));
+  }
+}
+
+@media (max-width: 1024px) {
+  .testimonial-right {
+    width: 100%;
+    margin-right: 0;
+  }
+}
+
+/* Carousel Wrapper - contains nav and carousel */
+.carousel-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+/* Navigation Arrows - Positioned absolutely and vertically centered */
+.carousel-nav {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 12px;
+  z-index: 10;
+}
+
+@media (max-width: 1024px) {
+  .carousel-nav {
+    position: relative;
+    top: auto;
+    transform: none;
+    margin-bottom: var(--space-lg);
+    justify-content: flex-start;
+    padding-left: var(--space-2xl);
+    gap: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .carousel-nav {
+    padding-left: var(--space-lg);
+  }
+}
+
+.carousel-nav-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  opacity: 1;
+}
+
+.carousel-nav-btn:disabled,
+.carousel-nav-btn[disabled] {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.carousel-nav-btn:not(:disabled):hover {
+  transform: scale(1.1);
+}
+
+.carousel-nav-btn svg {
+  width: 10px;
+  height: 17px;
+}
+
+/* Carousel Container */
+.carousel-container {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.carousel-container {
+  /* Add left padding to offset cards away from nav arrows */
+  padding-left: 112px; /* 20px offset + 36px + 36px buttons + 12px gap + 8px extra */
+  /* Add right padding so last card is fully visible */
+  padding-right: 48px;
+}
+
+@media (max-width: 1024px) {
+  .carousel-container {
+    padding-left: var(--space-2xl);
+    padding-right: var(--space-2xl);
+  }
+}
+
+@media (max-width: 768px) {
+  .carousel-container {
+    padding-left: var(--space-lg);
+    padding-right: var(--space-lg);
+  }
+}
+
+.carousel-track {
+  display: flex;
+  gap: 24px;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+/* Testimonial Cards - Base */
+.testimonial-card {
+  width: 270px;
+  min-height: 340px;
+  height: auto;
+  flex-shrink: 0;
+  border-radius: 8px;
+  box-shadow: 0px 8px 16px -2px rgba(0, 0, 0, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Text Review Card */
+.text-review {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Accent Bar */
+.card-accent {
+  width: 100%;
+  height: 8px;
+  border-radius: 8px 8px 0 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+/* Card Content */
+.card-content {
+  padding: 24px 28px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.card-stars {
+  line-height: 1.5;
+}
+
+.card-title h3 {
+  margin: 0;
+}
+
+.card-text {
+  overflow: visible;
+  position: relative;
+}
+
+.card-text p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Video Review Card */
+.video-review {
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.video-review:hover {
+  transform: scale(1.02);
+}
+
+.video-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.video-poster {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Play Button Overlay */
+.video-play-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+
+.play-button {
+  width: 60px;
+  height: 60px;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.play-button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.14);
+  border-radius: 30px;
+  mix-blend-mode: lighten;
+}
+
+.play-button svg {
+  position: relative;
+  z-index: 1;
+  width: 24px;
+  height: 24px;
+}
+
+.video-review:hover .play-button {
+  transform: scale(1.1);
+}
+
+/* Video Info Overlay */
+.video-info-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 28px 12px 8px 12px;
+  background: linear-gradient(
+    to top,
+    rgba(10, 10, 10, 0.7) 0%,
+    rgba(10, 10, 10, 0.7) 50%,
+    rgba(10, 10, 10, 0) 100%
+  );
+  border-radius: 0 0 8px 8px;
+  z-index: 1;
+}
+
+.video-author p,
+.video-caption p {
+  margin: 0;
+}
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+  .testimonial-card {
+    width: 240px;
+    min-height: 300px;
+    height: auto;
+  }
+  
+  .card-content {
+    padding: 20px 24px;
+  }
+  
+  .card-text p {
+    line-height: 1.5;
+  }
+  
+  .play-button {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .play-button svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+  .carousel-track {
+    gap: 16px;
+  }
+  
+  .testimonial-card {
+    width: 220px;
+    min-height: 280px;
+    height: auto;
+  }
+}
+
+/* Scrollbar Hide */
+.carousel-container::-webkit-scrollbar {
+  display: none;
+}
+
+.carousel-container {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+

@@ -1,0 +1,172 @@
+/* Team Section Styles */
+
+.team-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.team-inner {
+  position: relative;
+  padding: 40px;
+  border-bottom: 1px dashed #b8b9ba;
+}
+
+@media (max-width: 767px) {
+  .team-inner {
+    padding: var(--space-lg);
+  }
+}
+
+/* Team Header */
+.team-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-lg);
+  padding-bottom: 25px;
+  border-bottom: 1px dashed #b8b9ba;
+  margin-bottom: var(--space-lg);
+}
+
+@media (max-width: 1023px) {
+  .team-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-md);
+  }
+}
+
+.header-left {
+  flex: 1;
+  max-width: 832px;
+}
+
+.header-left h2 {
+  margin: 0;
+  line-height: 1.2;
+}
+
+.heading-emphasis {
+  font-style: italic;
+  font-family: var(--font-serif);
+}
+
+.header-right {
+  flex-shrink: 0;
+}
+
+.header-right .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.65px;
+  font-size: 13px;
+}
+
+.header-right .btn svg {
+  width: 13px;
+  height: 13px;
+}
+
+/* Subtitle Badge */
+.team-subtitle {
+  margin-bottom: var(--space-lg);
+}
+
+.subtitle-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  line-height: 1.4;
+  color: var(--clr-black);
+}
+
+/* Team Grid */
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-2xl) var(--space-md);
+}
+
+@media (max-width: 1023px) {
+  .team-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-xl) var(--space-md);
+  }
+}
+
+@media (max-width: 767px) {
+  .team-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+  }
+}
+
+/* Team Member */
+.team-member {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-md);
+}
+
+.member-photo {
+  width: 64px;
+  height: 64px;
+  overflow: hidden;
+  flex-shrink: 0;
+  aspect-ratio: 1 / 1;
+  border-radius: 0;
+}
+
+.member-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.member-photo-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.member-photo-placeholder span {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.member-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-top: 4px;
+}
+
+.member-name {
+  margin: 0;
+  line-height: 1.2;
+}
+
+.member-title {
+  margin: 0;
+  color: var(--clr-neutral-dark);
+  line-height: 1.5;
+}
+
+/* Responsive adjustments */
+@media (max-width: 767px) {
+  .member-photo {
+    width: 56px;
+    height: 56px;
+  }
+  
+  .member-name {
+    font-size: 18px;
+  }
+  
+  .member-title {
+    font-size: 13px;
+  }
+}
+

@@ -1,0 +1,335 @@
+/* ============================================
+   CUSTOMER REVIEWS 2 SECTION
+   Two-column review layout with sticky sidebar
+   ============================================ */
+
+.customer-reviews-2 {
+  position: relative;
+  z-index: var(--z-10);
+}
+
+/* Override global overlays */
+.customer-reviews-2::after {
+  display: none !important;
+}
+
+/* Section background image overlay */
+.customer-reviews-2[data-bg]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+  z-index: var(--z-0);
+  background-color: color-mix(in srgb, var(--clr-black) 60%, transparent);
+  pointer-events: none;
+  display: block !important;
+}
+
+/* Inner container */
+.customer-reviews-2__inner {
+  position: relative;
+  z-index: var(--z-10);
+}
+
+/* Container background image overlay */
+.customer-reviews-2__inner[data-bg]:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+  z-index: var(--z-0);
+  background-color: color-mix(in srgb, var(--clr-black) 60%, transparent);
+  pointer-events: none;
+}
+
+/* Ensure content stays above overlays */
+.customer-reviews-2__inner > * {
+  position: relative;
+  z-index: var(--z-10);
+}
+
+/* ============================================
+   TWO-COLUMN SPLIT LAYOUT
+   ============================================ */
+
+.customer-reviews-2__split {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xl);
+}
+
+@media (min-width: 991px) {
+  .customer-reviews-2__split {
+    flex-direction: row;
+    gap: var(--space-3xl);
+    align-items: flex-start;
+  }
+}
+
+/* ============================================
+   LEFT STICKY SIDEBAR
+   ============================================ */
+
+.customer-reviews-2__sidebar {
+  flex-shrink: 0;
+  width: 100%;
+}
+
+@media (min-width: 991px) {
+  .customer-reviews-2__sidebar {
+    width: 380px;
+    position: sticky;
+    top: 120px;
+  }
+}
+
+.customer-reviews-2__sidebar-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+/* Eyebrow */
+.customer-reviews-2__eyebrow {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.6;
+}
+
+/* Heading */
+.customer-reviews-2__heading {
+  margin: 0;
+  line-height: 1.18;
+  letter-spacing: -0.01em;
+}
+
+/* Rating Display */
+.customer-reviews-2__rating-display {
+  margin-top: var(--space-sm);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+}
+
+/* ============================================
+   RIGHT CONTENT COLUMN
+   ============================================ */
+
+.customer-reviews-2__content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xl);
+}
+
+/* ============================================
+   META ROW (Review count + Sort)
+   ============================================ */
+
+.customer-reviews-2__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+}
+
+.customer-reviews-2__meta-text {
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* Sort Dropdown */
+.customer-reviews-2__sort {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  line-height: 1.6;
+}
+
+.customer-reviews-2__sort-icon {
+  flex-shrink: 0;
+  opacity: 1;
+}
+
+/* ============================================
+   REVIEWS LIST
+   ============================================ */
+
+.customer-reviews-2__reviews {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xl);
+}
+
+@media (min-width: 991px) {
+  .customer-reviews-2__reviews {
+    gap: var(--space-3xl);
+  }
+}
+
+/* Individual Review Card */
+.customer-reviews-2__review {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+/* Review Header (Stars + Date) */
+.customer-reviews-2__review-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+}
+
+/* Stars */
+.customer-reviews-2__stars {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.customer-reviews-2__stars svg {
+  flex-shrink: 0;
+}
+
+/* Date */
+.customer-reviews-2__date {
+  flex-shrink: 0;
+  opacity: 0.6;
+  white-space: nowrap;
+  line-height: 1.7;
+}
+
+/* Review Text */
+.customer-reviews-2__review-text {
+  margin: 0;
+  line-height: 1.7;
+}
+
+/* ============================================
+   AUTHOR INFO (Avatar + Name)
+   ============================================ */
+
+.customer-reviews-2__author {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+/* Avatar Wrapper (for badge positioning) */
+.customer-reviews-2__avatar-wrapper {
+  position: relative;
+  flex-shrink: 0;
+}
+
+/* Avatar Circle */
+.customer-reviews-2__avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.customer-reviews-2__avatar span {
+  line-height: 1.5;
+}
+
+/* Avatar Image */
+.customer-reviews-2__avatar-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Verified Badge */
+.customer-reviews-2__verified-badge {
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  width: 20px;
+  height: 20px;
+  border-radius: 9999px;
+  border: 2px solid white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.customer-reviews-2__verified-badge svg {
+  flex-shrink: 0;
+}
+
+/* Author Info Text */
+.customer-reviews-2__author-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  min-width: 0;
+}
+
+.customer-reviews-2__author-name {
+  margin: 0;
+  line-height: 1.46;
+  letter-spacing: -0.022em;
+}
+
+.customer-reviews-2__verified-text {
+  margin: 0;
+  line-height: 1.78;
+  opacity: 0.6;
+}
+
+/* ============================================
+   BUTTON
+   ============================================ */
+
+.customer-reviews-2__button-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: var(--space-md);
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+/* Mobile: Stack sidebar and content */
+@media (max-width: 990px) {
+  .customer-reviews-2__sidebar {
+    position: relative;
+    top: 0;
+  }
+  
+  .customer-reviews-2__split {
+    gap: var(--space-xl);
+  }
+  
+  .customer-reviews-2__reviews {
+    gap: var(--space-xl);
+  }
+  
+  .customer-reviews-2__review-header {
+    flex-wrap: wrap;
+  }
+}
+
+/* Tablet adjustments */
+@media (min-width: 768px) and (max-width: 990px) {
+  .customer-reviews-2__sidebar {
+    max-width: 100%;
+  }
+}
+

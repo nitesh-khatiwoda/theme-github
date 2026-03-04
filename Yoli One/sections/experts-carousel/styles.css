@@ -1,0 +1,349 @@
+/* Experts Carousel Section */
+
+.experts-carousel {
+  overflow: visible;
+}
+
+.experts-carousel .container {
+  overflow: visible;
+}
+
+.experts-carousel .inner-container {
+  overflow: visible;
+}
+
+/* ============================================
+   SPLIT LAYOUT
+   ============================================ */
+
+.experts-carousel__layout {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xl);
+}
+
+@media (min-width: 1024px) {
+  .experts-carousel__layout {
+    flex-direction: row;
+    gap: var(--space-3xl);
+    align-items: flex-start;
+  }
+}
+
+/* ============================================
+   LEFT COLUMN: CONTENT
+   ============================================ */
+
+.experts-carousel__content {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+
+@media (min-width: 1024px) {
+  .experts-carousel__content {
+    width: 40%;
+    max-width: 461px;
+    padding-right: var(--space-3xl);
+  }
+}
+
+.experts-carousel__icon {
+  width: 40px;
+  height: 40px;
+}
+
+.experts-carousel__icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.experts-carousel__heading {
+  margin: 0;
+  line-height: 1.22;
+}
+
+.experts-carousel__description {
+  margin: 0;
+  line-height: 1.42;
+}
+
+/* Bullets */
+.experts-carousel__bullets {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.experts-carousel__bullet {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: flex-start;
+}
+
+.experts-carousel__bullet-icon {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.experts-carousel__bullet-title {
+  display: inline;
+}
+
+.experts-carousel__bullet-text {
+  display: inline;
+}
+
+/* CTA Link */
+.experts-carousel__cta-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.experts-carousel__cta-link:hover {
+  opacity: 0.7;
+  transform: translateX(4px);
+}
+
+.experts-carousel__cta-link svg {
+  flex-shrink: 0;
+}
+
+/* ============================================
+   RIGHT COLUMN: CAROUSEL
+   ============================================ */
+
+.experts-carousel__carousel-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  overflow: visible;
+}
+
+@media (min-width: 1024px) {
+  .experts-carousel__carousel-column {
+    width: 60%;
+  }
+}
+
+/* ============================================
+   CAROUSEL TRACK
+   ============================================ */
+
+.experts-carousel__track-container {
+  overflow: hidden;
+  position: relative;
+}
+
+@media (min-width: 640px) {
+  .experts-carousel__track-container {
+    margin-right: calc(-1 * var(--space-3xl));
+  }
+}
+
+.experts-carousel__track {
+  display: flex;
+  gap: var(--space-xl);
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  touch-action: pan-y pinch-zoom;
+  padding-right: var(--space-3xl);
+}
+
+/* ============================================
+   EXPERT CARDS
+   ============================================ */
+
+.experts-carousel__expert-card {
+  flex: 0 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+/* Mobile: Full width */
+@media (max-width: 639px) {
+  .experts-carousel__expert-card {
+    width: 100%;
+  }
+}
+
+/* Tablet and up: Fixed width */
+@media (min-width: 640px) {
+  .experts-carousel__expert-card {
+    width: 282px;
+  }
+}
+
+/* Expert Photo */
+.experts-carousel__photo {
+  width: 100%;
+  height: 352px;
+  overflow: hidden;
+  position: relative;
+  background-color: var(--clr-neutral-light);
+}
+
+.experts-carousel__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Expert Info */
+.experts-carousel__info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.experts-carousel__name-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.experts-carousel__name {
+  margin: 0;
+  line-height: 1.4;
+}
+
+.experts-carousel__verified-badge {
+  flex-shrink: 0;
+}
+
+.experts-carousel__title {
+  margin: 0;
+  line-height: 1.45;
+}
+
+.experts-carousel__credentials {
+  margin: 0;
+  line-height: 1.45;
+}
+
+/* Institutions */
+.experts-carousel__institutions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.experts-carousel__institution {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.experts-carousel__institution img {
+  flex-shrink: 0;
+}
+
+.experts-carousel__institution span {
+  line-height: 1.45;
+}
+
+/* ============================================
+   NAVIGATION CONTROLS
+   ============================================ */
+
+.experts-carousel__controls {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: var(--space-md);
+  margin-top: var(--space-lg);
+}
+
+/* Nav Buttons */
+.experts-carousel__nav-buttons {
+  display: flex;
+  gap: var(--space-md);
+}
+
+.experts-carousel__nav {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: var(--clr-neutral-light);
+  border: 2px solid var(--clr-neutral);
+  color: var(--clr-black);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.experts-carousel__nav:hover:not(:disabled) {
+  background-color: var(--clr-primary);
+  border-color: var(--clr-primary);
+  color: var(--clr-white);
+  transform: scale(1.05);
+}
+
+.experts-carousel__nav:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.experts-carousel__nav:focus {
+  outline: 2px solid var(--clr-primary);
+  outline-offset: 4px;
+}
+
+.experts-carousel__nav:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Hide controls on mobile (use swipe) */
+@media (max-width: 639px) {
+  .experts-carousel__controls {
+    display: none;
+  }
+}
+
+/* ============================================
+   TOUCH/SWIPE OPTIMIZATION (Mobile)
+   ============================================ */
+
+@media (max-width: 639px) {
+  .experts-carousel__track-container {
+    overflow-x: auto;
+    overflow-y: visible;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    margin-right: calc(-1 * var(--space-md));
+  }
+
+  .experts-carousel__track-container::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .experts-carousel__track {
+    padding-right: var(--space-md);
+  }
+}
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================ */
+
+@media (max-width: 1023px) {
+  .experts-carousel__content {
+    max-width: 100%;
+    padding-right: 0;
+  }
+}
+

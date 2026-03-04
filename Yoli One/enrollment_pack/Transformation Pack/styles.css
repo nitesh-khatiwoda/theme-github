@@ -1,0 +1,148 @@
+/* Main Layout */
+.product-page {
+  margin: 0 auto;
+  padding: 50px 13rem;
+  color: #48463c;
+}
+
+.product-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.left-column,
+.right-column {
+  display: contents;
+}
+
+.main-container{
+  background-color: #f8f5eb;
+  padding: 0 150px;
+}
+
+.section-images { order: 1; }
+.section-description { order: 2; }
+.section-customization { order: 3; }
+.section-nature { order: 4; }
+.section-quality { order: 5; }
+.section-banner { order: 6; margin-bottom: 50px; }
+
+@media (max-width: 1620px) {
+  .product-page {
+    padding: 50px 6.5rem;
+  }
+}
+
+/* Desktop Layout con Grid */
+@media (min-width: 769px) {
+  .product-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 2rem;
+    align-items: start;
+    justify-items: stretch;
+  }
+
+  .left-column {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .right-column {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .section-images,
+  .section-description,
+  .section-customization,
+  .section-nature,
+  .section-quality,
+  .section-banner {
+    order: 0;
+    width: 100%;
+  }
+
+  .section-banner {
+    margin-bottom: 0;
+  }
+}
+
+/* Margin utilities */
+.margin-bottom {
+  margin-bottom: 1.5rem !important;
+}
+
+.margin-small {
+  margin-bottom: 1.5rem !important;
+}
+
+/* Responsive Design */
+@media (max-width: 1260px) {
+  .product-page {
+    padding: 0;
+  }
+}
+
+@media (max-width: 1260px) and (min-width: 769px) {
+  .main-container {
+    padding: 50px 32px;
+  }
+}
+
+@media (max-width: 991px) {
+  .product-page {
+    padding: 50px 0px;
+  }
+}
+
+@media (max-width: 768px) {
+  .product-container {
+    max-width: 30rem;
+    margin: 0 auto;
+  }
+
+  .section-banner {
+    margin-bottom: 50px;
+  }
+}
+
+@media (max-width: 487px) {
+  .product-container {
+    max-width: 20rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .product-page {
+    padding: 8px 0 0 0;
+    border-radius: 16px;
+    box-shadow: none;
+  }
+
+  .product-container {
+    max-width: 100%;
+    padding: 0;
+  }
+
+  .main-container {
+    padding: 0 1rem;
+  }
+
+  .next-btn{
+    display: flex;
+    justify-self: flex-end;
+  }
+
+  .prev-btn{
+    display: flex;
+    justify-self: flex-start;
+  }
+}

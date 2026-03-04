@@ -1,0 +1,850 @@
+<!-- Steps Process Section -->
+<section class="steps-process {{ section.settings.background_color | default: 'bg-secondary-light' }} {{ section.settings.section_padding_y_mobile | default: 'py-lg' }} {{ section.settings.section_padding_y_desktop | default: 'lg:py-xl' }} {{ section.settings.section_border_radius | default: 'rounded-none' }}" id="steps-{{ section.id }}" {% if section.settings.background_image %}data-bg="{{ section.settings.background_image | image_url }}"{% endif %}>
+  
+  <div class="{{section.settings.container_layout_width | default : 'container'}}">
+    <div class="steps-inner font-body {{ section.settings.container_background_color }} {{ section.settings.container_border_radius | default: 'rounded-none' }} {{ section.settings.container_padding_y_mobile | default: 'py-0' }} {{ section.settings.container_padding_y_desktop | default: 'lg:py-0' }} {{ section.settings.container_padding_x_mobile | default: 'px-0' }} {{ section.settings.container_padding_x_desktop | default: 'lg:px-0' }}" {% if section.settings.container_background_image %}data-bg="{{ section.settings.container_background_image | image_url }}"{% endif %}>
+      
+      <!-- Section Heading -->
+      {% if section.settings.heading_text != blank %}
+      <div class="steps-heading mb-2xl text-center">
+        <div class="heading-wrapper">
+          <h2 class="{{ section.settings.heading_font_size | default: 'text-3xl' }} {{ section.settings.heading_font_size_desktop | default: 'lg:text-4xl' }} {{ section.settings.heading_font_weight | default: 'font-medium' }} {{ section.settings.heading_color | default: 'text-black' }} uppercase leading-heading" style="letter-spacing: -0.03em; line-height: 1.1;">
+            {{ section.settings.heading_text }}
+          </h2>
+        </div>
+      </div>
+      {% endif %}
+      
+      <!-- Steps Grid -->
+      {% if section.blocks.size > 0 %}
+      <div class="steps-grid mb-2xl">
+        {% for block in section.blocks %}
+          {% if block.type == 'step' %}
+          
+          <div class="step-item-wrapper" {{ block.fluid_attributes }}>
+            
+            <div class="step-item">
+              <!-- Icon Circle -->
+              <div class="step-icon-circle {{ section.settings.icon_background | default: 'bg-black' }}">
+                {% if block.settings.icon_type == 'alarm' %}
+                  <svg width="47" height="49" viewBox="0 0 47 49" fill="none" xmlns="http://www.w3.org/2000/svg" class="{{ section.settings.icon_color | default: 'text-secondary' }}">
+                    <path d="M23.5 44.1875C33.6461 44.1875 41.875 35.9586 41.875 25.8125C41.875 15.6664 33.6461 7.4375 23.5 7.4375C13.3539 7.4375 5.125 15.6664 5.125 25.8125C5.125 35.9586 13.3539 44.1875 23.5 44.1875Z" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M23.5 15.75V25.8125L29.5625 31.875" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M8.15625 4.40625L2.09375 10.4688" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M38.8438 4.40625L44.9062 10.4688" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                {% elsif block.settings.icon_type == 'bottle' %}
+                  <svg width="59" height="36" viewBox="0 0 59 36" fill="none" xmlns="http://www.w3.org/2000/svg" class="{{ section.settings.icon_color | default: 'text-secondary' }}">
+                    <path d="M18.8438 6.65625V2.09375C18.8438 1.54147 19.063 1.01169 19.4529 0.621795C19.8428 0.231897 20.3726 0.0125 20.925 0.0125H38.075C38.6273 0.0125 39.1571 0.231897 39.547 0.621795C39.9369 1.01169 40.1563 1.54147 40.1563 2.09375V6.65625C42.7796 7.2123 45.1471 8.64052 46.8978 10.7212C48.6485 12.8019 49.6857 15.4188 49.8438 18.1562V33.9062C49.8438 34.4585 49.6244 34.9883 49.2345 35.3782C48.8446 35.7681 48.3148 35.9875 47.7625 35.9875H11.2375C10.6852 35.9875 10.1554 35.7681 9.76546 35.3782C9.37557 34.9883 9.15625 34.4585 9.15625 33.9062V18.1562C9.31437 15.4188 10.3515 12.8019 12.1022 10.7212C13.8529 8.64052 16.2204 7.2123 18.8438 6.65625Z" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M9.15625 22.7188H49.8438" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                {% elsif block.settings.icon_type == 'lightning' %}
+                  <svg width="38" height="47" viewBox="0 0 38 47" fill="none" xmlns="http://www.w3.org/2000/svg" class="{{ section.settings.icon_color | default: 'text-secondary' }}">
+                    <path d="M21.0938 2.09375L2.09375 25.8125H19L16.9062 44.9062L35.9062 21.1875H19L21.0938 2.09375Z" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                {% elsif block.settings.icon_type == 'custom' and block.settings.custom_icon != blank %}
+                  <img src="{{ block.settings.custom_icon | image_url: width: 60 }}" alt="{{ block.settings.title }}" loading="lazy">
+                {% endif %}
+              </div>
+              
+              <!-- Content -->
+              <div class="step-content">
+                <!-- Title -->
+                {% if block.settings.title != blank %}
+                <div class="step-title-wrapper mb-md">
+                  <h3 class="{{ block.settings.title_font_size | default: 'text-2xl' }} {{ block.settings.title_font_size_desktop | default: 'lg:text-3xl' }} {{ block.settings.title_font_weight | default: 'font-medium' }} {{ block.settings.title_color | default: 'text-black' }} uppercase leading-heading" style="letter-spacing: -0.03em; line-height: 1.1;">
+                    {{ block.settings.title }}
+                  </h3>
+                </div>
+                {% endif %}
+                
+                <!-- Description -->
+                {% if block.settings.description != blank %}
+                <div class="step-description">
+                  <p class="{{ block.settings.description_font_size | default: 'text-base' }} {{ block.settings.description_font_size_desktop | default: 'lg:text-lg' }} {{ block.settings.description_font_weight | default: 'font-normal' }} {{ block.settings.description_color | default: 'text-black' }} leading-body" style="line-height: 1.4;">
+                    {{ block.settings.description }}
+                  </p>
+                </div>
+                {% endif %}
+              </div>
+            </div>
+            
+            <!-- Connector Line (not shown after last item) -->
+            {% unless forloop.last %}
+            <div class="step-connector {{ section.settings.connector_color | default: 'border-black' }}"></div>
+            {% endunless %}
+            
+          </div>
+          
+          {% endif %}
+        {% endfor %}
+      </div>
+      {% endif %}
+      
+      <!-- CTA Section -->
+      <div class="steps-cta-wrapper">
+        
+        <!-- CTA Button -->
+        {% if section.settings.show_button %}
+        <div class="steps-cta-button mb-sm">
+          <a href="{{ section.settings.button_url | default: '#' }}" class="btn btn-{{ section.settings.button_style | default: 'filled' }}-{{ section.settings.button_color | default: 'primary' }} {{ section.settings.button_size | default: 'btn-lg' }} uppercase w-full">
+            {{ section.settings.button_text | default: 'Get Started' }}
+          </a>
+        </div>
+        {% endif %}
+        
+        <!-- Shipping Notice -->
+        {% if section.settings.show_notice and section.settings.notice_text != blank %}
+        <div class="steps-notice flex items-center justify-center gap-xs">
+          {% if section.settings.show_notice_icon %}
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" class="{{ section.settings.notice_icon_color | default: 'text-black' }}">
+            <path d="M21.3333 8H29.3333L25.3333 16L29.3333 24H21.3333M2.66667 16H21.3333M21.3333 16L17.3333 12M21.3333 16L17.3333 20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <rect x="2.66667" y="8" width="10.6667" height="16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          {% endif %}
+          <p class="{{ section.settings.notice_font_size | default: 'text-sm' }} {{ section.settings.notice_font_size_desktop | default: 'lg:text-base' }} {{ section.settings.notice_font_weight | default: 'font-normal' }} {{ section.settings.notice_color | default: 'text-black' }} leading-body">
+            {{ section.settings.notice_text }}
+          </p>
+        </div>
+        {% endif %}
+        
+      </div>
+      
+    </div>
+  </div>
+  
+</section>
+
+{% schema %}
+{
+  "name": "Steps Process",
+  "tag": "section",
+  "class": "steps-process-section",
+  "max_blocks": 5,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout Width (Container)"
+    },
+    {
+      "type": "select",
+      "id": "container_layout_width",
+      "label": "Layout Width (Container)",
+      "options": [
+        { "value": "container", "label": "Container" },
+        { "value": "container-full", "label": "Full Width (Container Full)" }
+      ],
+      "default": "container",
+      "info": "Choose whether the container is constrained to the width of the page or full width"
+    },
+    {
+      "type": "header",
+      "content": "Heading Settings"
+    },
+    {
+      "type": "text",
+      "id": "heading_text",
+      "label": "Heading Text",
+      "default": "ITS AS EASY AS 1, 2, 3"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_size",
+      "label": "Heading Font Size (Mobile)",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" },
+        { "value": "text-xl", "label": "Extra Large" },
+        { "value": "text-2xl", "label": "2X Large" },
+        { "value": "text-3xl", "label": "3X Large" },
+        { "value": "text-4xl", "label": "4X Large" },
+        { "value": "text-5xl", "label": "5X Large" },
+        { "value": "text-6xl", "label": "6X Large" },
+        { "value": "text-7xl", "label": "7X Large" },
+        { "value": "text-8xl", "label": "8X Large" },
+        { "value": "text-9xl", "label": "9X Large" }
+      ],
+      "default": "text-3xl"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_size_desktop",
+      "label": "Heading Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-xs", "label": "Extra Small" },
+        { "value": "lg:text-sm", "label": "Small" },
+        { "value": "lg:text-base", "label": "Base" },
+        { "value": "lg:text-lg", "label": "Large" },
+        { "value": "lg:text-xl", "label": "Extra Large" },
+        { "value": "lg:text-2xl", "label": "2X Large" },
+        { "value": "lg:text-3xl", "label": "3X Large" },
+        { "value": "lg:text-4xl", "label": "4X Large" },
+        { "value": "lg:text-5xl", "label": "5X Large" },
+        { "value": "lg:text-6xl", "label": "6X Large" },
+        { "value": "lg:text-7xl", "label": "7X Large" },
+        { "value": "lg:text-8xl", "label": "8X Large" },
+        { "value": "lg:text-9xl", "label": "9X Large" }
+      ],
+      "default": "lg:text-4xl"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_weight",
+      "label": "Heading Font Weight",
+      "options": [
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semibold" }
+      ],
+      "default": "font-medium"
+    },
+    {
+      "type": "select",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "options": [
+        { "value": "text-primary", "label": "Primary Text" },
+        { "value": "text-secondary", "label": "Secondary Text" },
+        { "value": "text-inverse", "label": "Inverse" },
+        { "value": "text-muted", "label": "Muted" },
+        { "value": "text-accent", "label": "Accent" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-white", "label": "White" }
+      ],
+      "default": "text-primary"
+    },
+    {
+      "type": "header",
+      "content": "Step Icon Styling"
+    },
+    {
+      "type": "select",
+      "id": "icon_background",
+      "label": "Icon Circle Background",
+      "options": [
+        { "value": "bg-white", "label": "White" },
+        { "value": "bg-black", "label": "Black" },
+        { "value": "bg-primary", "label": "Primary Text" },
+        { "value": "bg-secondary", "label": "Secondary Text" },
+        { "value": "bg-accent-warm", "label": "Accent" },
+        { "value": "bg-banner", "label": "Accent Alt" },
+        { "value": "bg-success", "label": "Success" },
+        { "value": "bg-warning", "label": "Warning" },
+        { "value": "bg-error", "label": "Error" },
+        { "value": "bg-info", "label": "Info" },
+        { "value": "bg-neutral", "label": "Neutral" },
+        { "value": "bg-neutral-light", "label": "Neutral Light" },
+        { "value": "bg-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "bg-black"
+    },
+    {
+      "type": "select",
+      "id": "icon_color",
+      "label": "Icon Color",
+      "options": [
+        { "value": "text-primary", "label": "Primary Text" },
+        { "value": "text-secondary", "label": "Secondary Text" },
+        { "value": "text-inverse", "label": "Inverse" },
+        { "value": "text-muted", "label": "Muted" },
+        { "value": "text-accent", "label": "Accent" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-white", "label": "White" }
+      ],
+      "default": "text-secondary"
+    },
+    {
+      "type": "header",
+      "content": "Connector Lines"
+    },
+    {
+      "type": "select",
+      "id": "connector_color",
+      "label": "Connector Line Color",
+      "options": [
+        { "value": "border-white", "label": "White" },
+        { "value": "border-black", "label": "Black" },
+        { "value": "border-primary", "label": "Primary Text" },
+        { "value": "border-secondary", "label": "Secondary Text" },
+        { "value": "border-tertiary", "label": "Accent" },
+        { "value": "border-quaternary", "label": "Accent Alt" },
+        { "value": "border-success", "label": "Success" },
+        { "value": "border-warning", "label": "Warning" },
+        { "value": "border-error", "label": "Error" },
+        { "value": "border-info", "label": "Info" },
+        { "value": "border-neutral", "label": "Neutral" },
+        { "value": "border-neutral-light", "label": "Neutral Light" },
+        { "value": "border-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "border-black"
+    },
+    {
+      "type": "header",
+      "content": "Button Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_button",
+      "label": "Show Button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Lorem Ipsum Dolor"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button URL"
+    },
+    {
+      "type": "select",
+      "id": "button_style",
+      "label": "Button Style",
+      "options": [
+        { "value": "filled", "label": "Filled" },
+        { "value": "outline", "label": "Outline" },
+        { "value": "ghost", "label": "Ghost" }
+      ],
+      "default": "filled"
+    },
+    {
+      "type": "select",
+      "id": "button_color",
+      "label": "Button Color",
+      "options": [
+        { "value": "primary", "label": "Primary Text" },
+        { "value": "secondary", "label": "Secondary Text" },
+        { "value": "tertiary", "label": "Accent" },
+        { "value": "quaternary", "label": "Accent Alt" },
+        { "value": "success", "label": "Success" },
+        { "value": "warning", "label": "Warning" },
+        { "value": "error", "label": "Error" },
+        { "value": "info", "label": "Info" },
+        { "value": "neutral", "label": "Neutral" },
+        { "value": "white", "label": "White" }
+      ],
+      "default": "primary"
+    },
+    {
+      "type": "select",
+      "id": "button_size",
+      "label": "Button Size",
+      "options": [
+        { "value": "btn-sm", "label": "Small" },
+        { "value": "btn-md", "label": "Medium" },
+        { "value": "btn-lg", "label": "Large" }
+      ],
+      "default": "btn-md"
+    },
+    {
+      "type": "header",
+      "content": "Notice/Shipping Text"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_notice",
+      "label": "Show Notice",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "notice_text",
+      "label": "Notice Text",
+      "default": "Lorem ipsum dolor sit amet"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_notice_icon",
+      "label": "Show Truck Icon",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "notice_font_size",
+      "label": "Notice Font Size (Mobile)",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" },
+        { "value": "text-xl", "label": "Extra Large" },
+        { "value": "text-2xl", "label": "2X Large" },
+        { "value": "text-3xl", "label": "3X Large" },
+        { "value": "text-4xl", "label": "4X Large" },
+        { "value": "text-5xl", "label": "5X Large" },
+        { "value": "text-6xl", "label": "6X Large" },
+        { "value": "text-7xl", "label": "7X Large" },
+        { "value": "text-8xl", "label": "8X Large" },
+        { "value": "text-9xl", "label": "9X Large" }
+      ],
+      "default": "text-sm"
+    },
+    {
+      "type": "select",
+      "id": "notice_font_size_desktop",
+      "label": "Notice Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-xs", "label": "Extra Small" },
+        { "value": "lg:text-sm", "label": "Small" },
+        { "value": "lg:text-base", "label": "Base" },
+        { "value": "lg:text-lg", "label": "Large" },
+        { "value": "lg:text-xl", "label": "Extra Large" },
+        { "value": "lg:text-2xl", "label": "2X Large" },
+        { "value": "lg:text-3xl", "label": "3X Large" },
+        { "value": "lg:text-4xl", "label": "4X Large" },
+        { "value": "lg:text-5xl", "label": "5X Large" },
+        { "value": "lg:text-6xl", "label": "6X Large" },
+        { "value": "lg:text-7xl", "label": "7X Large" },
+        { "value": "lg:text-8xl", "label": "8X Large" },
+        { "value": "lg:text-9xl", "label": "9X Large" }
+      ],
+      "default": "lg:text-base"
+    },
+    {
+      "type": "select",
+      "id": "notice_font_weight",
+      "label": "Notice Font Weight",
+      "options": [
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semibold" }
+      ],
+      "default": "font-normal"
+    },
+    {
+      "type": "select",
+      "id": "notice_color",
+      "label": "Notice Text Color",
+      "options": [
+        { "value": "text-primary", "label": "Primary Text" },
+        { "value": "text-secondary", "label": "Secondary Text" },
+        { "value": "text-inverse", "label": "Inverse" },
+        { "value": "text-muted", "label": "Muted" },
+        { "value": "text-accent", "label": "Accent" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-white", "label": "White" }
+      ],
+      "default": "text-primary"
+    },
+    {
+      "type": "select",
+      "id": "notice_icon_color",
+      "label": "Icon Color",
+      "options": [
+        { "value": "text-primary", "label": "Primary Text" },
+        { "value": "text-secondary", "label": "Secondary Text" },
+        { "value": "text-inverse", "label": "Inverse" },
+        { "value": "text-muted", "label": "Muted" },
+        { "value": "text-accent", "label": "Accent" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-white", "label": "White" }
+      ],
+      "default": "text-primary"
+    },
+    {
+      "type": "header",
+      "content": "Layout Settings"
+    },
+    {
+      "type": "select",
+      "id": "background_color",
+      "label": "Background Color",
+      "options": [
+        { "value": "bg-page", "label": "Page (White)" },
+        { "value": "bg-card-primary", "label": "Card Primary" },
+        { "value": "bg-card-secondary", "label": "Card Secondary" },
+        { "value": "bg-banner", "label": "Banner" },
+        { "value": "bg-accent-warm", "label": "Accent Warm" },
+        { "value": "bg-accent-dark", "label": "Accent Dark" },
+        { "value": "bg-accent-soft", "label": "Accent Soft" },
+        { "value": "bg-primary", "label": "Brand Primary" },
+        { "value": "bg-white", "label": "White" }
+      ],
+      "default": "bg-card-primary"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background Image"
+    },
+    {
+      "type": "select",
+      "id": "section_padding_y_mobile",
+      "label": "Section Vertical Padding (Mobile)",
+      "options": [
+        { "value": "py-xs", "label": "Extra Small" },
+        { "value": "py-sm", "label": "Small" },
+        { "value": "py-md", "label": "Medium" },
+        { "value": "py-lg", "label": "Large" },
+        { "value": "py-xl", "label": "Extra Large" },
+        { "value": "py-2xl", "label": "2X Large" },
+        { "value": "py-3xl", "label": "3X Large" }
+      ],
+      "default": "py-lg"
+    },
+    {
+      "type": "select",
+      "id": "section_padding_y_desktop",
+      "label": "Section Vertical Padding (Desktop)",
+      "options": [
+        { "value": "lg:py-xs", "label": "Extra Small" },
+        { "value": "lg:py-sm", "label": "Small" },
+        { "value": "lg:py-md", "label": "Medium" },
+        { "value": "lg:py-lg", "label": "Large" },
+        { "value": "lg:py-xl", "label": "Extra Large" },
+        { "value": "lg:py-2xl", "label": "2X Large" },
+        { "value": "lg:py-3xl", "label": "3X Large" }
+      ],
+      "default": "lg:py-xl"
+    },
+    {
+      "type": "select",
+      "id": "section_border_radius",
+      "label": "Section Border Radius",
+      "options": [
+        { "value": "rounded-none", "label": "None" },
+        { "value": "rounded-sm", "label": "Small" },
+        { "value": "rounded", "label": "Base" },
+        { "value": "rounded-md", "label": "Medium" },
+        { "value": "rounded-lg", "label": "Large" },
+        { "value": "rounded-xl", "label": "Extra Large" },
+        { "value": "rounded-2xl", "label": "2X Large" },
+        { "value": "rounded-3xl", "label": "3X Large" }
+      ],
+      "default": "rounded-none"
+    },
+    {
+      "type": "header",
+      "content": "Container Settings"
+    },
+    {
+      "type": "select",
+      "id": "container_background_color",
+      "label": "Container Background Color",
+      "options": [
+        { "value": "", "label": "None (Transparent)" },
+        { "value": "bg-white", "label": "White" },
+        { "value": "bg-black", "label": "Black" },
+        { "value": "bg-primary", "label": "Primary Text" },
+        { "value": "bg-secondary", "label": "Secondary Text" },
+        { "value": "bg-accent-warm", "label": "Accent" },
+        { "value": "bg-banner", "label": "Accent Alt" },
+        { "value": "bg-success", "label": "Success" },
+        { "value": "bg-warning", "label": "Warning" },
+        { "value": "bg-error", "label": "Error" },
+        { "value": "bg-info", "label": "Info" },
+        { "value": "bg-neutral", "label": "Neutral" },
+        { "value": "bg-neutral-light", "label": "Neutral Light" },
+        { "value": "bg-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": ""
+    },
+    {
+      "type": "image_picker",
+      "id": "container_background_image",
+      "label": "Container Background Image"
+    },
+    {
+      "type": "select",
+      "id": "container_border_radius",
+      "label": "Container Border Radius",
+      "options": [
+        { "value": "rounded-none", "label": "None" },
+        { "value": "rounded-sm", "label": "Small" },
+        { "value": "rounded", "label": "Base" },
+        { "value": "rounded-md", "label": "Medium" },
+        { "value": "rounded-lg", "label": "Large" },
+        { "value": "rounded-xl", "label": "Extra Large" },
+        { "value": "rounded-2xl", "label": "2X Large" },
+        { "value": "rounded-3xl", "label": "3X Large" }
+      ],
+      "default": "rounded-none"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_y_mobile",
+      "label": "Container Padding Y (Mobile)",
+      "options": [
+        { "value": "py-xs", "label": "Extra Small" },
+        { "value": "py-sm", "label": "Small" },
+        { "value": "py-md", "label": "Medium" },
+        { "value": "py-lg", "label": "Large" },
+        { "value": "py-xl", "label": "Extra Large" },
+        { "value": "py-2xl", "label": "2X Large" },
+        { "value": "py-3xl", "label": "3X Large" }
+      ],
+      "default": "py-0"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_y_desktop",
+      "label": "Container Padding Y (Desktop)",
+      "options": [
+        { "value": "lg:py-xs", "label": "Extra Small" },
+        { "value": "lg:py-sm", "label": "Small" },
+        { "value": "lg:py-md", "label": "Medium" },
+        { "value": "lg:py-lg", "label": "Large" },
+        { "value": "lg:py-xl", "label": "Extra Large" },
+        { "value": "lg:py-2xl", "label": "2X Large" },
+        { "value": "lg:py-3xl", "label": "3X Large" }
+      ],
+      "default": "lg:py-0"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_x_mobile",
+      "label": "Container Padding X (Mobile)",
+      "options": [
+        { "value": "px-0", "label": "None" },
+        { "value": "px-xs", "label": "Extra Small" },
+        { "value": "px-sm", "label": "Small" },
+        { "value": "px-md", "label": "Medium" },
+        { "value": "px-lg", "label": "Large" },
+        { "value": "px-xl", "label": "Extra Large" },
+        { "value": "px-2xl", "label": "2X Large" },
+        { "value": "px-3xl", "label": "3X Large" }
+      ],
+      "default": "px-0"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_x_desktop",
+      "label": "Container Padding X (Desktop)",
+      "options": [
+        { "value": "lg:px-0", "label": "None" },
+        { "value": "lg:px-xs", "label": "Extra Small" },
+        { "value": "lg:px-sm", "label": "Small" },
+        { "value": "lg:px-md", "label": "Medium" },
+        { "value": "lg:px-lg", "label": "Large" },
+        { "value": "lg:px-xl", "label": "Extra Large" },
+        { "value": "lg:px-2xl", "label": "2X Large" },
+        { "value": "lg:px-3xl", "label": "3X Large" }
+      ],
+      "default": "lg:px-0"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Icon"
+        },
+        {
+          "type": "select",
+          "id": "icon_type",
+          "label": "Icon Type",
+          "options": [
+            { "value": "alarm", "label": "Alarm Clock (Wake)" },
+            { "value": "bottle", "label": "Bottle (Shake)" },
+            { "value": "lightning", "label": "Lightning Bolt" },
+            { "value": "custom", "label": "Custom Image" }
+          ],
+          "default": "alarm"
+        },
+        {
+          "type": "image_picker",
+          "id": "custom_icon",
+          "label": "Custom Icon Image",
+          "info": "Only used if Icon Type is 'Custom Image'"
+        },
+        {
+          "type": "header",
+          "content": "Step Title"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Step Title",
+          "default": "WAKE"
+        },
+        {
+          "type": "select",
+          "id": "title_font_size",
+          "label": "Title Font Size (Mobile)",
+          "options": [
+            { "value": "text-xs", "label": "Extra Small" },
+            { "value": "text-sm", "label": "Small" },
+            { "value": "text-base", "label": "Base" },
+            { "value": "text-lg", "label": "Large" },
+            { "value": "text-xl", "label": "Extra Large" },
+            { "value": "text-2xl", "label": "2X Large" },
+            { "value": "text-3xl", "label": "3X Large" },
+            { "value": "text-4xl", "label": "4X Large" },
+            { "value": "text-5xl", "label": "5X Large" },
+            { "value": "text-6xl", "label": "6X Large" },
+            { "value": "text-7xl", "label": "7X Large" },
+            { "value": "text-8xl", "label": "8X Large" },
+            { "value": "text-9xl", "label": "9X Large" }
+          ],
+          "default": "text-2xl"
+        },
+        {
+          "type": "select",
+          "id": "title_font_size_desktop",
+          "label": "Title Font Size (Desktop)",
+          "options": [
+            { "value": "lg:text-xs", "label": "Extra Small" },
+            { "value": "lg:text-sm", "label": "Small" },
+            { "value": "lg:text-base", "label": "Base" },
+            { "value": "lg:text-lg", "label": "Large" },
+            { "value": "lg:text-xl", "label": "Extra Large" },
+            { "value": "lg:text-2xl", "label": "2X Large" },
+            { "value": "lg:text-3xl", "label": "3X Large" },
+            { "value": "lg:text-4xl", "label": "4X Large" },
+            { "value": "lg:text-5xl", "label": "5X Large" },
+            { "value": "lg:text-6xl", "label": "6X Large" },
+            { "value": "lg:text-7xl", "label": "7X Large" },
+            { "value": "lg:text-8xl", "label": "8X Large" },
+            { "value": "lg:text-9xl", "label": "9X Large" }
+          ],
+          "default": "lg:text-3xl"
+        },
+        {
+          "type": "select",
+          "id": "title_font_weight",
+          "label": "Title Font Weight",
+          "options": [
+            { "value": "font-normal", "label": "Normal" },
+            { "value": "font-medium", "label": "Medium" },
+            { "value": "font-semibold", "label": "Semibold" }
+          ],
+          "default": "font-medium"
+        },
+        {
+          "type": "select",
+          "id": "title_color",
+          "label": "Title Color",
+          "options": [
+            { "value": "text-primary", "label": "Primary Text" },
+        { "value": "text-secondary", "label": "Secondary Text" },
+        { "value": "text-inverse", "label": "Inverse" },
+        { "value": "text-muted", "label": "Muted" },
+        { "value": "text-accent", "label": "Accent" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-white", "label": "White" }
+          ],
+          "default": "text-primary"
+        },
+        {
+          "type": "header",
+          "content": "Step Description"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        },
+        {
+          "type": "select",
+          "id": "description_font_size",
+          "label": "Description Font Size (Mobile)",
+          "options": [
+            { "value": "text-xs", "label": "Extra Small" },
+            { "value": "text-sm", "label": "Small" },
+            { "value": "text-base", "label": "Base" },
+            { "value": "text-lg", "label": "Large" },
+            { "value": "text-xl", "label": "Extra Large" },
+            { "value": "text-2xl", "label": "2X Large" },
+            { "value": "text-3xl", "label": "3X Large" },
+            { "value": "text-4xl", "label": "4X Large" },
+            { "value": "text-5xl", "label": "5X Large" },
+            { "value": "text-6xl", "label": "6X Large" },
+            { "value": "text-7xl", "label": "7X Large" },
+            { "value": "text-8xl", "label": "8X Large" },
+            { "value": "text-9xl", "label": "9X Large" }
+          ],
+          "default": "text-base"
+        },
+        {
+          "type": "select",
+          "id": "description_font_size_desktop",
+          "label": "Description Font Size (Desktop)",
+          "options": [
+            { "value": "lg:text-xs", "label": "Extra Small" },
+            { "value": "lg:text-sm", "label": "Small" },
+            { "value": "lg:text-base", "label": "Base" },
+            { "value": "lg:text-lg", "label": "Large" },
+            { "value": "lg:text-xl", "label": "Extra Large" },
+            { "value": "lg:text-2xl", "label": "2X Large" },
+            { "value": "lg:text-3xl", "label": "3X Large" },
+            { "value": "lg:text-4xl", "label": "4X Large" },
+            { "value": "lg:text-5xl", "label": "5X Large" },
+            { "value": "lg:text-6xl", "label": "6X Large" },
+            { "value": "lg:text-7xl", "label": "7X Large" },
+            { "value": "lg:text-8xl", "label": "8X Large" },
+            { "value": "lg:text-9xl", "label": "9X Large" }
+          ],
+          "default": "lg:text-lg"
+        },
+        {
+          "type": "select",
+          "id": "description_font_weight",
+          "label": "Description Font Weight",
+          "options": [
+            { "value": "font-normal", "label": "Normal" },
+            { "value": "font-medium", "label": "Medium" },
+            { "value": "font-semibold", "label": "Semibold" }
+          ],
+          "default": "font-normal"
+        },
+        {
+          "type": "select",
+          "id": "description_color",
+          "label": "Description Color",
+          "options": [
+            { "value": "text-primary", "label": "Primary Text" },
+        { "value": "text-secondary", "label": "Secondary Text" },
+        { "value": "text-inverse", "label": "Inverse" },
+        { "value": "text-muted", "label": "Muted" },
+        { "value": "text-accent", "label": "Accent" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-white", "label": "White" }
+          ],
+          "default": "text-primary"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Steps Process",
+      "blocks": [
+        {
+          "type": "step",
+          "settings": {
+            "icon_type": "alarm",
+            "title": "WAKE",
+            "description": "Start your day with a spicy little ritual that hits harder than your morning coffee, minus the crash."
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "icon_type": "bottle",
+            "title": "SHAKE",
+            "description": "Real Peruvian ginger, turmeric, and lemon, cold-pressed and ready to wake up your taste buds."
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "icon_type": "lightning",
+            "title": "Lorem",
+            "description": "One shot. Big kick. You're ready to go"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+

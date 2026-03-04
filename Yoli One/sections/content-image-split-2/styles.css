@@ -1,0 +1,191 @@
+/* Content + Image Split 2 Section Styles */
+
+.content-image-split-2 {
+  position: relative;
+  overflow: hidden;
+}
+
+.content-image-inner-2 {
+  position: relative;
+}
+
+/* Grid Layout - Reversed (Image Left, Content Right) */
+.content-image-grid-2 {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xl);
+  width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .content-image-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-3xl);
+    align-items: center;
+  }
+
+  /* Flipped layout: Image on left, content on right */
+  .content-image-grid-2--flipped {
+    direction: rtl;
+  }
+
+  .content-image-grid-2--flipped > * {
+    direction: ltr;
+  }
+}
+
+/* Image Column - Left on Desktop */
+.image-column-2 {
+  display: flex;
+  width: 100%;
+  order: 2;
+}
+
+@media (min-width: 1024px) {
+  .image-column-2 {
+    order: 1;
+  }
+}
+
+.main-image-wrapper-2 {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.main-image-2 {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+@media (min-width: 1024px) {
+  .main-image-2 {
+    max-height: 600px;
+  }
+}
+
+/* Content Column - Right on Desktop */
+.content-column-2 {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  order: 1;
+}
+
+@media (min-width: 1024px) {
+  .content-column-2 {
+    order: 2;
+  }
+}
+
+/* Heading with Accent Bar */
+.heading-wrapper-2 {
+  position: relative;
+}
+
+.heading-wrapper-2 h2 {
+  margin: 0;
+  line-height: 1.1;
+}
+
+/* Subheading */
+.subheading-2 p {
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Body Paragraphs */
+.body-paragraphs-2 p {
+  margin: 0;
+}
+
+/* Icon List */
+.icon-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+@media (min-width: 1024px) {
+  .icon-list {
+    gap: var(--space-lg);
+  }
+}
+
+.list-item-row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+}
+
+.list-icon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  margin-top: 2px;
+}
+
+.list-icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.list-text {
+  flex: 1;
+}
+
+.list-text p {
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* CTA Section */
+.cta-wrapper-2 {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  align-items: flex-start;
+  max-width: 450px;
+}
+
+.cta-button-2 {
+  width: 100%;
+  max-width: 350px;
+}
+
+.cta-button-2 .btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Shipping Notice */
+.shipping-notice-2 {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.shipping-notice-2 svg {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+}
+
+@media (min-width: 1024px) {
+  .shipping-notice-2 svg {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+.shipping-notice-2 p {
+  margin: 0;
+  line-height: normal;
+}
+

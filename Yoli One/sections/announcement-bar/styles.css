@@ -1,0 +1,33 @@
+/* Announcement Bar Styles */
+
+.announcement-bar {
+  width: 100%;
+  position: relative;
+  z-index: var(--z-40);
+}
+
+.announcement-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+.announcement-link {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: opacity 0.3s ease;
+}
+
+.announcement-link:hover {
+  opacity: 0.8;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .announcement-content {
+    font-size: var(--font-size-xs);
+  }
+}
+

@@ -1,0 +1,247 @@
+/* ============================================
+   INGREDIENTS CAROUSEL SECTION
+   Horizontal scrolling ingredient cards
+   ============================================ */
+
+.ingredients-carousel {
+  position: relative;
+  z-index: var(--z-10);
+}
+
+/* ============================================
+   CONTAINER (Adds padding around wrapper)
+   ============================================ */
+
+.ingredients-carousel__container {
+  padding-left: var(--space-xl);
+  padding-right: var(--space-xl);
+}
+
+@media (max-width: 990px) {
+  .ingredients-carousel__container {
+    padding-left: var(--space-md);
+    padding-right: var(--space-md);
+  }
+}
+
+/* ============================================
+   WRAPPER (Beige background with rounded corners)
+   ============================================ */
+
+.ingredients-carousel__wrapper {
+  position: relative;
+  width: 100%;
+  padding: var(--space-md);
+  overflow: hidden;
+}
+
+@media (min-width: 991px) {
+  .ingredients-carousel__wrapper {
+    padding: var(--space-xl);
+  }
+}
+
+/* ============================================
+   HEADER SECTION
+   ============================================ */
+
+.ingredients-carousel__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  margin-bottom: var(--space-2xl);
+  align-items: flex-start;
+}
+
+@media (min-width: 991px) {
+  .ingredients-carousel__header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+}
+
+/* Text Wrapper (Heading + Description) */
+.ingredients-carousel__text-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  max-width: 800px;
+}
+
+.ingredients-carousel__heading {
+  margin: 0;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+
+.ingredients-carousel__description {
+  margin: 0;
+  line-height: 1.58;
+  letter-spacing: 0.021em;
+}
+
+/* Link Wrapper */
+.ingredients-carousel__link-wrapper {
+  flex-shrink: 0;
+  display: flex;
+  align-items: flex-end;
+  padding-bottom: 4px;
+}
+
+.ingredients-carousel__link {
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.083em;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 2px;
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  line-height: 1.75;
+}
+
+.ingredients-carousel__link:hover {
+  opacity: 0.7;
+}
+
+/* ============================================
+   CAROUSEL WRAPPER
+   ============================================ */
+
+.ingredients-carousel__carousel-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.ingredients-carousel__track-container {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  cursor: grab;
+}
+
+.ingredients-carousel__track-container::-webkit-scrollbar {
+  display: none;
+}
+
+.ingredients-carousel__track-container:active {
+  cursor: grabbing;
+}
+
+.ingredients-carousel__track {
+  display: flex;
+  gap: 24px;
+  padding-bottom: var(--space-md);
+}
+
+/* ============================================
+   INGREDIENT CARDS
+   ============================================ */
+
+.ingredients-carousel__card {
+  flex: 0 0 auto;
+  width: 280px;
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+@media (max-width: 767px) {
+  .ingredients-carousel__card {
+    width: 260px;
+  }
+}
+
+/* Card Background (white rounded bottom portion) */
+.ingredients-carousel__card-bg {
+  position: relative;
+  width: 100%;
+  height: 210px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+/* Image Wrapper (floats above the white card) */
+.ingredients-carousel__image-wrapper {
+  position: absolute;
+  top: -90px;
+  right: 60px;
+  width: 160px;
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ingredients-carousel__image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* Card Content (text section) */
+.ingredients-carousel__card-content {
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.ingredients-carousel__ingredient-name {
+  margin: 0;
+  line-height: 1.6;
+  letter-spacing: 0.021em;
+}
+
+.ingredients-carousel__ingredient-description {
+  margin: 0;
+  line-height: 1.58;
+  letter-spacing: 0.021em;
+  min-height: 40px;
+}
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================ */
+
+/* Mobile: Smaller cards */
+@media (max-width: 767px) {
+  .ingredients-carousel__header {
+    margin-bottom: var(--space-xl);
+  }
+  
+  .ingredients-carousel__link-wrapper {
+    align-self: flex-start;
+  }
+  
+  .ingredients-carousel__card {
+    width: 240px;
+    height: 280px;
+  }
+  
+  .ingredients-carousel__card-bg {
+    height: 190px;
+  }
+  
+  .ingredients-carousel__image-wrapper {
+    width: 140px;
+    height: 140px;
+    top: -80px;
+    right: 50px;
+  }
+}
+
+/* Tablet adjustments */
+@media (min-width: 768px) and (max-width: 990px) {
+  .ingredients-carousel__text-wrapper {
+    max-width: 500px;
+  }
+}
+

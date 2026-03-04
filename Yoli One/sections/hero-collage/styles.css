@@ -1,0 +1,261 @@
+/* ============================================
+   COLLAGE HERO SECTION
+   ============================================ */
+
+.hero-collage {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Override global overlays - only apply when background image exists */
+.hero-collage::after {
+  display: none !important;
+}
+
+/* Section background image overlay */
+.hero-collage[data-bg]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+  z-index: var(--z-0);
+  background-color: color-mix(in srgb, var(--clr-black) 30%, transparent);
+  pointer-events: none;
+  display: block !important;
+}
+
+.hero-collage__inner {
+  position: relative;
+  z-index: var(--z-10);
+}
+
+/* Container background image overlay */
+.hero-collage__inner[data-bg]:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+  z-index: var(--z-0);
+  background-color: color-mix(in srgb, var(--clr-black) 30%, transparent);
+  pointer-events: none;
+}
+
+/* Ensure content stays above overlays */
+.hero-collage__inner > * {
+  position: relative;
+  z-index: var(--z-10);
+}
+
+/* ============================================
+   SPLIT LAYOUT
+   ============================================ */
+
+.hero-collage__split {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: var(--space-2xl);
+  width: 100%;
+  min-height: 500px;
+}
+
+@media (min-width: 991px) {
+  .hero-collage__split {
+    flex-direction: row;
+    align-items: stretch;
+    gap: 0;
+    min-height: 600px;
+  }
+
+  .hero-collage__split--flipped {
+    flex-direction: row-reverse;
+  }
+}
+
+/* ============================================
+   CONTENT SIDE
+   ============================================ */
+
+.hero-collage__content-side {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-xl) var(--space-md);
+}
+
+@media (min-width: 991px) {
+  .hero-collage__content-side {
+    padding: var(--space-3xl) var(--space-2xl);
+  }
+}
+
+.hero-collage__content {
+  max-width: 600px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.hero-collage__heading h1 {
+  margin: 0;
+  line-height: 1.2;
+}
+
+.hero-collage__subheading p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.hero-collage__cta {
+  margin-top: var(--space-md);
+}
+
+/* ============================================
+   COLLAGE SIDE
+   ============================================ */
+
+.hero-collage__collage-side {
+  flex: 1;
+  display: flex;
+  align-items: stretch;
+  overflow: hidden;
+  position: relative;
+}
+
+/* ============================================
+   IMAGE GRID / MASONRY COLLAGE
+   ============================================ */
+
+.hero-collage__grid {
+  width: 100%;
+  height: calc(100% + 120px);
+  column-count: 3;
+  column-gap: 8px;
+  padding: 0;
+  margin-top: -60px;
+  margin-bottom: -60px;
+}
+
+@media (min-width: 991px) {
+  .hero-collage__grid {
+    height: calc(100% + 160px);
+    column-gap: 12px;
+    margin-top: -80px;
+    margin-bottom: -80px;
+  }
+}
+
+/* ============================================
+   GRID ITEMS
+   ============================================ */
+
+.hero-collage__grid-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  background-color: color-mix(in srgb, var(--clr-neutral-dark) 5%, transparent);
+  margin-bottom: 10px;
+  break-inside: avoid;
+  display: block;
+}
+
+@media (min-width: 768px) {
+  .hero-collage__grid-item {
+    margin-bottom: 12px;
+  }
+}
+
+/* Create varied heights for masonry effect */
+.hero-collage__grid-item:nth-child(1) {
+  height: 200px;
+}
+
+.hero-collage__grid-item:nth-child(2) {
+  height: 280px;
+}
+
+.hero-collage__grid-item:nth-child(3) {
+  height: 240px;
+}
+
+.hero-collage__grid-item:nth-child(4) {
+  height: 320px;
+}
+
+.hero-collage__grid-item:nth-child(5) {
+  height: 180px;
+}
+
+.hero-collage__grid-item:nth-child(6) {
+  height: 260px;
+}
+
+.hero-collage__grid-item:nth-child(7) {
+  height: 220px;
+}
+
+.hero-collage__grid-item:nth-child(8) {
+  height: 300px;
+}
+
+/* Additional items get random-ish heights */
+.hero-collage__grid-item:nth-child(9) {
+  height: 240px;
+}
+
+.hero-collage__grid-item:nth-child(10) {
+  height: 280px;
+}
+
+/* Default for any additional items */
+.hero-collage__grid-item:nth-child(n+11) {
+  height: 250px;
+}
+
+@media (min-width: 991px) {
+  .hero-collage__grid-item:nth-child(1) { height: 280px; }
+  .hero-collage__grid-item:nth-child(2) { height: 380px; }
+  .hero-collage__grid-item:nth-child(3) { height: 320px; }
+  .hero-collage__grid-item:nth-child(4) { height: 420px; }
+  .hero-collage__grid-item:nth-child(5) { height: 240px; }
+  .hero-collage__grid-item:nth-child(6) { height: 360px; }
+  .hero-collage__grid-item:nth-child(7) { height: 300px; }
+  .hero-collage__grid-item:nth-child(8) { height: 400px; }
+  .hero-collage__grid-item:nth-child(9) { height: 320px; }
+  .hero-collage__grid-item:nth-child(10) { height: 380px; }
+  .hero-collage__grid-item:nth-child(n+11) { height: 340px; }
+}
+
+/* Images */
+.hero-collage__grid-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ============================================
+   MOBILE ADJUSTMENTS
+   ============================================ */
+
+@media (max-width: 990px) {
+  /* Hide last 3 images on mobile */
+  .hero-collage__grid-item:nth-child(7),
+  .hero-collage__grid-item:nth-child(8),
+  .hero-collage__grid-item:nth-child(9) {
+    display: none;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
+
+.hero-collage__grid-item:focus-within {
+  outline: 2px solid var(--clr-primary);
+  outline-offset: 2px;
+}
+

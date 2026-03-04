@@ -1,0 +1,206 @@
+/* Product Images Section Styles */
+
+/* Product Images Column */
+.product-images .product-images {
+  position: sticky;
+  top: 20px;
+}
+
+.product-images .main-image {
+  margin-bottom: 20px;
+  background-color: white;
+}
+
+.product-images .main-image-container {
+  position: relative;
+  margin-bottom: 20px;
+  background-color: white;
+  border-radius: 12px;
+}
+
+.product-images .main-image-container:hover .nav-btn,
+.product-images .main-image-container:hover .nav-btn-safari {
+  opacity: 1;
+}
+
+.product-images .primary-image {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  display: block;
+  object-fit: contain;
+}
+
+.product-images .nav-btn-safari,
+.product-images .nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  pointer-events: auto;
+  opacity: 0.8;
+}
+
+.product-images .prev-btn {
+  background-color: #eea81b;
+  left: -15px;
+}
+
+.product-images .next-btn {
+  background-color: #eea81b;
+  right: -15px;
+}
+.product-images .nav-btn-safari svg, 
+.product-images .nav-btn svg {
+  color: #333;
+  transition: color 0.3s ease;
+}
+
+.product-images .image-thumbnails {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  justify-content: space-between;
+}
+
+/* When Keen Slider is active, override list layout to slider layout */
+.product-images .image-thumbnails.keen-slider {
+  overflow: hidden;
+  gap: 0;
+  justify-content: flex-start;
+}
+.product-images .image-thumbnails.keen-slider .keen-slider__slide {
+  min-width: auto;
+}
+
+.product-images .thumbnail_active {
+  border: 2px solid #f7a500;
+}
+
+.product-images .thumbnail {
+  width: 100%;
+  object-fit: cover;
+  aspect-ratio: 1 / 1;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border-color 0.3s ease;
+  background-color: #ffffff;
+}
+
+/* Border radius utilities (scoped) */
+.product-images .primary-image.rounded-none { border-radius: 0; }
+.product-images .primary-image.rounded-sm { border-radius: 4px; }
+.product-images .primary-image.rounded { border-radius: 6px; }
+.product-images .primary-image.rounded-md { border-radius: 8px; }
+.product-images .primary-image.rounded-lg { border-radius: 12px; }
+.product-images .primary-image.rounded-xl { border-radius: 16px; }
+.product-images .primary-image.rounded-2xl { border-radius: 20px; }
+
+.product-images .thumbnail.rounded-none { border-radius: 0; }
+.product-images .thumbnail.rounded-sm { border-radius: 4px; }
+.product-images .thumbnail.rounded { border-radius: 6px; }
+.product-images .thumbnail.rounded-md { border-radius: 8px; }
+.product-images .thumbnail.rounded-lg { border-radius: 12px; }
+.product-images .thumbnail.rounded-xl { border-radius: 16px; }
+.product-images .thumbnail.rounded-2xl { border-radius: 20px; }
+
+.product-images .thumbnail:hover {
+  border-color: #f7a500;
+}
+
+.thumbnail.active,
+.thumbnail.hover-frame {
+  border: 2px solid #f7a500;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+.product-images .product-images {
+    position: static;
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+
+.product-images .image-thumbnails {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+.product-images .main-section {
+    gap: 1.2rem;
+    max-width: 100%;
+    padding: 0;
+  }
+
+.product-images .product-images {
+    position: static;
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+
+.product-images .main-image-container {
+    margin-bottom: 0.5rem;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: none;
+  }
+
+.product-images .primary-image {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: none;
+    margin-bottom: 0;
+  }
+
+.product-images .nav-btn {
+    top: 50%;
+    opacity: 0.9;
+    background-size: 48px;
+  }
+
+.product-images nav-btn-safari {
+    width: 30px;
+    height: 30px;
+    top: 50%;
+    opacity: 0.9;
+    background-size: 48px;
+  }
+
+.product-images .image-thumbnails {
+    gap: 6px;
+    justify-content: flex-start;
+    padding: 0 2px;
+    margin-bottom: 0.5rem;
+  }
+
+.product-images .thumbnail {
+    width: 48px;
+    min-width: 48px;
+    height: 48px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid transparent;
+  }
+
+.product-images .next-btn {
+    display: flex;
+    justify-self: flex-end;
+  }
+
+.product-images .prev-btn {
+    display: flex;
+    justify-self: flex-start;
+  }
+}

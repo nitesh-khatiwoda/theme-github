@@ -1,0 +1,150 @@
+/* Content Statistics Split Section Styles */
+
+.content-statistics-split {
+  position: relative;
+  overflow: hidden;
+}
+
+.content-statistics-inner {
+  position: relative;
+}
+
+/* Main Heading */
+.main-heading-wrapper {
+  width: 100%;
+  text-align: left;
+}
+
+.main-heading-wrapper h2 {
+  margin: 0;
+  line-height: 1;
+}
+
+@media (min-width: 1024px) {
+  .main-heading-wrapper h2 {
+    line-height: 1.1;
+  }
+}
+
+/* Blocks Container */
+.content-statistics-split .content-statistics-inner > .content-statistics-grid:not(:last-child) {
+  margin-bottom: var(--space-3xl);
+}
+
+@media (min-width: 1024px) {
+  .content-statistics-split .content-statistics-inner > .content-statistics-grid:not(:last-child) {
+    margin-bottom: var(--space-4xl);
+  }
+}
+
+/* Two Column Grid Layout */
+.content-statistics-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+  width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .content-statistics-grid {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--space-2xl);
+  }
+}
+
+/* Content Column (Left) */
+.content-column {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .content-column {
+    flex: 1 1 auto;
+    max-width: 716px;
+  }
+}
+
+/* Subheading */
+.subheading-wrapper {
+  width: 100%;
+}
+
+.subheading-wrapper h3 {
+  margin: 0;
+  line-height: 1.2;
+}
+
+/* Body Text */
+.body-text-wrapper {
+  width: 100%;
+}
+
+.body-text-wrapper .body-text {
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Source Citation */
+.source-citation-wrapper {
+  width: 100%;
+}
+
+.source-citation-wrapper .source-citation {
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Image Column (Right) */
+.image-column {
+  display: flex;
+  width: 100%;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+@media (min-width: 1024px) {
+  .image-column {
+    flex: 0 0 auto;
+    width: auto;
+    max-width: 664px;
+  }
+}
+
+.image-wrapper {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+@media (min-width: 1024px) {
+  .image-wrapper {
+    width: 100%;
+    max-width: 664px;
+  }
+}
+
+.content-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+
+/* Background Image Support */
+.content-statistics-split[data-bg] {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.content-statistics-inner[data-bg] {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+

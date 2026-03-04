@@ -1,0 +1,1611 @@
+<link rel="stylesheet" href="{{ 'product-comparison/styles.css' | asset_url }}">
+
+<!-- Product Comparison Section -->
+<section class="product-comparison {{ section.settings.background_color | default: 'bg-white' }} {{ section.settings.section_padding_y_mobile | default: 'py-xl' }} {{ section.settings.section_padding_y_desktop | default: 'lg:py-3xl' }} {{ section.settings.section_border_radius | default: 'rounded-none' }}" {% if section.settings.background_image %}data-bg="{{ section.settings.background_image | image_url }}"{% endif %} id="section-{{ section.id }}">
+  <div class="container">
+    <div class="product-comparison-inner {{ section.settings.container_background_color | default: '' }} {{ section.settings.container_border_radius | default: 'rounded-none' }} {{ section.settings.container_padding_y_mobile | default: 'py-lg' }} {{ section.settings.container_padding_y_desktop | default: 'lg:py-2xl' }} {{ section.settings.container_padding_x_mobile | default: 'px-md' }} {{ section.settings.container_padding_x_desktop | default: 'lg:px-xl' }}" {% if section.settings.container_background_image %}data-bg="{{ section.settings.container_background_image | image_url }}"{% endif %}>
+      
+      <!-- Top Content Section -->
+      <div class="product-comparison-header mb-2xl lg:mb-3xl">
+        
+        <!-- Main Heading -->
+        {% if section.settings.heading != blank %}
+        <div class="product-comparison-heading mb-lg">
+          <h1 class="{{ section.settings.heading_font_family | default: 'font-handwritten' }} {{ section.settings.heading_font_size | default: 'text-4xl' }} {{ section.settings.heading_font_size_desktop | default: 'lg:text-5xl' }} {{ section.settings.heading_font_weight | default: 'font-normal' }} {{ section.settings.heading_color | default: 'text-black' }}" style="line-height: 1;">
+            {{ section.settings.heading }}
+          </h1>
+        </div>
+        {% endif %}
+        
+        <!-- Description -->
+        {% if section.settings.description != blank %}
+        <div class="product-comparison-description">
+          <p class="{{ section.settings.description_font_family | default: 'font-body' }} {{ section.settings.description_font_size | default: 'text-base' }} {{ section.settings.description_font_size_desktop | default: 'lg:text-lg' }} {{ section.settings.description_font_weight | default: 'font-normal' }} {{ section.settings.description_color | default: 'text-black' }}">
+            {{ section.settings.description }}
+          </p>
+        </div>
+        {% endif %}
+        
+      </div>
+      
+      <!-- Product Comparison Section -->
+      {% if section.blocks.size > 0 %}
+      <div class="product-comparison-wrapper">
+        
+        <!-- Comparison Header -->
+        {% if section.settings.show_comparison_header %}
+        <div class="comparison-header mb-lg">
+          <div class="comparison-header-left flex items-center gap-md">
+            <!-- Icon -->
+            {% if section.settings.show_comparison_icon %}
+              {% if section.settings.comparison_icon %}
+              <div class="comparison-icon">
+                <img src="{{ section.settings.comparison_icon | image_url: width: 54 }}"
+                     alt="{{ section.settings.comparison_icon_alt | default: 'Comparison icon' }}"
+                     loading="lazy"
+                     style="box-shadow: none !important;">
+              </div>
+              {% else %}
+              <div class="comparison-icon">
+                <img src="{{ 'placeholder-image.png' | asset_url }}"
+                     alt="Placeholder"
+                     loading="lazy"
+                     style="box-shadow: none !important;">
+              </div>
+              {% endif %}
+            {% endif %}
+            
+            <!-- Title -->
+            {% if section.settings.comparison_title != blank %}
+            <h2 class="{{ section.settings.comparison_title_font_family | default: 'font-body' }} {{ section.settings.comparison_title_font_size | default: 'text-2xl' }} {{ section.settings.comparison_title_font_size_desktop | default: 'lg:text-3xl' }} {{ section.settings.comparison_title_font_weight | default: 'font-bold' }} {{ section.settings.comparison_title_color | default: 'text-black' }}">
+              {{ section.settings.comparison_title }}
+            </h2>
+            {% endif %}
+          </div>
+          
+          <!-- Navigation Arrows -->
+          <div class="comparison-navigation flex gap-sm">
+            <button class="comparison-nav-btn comparison-nav-prev" aria-label="Previous products" style="cursor: pointer;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="{{ section.settings.nav_arrow_color | default: 'text-black' }}">
+                <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <button class="comparison-nav-btn comparison-nav-next" aria-label="Next products" style="cursor: pointer;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="{{ section.settings.nav_arrow_color | default: 'text-black' }}">
+                <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        {% endif %}
+        
+      </div>
+      {% endif %}
+      
+    </div>
+  </div>
+  
+  <!-- Comparison Cards Full Width Container (Outside Container Padding) -->
+  {% if section.blocks.size > 0 %}
+  <div class="comparison-cards-fullwidth">
+    <div class="comparison-cards-container" data-carousel="{{ section.id }}">
+      <div class="comparison-cards-track">
+            {% for block in section.blocks %}
+              {% if block.type == 'comparison_card' %}
+              <div class="comparison-card {% if block.settings.is_highlighted %}comparison-card--highlighted{% endif %} {{ section.settings.card_border_radius | default: 'rounded-md' }}" style="width: {{ section.settings.card_width | default: '259' }}px; min-width: {{ section.settings.card_width | default: '259' }}px;" {{ block.fluid_attributes }}>
+                
+                <!-- Card Header -->
+                <div class="comparison-card-header mb-sm">
+                  {% if block.settings.product_name != blank %}
+                  <h3 class="{{ section.settings.card_title_font_family | default: 'font-body' }} {{ section.settings.card_title_font_size | default: 'text-lg' }} {{ section.settings.card_title_font_size_desktop | default: 'lg:text-xl' }} {{ section.settings.card_title_font_weight | default: 'font-bold' }} {{ section.settings.card_title_color | default: 'text-black' }} text-center">
+                    {{ block.settings.product_name }}
+                  </h3>
+                  {% endif %}
+                  
+                  <!-- Product Image -->
+                  <div class="comparison-card-image mt-sm">
+                    {% if block.settings.product_image %}
+                    <img src="{{ block.settings.product_image | image_url: width: 400 }}"
+                         alt="{{ block.settings.product_image_alt | default: block.settings.product_name }}"
+                         loading="lazy"
+                         style="box-shadow: none !important;">
+                    {% else %}
+                    <img src="{{ 'placeholder-image.png' | asset_url }}"
+                         alt="Placeholder"
+                         loading="lazy"
+                         style="box-shadow: none !important;">
+                    {% endif %}
+                  </div>
+                </div>
+                
+                <!-- Card Specifications -->
+                <div class="comparison-card-specs" style="--spec-row-padding-y: {{ section.settings.spec_row_spacing | default: '10' }}px;">
+                  {% if block.settings.spec_full_spectrum_label != blank or block.settings.spec_full_spectrum_value != blank %}
+                  <div class="comparison-spec-row">
+                    {% if block.settings.spec_full_spectrum_label != blank %}
+                    <div class="spec-label {{ section.settings.spec_label_font_family | default: 'font-body' }} {{ section.settings.spec_label_font_size | default: 'text-xs' }} {{ section.settings.spec_label_font_size_desktop | default: 'lg:text-sm' }} {{ section.settings.spec_label_font_weight | default: 'font-medium' }} {{ section.settings.spec_label_color | default: 'text-neutral-dark' }}">
+                      {{ block.settings.spec_full_spectrum_label }}
+                    </div>
+                    {% endif %}
+                    {% if block.settings.spec_full_spectrum_value != blank %}
+                    <div class="spec-value {{ section.settings.spec_value_font_family | default: 'font-body' }} {{ section.settings.spec_value_font_size | default: 'text-base' }} {{ section.settings.spec_value_font_size_desktop | default: 'lg:text-base' }} {{ section.settings.spec_value_font_weight | default: 'font-normal' }} {{ section.settings.spec_value_color | default: 'text-black' }}">
+                      {{ block.settings.spec_full_spectrum_value }}
+                    </div>
+                    {% endif %}
+                  </div>
+                  {% endif %}
+                  
+                  {% if block.settings.spec_form_label != blank or block.settings.spec_form_value != blank %}
+                  <div class="comparison-spec-row">
+                    {% if block.settings.spec_form_label != blank %}
+                    <div class="spec-label {{ section.settings.spec_label_font_family | default: 'font-body' }} {{ section.settings.spec_label_font_size | default: 'text-xs' }} {{ section.settings.spec_label_font_size_desktop | default: 'lg:text-sm' }} {{ section.settings.spec_label_font_weight | default: 'font-medium' }} {{ section.settings.spec_label_color | default: 'text-neutral-dark' }}">
+                      {{ block.settings.spec_form_label }}
+                    </div>
+                    {% endif %}
+                    {% if block.settings.spec_form_value != blank %}
+                    <div class="spec-value {{ section.settings.spec_value_font_family | default: 'font-body' }} {{ section.settings.spec_value_font_size | default: 'text-base' }} {{ section.settings.spec_value_font_size_desktop | default: 'lg:text-base' }} {{ section.settings.spec_value_font_weight | default: 'font-normal' }} {{ section.settings.spec_value_color | default: 'text-black' }}">
+                      {{ block.settings.spec_form_value }}
+                    </div>
+                    {% endif %}
+                  </div>
+                  {% endif %}
+                  
+                  {% if block.settings.spec_omega3_label != blank or block.settings.spec_omega3_value != blank %}
+                  <div class="comparison-spec-row">
+                    {% if block.settings.spec_omega3_label != blank %}
+                    <div class="spec-label {{ section.settings.spec_label_font_family | default: 'font-body' }} {{ section.settings.spec_label_font_size | default: 'text-xs' }} {{ section.settings.spec_label_font_size_desktop | default: 'lg:text-sm' }} {{ section.settings.spec_label_font_weight | default: 'font-medium' }} {{ section.settings.spec_label_color | default: 'text-neutral-dark' }}">
+                      {{ block.settings.spec_omega3_label }}
+                    </div>
+                    {% endif %}
+                    {% if block.settings.spec_omega3_value != blank %}
+                    <div class="spec-value {{ section.settings.spec_value_font_family | default: 'font-body' }} {{ section.settings.spec_value_font_size | default: 'text-base' }} {{ section.settings.spec_value_font_size_desktop | default: 'lg:text-base' }} {{ section.settings.spec_value_font_weight | default: 'font-normal' }} {{ section.settings.spec_value_color | default: 'text-black' }}">
+                      {{ block.settings.spec_omega3_value }}
+                    </div>
+                    {% endif %}
+                  </div>
+                  {% endif %}
+                  
+                  {% if block.settings.spec_other_omega3_label != blank or block.settings.spec_other_omega3_value != blank %}
+                  <div class="comparison-spec-row">
+                    {% if block.settings.spec_other_omega3_label != blank %}
+                    <div class="spec-label {{ section.settings.spec_label_font_family | default: 'font-body' }} {{ section.settings.spec_label_font_size | default: 'text-xs' }} {{ section.settings.spec_label_font_size_desktop | default: 'lg:text-sm' }} {{ section.settings.spec_label_font_weight | default: 'font-medium' }} {{ section.settings.spec_label_color | default: 'text-neutral-dark' }}">
+                      {{ block.settings.spec_other_omega3_label }}
+                    </div>
+                    {% endif %}
+                    {% if block.settings.spec_other_omega3_value != blank %}
+                    <div class="spec-value {{ section.settings.spec_value_font_family | default: 'font-body' }} {{ section.settings.spec_value_font_size | default: 'text-base' }} {{ section.settings.spec_value_font_size_desktop | default: 'lg:text-base' }} {{ section.settings.spec_value_font_weight | default: 'font-normal' }} {{ section.settings.spec_value_color | default: 'text-black' }}">
+                      {{ block.settings.spec_other_omega3_value }}
+                    </div>
+                    {% endif %}
+                  </div>
+                  {% endif %}
+                  
+                  {% if block.settings.spec_epa_label != blank or block.settings.spec_epa_value != blank %}
+                  <div class="comparison-spec-row">
+                    {% if block.settings.spec_epa_label != blank %}
+                    <div class="spec-label {{ section.settings.spec_label_font_family | default: 'font-body' }} {{ section.settings.spec_label_font_size | default: 'text-xs' }} {{ section.settings.spec_label_font_size_desktop | default: 'lg:text-sm' }} {{ section.settings.spec_label_font_weight | default: 'font-medium' }} {{ section.settings.spec_label_color | default: 'text-neutral-dark' }}">
+                      {{ block.settings.spec_epa_label }}
+                    </div>
+                    {% endif %}
+                    {% if block.settings.spec_epa_value != blank %}
+                    <div class="spec-value {{ section.settings.spec_value_font_family | default: 'font-body' }} {{ section.settings.spec_value_font_size | default: 'text-base' }} {{ section.settings.spec_value_font_size_desktop | default: 'lg:text-base' }} {{ section.settings.spec_value_font_weight | default: 'font-normal' }} {{ section.settings.spec_value_color | default: 'text-black' }}">
+                      {{ block.settings.spec_epa_value }}
+                    </div>
+                    {% endif %}
+                  </div>
+                  {% endif %}
+                  
+                  {% if block.settings.spec_dha_label != blank or block.settings.spec_dha_value != blank %}
+                  <div class="comparison-spec-row">
+                    {% if block.settings.spec_dha_label != blank %}
+                    <div class="spec-label {{ section.settings.spec_label_font_family | default: 'font-body' }} {{ section.settings.spec_label_font_size | default: 'text-xs' }} {{ section.settings.spec_label_font_size_desktop | default: 'lg:text-sm' }} {{ section.settings.spec_label_font_weight | default: 'font-medium' }} {{ section.settings.spec_label_color | default: 'text-neutral-dark' }}">
+                      {{ block.settings.spec_dha_label }}
+                    </div>
+                    {% endif %}
+                    {% if block.settings.spec_dha_value != blank %}
+                    <div class="spec-value {{ section.settings.spec_value_font_family | default: 'font-body' }} {{ section.settings.spec_value_font_size | default: 'text-base' }} {{ section.settings.spec_value_font_size_desktop | default: 'lg:text-base' }} {{ section.settings.spec_value_font_weight | default: 'font-normal' }} {{ section.settings.spec_value_color | default: 'text-black' }}">
+                      {{ block.settings.spec_dha_value }}
+                    </div>
+                    {% endif %}
+                  </div>
+                  {% endif %}
+                  
+                  {% if block.settings.spec_vitamin_d3_label != blank or block.settings.spec_vitamin_d3_value != blank %}
+                  <div class="comparison-spec-row">
+                    {% if block.settings.spec_vitamin_d3_label != blank %}
+                    <div class="spec-label {{ section.settings.spec_label_font_family | default: 'font-body' }} {{ section.settings.spec_label_font_size | default: 'text-xs' }} {{ section.settings.spec_label_font_size_desktop | default: 'lg:text-sm' }} {{ section.settings.spec_label_font_weight | default: 'font-medium' }} {{ section.settings.spec_label_color | default: 'text-neutral-dark' }}">
+                      {{ block.settings.spec_vitamin_d3_label }}
+                    </div>
+                    {% endif %}
+                    {% if block.settings.spec_vitamin_d3_value != blank %}
+                    <div class="spec-value {{ section.settings.spec_value_font_family | default: 'font-body' }} {{ section.settings.spec_value_font_size | default: 'text-base' }} {{ section.settings.spec_value_font_size_desktop | default: 'lg:text-base' }} {{ section.settings.spec_value_font_weight | default: 'font-normal' }} {{ section.settings.spec_value_color | default: 'text-black' }}">
+                      {{ block.settings.spec_vitamin_d3_value }}
+                    </div>
+                    {% endif %}
+                  </div>
+                  {% endif %}
+                  
+                  {% if block.settings.spec_source_label != blank or block.settings.spec_source_value != blank %}
+                  <div class="comparison-spec-row">
+                    {% if block.settings.spec_source_label != blank %}
+                    <div class="spec-label {{ section.settings.spec_label_font_family | default: 'font-body' }} {{ section.settings.spec_label_font_size | default: 'text-xs' }} {{ section.settings.spec_label_font_size_desktop | default: 'lg:text-sm' }} {{ section.settings.spec_label_font_weight | default: 'font-medium' }} {{ section.settings.spec_label_color | default: 'text-neutral-dark' }}">
+                      {{ block.settings.spec_source_label }}
+                    </div>
+                    {% endif %}
+                    {% if block.settings.spec_source_value != blank %}
+                    <div class="spec-value {{ section.settings.spec_value_font_family | default: 'font-body' }} {{ section.settings.spec_value_font_size | default: 'text-base' }} {{ section.settings.spec_value_font_size_desktop | default: 'lg:text-base' }} {{ section.settings.spec_value_font_weight | default: 'font-normal' }} {{ section.settings.spec_value_color | default: 'text-black' }}">
+                      {{ block.settings.spec_source_value }}
+                    </div>
+                    {% endif %}
+                  </div>
+                  {% endif %}
+                  
+                  {% if block.settings.spec_test_kit_label != blank or block.settings.spec_test_kit_value != blank %}
+                  <div class="comparison-spec-row">
+                    {% if block.settings.spec_test_kit_label != blank %}
+                    <div class="spec-label {{ section.settings.spec_label_font_family | default: 'font-body' }} {{ section.settings.spec_label_font_size | default: 'text-xs' }} {{ section.settings.spec_label_font_size_desktop | default: 'lg:text-sm' }} {{ section.settings.spec_label_font_weight | default: 'font-medium' }} {{ section.settings.spec_label_color | default: 'text-neutral-dark' }}">
+                      {{ block.settings.spec_test_kit_label }}
+                    </div>
+                    {% endif %}
+                    {% if block.settings.spec_test_kit_value != blank %}
+                    <div class="spec-value {{ section.settings.spec_value_font_family | default: 'font-body' }} {{ section.settings.spec_value_font_size | default: 'text-base' }} {{ section.settings.spec_value_font_size_desktop | default: 'lg:text-base' }} {{ section.settings.spec_value_font_weight | default: 'font-normal' }} {{ section.settings.spec_value_color | default: 'text-black' }}">
+                      {{ block.settings.spec_test_kit_value }}
+                    </div>
+                    {% endif %}
+                  </div>
+                  {% endif %}
+                  
+                  {% if block.settings.spec_guarantee_label != blank or block.settings.spec_guarantee_value != blank %}
+                  <div class="comparison-spec-row">
+                    {% if block.settings.spec_guarantee_label != blank %}
+                    <div class="spec-label {{ section.settings.spec_label_font_family | default: 'font-body' }} {{ section.settings.spec_label_font_size | default: 'text-xs' }} {{ section.settings.spec_label_font_size_desktop | default: 'lg:text-sm' }} {{ section.settings.spec_label_font_weight | default: 'font-medium' }} {{ section.settings.spec_label_color | default: 'text-neutral-dark' }}">
+                      {{ block.settings.spec_guarantee_label }}
+                    </div>
+                    {% endif %}
+                    {% if block.settings.spec_guarantee_value != blank %}
+                    <div class="spec-value {{ section.settings.spec_value_font_family | default: 'font-body' }} {{ section.settings.spec_value_font_size | default: 'text-base' }} {{ section.settings.spec_value_font_size_desktop | default: 'lg:text-base' }} {{ section.settings.spec_value_font_weight | default: 'font-normal' }} {{ section.settings.spec_value_color | default: 'text-black' }}">
+                      {{ block.settings.spec_guarantee_value }}
+                    </div>
+                    {% endif %}
+                  </div>
+                  {% endif %}
+                  
+                </div>
+                
+              </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      {% endif %}
+      
+      <!-- Footer Disclaimer -->
+      {% if section.settings.disclaimer_text != blank %}
+      <div class="container">
+        <div class="product-comparison-inner">
+          <div class="comparison-disclaimer mt-lg">
+            <p class="{{ section.settings.disclaimer_font_family | default: 'font-body' }} {{ section.settings.disclaimer_font_size | default: 'text-xs' }} {{ section.settings.disclaimer_font_size_desktop | default: 'lg:text-xs' }} {{ section.settings.disclaimer_font_weight | default: 'font-normal' }} {{ section.settings.disclaimer_color | default: 'text-neutral-dark' }}">
+              {{ section.settings.disclaimer_text }}
+            </p>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+      
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const carousel = document.querySelector('[data-carousel="{{ section.id }}"]');
+  if (!carousel) return;
+  
+  const wrapper = carousel.closest('.product-comparison-wrapper');
+  if (!wrapper) return;
+  
+  const track = carousel.querySelector('.comparison-cards-track');
+  const prevBtn = wrapper.querySelector('.comparison-nav-prev');
+  const nextBtn = wrapper.querySelector('.comparison-nav-next');
+  
+  if (!track || !prevBtn || !nextBtn) return;
+  
+  const firstCard = track.querySelector('.comparison-card');
+  const cardWidth = firstCard ? firstCard.offsetWidth : 259;
+  const gap = 16;
+  let scrollPosition = 0;
+  
+  function updateButtons() {
+    const maxScroll = track.scrollWidth - track.offsetWidth;
+    prevBtn.style.opacity = scrollPosition <= 0 ? '0.5' : '1';
+    prevBtn.disabled = scrollPosition <= 0;
+    nextBtn.style.opacity = scrollPosition >= maxScroll ? '0.5' : '1';
+    nextBtn.disabled = scrollPosition >= maxScroll;
+  }
+  
+  prevBtn.addEventListener('click', function() {
+    if (prevBtn.disabled) return;
+    scrollPosition = Math.max(0, scrollPosition - (cardWidth + gap));
+    track.scrollTo({ left: scrollPosition, behavior: 'smooth' });
+  });
+  
+  nextBtn.addEventListener('click', function() {
+    if (nextBtn.disabled) return;
+    const maxScroll = track.scrollWidth - track.offsetWidth;
+    scrollPosition = Math.min(maxScroll, scrollPosition + (cardWidth + gap));
+    track.scrollTo({ left: scrollPosition, behavior: 'smooth' });
+  });
+  
+  track.addEventListener('scroll', function() {
+    scrollPosition = track.scrollLeft;
+    updateButtons();
+  });
+  
+  // Handle window resize
+  window.addEventListener('resize', function() {
+    updateButtons();
+  });
+  
+  updateButtons();
+});
+</script>
+
+{% schema %}
+{
+  "name": "Product Comparison",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Main Heading"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading Text",
+      "default": "A Smarter, Stronger Omega Formula. Backed by real science and not just a supplement label."
+    },
+    {
+      "type": "select",
+      "id": "heading_font_family",
+      "label": "Font Family",
+      "options": [
+        { "value": "font-primary", "label": "Primary" },
+        { "value": "font-body", "label": "Body" },
+        { "value": "font-handwritten", "label": "Handwritten" },
+        { "value": "font-serif", "label": "Serif" }
+      ],
+      "default": "font-handwritten"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_size",
+      "label": "Font Size (Mobile)",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" },
+        { "value": "text-xl", "label": "Extra Large" },
+        { "value": "text-2xl", "label": "2X Large" },
+        { "value": "text-3xl", "label": "3X Large" },
+        { "value": "text-4xl", "label": "4X Large" },
+        { "value": "text-5xl", "label": "5X Large" },
+        { "value": "text-6xl", "label": "6X Large" },
+        { "value": "text-7xl", "label": "7X Large" },
+        { "value": "text-8xl", "label": "8X Large" },
+        { "value": "text-9xl", "label": "9X Large" }
+      ],
+      "default": "text-4xl"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_size_desktop",
+      "label": "Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-xs", "label": "Extra Small" },
+        { "value": "lg:text-sm", "label": "Small" },
+        { "value": "lg:text-base", "label": "Base" },
+        { "value": "lg:text-lg", "label": "Large" },
+        { "value": "lg:text-xl", "label": "Extra Large" },
+        { "value": "lg:text-2xl", "label": "2X Large" },
+        { "value": "lg:text-3xl", "label": "3X Large" },
+        { "value": "lg:text-4xl", "label": "4X Large" },
+        { "value": "lg:text-5xl", "label": "5X Large" },
+        { "value": "lg:text-6xl", "label": "6X Large" },
+        { "value": "lg:text-7xl", "label": "7X Large" },
+        { "value": "lg:text-8xl", "label": "8X Large" },
+        { "value": "lg:text-9xl", "label": "9X Large" }
+      ],
+      "default": "lg:text-5xl"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_weight",
+      "label": "Font Weight",
+      "options": [
+        { "value": "font-light", "label": "Light" },
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semi Bold" },
+        { "value": "font-bold", "label": "Bold" }
+      ],
+      "default": "font-normal"
+    },
+    {
+      "type": "select",
+      "id": "heading_color",
+      "label": "Text Color",
+      "options": [
+        { "value": "text-white", "label": "White" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-primary", "label": "Primary" },
+        { "value": "text-secondary", "label": "Secondary" },
+        { "value": "text-tertiary", "label": "Tertiary" },
+        { "value": "text-quaternary", "label": "Quaternary" },
+        { "value": "text-success", "label": "Success" },
+        { "value": "text-warning", "label": "Warning" },
+        { "value": "text-error", "label": "Error" },
+        { "value": "text-info", "label": "Info" },
+        { "value": "text-neutral", "label": "Neutral" },
+        { "value": "text-neutral-light", "label": "Neutral Light" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "text-black"
+    },
+    {
+      "type": "header",
+      "content": "Description"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description Text",
+      "default": "Most omega supplements offer low doses, poor absorption, and little transparency. Yoli Vital Omegas+ changes that—offering a potent, full-spectrum formula from wild-caught fish, plus Vitamin D3 and a 90-day satisfaction guarantee."
+    },
+    {
+      "type": "select",
+      "id": "description_font_family",
+      "label": "Font Family",
+      "options": [
+        { "value": "font-primary", "label": "Primary" },
+        { "value": "font-body", "label": "Body" },
+        { "value": "font-handwritten", "label": "Handwritten" },
+        { "value": "font-serif", "label": "Serif" }
+      ],
+      "default": "font-body"
+    },
+    {
+      "type": "select",
+      "id": "description_font_size",
+      "label": "Font Size (Mobile)",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" },
+        { "value": "text-xl", "label": "Extra Large" },
+        { "value": "text-2xl", "label": "2X Large" },
+        { "value": "text-3xl", "label": "3X Large" },
+        { "value": "text-4xl", "label": "4X Large" },
+        { "value": "text-5xl", "label": "5X Large" },
+        { "value": "text-6xl", "label": "6X Large" },
+        { "value": "text-7xl", "label": "7X Large" },
+        { "value": "text-8xl", "label": "8X Large" },
+        { "value": "text-9xl", "label": "9X Large" }
+      ],
+      "default": "text-base"
+    },
+    {
+      "type": "select",
+      "id": "description_font_size_desktop",
+      "label": "Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-xs", "label": "Extra Small" },
+        { "value": "lg:text-sm", "label": "Small" },
+        { "value": "lg:text-base", "label": "Base" },
+        { "value": "lg:text-lg", "label": "Large" },
+        { "value": "lg:text-xl", "label": "Extra Large" },
+        { "value": "lg:text-2xl", "label": "2X Large" },
+        { "value": "lg:text-3xl", "label": "3X Large" },
+        { "value": "lg:text-4xl", "label": "4X Large" },
+        { "value": "lg:text-5xl", "label": "5X Large" },
+        { "value": "lg:text-6xl", "label": "6X Large" },
+        { "value": "lg:text-7xl", "label": "7X Large" },
+        { "value": "lg:text-8xl", "label": "8X Large" },
+        { "value": "lg:text-9xl", "label": "9X Large" }
+      ],
+      "default": "lg:text-lg"
+    },
+    {
+      "type": "select",
+      "id": "description_font_weight",
+      "label": "Font Weight",
+      "options": [
+        { "value": "font-light", "label": "Light" },
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semi Bold" },
+        { "value": "font-bold", "label": "Bold" }
+      ],
+      "default": "font-normal"
+    },
+    {
+      "type": "select",
+      "id": "description_color",
+      "label": "Text Color",
+      "options": [
+        { "value": "text-white", "label": "White" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-primary", "label": "Primary" },
+        { "value": "text-secondary", "label": "Secondary" },
+        { "value": "text-tertiary", "label": "Tertiary" },
+        { "value": "text-quaternary", "label": "Quaternary" },
+        { "value": "text-success", "label": "Success" },
+        { "value": "text-warning", "label": "Warning" },
+        { "value": "text-error", "label": "Error" },
+        { "value": "text-info", "label": "Info" },
+        { "value": "text-neutral", "label": "Neutral" },
+        { "value": "text-neutral-light", "label": "Neutral Light" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "text-black"
+    },
+    {
+      "type": "header",
+      "content": "Comparison Header"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_comparison_header",
+      "label": "Show Comparison Header",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_comparison_icon",
+      "label": "Show Comparison Icon",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "comparison_icon",
+      "label": "Comparison Icon"
+    },
+    {
+      "type": "text",
+      "id": "comparison_icon_alt",
+      "label": "Icon Alt Text",
+      "default": "Comparison icon"
+    },
+    {
+      "type": "text",
+      "id": "comparison_title",
+      "label": "Comparison Title",
+      "default": "Product Comparison"
+    },
+    {
+      "type": "select",
+      "id": "comparison_title_font_family",
+      "label": "Font Family",
+      "options": [
+        { "value": "font-primary", "label": "Primary" },
+        { "value": "font-body", "label": "Body" },
+        { "value": "font-handwritten", "label": "Handwritten" },
+        { "value": "font-serif", "label": "Serif" }
+      ],
+      "default": "font-body"
+    },
+    {
+      "type": "select",
+      "id": "comparison_title_font_size",
+      "label": "Font Size (Mobile)",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" },
+        { "value": "text-xl", "label": "Extra Large" },
+        { "value": "text-2xl", "label": "2X Large" },
+        { "value": "text-3xl", "label": "3X Large" },
+        { "value": "text-4xl", "label": "4X Large" },
+        { "value": "text-5xl", "label": "5X Large" },
+        { "value": "text-6xl", "label": "6X Large" },
+        { "value": "text-7xl", "label": "7X Large" },
+        { "value": "text-8xl", "label": "8X Large" },
+        { "value": "text-9xl", "label": "9X Large" }
+      ],
+      "default": "text-2xl"
+    },
+    {
+      "type": "select",
+      "id": "comparison_title_font_size_desktop",
+      "label": "Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-xs", "label": "Extra Small" },
+        { "value": "lg:text-sm", "label": "Small" },
+        { "value": "lg:text-base", "label": "Base" },
+        { "value": "lg:text-lg", "label": "Large" },
+        { "value": "lg:text-xl", "label": "Extra Large" },
+        { "value": "lg:text-2xl", "label": "2X Large" },
+        { "value": "lg:text-3xl", "label": "3X Large" },
+        { "value": "lg:text-4xl", "label": "4X Large" },
+        { "value": "lg:text-5xl", "label": "5X Large" },
+        { "value": "lg:text-6xl", "label": "6X Large" },
+        { "value": "lg:text-7xl", "label": "7X Large" },
+        { "value": "lg:text-8xl", "label": "8X Large" },
+        { "value": "lg:text-9xl", "label": "9X Large" }
+      ],
+      "default": "lg:text-3xl"
+    },
+    {
+      "type": "select",
+      "id": "comparison_title_font_weight",
+      "label": "Font Weight",
+      "options": [
+        { "value": "font-light", "label": "Light" },
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semi Bold" },
+        { "value": "font-bold", "label": "Bold" }
+      ],
+      "default": "font-bold"
+    },
+    {
+      "type": "select",
+      "id": "comparison_title_color",
+      "label": "Text Color",
+      "options": [
+        { "value": "text-white", "label": "White" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-primary", "label": "Primary" },
+        { "value": "text-secondary", "label": "Secondary" },
+        { "value": "text-tertiary", "label": "Tertiary" },
+        { "value": "text-quaternary", "label": "Quaternary" },
+        { "value": "text-success", "label": "Success" },
+        { "value": "text-warning", "label": "Warning" },
+        { "value": "text-error", "label": "Error" },
+        { "value": "text-info", "label": "Info" },
+        { "value": "text-neutral", "label": "Neutral" },
+        { "value": "text-neutral-light", "label": "Neutral Light" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "text-black"
+    },
+    {
+      "type": "select",
+      "id": "nav_arrow_color",
+      "label": "Navigation Arrow Color",
+      "options": [
+        { "value": "text-white", "label": "White" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-primary", "label": "Primary" },
+        { "value": "text-secondary", "label": "Secondary" },
+        { "value": "text-tertiary", "label": "Tertiary" },
+        { "value": "text-quaternary", "label": "Quaternary" },
+        { "value": "text-success", "label": "Success" },
+        { "value": "text-warning", "label": "Warning" },
+        { "value": "text-error", "label": "Error" },
+        { "value": "text-info", "label": "Info" },
+        { "value": "text-neutral", "label": "Neutral" },
+        { "value": "text-neutral-light", "label": "Neutral Light" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "text-black"
+    },
+    {
+      "type": "header",
+      "content": "Card Styling"
+    },
+    {
+      "type": "select",
+      "id": "card_width",
+      "label": "Card Width",
+      "options": [
+        { "value": "200", "label": "200px" },
+        { "value": "220", "label": "220px" },
+        { "value": "240", "label": "240px" },
+        { "value": "259", "label": "259px (Default)" },
+        { "value": "280", "label": "280px" },
+        { "value": "300", "label": "300px" },
+        { "value": "320", "label": "320px" },
+        { "value": "350", "label": "350px" },
+        { "value": "400", "label": "400px" }
+      ],
+      "default": "259"
+    },
+    {
+      "type": "select",
+      "id": "card_border_radius",
+      "label": "Card Border Radius",
+      "options": [
+        { "value": "rounded-none", "label": "None" },
+        { "value": "rounded-sm", "label": "Small" },
+        { "value": "rounded", "label": "Base" },
+        { "value": "rounded-md", "label": "Medium" },
+        { "value": "rounded-lg", "label": "Large" },
+        { "value": "rounded-xl", "label": "Extra Large" },
+        { "value": "rounded-2xl", "label": "2X Large" },
+        { "value": "rounded-3xl", "label": "3X Large" }
+      ],
+      "default": "rounded-md"
+    },
+    {
+      "type": "select",
+      "id": "card_title_font_family",
+      "label": "Card Title Font Family",
+      "options": [
+        { "value": "font-primary", "label": "Primary" },
+        { "value": "font-body", "label": "Body" },
+        { "value": "font-handwritten", "label": "Handwritten" },
+        { "value": "font-serif", "label": "Serif" }
+      ],
+      "default": "font-body"
+    },
+    {
+      "type": "select",
+      "id": "card_title_font_size",
+      "label": "Card Title Font Size (Mobile)",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" },
+        { "value": "text-xl", "label": "Extra Large" },
+        { "value": "text-2xl", "label": "2X Large" },
+        { "value": "text-3xl", "label": "3X Large" },
+        { "value": "text-4xl", "label": "4X Large" },
+        { "value": "text-5xl", "label": "5X Large" },
+        { "value": "text-6xl", "label": "6X Large" },
+        { "value": "text-7xl", "label": "7X Large" },
+        { "value": "text-8xl", "label": "8X Large" },
+        { "value": "text-9xl", "label": "9X Large" }
+      ],
+      "default": "text-lg"
+    },
+    {
+      "type": "select",
+      "id": "card_title_font_size_desktop",
+      "label": "Card Title Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-xs", "label": "Extra Small" },
+        { "value": "lg:text-sm", "label": "Small" },
+        { "value": "lg:text-base", "label": "Base" },
+        { "value": "lg:text-lg", "label": "Large" },
+        { "value": "lg:text-xl", "label": "Extra Large" },
+        { "value": "lg:text-2xl", "label": "2X Large" },
+        { "value": "lg:text-3xl", "label": "3X Large" },
+        { "value": "lg:text-4xl", "label": "4X Large" },
+        { "value": "lg:text-5xl", "label": "5X Large" },
+        { "value": "lg:text-6xl", "label": "6X Large" },
+        { "value": "lg:text-7xl", "label": "7X Large" },
+        { "value": "lg:text-8xl", "label": "8X Large" },
+        { "value": "lg:text-9xl", "label": "9X Large" }
+      ],
+      "default": "lg:text-xl"
+    },
+    {
+      "type": "select",
+      "id": "card_title_font_weight",
+      "label": "Card Title Font Weight",
+      "options": [
+        { "value": "font-light", "label": "Light" },
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semi Bold" },
+        { "value": "font-bold", "label": "Bold" }
+      ],
+      "default": "font-bold"
+    },
+    {
+      "type": "select",
+      "id": "card_title_color",
+      "label": "Card Title Color",
+      "options": [
+        { "value": "text-white", "label": "White" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-primary", "label": "Primary" },
+        { "value": "text-secondary", "label": "Secondary" },
+        { "value": "text-tertiary", "label": "Tertiary" },
+        { "value": "text-quaternary", "label": "Quaternary" },
+        { "value": "text-success", "label": "Success" },
+        { "value": "text-warning", "label": "Warning" },
+        { "value": "text-error", "label": "Error" },
+        { "value": "text-info", "label": "Info" },
+        { "value": "text-neutral", "label": "Neutral" },
+        { "value": "text-neutral-light", "label": "Neutral Light" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "text-black"
+    },
+    {
+      "type": "header",
+      "content": "Specification Styling"
+    },
+    {
+      "type": "select",
+      "id": "spec_row_spacing",
+      "label": "Vertical Spacing Between Rows",
+      "options": [
+        { "value": "0", "label": "None (0px)" },
+        { "value": "4", "label": "Extra Small (4px)" },
+        { "value": "6", "label": "Small (6px)" },
+        { "value": "8", "label": "Medium (8px)" },
+        { "value": "10", "label": "Default (10px)" },
+        { "value": "12", "label": "Large (12px)" },
+        { "value": "16", "label": "Extra Large (16px)" },
+        { "value": "20", "label": "2X Large (20px)" },
+        { "value": "24", "label": "3X Large (24px)" }
+      ],
+      "default": "10"
+    },
+    {
+      "type": "select",
+      "id": "spec_label_font_family",
+      "label": "Spec Label Font Family",
+      "options": [
+        { "value": "font-primary", "label": "Primary" },
+        { "value": "font-body", "label": "Body" },
+        { "value": "font-handwritten", "label": "Handwritten" },
+        { "value": "font-serif", "label": "Serif" }
+      ],
+      "default": "font-body"
+    },
+    {
+      "type": "select",
+      "id": "spec_label_font_size",
+      "label": "Spec Label Font Size (Mobile)",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" },
+        { "value": "text-xl", "label": "Extra Large" },
+        { "value": "text-2xl", "label": "2X Large" },
+        { "value": "text-3xl", "label": "3X Large" },
+        { "value": "text-4xl", "label": "4X Large" },
+        { "value": "text-5xl", "label": "5X Large" },
+        { "value": "text-6xl", "label": "6X Large" },
+        { "value": "text-7xl", "label": "7X Large" },
+        { "value": "text-8xl", "label": "8X Large" },
+        { "value": "text-9xl", "label": "9X Large" }
+      ],
+      "default": "text-xs"
+    },
+    {
+      "type": "select",
+      "id": "spec_label_font_size_desktop",
+      "label": "Spec Label Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-xs", "label": "Extra Small" },
+        { "value": "lg:text-sm", "label": "Small" },
+        { "value": "lg:text-base", "label": "Base" },
+        { "value": "lg:text-lg", "label": "Large" },
+        { "value": "lg:text-xl", "label": "Extra Large" },
+        { "value": "lg:text-2xl", "label": "2X Large" },
+        { "value": "lg:text-3xl", "label": "3X Large" },
+        { "value": "lg:text-4xl", "label": "4X Large" },
+        { "value": "lg:text-5xl", "label": "5X Large" },
+        { "value": "lg:text-6xl", "label": "6X Large" },
+        { "value": "lg:text-7xl", "label": "7X Large" },
+        { "value": "lg:text-8xl", "label": "8X Large" },
+        { "value": "lg:text-9xl", "label": "9X Large" }
+      ],
+      "default": "lg:text-sm"
+    },
+    {
+      "type": "select",
+      "id": "spec_label_font_weight",
+      "label": "Spec Label Font Weight",
+      "options": [
+        { "value": "font-light", "label": "Light" },
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semi Bold" },
+        { "value": "font-bold", "label": "Bold" }
+      ],
+      "default": "font-medium"
+    },
+    {
+      "type": "select",
+      "id": "spec_label_color",
+      "label": "Spec Label Color",
+      "options": [
+        { "value": "text-white", "label": "White" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-primary", "label": "Primary" },
+        { "value": "text-secondary", "label": "Secondary" },
+        { "value": "text-tertiary", "label": "Tertiary" },
+        { "value": "text-quaternary", "label": "Quaternary" },
+        { "value": "text-success", "label": "Success" },
+        { "value": "text-warning", "label": "Warning" },
+        { "value": "text-error", "label": "Error" },
+        { "value": "text-info", "label": "Info" },
+        { "value": "text-neutral", "label": "Neutral" },
+        { "value": "text-neutral-light", "label": "Neutral Light" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "text-neutral-dark"
+    },
+    {
+      "type": "select",
+      "id": "spec_value_font_family",
+      "label": "Spec Value Font Family",
+      "options": [
+        { "value": "font-primary", "label": "Primary" },
+        { "value": "font-body", "label": "Body" },
+        { "value": "font-handwritten", "label": "Handwritten" },
+        { "value": "font-serif", "label": "Serif" }
+      ],
+      "default": "font-body"
+    },
+    {
+      "type": "select",
+      "id": "spec_value_font_size",
+      "label": "Spec Value Font Size (Mobile)",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" },
+        { "value": "text-xl", "label": "Extra Large" },
+        { "value": "text-2xl", "label": "2X Large" },
+        { "value": "text-3xl", "label": "3X Large" },
+        { "value": "text-4xl", "label": "4X Large" },
+        { "value": "text-5xl", "label": "5X Large" },
+        { "value": "text-6xl", "label": "6X Large" },
+        { "value": "text-7xl", "label": "7X Large" },
+        { "value": "text-8xl", "label": "8X Large" },
+        { "value": "text-9xl", "label": "9X Large" }
+      ],
+      "default": "text-base"
+    },
+    {
+      "type": "select",
+      "id": "spec_value_font_size_desktop",
+      "label": "Spec Value Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-xs", "label": "Extra Small" },
+        { "value": "lg:text-sm", "label": "Small" },
+        { "value": "lg:text-base", "label": "Base" },
+        { "value": "lg:text-lg", "label": "Large" },
+        { "value": "lg:text-xl", "label": "Extra Large" },
+        { "value": "lg:text-2xl", "label": "2X Large" },
+        { "value": "lg:text-3xl", "label": "3X Large" },
+        { "value": "lg:text-4xl", "label": "4X Large" },
+        { "value": "lg:text-5xl", "label": "5X Large" },
+        { "value": "lg:text-6xl", "label": "6X Large" },
+        { "value": "lg:text-7xl", "label": "7X Large" },
+        { "value": "lg:text-8xl", "label": "8X Large" },
+        { "value": "lg:text-9xl", "label": "9X Large" }
+      ],
+      "default": "lg:text-base"
+    },
+    {
+      "type": "select",
+      "id": "spec_value_font_weight",
+      "label": "Spec Value Font Weight",
+      "options": [
+        { "value": "font-light", "label": "Light" },
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semi Bold" },
+        { "value": "font-bold", "label": "Bold" }
+      ],
+      "default": "font-normal"
+    },
+    {
+      "type": "select",
+      "id": "spec_value_color",
+      "label": "Spec Value Color",
+      "options": [
+        { "value": "text-white", "label": "White" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-primary", "label": "Primary" },
+        { "value": "text-secondary", "label": "Secondary" },
+        { "value": "text-tertiary", "label": "Tertiary" },
+        { "value": "text-quaternary", "label": "Quaternary" },
+        { "value": "text-success", "label": "Success" },
+        { "value": "text-warning", "label": "Warning" },
+        { "value": "text-error", "label": "Error" },
+        { "value": "text-info", "label": "Info" },
+        { "value": "text-neutral", "label": "Neutral" },
+        { "value": "text-neutral-light", "label": "Neutral Light" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "text-black"
+    },
+    {
+      "type": "header",
+      "content": "Disclaimer"
+    },
+    {
+      "type": "textarea",
+      "id": "disclaimer_text",
+      "label": "Disclaimer Text",
+      "default": "*with a 12 month plan\n**with a 10 month plan"
+    },
+    {
+      "type": "select",
+      "id": "disclaimer_font_family",
+      "label": "Font Family",
+      "options": [
+        { "value": "font-primary", "label": "Primary" },
+        { "value": "font-body", "label": "Body" },
+        { "value": "font-handwritten", "label": "Handwritten" },
+        { "value": "font-serif", "label": "Serif" }
+      ],
+      "default": "font-body"
+    },
+    {
+      "type": "select",
+      "id": "disclaimer_font_size",
+      "label": "Font Size (Mobile)",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" },
+        { "value": "text-xl", "label": "Extra Large" },
+        { "value": "text-2xl", "label": "2X Large" },
+        { "value": "text-3xl", "label": "3X Large" },
+        { "value": "text-4xl", "label": "4X Large" },
+        { "value": "text-5xl", "label": "5X Large" },
+        { "value": "text-6xl", "label": "6X Large" },
+        { "value": "text-7xl", "label": "7X Large" },
+        { "value": "text-8xl", "label": "8X Large" },
+        { "value": "text-9xl", "label": "9X Large" }
+      ],
+      "default": "text-xs"
+    },
+    {
+      "type": "select",
+      "id": "disclaimer_font_size_desktop",
+      "label": "Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-xs", "label": "Extra Small" },
+        { "value": "lg:text-sm", "label": "Small" },
+        { "value": "lg:text-base", "label": "Base" },
+        { "value": "lg:text-lg", "label": "Large" },
+        { "value": "lg:text-xl", "label": "Extra Large" },
+        { "value": "lg:text-2xl", "label": "2X Large" },
+        { "value": "lg:text-3xl", "label": "3X Large" },
+        { "value": "lg:text-4xl", "label": "4X Large" },
+        { "value": "lg:text-5xl", "label": "5X Large" },
+        { "value": "lg:text-6xl", "label": "6X Large" },
+        { "value": "lg:text-7xl", "label": "7X Large" },
+        { "value": "lg:text-8xl", "label": "8X Large" },
+        { "value": "lg:text-9xl", "label": "9X Large" }
+      ],
+      "default": "lg:text-xs"
+    },
+    {
+      "type": "select",
+      "id": "disclaimer_font_weight",
+      "label": "Font Weight",
+      "options": [
+        { "value": "font-light", "label": "Light" },
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semi Bold" },
+        { "value": "font-bold", "label": "Bold" }
+      ],
+      "default": "font-normal"
+    },
+    {
+      "type": "select",
+      "id": "disclaimer_color",
+      "label": "Text Color",
+      "options": [
+        { "value": "text-white", "label": "White" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-primary", "label": "Primary" },
+        { "value": "text-secondary", "label": "Secondary" },
+        { "value": "text-tertiary", "label": "Tertiary" },
+        { "value": "text-quaternary", "label": "Quaternary" },
+        { "value": "text-success", "label": "Success" },
+        { "value": "text-warning", "label": "Warning" },
+        { "value": "text-error", "label": "Error" },
+        { "value": "text-info", "label": "Info" },
+        { "value": "text-neutral", "label": "Neutral" },
+        { "value": "text-neutral-light", "label": "Neutral Light" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "text-neutral-dark"
+    },
+    {
+      "type": "header",
+      "content": "Layout Settings"
+    },
+    {
+      "type": "select",
+      "id": "background_color",
+      "label": "Section Background Color",
+      "options": [
+        { "value": "bg-white", "label": "White" },
+        { "value": "bg-black", "label": "Black" },
+        { "value": "bg-primary", "label": "Primary" },
+        { "value": "bg-secondary", "label": "Secondary" },
+        { "value": "bg-tertiary", "label": "Tertiary" },
+        { "value": "bg-quaternary", "label": "Quaternary" },
+        { "value": "bg-success", "label": "Success" },
+        { "value": "bg-warning", "label": "Warning" },
+        { "value": "bg-error", "label": "Error" },
+        { "value": "bg-info", "label": "Info" },
+        { "value": "bg-neutral", "label": "Neutral" },
+        { "value": "bg-neutral-light", "label": "Neutral Light" },
+        { "value": "bg-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "bg-white"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Section Background Image"
+    },
+    {
+      "type": "select",
+      "id": "section_padding_y_mobile",
+      "label": "Section Vertical Padding (Mobile)",
+      "options": [
+        { "value": "py-xs", "label": "Extra Small" },
+        { "value": "py-sm", "label": "Small" },
+        { "value": "py-md", "label": "Medium" },
+        { "value": "py-lg", "label": "Large" },
+        { "value": "py-xl", "label": "Extra Large" },
+        { "value": "py-2xl", "label": "2X Large" },
+        { "value": "py-3xl", "label": "3X Large" }
+      ],
+      "default": "py-xl"
+    },
+    {
+      "type": "select",
+      "id": "section_padding_y_desktop",
+      "label": "Section Vertical Padding (Desktop)",
+      "options": [
+        { "value": "lg:py-xs", "label": "Extra Small" },
+        { "value": "lg:py-sm", "label": "Small" },
+        { "value": "lg:py-md", "label": "Medium" },
+        { "value": "lg:py-lg", "label": "Large" },
+        { "value": "lg:py-xl", "label": "Extra Large" },
+        { "value": "lg:py-2xl", "label": "2X Large" },
+        { "value": "lg:py-3xl", "label": "3X Large" }
+      ],
+      "default": "lg:py-3xl"
+    },
+    {
+      "type": "select",
+      "id": "section_border_radius",
+      "label": "Section Border Radius",
+      "options": [
+        { "value": "rounded-none", "label": "None" },
+        { "value": "rounded-sm", "label": "Small" },
+        { "value": "rounded", "label": "Base" },
+        { "value": "rounded-md", "label": "Medium" },
+        { "value": "rounded-lg", "label": "Large" },
+        { "value": "rounded-xl", "label": "Extra Large" },
+        { "value": "rounded-2xl", "label": "2X Large" },
+        { "value": "rounded-3xl", "label": "3X Large" }
+      ],
+      "default": "rounded-none"
+    },
+    {
+      "type": "header",
+      "content": "Container Settings"
+    },
+    {
+      "type": "select",
+      "id": "container_background_color",
+      "label": "Container Background Color",
+      "options": [
+        { "value": "", "label": "None (Transparent)" },
+        { "value": "bg-white", "label": "White" },
+        { "value": "bg-black", "label": "Black" },
+        { "value": "bg-primary", "label": "Primary" },
+        { "value": "bg-secondary", "label": "Secondary" },
+        { "value": "bg-tertiary", "label": "Tertiary" },
+        { "value": "bg-quaternary", "label": "Quaternary" },
+        { "value": "bg-success", "label": "Success" },
+        { "value": "bg-warning", "label": "Warning" },
+        { "value": "bg-error", "label": "Error" },
+        { "value": "bg-info", "label": "Info" },
+        { "value": "bg-neutral", "label": "Neutral" },
+        { "value": "bg-neutral-light", "label": "Neutral Light" },
+        { "value": "bg-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": ""
+    },
+    {
+      "type": "image_picker",
+      "id": "container_background_image",
+      "label": "Container Background Image"
+    },
+    {
+      "type": "select",
+      "id": "container_border_radius",
+      "label": "Container Border Radius",
+      "options": [
+        { "value": "rounded-none", "label": "None" },
+        { "value": "rounded-sm", "label": "Small" },
+        { "value": "rounded", "label": "Base" },
+        { "value": "rounded-md", "label": "Medium" },
+        { "value": "rounded-lg", "label": "Large" },
+        { "value": "rounded-xl", "label": "Extra Large" },
+        { "value": "rounded-2xl", "label": "2X Large" },
+        { "value": "rounded-3xl", "label": "3X Large" }
+      ],
+      "default": "rounded-none"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_y_mobile",
+      "label": "Container Padding Y (Mobile)",
+      "options": [
+        { "value": "py-xs", "label": "Extra Small" },
+        { "value": "py-sm", "label": "Small" },
+        { "value": "py-md", "label": "Medium" },
+        { "value": "py-lg", "label": "Large" },
+        { "value": "py-xl", "label": "Extra Large" },
+        { "value": "py-2xl", "label": "2X Large" },
+        { "value": "py-3xl", "label": "3X Large" }
+      ],
+      "default": "py-lg"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_y_desktop",
+      "label": "Container Padding Y (Desktop)",
+      "options": [
+        { "value": "lg:py-xs", "label": "Extra Small" },
+        { "value": "lg:py-sm", "label": "Small" },
+        { "value": "lg:py-md", "label": "Medium" },
+        { "value": "lg:py-lg", "label": "Large" },
+        { "value": "lg:py-xl", "label": "Extra Large" },
+        { "value": "lg:py-2xl", "label": "2X Large" },
+        { "value": "lg:py-3xl", "label": "3X Large" }
+      ],
+      "default": "lg:py-2xl"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_x_mobile",
+      "label": "Container Padding X (Mobile)",
+      "options": [
+        { "value": "px-0", "label": "None" },
+        { "value": "px-xs", "label": "Extra Small" },
+        { "value": "px-sm", "label": "Small" },
+        { "value": "px-md", "label": "Medium" },
+        { "value": "px-lg", "label": "Large" },
+        { "value": "px-xl", "label": "Extra Large" },
+        { "value": "px-2xl", "label": "2X Large" },
+        { "value": "px-3xl", "label": "3X Large" }
+      ],
+      "default": "px-0"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_x_desktop",
+      "label": "Container Padding X (Desktop)",
+      "options": [
+        { "value": "lg:px-0", "label": "None" },
+        { "value": "lg:px-xs", "label": "Extra Small" },
+        { "value": "lg:px-sm", "label": "Small" },
+        { "value": "lg:px-md", "label": "Medium" },
+        { "value": "lg:px-lg", "label": "Large" },
+        { "value": "lg:px-xl", "label": "Extra Large" },
+        { "value": "lg:px-2xl", "label": "2X Large" },
+        { "value": "lg:px-3xl", "label": "3X Large" }
+      ],
+      "default": "lg:px-0"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "comparison_card",
+      "name": "Comparison Card",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "is_highlighted",
+          "label": "Highlight This Card",
+          "default": false,
+          "info": "Check to give this card a highlighted background color"
+        },
+        {
+          "type": "text",
+          "id": "product_name",
+          "label": "Product Name",
+          "default": "Yoli's Vital Omegas+"
+        },
+        {
+          "type": "image_picker",
+          "id": "product_image",
+          "label": "Product Image"
+        },
+        {
+          "type": "text",
+          "id": "product_image_alt",
+          "label": "Product Image Alt Text",
+          "default": "Product image"
+        },
+        {
+          "type": "header",
+          "content": "Specification 1"
+        },
+        {
+          "type": "text",
+          "id": "spec_full_spectrum_label",
+          "label": "Label",
+          "default": "Full Spectrum"
+        },
+        {
+          "type": "text",
+          "id": "spec_full_spectrum_value",
+          "label": "Value",
+          "default": "Yes (Omegas 3, 7, 9, 11)"
+        },
+        {
+          "type": "header",
+          "content": "Specification 2"
+        },
+        {
+          "type": "text",
+          "id": "spec_form_label",
+          "label": "Label",
+          "default": "Form of Fatty Acids"
+        },
+        {
+          "type": "text",
+          "id": "spec_form_value",
+          "label": "Value",
+          "default": "Triglycerides"
+        },
+        {
+          "type": "header",
+          "content": "Specification 3"
+        },
+        {
+          "type": "text",
+          "id": "spec_omega3_label",
+          "label": "Label",
+          "default": "Omega-3 Fatty Acids"
+        },
+        {
+          "type": "text",
+          "id": "spec_omega3_value",
+          "label": "Value",
+          "default": "1,770 mg"
+        },
+        {
+          "type": "header",
+          "content": "Specification 4"
+        },
+        {
+          "type": "text",
+          "id": "spec_other_omega3_label",
+          "label": "Label",
+          "default": "Other Omega 3's"
+        },
+        {
+          "type": "text",
+          "id": "spec_other_omega3_value",
+          "label": "Value",
+          "default": "200 mg"
+        },
+        {
+          "type": "header",
+          "content": "Specification 5"
+        },
+        {
+          "type": "text",
+          "id": "spec_epa_label",
+          "label": "Label",
+          "default": "EPA"
+        },
+        {
+          "type": "text",
+          "id": "spec_epa_value",
+          "label": "Value",
+          "default": "1,000 mg"
+        },
+        {
+          "type": "header",
+          "content": "Specification 6"
+        },
+        {
+          "type": "text",
+          "id": "spec_dha_label",
+          "label": "Label",
+          "default": "DHA"
+        },
+        {
+          "type": "text",
+          "id": "spec_dha_value",
+          "label": "Value",
+          "default": "570 mg"
+        },
+        {
+          "type": "header",
+          "content": "Specification 7"
+        },
+        {
+          "type": "text",
+          "id": "spec_vitamin_d3_label",
+          "label": "Label",
+          "default": "Vitamin D3"
+        },
+        {
+          "type": "text",
+          "id": "spec_vitamin_d3_value",
+          "label": "Value",
+          "default": "50 mcg 2,000 IU"
+        },
+        {
+          "type": "header",
+          "content": "Specification 8"
+        },
+        {
+          "type": "text",
+          "id": "spec_source_label",
+          "label": "Label",
+          "default": "Source"
+        },
+        {
+          "type": "textarea",
+          "id": "spec_source_value",
+          "label": "Value",
+          "default": "Wild Caught Sardines, Achovy, Mackerel"
+        },
+        {
+          "type": "header",
+          "content": "Specification 9"
+        },
+        {
+          "type": "text",
+          "id": "spec_test_kit_label",
+          "label": "Label",
+          "default": "Omega-3 Test Kit"
+        },
+        {
+          "type": "textarea",
+          "id": "spec_test_kit_value",
+          "label": "Value",
+          "default": "+ FREE test kit (4 bottles, 4 month supply)"
+        },
+        {
+          "type": "header",
+          "content": "Specification 10"
+        },
+        {
+          "type": "text",
+          "id": "spec_guarantee_label",
+          "label": "Label",
+          "default": "$ Back Guarantee"
+        },
+        {
+          "type": "text",
+          "id": "spec_guarantee_value",
+          "label": "Value",
+          "default": "90-Day"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Comparison",
+      "blocks": [
+        {
+          "type": "comparison_card",
+          "settings": {
+            "is_highlighted": true,
+            "product_name": "Yoli's Vital Omegas+",
+            "spec_full_spectrum_label": "Full Spectrum",
+            "spec_full_spectrum_value": "Yes (Omegas 3, 7, 9, 11)",
+            "spec_form_label": "Form of Fatty Acids",
+            "spec_form_value": "Triglycerides",
+            "spec_omega3_label": "Omega-3 Fatty Acids",
+            "spec_omega3_value": "1,770 mg",
+            "spec_other_omega3_label": "Other Omega 3's",
+            "spec_other_omega3_value": "200 mg",
+            "spec_epa_label": "EPA",
+            "spec_epa_value": "1,000 mg",
+            "spec_dha_label": "DHA",
+            "spec_dha_value": "570 mg",
+            "spec_vitamin_d3_label": "Vitamin D3",
+            "spec_vitamin_d3_value": "50 mcg 2,000 IU",
+            "spec_source_label": "Source",
+            "spec_source_value": "Wild Caught Sardines, Achovy, Mackerel",
+            "spec_test_kit_label": "Omega-3 Test Kit",
+            "spec_test_kit_value": "+ FREE test kit (4 bottles, 4 month supply)",
+            "spec_guarantee_label": "$ Back Guarantee",
+            "spec_guarantee_value": "90-Day"
+          }
+        },
+        {
+          "type": "comparison_card",
+          "settings": {
+            "is_highlighted": false,
+            "product_name": "Competitor Product",
+            "spec_full_spectrum_label": "Full Spectrum",
+            "spec_full_spectrum_value": "No",
+            "spec_form_label": "Form of Fatty Acids",
+            "spec_form_value": "Ethyl Esters",
+            "spec_omega3_label": "Omega-3 Fatty Acids",
+            "spec_omega3_value": "1,000 mg",
+            "spec_other_omega3_label": "Other Omega 3's",
+            "spec_other_omega3_value": "0 mg",
+            "spec_epa_label": "EPA",
+            "spec_epa_value": "600 mg",
+            "spec_dha_label": "DHA",
+            "spec_dha_value": "400 mg",
+            "spec_vitamin_d3_label": "Vitamin D3",
+            "spec_vitamin_d3_value": "No",
+            "spec_source_label": "Source",
+            "spec_source_value": "Farm-raised fish",
+            "spec_test_kit_label": "Omega-3 Test Kit",
+            "spec_test_kit_value": "Not included",
+            "spec_guarantee_label": "$ Back Guarantee",
+            "spec_guarantee_value": "30-Day"
+          }
+        },
+        {
+          "type": "comparison_card",
+          "settings": {
+            "is_highlighted": false,
+            "product_name": "Competitor Product 2",
+            "spec_full_spectrum_label": "Full Spectrum",
+            "spec_full_spectrum_value": "Partial (3, 6, 9)",
+            "spec_form_label": "Form of Fatty Acids",
+            "spec_form_value": "Triglycerides",
+            "spec_omega3_label": "Omega-3 Fatty Acids",
+            "spec_omega3_value": "1,200 mg",
+            "spec_other_omega3_label": "Other Omega 3's",
+            "spec_other_omega3_value": "100 mg",
+            "spec_epa_label": "EPA",
+            "spec_epa_value": "700 mg",
+            "spec_dha_label": "DHA",
+            "spec_dha_value": "500 mg",
+            "spec_vitamin_d3_label": "Vitamin D3",
+            "spec_vitamin_d3_value": "25 mcg 1,000 IU",
+            "spec_source_label": "Source",
+            "spec_source_value": "Wild-caught fish",
+            "spec_test_kit_label": "Omega-3 Test Kit",
+            "spec_test_kit_value": "Not included",
+            "spec_guarantee_label": "$ Back Guarantee",
+            "spec_guarantee_value": "60-Day"
+          }
+        },
+        {
+          "type": "comparison_card",
+          "settings": {
+            "is_highlighted": false,
+            "product_name": "Competitor Product 3",
+            "spec_full_spectrum_label": "Full Spectrum",
+            "spec_full_spectrum_value": "No",
+            "spec_form_label": "Form of Fatty Acids",
+            "spec_form_value": "Ethyl Esters",
+            "spec_omega3_label": "Omega-3 Fatty Acids",
+            "spec_omega3_value": "800 mg",
+            "spec_other_omega3_label": "Other Omega 3's",
+            "spec_other_omega3_value": "0 mg",
+            "spec_epa_label": "EPA",
+            "spec_epa_value": "500 mg",
+            "spec_dha_label": "DHA",
+            "spec_dha_value": "300 mg",
+            "spec_vitamin_d3_label": "Vitamin D3",
+            "spec_vitamin_d3_value": "No",
+            "spec_source_label": "Source",
+            "spec_source_value": "Mixed sources",
+            "spec_test_kit_label": "Omega-3 Test Kit",
+            "spec_test_kit_value": "Not included",
+            "spec_guarantee_label": "$ Back Guarantee",
+            "spec_guarantee_value": "30-Day"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+

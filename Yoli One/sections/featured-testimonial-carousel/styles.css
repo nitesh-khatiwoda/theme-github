@@ -1,0 +1,260 @@
+/* Featured Testimonial Carousel */
+
+.featured-testimonial {
+  position: relative;
+  overflow: hidden;
+}
+
+.featured-testimonial-inner {
+  width: 100%;
+}
+
+.featured-test-wrapper {
+  position: relative;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+/* Heading */
+.featured-heading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  max-width: 420px;
+}
+
+.featured-heading h2 {
+  margin: 0;
+  line-height: 1.2;
+}
+
+/* Carousel */
+.featured-carousel {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  min-height: 650px;
+}
+
+.carousel-track {
+  display: flex;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  height: 100%;
+}
+
+.testimonial-slide {
+  flex-shrink: 0;
+  width: 100%;
+  min-width: 1280px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  position: relative;
+  padding-bottom: var(--space-3xl);
+}
+
+/* Quote */
+.quote-text-wrapper {
+  position: absolute;
+  bottom: 220px;
+  left: 0;
+  max-width: 520px;
+  z-index: 2;
+}
+
+.featured-testimonial-carousel .quote-text {
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Signature */
+.signature-wrapper {
+  position: absolute;
+  bottom: 140px;
+  left: 0;
+  z-index: 2;
+}
+
+.signature-text {
+  margin: 0;
+  line-height: 1;
+}
+
+/* Author Info */
+.author-info {
+  position: absolute;
+  bottom: 80px;
+  left: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 2;
+  flex-wrap: wrap;
+}
+
+.author-name {
+  line-height: 1.2;
+  margin: 0;
+}
+
+/* Member Photo */
+.featured-testimonial .member-photo {
+  width: 60%;
+  height: 650px;
+  overflow: hidden;
+  margin-left: 34px;
+  flex-shrink: 0;
+}
+
+.featured-testimonial .member-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Navigation - Updated to match plan-features-carousel */
+.carousel-controls {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-sm);
+  margin-top: var(--space-xl);
+}
+
+.nav-arrow {
+  width: 48px;
+  height: 48px;
+  border: none;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  flex-shrink: 0;
+}
+
+.nav-arrow:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.nav-arrow:active {
+  transform: translateY(0);
+}
+
+.nav-arrow svg {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+
+.nav-arrow:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.nav-arrow:disabled:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: none;
+}
+
+/* Flipped layout: Carousel on left, heading on right */
+@media (min-width: 1024px) {
+  .featured-test-wrapper--flipped .featured-heading {
+    left: auto;
+    right: 0;
+  }
+
+  .featured-test-wrapper--flipped .quote-text-wrapper {
+    left: auto;
+    right: 0;
+  }
+  
+  .featured-test-wrapper--flipped .signature-wrapper {
+    left: auto;
+    right: 0;
+  }
+
+  .featured-test-wrapper--flipped .testimonial-slide {
+    justify-content: flex-start;
+  }
+
+  .featured-test-wrapper--flipped .author-info {
+    left: auto;
+    right: 0;
+    align-items: flex-start;
+  }
+}
+
+/* Mobile & Tablet */
+@media (max-width: 1023px) {
+  .featured-carousel {
+    min-height: auto;
+  }
+  
+  .testimonial-slide {
+    flex-direction: column;
+    min-width: 100%;
+    width: 100%;
+    padding-bottom: 0;
+    gap: var(--space-lg);
+  }
+  
+  .featured-testimonial .member-photo {
+    width: 100%;
+    height: 400px;
+    margin-left: 0;
+    order: -1;
+    border-radius: 16px;
+  }
+  
+  .quote-text-wrapper, 
+  .signature-wrapper, 
+  .author-info {
+    position: static;
+    max-width: 100%;
+  }
+  
+  .quote-text-wrapper {
+    margin-bottom: var(--space-md);
+  }
+  
+  .signature-wrapper {
+    margin-bottom: var(--space-sm);
+  }
+  
+  .author-info {
+    margin-bottom: var(--space-lg);
+  }
+  
+  .featured-heading {
+    position: static;
+    max-width: 100%;
+    margin-bottom: var(--space-xl);
+  }
+  
+  .carousel-controls {
+    justify-content: center;
+  }
+}
+
+/* Focus states for accessibility */
+.nav-arrow:focus {
+  outline: 2px solid rgba(255, 255, 255, 0.5);
+  outline-offset: 2px;
+}
+
+.nav-arrow:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Smooth transitions */
+* {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}

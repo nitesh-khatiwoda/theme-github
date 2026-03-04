@@ -1,0 +1,1079 @@
+<link rel="stylesheet" href="{{ 'product-showcase-grid/styles.css' | asset_url }}">
+
+<!-- Product Showcase Grid Section -->
+<section class="product-showcase-grid {{ section.settings.background_color | default: 'bg-white' }} {{ section.settings.section_padding_y_mobile | default: 'py-xl' }} {{ section.settings.section_padding_y_desktop | default: 'lg:py-3xl' }} {{ section.settings.section_border_radius | default: 'rounded-3xl' }}" id="product-showcase-{{ section.id }}" {% if section.settings.background_image %}data-bg="{{ section.settings.background_image | image_url }}"{% endif %}>
+  
+  <div class="{{section.settings.container_layout_width | default: 'container'}}">
+    <div class="product-showcase-inner font-body {{ section.settings.container_background_color }} {{ section.settings.container_border_radius | default: 'rounded-none' }} {{ section.settings.container_padding_y_mobile | default: 'py-0' }} {{ section.settings.container_padding_y_desktop | default: 'lg:py-0' }} {{ section.settings.container_padding_x_mobile | default: 'px-0' }} {{ section.settings.container_padding_x_desktop | default: 'lg:px-0' }}" {% if section.settings.container_background_image %}data-bg="{{ section.settings.container_background_image | image_url }}"{% endif %}>
+      
+      <!-- Section Heading (Optional) -->
+      {% if section.settings.heading != blank %}
+      <div class="section-heading mb-xl">
+        <h2 class="{{ section.settings.heading_font_family | default: 'font-primary' }} {{ section.settings.heading_font_size | default: 'text-3xl' }} {{ section.settings.heading_font_size_desktop | default: 'lg:text-5xl' }} {{ section.settings.heading_font_weight | default: 'font-semibold' }} {{ section.settings.heading_color | default: 'text-primary' }} leading-heading text-center leading-heading">
+          {{ section.settings.heading }}
+        </h2>
+      </div>
+      {% endif %}
+      
+      <!-- Product Grid -->
+      {% if section.blocks.size > 0 %}
+      <div class="showcase-grid">
+        {% for block in section.blocks %}
+          {% if block.type == 'product_card' %}
+          
+          <div class="product-card {{ section.settings.card_background | default: 'bg-secondary-light' }} {{ section.settings.card_border_radius | default: 'rounded-lg' }}" {{ block.fluid_attributes }}>
+            
+            <!-- Product Image Container -->
+            <div class="product-image-wrapper">
+              <div class="product-image" 
+                   data-hover-enabled="{% if block.settings.product_image_hover != blank %}true{% else %}false{% endif %}">
+                {% if block.settings.product_image != blank %}
+                  <img src="{{ block.settings.product_image | image_url: width: 400 }}" 
+                       alt="{{ block.settings.product_name | default: 'Product' }}" 
+                       loading="lazy"
+                       class="product-image-default"
+                       data-default-src="{{ block.settings.product_image | image_url: width: 400 }}"
+                       {% if block.settings.product_image_hover != blank %}
+                       data-hover-src="{{ block.settings.product_image_hover | image_url: width: 400 }}"
+                       {% endif %}>
+                {% else %}
+                  <img src="{{ 'placeholder-image.png' | asset_url }}" alt="Placeholder" loading="lazy" class="product-image-default">
+                {% endif %}
+              </div>
+              
+              <!-- New Badge (Optional) -->
+              {% if block.settings.show_new_badge %}
+              <div class="new-badge {{ block.settings.badge_background_color | default: 'bg-neutral-dark' }}">
+                <span class="{{ section.settings.badge_text_font_size | default: 'text-xs' }} {{ section.settings.badge_text_color | default: 'text-white' }}">
+                  {{ block.settings.badge_text | default: 'New' }}
+                </span>
+              </div>
+              {% endif %}
+            </div>
+            
+            <!-- Product Content -->
+            <div class="product-content">
+              
+              <!-- Product Info -->
+              <div class="product-info">
+                
+                <!-- Product Name -->
+                {% if block.settings.product_name != blank %}
+                <div class="product-name">
+                  <h3 class="{{ block.settings.name_font_family | default: 'font-primary' }} {{ block.settings.name_font_size | default: 'text-xl' }} {{ block.settings.name_font_size_desktop | default: 'lg:text-2xl' }} {{ block.settings.name_font_weight | default: 'font-semibold' }} {{ block.settings.name_color | default: 'text-primary' }} leading-heading">
+                    {{ block.settings.product_name }}
+                  </h3>
+                </div>
+                {% endif %}
+                
+                <!-- Product Description -->
+                {% if block.settings.product_description != blank %}
+                <div class="product-description">
+                  <p class="{{ block.settings.description_font_family | default: 'font-body' }} {{ block.settings.description_font_size | default: 'text-base' }} {{ block.settings.description_font_weight | default: 'font-normal' }} {{ block.settings.description_color | default: 'text-primary' }} leading-body">
+                    {{ block.settings.product_description }}
+                  </p>
+                </div>
+                {% endif %}
+              </div>
+              
+              <!-- Price Section -->
+              <div class="product-pricing">
+                
+                <!-- Bundle Badge (Optional) -->
+                {% if block.settings.show_bundle_badge %}
+                <div class="bundle-badge {{ block.settings.bundle_badge_color | default: 'bg-success' }}">
+                  <span class="{{ block.settings.bundle_badge_font_size | default: 'text-xs' }} {{ block.settings.bundle_badge_text_color | default: 'text-primary' }}">
+                    {{ block.settings.bundle_badge_text | default: 'Bundle + Save 25%' }}
+                  </span>
+                </div>
+                {% endif %}
+                
+                <!-- Price Display -->
+                {% if block.settings.product_price != blank %}
+                <div class="price-wrapper">
+                  <span class="current-price {{ block.settings.price_font_family | default: 'font-primary' }} {{ block.settings.price_font_size | default: 'text-lg' }} {{ block.settings.price_font_size_desktop | default: 'lg:text-xl' }} {{ block.settings.price_font_weight | default: 'font-normal' }} {{ block.settings.price_color | default: 'text-primary' }}">
+                    {{ block.settings.product_price }}
+                  </span>
+                  
+                  <!-- Original Price (Optional) -->
+                  {% if block.settings.show_original_price and block.settings.original_price != blank %}
+                  <span class="original-price {{ block.settings.original_price_font_size | default: 'text-base' }} {{ block.settings.original_price_font_size_desktop | default: 'lg:text-lg' }} {{ block.settings.original_price_color | default: 'text-neutral' }}">
+                    {{ block.settings.original_price }}
+                  </span>
+                  {% endif %}
+                </div>
+                {% endif %}
+              </div>
+              
+              <!-- CTAs -->
+              <div class="product-ctas">
+                <!-- Primary CTA (Learn More) -->
+                {% if block.settings.show_primary_button %}
+                <a href="{{ block.settings.primary_button_url | default: '#' }}" class="btn btn-{{ section.settings.primary_button_style | default: 'filled' }}-{{ section.settings.primary_button_color | default: 'primary' }} {{ section.settings.primary_button_size | default: 'btn-md' }}">
+                  {{ block.settings.primary_button_text | default: 'Learn More' }}
+                </a>
+                {% endif %}
+                
+                <!-- Secondary CTA (Add to Cart) -->
+                {% if block.settings.show_secondary_link %}
+                <a href="{{ block.settings.secondary_link_url | default: '#' }}" class="secondary-link {{ block.settings.secondary_link_font_size | default: 'text-base' }} {{ block.settings.secondary_link_color | default: 'text-primary' }}">
+                  {{ block.settings.secondary_link_text | default: 'Add to Cart' }}
+                </a>
+                {% endif %}
+              </div>
+              
+            </div>
+            
+          </div>
+          
+          {% endif %}
+        {% endfor %}
+      </div>
+      {% endif %}
+      
+    </div>
+  </div>
+  
+</section>
+
+<script>
+// Product Showcase Grid - Hover Image Swap
+document.addEventListener('DOMContentLoaded', function() {
+  const productImages = document.querySelectorAll('.product-showcase-grid .product-image[data-hover-enabled="true"] img[data-hover-src]');
+
+  productImages.forEach(img => {
+    const defaultSrc = img.getAttribute('data-default-src');
+    const hoverSrc = img.getAttribute('data-hover-src');
+
+    if (hoverSrc) {
+      const productCard = img.closest('.product-card');
+      
+      productCard.addEventListener('mouseenter', () => {
+        img.src = hoverSrc;
+      });
+
+      productCard.addEventListener('mouseleave', () => {
+        img.src = defaultSrc;
+      });
+    }
+  });
+});
+</script>
+
+{% schema %}
+{
+  "name": "Product Showcase Grid",
+  "tag": "section",
+  "class": "product-showcase-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout Width (Container)"
+    },
+    {
+      "type": "select",
+      "id": "container_layout_width",
+      "label": "Layout Width (Container)",
+      "options": [
+        { "value": "container", "label": "Container" },
+        { "value": "container-full", "label": "Full Width (Container Full)" }
+      ],
+      "default": "container",
+      "info": "Choose whether the container is constrained to the width of the page or full width"
+    },
+    {
+      "type": "header",
+      "content": "Section Heading"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "info": "Optional section heading"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_family",
+      "label": "Heading Font Family",
+      "options": [
+        { "value": "font-primary", "label": "Primary Text" },
+        { "value": "font-body", "label": "Body" },
+        { "value": "font-handwritten", "label": "Handwritten" },
+        { "value": "font-serif", "label": "Serif" }
+      ],
+      "default": "font-primary"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_size",
+      "label": "Heading Font Size (Mobile)",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" },
+        { "value": "text-xl", "label": "Extra Large" },
+        { "value": "text-2xl", "label": "2X Large" },
+        { "value": "text-3xl", "label": "3X Large" },
+        { "value": "text-4xl", "label": "4X Large" },
+        { "value": "text-5xl", "label": "5X Large" },
+        { "value": "text-6xl", "label": "6X Large" },
+        { "value": "text-7xl", "label": "7X Large" },
+        { "value": "text-8xl", "label": "8X Large" },
+        { "value": "text-9xl", "label": "9X Large" }
+      ],
+      "default": "text-3xl"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_size_desktop",
+      "label": "Heading Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-xs", "label": "Extra Small" },
+        { "value": "lg:text-sm", "label": "Small" },
+        { "value": "lg:text-base", "label": "Base" },
+        { "value": "lg:text-lg", "label": "Large" },
+        { "value": "lg:text-xl", "label": "Extra Large" },
+        { "value": "lg:text-2xl", "label": "2X Large" },
+        { "value": "lg:text-3xl", "label": "3X Large" },
+        { "value": "lg:text-4xl", "label": "4X Large" },
+        { "value": "lg:text-5xl", "label": "5X Large" },
+        { "value": "lg:text-6xl", "label": "6X Large" },
+        { "value": "lg:text-7xl", "label": "7X Large" },
+        { "value": "lg:text-8xl", "label": "8X Large" },
+        { "value": "lg:text-9xl", "label": "9X Large" }
+      ],
+      "default": "lg:text-4xl"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_weight",
+      "label": "Heading Font Weight",
+      "options": [
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semibold" }
+      ],
+      "default": "font-semibold"
+    },
+    {
+      "type": "select",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "options": [
+        { "value": "text-primary", "label": "Primary Text" },
+        { "value": "text-secondary", "label": "Secondary Text" },
+        { "value": "text-inverse", "label": "Inverse" },
+        { "value": "text-muted", "label": "Muted" },
+        { "value": "text-accent", "label": "Accent" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-white", "label": "White" }
+      ],
+      "default": "text-primary"
+    },
+    {
+      "type": "header",
+      "content": "Card Styling"
+    },
+    {
+      "type": "select",
+      "id": "card_background",
+      "label": "Card Background",
+      "options": [
+        { "value": "bg-page", "label": "Page (White)" },
+        { "value": "bg-card-primary", "label": "Card Primary" },
+        { "value": "bg-card-secondary", "label": "Card Secondary" },
+        { "value": "bg-banner", "label": "Banner" },
+        { "value": "bg-accent-warm", "label": "Accent Warm" },
+        { "value": "bg-accent-dark", "label": "Accent Dark" },
+        { "value": "bg-accent-soft", "label": "Accent Soft" },
+        { "value": "bg-primary", "label": "Brand Primary" },
+        { "value": "bg-white", "label": "White" }
+      ],
+      "default": "bg-card-primary"
+    },
+    {
+      "type": "select",
+      "id": "card_border_radius",
+      "label": "Card Border Radius",
+      "options": [
+        { "value": "rounded-none", "label": "None" },
+        { "value": "rounded-sm", "label": "Small" },
+        { "value": "rounded", "label": "Base" },
+        { "value": "rounded-md", "label": "Medium" },
+        { "value": "rounded-lg", "label": "Large" },
+        { "value": "rounded-xl", "label": "Extra Large" },
+        { "value": "rounded-2xl", "label": "2X Large" },
+        { "value": "rounded-3xl", "label": "3X Large" }
+      ],
+      "default": "rounded-lg"
+    },
+    {
+      "type": "header",
+      "content": "Badge Text Styling"
+    },
+    {
+      "type": "select",
+      "id": "badge_text_font_size",
+      "label": "Badge Text Size",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" }
+      ],
+      "default": "text-xs"
+    },
+    {
+      "type": "select",
+      "id": "badge_text_color",
+      "label": "Badge Text Color",
+      "options": [
+        { "value": "text-white", "label": "White" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-primary", "label": "Primary Text" },
+        { "value": "text-secondary", "label": "Secondary Text" }
+      ],
+      "default": "text-white"
+    },
+    {
+      "type": "header",
+      "content": "Button Settings"
+    },
+    {
+      "type": "select",
+      "id": "primary_button_style",
+      "label": "Primary Button Style",
+      "options": [
+        { "value": "filled", "label": "Filled" },
+        { "value": "outline", "label": "Outline" },
+        { "value": "ghost", "label": "Ghost" }
+      ],
+      "default": "filled"
+    },
+    {
+      "type": "select",
+      "id": "primary_button_color",
+      "label": "Primary Button Color",
+      "options": [
+        { "value": "primary", "label": "Primary Text" },
+        { "value": "secondary", "label": "Secondary Text" },
+        { "value": "tertiary", "label": "Accent" },
+        { "value": "quaternary", "label": "Accent Alt" },
+        { "value": "success", "label": "Success" },
+        { "value": "warning", "label": "Warning" },
+        { "value": "error", "label": "Error" },
+        { "value": "info", "label": "Info" },
+        { "value": "neutral", "label": "Neutral" },
+        { "value": "white", "label": "White" }
+      ],
+      "default": "primary"
+    },
+    {
+      "type": "select",
+      "id": "primary_button_size",
+      "label": "Primary Button Size",
+      "options": [
+        { "value": "btn-sm", "label": "Small" },
+        { "value": "btn-md", "label": "Medium" },
+        { "value": "btn-lg", "label": "Large" }
+      ],
+      "default": "btn-md"
+    },
+    {
+      "type": "header",
+      "content": "Layout Settings"
+    },
+    {
+      "type": "select",
+      "id": "background_color",
+      "label": "Background Color",
+      "options": [
+        { "value": "bg-page", "label": "Page (White)" },
+        { "value": "bg-card-primary", "label": "Card Primary" },
+        { "value": "bg-card-secondary", "label": "Card Secondary" },
+        { "value": "bg-banner", "label": "Banner" },
+        { "value": "bg-accent-warm", "label": "Accent Warm" },
+        { "value": "bg-accent-dark", "label": "Accent Dark" },
+        { "value": "bg-accent-soft", "label": "Accent Soft" },
+        { "value": "bg-primary", "label": "Brand Primary" },
+        { "value": "bg-white", "label": "White" }
+      ],
+      "default": "bg-page"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background Image"
+    },
+    {
+      "type": "select",
+      "id": "section_padding_y_mobile",
+      "label": "Section Vertical Padding (Mobile)",
+      "options": [
+        { "value": "py-xs", "label": "Extra Small" },
+        { "value": "py-sm", "label": "Small" },
+        { "value": "py-md", "label": "Medium" },
+        { "value": "py-lg", "label": "Large" },
+        { "value": "py-xl", "label": "Extra Large" },
+        { "value": "py-2xl", "label": "2X Large" },
+        { "value": "py-3xl", "label": "3X Large" }
+      ],
+      "default": "py-lg"
+    },
+    {
+      "type": "select",
+      "id": "section_padding_y_desktop",
+      "label": "Section Vertical Padding (Desktop)",
+      "options": [
+        { "value": "lg:py-xs", "label": "Extra Small" },
+        { "value": "lg:py-sm", "label": "Small" },
+        { "value": "lg:py-md", "label": "Medium" },
+        { "value": "lg:py-lg", "label": "Large" },
+        { "value": "lg:py-xl", "label": "Extra Large" },
+        { "value": "lg:py-2xl", "label": "2X Large" },
+        { "value": "lg:py-3xl", "label": "3X Large" }
+      ],
+      "default": "lg:py-2xl"
+    },
+    {
+      "type": "select",
+      "id": "section_border_radius",
+      "label": "Section Border Radius",
+      "options": [
+        { "value": "rounded-none", "label": "None" },
+        { "value": "rounded-sm", "label": "Small" },
+        { "value": "rounded", "label": "Base" },
+        { "value": "rounded-md", "label": "Medium" },
+        { "value": "rounded-lg", "label": "Large" },
+        { "value": "rounded-xl", "label": "Extra Large" },
+        { "value": "rounded-2xl", "label": "2X Large" },
+        { "value": "rounded-3xl", "label": "3X Large" }
+      ],
+      "default": "rounded-3xl"
+    },
+    {
+      "type": "header",
+      "content": "Container Settings"
+    },
+    {
+      "type": "select",
+      "id": "container_background_color",
+      "label": "Container Background Color",
+      "options": [
+        { "value": "", "label": "None (Transparent)" },
+        { "value": "bg-page", "label": "Page (White)" },
+        { "value": "bg-card-primary", "label": "Card Primary" },
+        { "value": "bg-card-secondary", "label": "Card Secondary" },
+        { "value": "bg-banner", "label": "Banner" },
+        { "value": "bg-primary", "label": "Brand Primary" }
+      ],
+      "default": ""
+    },
+    {
+      "type": "image_picker",
+      "id": "container_background_image",
+      "label": "Container Background Image"
+    },
+    {
+      "type": "select",
+      "id": "container_border_radius",
+      "label": "Container Border Radius",
+      "options": [
+        { "value": "rounded-none", "label": "None" },
+        { "value": "rounded-sm", "label": "Small" },
+        { "value": "rounded", "label": "Base" },
+        { "value": "rounded-md", "label": "Medium" },
+        { "value": "rounded-lg", "label": "Large" },
+        { "value": "rounded-xl", "label": "Extra Large" },
+        { "value": "rounded-2xl", "label": "2X Large" },
+        { "value": "rounded-3xl", "label": "3X Large" }
+      ],
+      "default": "rounded-none"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_y_mobile",
+      "label": "Container Padding Y (Mobile)",
+      "options": [
+        { "value": "py-xs", "label": "Extra Small" },
+        { "value": "py-sm", "label": "Small" },
+        { "value": "py-md", "label": "Medium" },
+        { "value": "py-lg", "label": "Large" },
+        { "value": "py-xl", "label": "Extra Large" },
+        { "value": "py-2xl", "label": "2X Large" },
+        { "value": "py-3xl", "label": "3X Large" }
+      ],
+      "default": "py-0"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_y_desktop",
+      "label": "Container Padding Y (Desktop)",
+      "options": [
+        { "value": "lg:py-xs", "label": "Extra Small" },
+        { "value": "lg:py-sm", "label": "Small" },
+        { "value": "lg:py-md", "label": "Medium" },
+        { "value": "lg:py-lg", "label": "Large" },
+        { "value": "lg:py-xl", "label": "Extra Large" },
+        { "value": "lg:py-2xl", "label": "2X Large" },
+        { "value": "lg:py-3xl", "label": "3X Large" }
+      ],
+      "default": "lg:py-0"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_x_mobile",
+      "label": "Container Padding X (Mobile)",
+      "options": [
+        { "value": "px-0", "label": "None" },
+        { "value": "px-xs", "label": "Extra Small" },
+        { "value": "px-sm", "label": "Small" },
+        { "value": "px-md", "label": "Medium" },
+        { "value": "px-lg", "label": "Large" },
+        { "value": "px-xl", "label": "Extra Large" },
+        { "value": "px-2xl", "label": "2X Large" },
+        { "value": "px-3xl", "label": "3X Large" }
+      ],
+      "default": "px-0"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_x_desktop",
+      "label": "Container Padding X (Desktop)",
+      "options": [
+        { "value": "lg:px-0", "label": "None" },
+        { "value": "lg:px-xs", "label": "Extra Small" },
+        { "value": "lg:px-sm", "label": "Small" },
+        { "value": "lg:px-md", "label": "Medium" },
+        { "value": "lg:px-lg", "label": "Large" },
+        { "value": "lg:px-xl", "label": "Extra Large" },
+        { "value": "lg:px-2xl", "label": "2X Large" },
+        { "value": "lg:px-3xl", "label": "3X Large" }
+      ],
+      "default": "lg:px-0"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product_card",
+      "name": "Product Card",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Product Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "product_image",
+          "label": "Product Image (Default)"
+        },
+        {
+          "type": "image_picker",
+          "id": "product_image_hover",
+          "label": "Product Image (Hover)",
+          "info": "Optional: Image to show on hover"
+        },
+        {
+          "type": "header",
+          "content": "New Badge"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_new_badge",
+          "label": "Show 'New' Badge",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "badge_text",
+          "label": "Badge Text",
+          "default": "New"
+        },
+        {
+          "type": "select",
+          "id": "badge_background_color",
+          "label": "Badge Background Color",
+          "options": [
+            { "value": "bg-white", "label": "White" },
+            { "value": "bg-black", "label": "Black" },
+            { "value": "bg-primary", "label": "Primary" },
+            { "value": "bg-secondary", "label": "Secondary" },
+            { "value": "bg-tertiary", "label": "Tertiary" },
+            { "value": "bg-quaternary", "label": "Quaternary" },
+            { "value": "bg-success", "label": "Success" },
+            { "value": "bg-warning", "label": "Warning" },
+            { "value": "bg-error", "label": "Error" },
+            { "value": "bg-info", "label": "Info" },
+            { "value": "bg-neutral", "label": "Neutral" },
+            { "value": "bg-neutral-light", "label": "Neutral Light" },
+            { "value": "bg-neutral-dark", "label": "Neutral Dark" }
+          ],
+          "default": "bg-neutral-dark"
+        },
+        {
+          "type": "header",
+          "content": "Product Name"
+        },
+        {
+          "type": "text",
+          "id": "product_name",
+          "label": "Product Name",
+          "default": "Lorem Ipsum Dolor"
+        },
+        {
+          "type": "select",
+          "id": "name_font_family",
+          "label": "Name Font Family",
+          "options": [
+            { "value": "font-primary", "label": "Primary Text" },
+            { "value": "font-body", "label": "Body" },
+            { "value": "font-handwritten", "label": "Handwritten" },
+            { "value": "font-serif", "label": "Serif" }
+          ],
+          "default": "font-primary"
+        },
+        {
+          "type": "select",
+          "id": "name_font_size",
+          "label": "Name Font Size (Mobile)",
+          "options": [
+            { "value": "text-xs", "label": "Extra Small" },
+            { "value": "text-sm", "label": "Small" },
+            { "value": "text-base", "label": "Base" },
+            { "value": "text-lg", "label": "Large" },
+            { "value": "text-xl", "label": "Extra Large" },
+            { "value": "text-2xl", "label": "2X Large" },
+            { "value": "text-3xl", "label": "3X Large" },
+            { "value": "text-4xl", "label": "4X Large" }
+          ],
+          "default": "text-xl"
+        },
+        {
+          "type": "select",
+          "id": "name_font_size_desktop",
+          "label": "Name Font Size (Desktop)",
+          "options": [
+            { "value": "lg:text-xs", "label": "Extra Small" },
+            { "value": "lg:text-sm", "label": "Small" },
+            { "value": "lg:text-base", "label": "Base" },
+            { "value": "lg:text-lg", "label": "Large" },
+            { "value": "lg:text-xl", "label": "Extra Large" },
+            { "value": "lg:text-2xl", "label": "2X Large" },
+            { "value": "lg:text-3xl", "label": "3X Large" },
+            { "value": "lg:text-4xl", "label": "4X Large" }
+          ],
+          "default": "lg:text-2xl"
+        },
+        {
+          "type": "select",
+          "id": "name_font_weight",
+          "label": "Name Font Weight",
+          "options": [
+            { "value": "font-normal", "label": "Normal" },
+            { "value": "font-medium", "label": "Medium" },
+            { "value": "font-semibold", "label": "Semibold" }
+          ],
+          "default": "font-semibold"
+        },
+        {
+          "type": "select",
+          "id": "name_color",
+          "label": "Name Color",
+          "options": [
+            { "value": "text-primary", "label": "Primary Text" },
+        { "value": "text-secondary", "label": "Secondary Text" },
+        { "value": "text-inverse", "label": "Inverse" },
+        { "value": "text-muted", "label": "Muted" },
+        { "value": "text-accent", "label": "Accent" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-white", "label": "White" }
+          ],
+          "default": "text-primary"
+        },
+        {
+          "type": "header",
+          "content": "Product Description"
+        },
+        {
+          "type": "textarea",
+          "id": "product_description",
+          "label": "Product Description",
+          "default": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        },
+        {
+          "type": "select",
+          "id": "description_font_family",
+          "label": "Description Font Family",
+          "options": [
+            { "value": "font-primary", "label": "Primary Text" },
+            { "value": "font-body", "label": "Body" },
+            { "value": "font-handwritten", "label": "Handwritten" },
+            { "value": "font-serif", "label": "Serif" }
+          ],
+          "default": "font-body"
+        },
+        {
+          "type": "select",
+          "id": "description_font_size",
+          "label": "Description Font Size",
+          "options": [
+            { "value": "text-sm", "label": "Small" },
+            { "value": "text-base", "label": "Base" }
+          ],
+          "default": "text-base"
+        },
+        {
+          "type": "select",
+          "id": "description_font_weight",
+          "label": "Description Font Weight",
+          "options": [
+            { "value": "font-normal", "label": "Normal" },
+            { "value": "font-medium", "label": "Medium" },
+            { "value": "font-semibold", "label": "Semibold" }
+          ],
+          "default": "font-normal"
+        },
+        {
+          "type": "select",
+          "id": "description_color",
+          "label": "Description Color",
+          "options": [
+            { "value": "text-primary", "label": "Primary Text" },
+        { "value": "text-secondary", "label": "Secondary Text" },
+        { "value": "text-inverse", "label": "Inverse" },
+        { "value": "text-muted", "label": "Muted" },
+        { "value": "text-accent", "label": "Accent" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-white", "label": "White" }
+          ],
+          "default": "text-primary"
+        },
+        {
+          "type": "header",
+          "content": "Bundle Badge"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_bundle_badge",
+          "label": "Show Bundle Badge",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "bundle_badge_text",
+          "label": "Bundle Badge Text",
+          "default": "Bundle + Save 25%"
+        },
+        {
+          "type": "select",
+          "id": "bundle_badge_color",
+          "label": "Bundle Badge Background Color",
+          "options": [
+            { "value": "bg-white", "label": "White" },
+            { "value": "bg-black", "label": "Black" },
+            { "value": "bg-primary", "label": "Primary" },
+            { "value": "bg-secondary", "label": "Secondary" },
+            { "value": "bg-tertiary", "label": "Tertiary" },
+            { "value": "bg-quaternary", "label": "Quaternary" },
+            { "value": "bg-success", "label": "Success" },
+            { "value": "bg-warning", "label": "Warning" },
+            { "value": "bg-error", "label": "Error" },
+            { "value": "bg-info", "label": "Info" },
+            { "value": "bg-neutral", "label": "Neutral" },
+            { "value": "bg-neutral-light", "label": "Neutral Light" },
+            { "value": "bg-neutral-dark", "label": "Neutral Dark" }
+          ],
+          "default": "bg-success"
+        },
+        {
+          "type": "select",
+          "id": "bundle_badge_font_size",
+          "label": "Bundle Badge Font Size",
+          "options": [
+            { "value": "text-xs", "label": "Extra Small" },
+            { "value": "text-sm", "label": "Small" },
+            { "value": "text-base", "label": "Base" }
+          ],
+          "default": "text-xs"
+        },
+        {
+          "type": "select",
+          "id": "bundle_badge_text_color",
+          "label": "Bundle Badge Text Color",
+          "options": [
+            { "value": "text-white", "label": "White" },
+            { "value": "text-black", "label": "Black" },
+            { "value": "text-primary", "label": "Primary Text" },
+            { "value": "text-secondary", "label": "Secondary Text" }
+          ],
+          "default": "text-primary"
+        },
+        {
+          "type": "header",
+          "content": "Product Price"
+        },
+        {
+          "type": "text",
+          "id": "product_price",
+          "label": "Product Price",
+          "default": "$39.99"
+        },
+        {
+          "type": "select",
+          "id": "price_font_family",
+          "label": "Price Font Family",
+          "options": [
+            { "value": "font-primary", "label": "Primary Text" },
+            { "value": "font-body", "label": "Body" },
+            { "value": "font-handwritten", "label": "Handwritten" },
+            { "value": "font-serif", "label": "Serif" }
+          ],
+          "default": "font-primary"
+        },
+        {
+          "type": "select",
+          "id": "price_font_size",
+          "label": "Price Font Size (Mobile)",
+          "options": [
+            { "value": "text-xs", "label": "Extra Small" },
+            { "value": "text-sm", "label": "Small" },
+            { "value": "text-base", "label": "Base" },
+            { "value": "text-lg", "label": "Large" },
+            { "value": "text-xl", "label": "Extra Large" },
+            { "value": "text-2xl", "label": "2X Large" }
+          ],
+          "default": "text-lg"
+        },
+        {
+          "type": "select",
+          "id": "price_font_size_desktop",
+          "label": "Price Font Size (Desktop)",
+          "options": [
+            { "value": "lg:text-xs", "label": "Extra Small" },
+            { "value": "lg:text-sm", "label": "Small" },
+            { "value": "lg:text-base", "label": "Base" },
+            { "value": "lg:text-lg", "label": "Large" },
+            { "value": "lg:text-xl", "label": "Extra Large" },
+            { "value": "lg:text-2xl", "label": "2X Large" }
+          ],
+          "default": "lg:text-xl"
+        },
+        {
+          "type": "select",
+          "id": "price_font_weight",
+          "label": "Price Font Weight",
+          "options": [
+            { "value": "font-normal", "label": "Normal" },
+            { "value": "font-medium", "label": "Medium" },
+            { "value": "font-semibold", "label": "Semibold" }
+          ],
+          "default": "font-normal"
+        },
+        {
+          "type": "select",
+          "id": "price_color",
+          "label": "Price Color",
+          "options": [
+            { "value": "text-primary", "label": "Primary Text" },
+        { "value": "text-secondary", "label": "Secondary Text" },
+        { "value": "text-inverse", "label": "Inverse" },
+        { "value": "text-muted", "label": "Muted" },
+        { "value": "text-accent", "label": "Accent" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-white", "label": "White" }
+          ],
+          "default": "text-primary"
+        },
+        {
+          "type": "header",
+          "content": "Original Price (Optional)"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_original_price",
+          "label": "Show Original Price",
+          "default": false,
+          "info": "Show strikethrough original price"
+        },
+        {
+          "type": "text",
+          "id": "original_price",
+          "label": "Original Price",
+          "default": "$89.98"
+        },
+        {
+          "type": "select",
+          "id": "original_price_font_size",
+          "label": "Original Price Font Size (Mobile)",
+          "options": [
+            { "value": "text-xs", "label": "Extra Small" },
+            { "value": "text-sm", "label": "Small" },
+            { "value": "text-base", "label": "Base" },
+            { "value": "text-lg", "label": "Large" }
+          ],
+          "default": "text-base"
+        },
+        {
+          "type": "select",
+          "id": "original_price_font_size_desktop",
+          "label": "Original Price Font Size (Desktop)",
+          "options": [
+            { "value": "lg:text-xs", "label": "Extra Small" },
+            { "value": "lg:text-sm", "label": "Small" },
+            { "value": "lg:text-base", "label": "Base" },
+            { "value": "lg:text-lg", "label": "Large" }
+          ],
+          "default": "lg:text-lg"
+        },
+        {
+          "type": "select",
+          "id": "original_price_color",
+          "label": "Original Price Color",
+          "options": [
+            { "value": "text-white", "label": "White" },
+            { "value": "text-black", "label": "Black" },
+            { "value": "text-primary", "label": "Primary Text" },
+            { "value": "text-secondary", "label": "Secondary Text" },
+            { "value": "text-neutral", "label": "Neutral" }
+          ],
+          "default": "text-neutral"
+        },
+        {
+          "type": "header",
+          "content": "Primary Button (Learn More)"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_primary_button",
+          "label": "Show Primary Button",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "primary_button_text",
+          "label": "Button Text",
+          "default": "Learn More"
+        },
+        {
+          "type": "url",
+          "id": "primary_button_url",
+          "label": "Button URL"
+        },
+        {
+          "type": "header",
+          "content": "Secondary Link (Add to Cart)"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_secondary_link",
+          "label": "Show Secondary Link",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "secondary_link_text",
+          "label": "Link Text",
+          "default": "Add to Cart"
+        },
+        {
+          "type": "url",
+          "id": "secondary_link_url",
+          "label": "Link URL"
+        },
+        {
+          "type": "select",
+          "id": "secondary_link_font_size",
+          "label": "Link Font Size",
+          "options": [
+            { "value": "text-xs", "label": "Extra Small" },
+            { "value": "text-sm", "label": "Small" },
+            { "value": "text-base", "label": "Base" },
+            { "value": "text-lg", "label": "Large" }
+          ],
+          "default": "text-base"
+        },
+        {
+          "type": "select",
+          "id": "secondary_link_color",
+          "label": "Link Color",
+          "options": [
+            { "value": "text-primary", "label": "Primary Text" },
+        { "value": "text-secondary", "label": "Secondary Text" },
+        { "value": "text-inverse", "label": "Inverse" },
+        { "value": "text-accent", "label": "Accent" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-white", "label": "White" }
+          ],
+          "default": "text-primary"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Showcase Grid",
+      "blocks": [
+        {
+          "type": "product_card",
+          "settings": {
+            "product_name": "Lorem Ipsum Dolor",
+            "product_description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            "product_price": "$39.99",
+            "show_new_badge": true,
+            "badge_text": "New",
+            "badge_background_color": "bg-neutral-dark",
+            "show_primary_button": true,
+            "primary_button_text": "Learn More",
+            "show_secondary_link": true,
+            "secondary_link_text": "Add to Cart"
+          }
+        },
+        {
+          "type": "product_card",
+          "settings": {
+            "product_name": "Sit Amet Consectetur",
+            "product_description": "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+            "product_price": "$67.49",
+            "show_bundle_badge": true,
+            "bundle_badge_text": "Bundle + Save 25%",
+            "bundle_badge_color": "bg-success",
+            "show_original_price": true,
+            "original_price": "$89.98",
+            "show_primary_button": true,
+            "primary_button_text": "Learn More",
+            "show_secondary_link": true,
+            "secondary_link_text": "Add to Cart"
+          }
+        },
+        {
+          "type": "product_card",
+          "settings": {
+            "product_name": "Adipiscing Elit",
+            "product_description": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+            "product_price": "$34.99",
+            "show_new_badge": false,
+            "show_primary_button": true,
+            "primary_button_text": "Learn More",
+            "show_secondary_link": true,
+            "secondary_link_text": "Add to Cart"
+          }
+        },
+        {
+          "type": "product_card",
+          "settings": {
+            "product_name": "Excepteur Sint",
+            "product_description": "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+            "product_price": "$89.99",
+            "show_bundle_badge": false,
+            "show_primary_button": true,
+            "primary_button_text": "Learn More",
+            "show_secondary_link": true,
+            "secondary_link_text": "Add to Cart"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+

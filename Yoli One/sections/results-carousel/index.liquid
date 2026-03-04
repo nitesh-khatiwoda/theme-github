@@ -1,0 +1,1190 @@
+<link rel="stylesheet" href="{{ 'results-carousel/styles.css' | asset_url }}">
+
+<section 
+  class="results-carousel {{ section.settings.background_color | default: 'bg-neutral' }} {{section.settings.padding_top_mobile}} {{section.settings.padding_bottom_mobile}} {{section.settings.padding_x_mobile}}  lg:{{section.settings.padding_top_desktop}} lg:{{section.settings.padding_bottom_desktop}} lg:{{section.settings.padding_x_desktop}}  {{ section.settings.section_border_radius | default: 'rounded-none' }}" 
+  id="results-carousel-{{ section.id }}"
+  {% if section.settings.background_image %}data-bg="{{ section.settings.background_image | image_url }}"{% endif %}>
+  
+  <div class="{{section.settings.container_layout_width | default: 'container'}}">
+    <div class="results-carousel-inner {{ section.settings.container_background_color }} {{ section.settings.container_border_radius | default: 'rounded-none' }} {{ section.settings.container_padding_y_mobile | default: 'py-lg' }} {{ section.settings.container_padding_y_desktop | default: 'lg:py-2xl' }} {{ section.settings.container_padding_x_mobile | default: 'px-md' }} {{ section.settings.container_padding_x_desktop | default: 'lg:px-xl' }}" 
+      {% if section.settings.container_background_image %}data-bg="{{ section.settings.container_background_image | image_url }}"{% endif %}>
+      
+      <div class="results-carousel-content-container" style="max-width: {{ section.settings.carousel_max_width | default: 1200 }}px;">
+        
+      <!-- Title and Description -->
+      {% if section.settings.title != blank or section.settings.description != blank %}
+        {% assign header_alignment = section.settings.header_alignment | default: 'text-left' %}
+        <div class="results-carousel-header {{ header_alignment }}">
+        {% if section.settings.title != blank %}
+        <div class="results-carousel-title-wrapper mb-lg">
+          <h2 class="results-carousel-title {{ section.settings.title_font_family | default: 'font-primary' }} {{ section.settings.title_font_size | default: 'text-3xl' }} {{ section.settings.title_font_size_desktop | default: 'lg:text-4xl' }} {{ section.settings.title_font_weight | default: 'font-bold' }} {{ section.settings.title_color | default: 'text-black' }}">
+            {{ section.settings.title }}
+          </h2>
+        </div>
+        {% endif %}
+        
+        {% if section.settings.description != blank %}
+        <div class="results-carousel-description-wrapper mb-xl">
+          <p class="results-carousel-description {{ section.settings.description_font_family | default: 'font-body' }} {{ section.settings.description_font_size | default: 'text-base' }} {{ section.settings.description_font_size_desktop | default: 'lg:text-lg' }} {{ section.settings.description_font_weight | default: 'font-normal' }} {{ section.settings.description_color | default: 'text-neutral-dark' }}">
+            {{ section.settings.description }}
+          </p>
+        </div>
+        {% endif %}
+      </div>
+      {% endif %}
+  
+  <!-- Carousel Full Width Container (Outside Container Padding) -->
+  {% if section.blocks.size > 0 %}
+  <div class="results-carousel-fullwidth">
+          <div class="results-carousel-wrapper">
+      
+      <!-- Carousel Container -->
+      <div class="results-carousel-container" data-carousel-container="{{ section.id }}">
+        
+        <!-- Carousel Track -->
+        <div class="results-carousel-track" data-carousel-track="{{ section.id }}">
+          {% for block in section.blocks %}
+            {% if block.type == 'image_item' %}
+            <div class="results-carousel-item" data-image-item="{{ section.id }}-{{ forloop.index0 }}" {{ block.fluid_attributes }}>
+              <div class="results-carousel-image-wrapper {{ section.settings.image_card_border_radius | default: 'rounded-lg' }}" style="{% if section.settings.card_height == 'custom' %}height: {{ section.settings.card_height_custom | default: 400 }}px;{% else %}aspect-ratio: {{ section.settings.card_height | default: '9/16' }};{% endif %}">
+                {% if block.settings.image != blank %}
+                  <img
+                    class="results-carousel-image"
+                    src="{{ block.settings.image | image_url: width: 600 }}"
+                    alt="{{ block.settings.image.alt | default: block.settings.description | default: block.settings.name }}"
+                    loading="lazy">
+                {% else %}
+                  <img
+                    class="results-carousel-image"
+                    src="{{ 'placeholder-image.png' | asset_url }}"
+                    alt="Placeholder"
+                    loading="lazy">
+                {% endif %}
+                
+                <!-- Gradient Overlay -->
+                {% unless section.settings.hide_gradient_overlay %}
+                <div class="results-carousel-gradient-overlay"></div>
+                {% endunless %}
+                
+                <!-- Text Content Overlay -->
+                <div class="results-carousel-content-overlay">
+                  {% if section.settings.show_card_description and block.settings.description != blank %}
+                  <div class="results-carousel-item-description {{ section.settings.card_description_font_family | default: 'font-body' }} {{ section.settings.card_description_font_size | default: 'text-sm' }} {{ section.settings.card_description_font_size_desktop | default: 'lg:text-base' }} {{ section.settings.card_description_font_weight | default: 'font-normal' }} {{ section.settings.card_description_color | default: 'text-white' }}">
+                    {{ block.settings.description }}
+                  </div>
+                  {% endif %}
+                  
+                  {% if section.settings.show_card_name and block.settings.name != blank %}
+                  <div class="results-carousel-item-name {{ section.settings.card_name_font_family | default: 'font-primary' }} {{ section.settings.card_name_font_size | default: 'text-base' }} {{ section.settings.card_name_font_size_desktop | default: 'lg:text-lg' }} {{ section.settings.card_name_font_weight | default: 'font-semibold' }} {{ section.settings.card_name_color | default: 'text-white' }}">
+                    {{ block.settings.name }}
+                  </div>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+        
+      </div>
+      
+          </div>
+        
+        <!-- Navigation Controls (Below Carousel) -->
+        <div class="results-carousel-controls {% if section.settings.controls_layout == 'dots_left' %}controls-layout-reversed{% endif %}">
+          <div class="results-carousel-nav-buttons">
+            <button 
+              class="results-carousel-nav-btn results-carousel-prev {{ section.settings.nav_button_background | default: 'bg-white' }} {{ section.settings.nav_button_color | default: 'text-black' }}"
+              data-carousel-prev="{{ section.id }}"
+              aria-label="Previous page">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M15 19l-7-7 7-7"/>
+              </svg>
+            </button>
+            
+            <button 
+              class="results-carousel-nav-btn results-carousel-next {{ section.settings.nav_button_background | default: 'bg-white' }} {{ section.settings.nav_button_color | default: 'text-black' }}"
+              data-carousel-next="{{ section.id }}"
+              aria-label="Next page">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 5l7 7-7 7"/>
+              </svg>
+            </button>
+          </div>
+          
+          <!-- Progress Indicator -->
+          {% if section.settings.show_progress_dots %}
+          <div class="results-carousel-progress" data-carousel-progress="{{ section.id }}">
+            <!-- Dots will be generated by JavaScript -->
+          </div>
+          {% endif %}
+        </div>
+        
+        </div>
+        {% endif %}
+      
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function() {
+  const sectionId = '{{ section.id }}';
+  const container = document.querySelector(`[data-carousel-container="${sectionId}"]`);
+  const track = document.querySelector(`[data-carousel-track="${sectionId}"]`);
+  const prevBtn = document.querySelector(`[data-carousel-prev="${sectionId}"]`);
+  const nextBtn = document.querySelector(`[data-carousel-next="${sectionId}"]`);
+  const progressContainer = document.querySelector(`[data-carousel-progress="${sectionId}"]`);
+  
+  if (!container || !track || !prevBtn || !nextBtn) return;
+  
+  const imageItems = track.querySelectorAll('.results-carousel-item');
+  if (imageItems.length === 0) return;
+  
+  let currentIndex = 0;
+  let currentPage = 0;
+  let imagesPerPage = parseInt('{{ section.settings.images_per_page_desktop | default: 3 }}');
+  
+  // Calculate images per page based on screen size
+  function updateImagesPerPage() {
+    if (window.innerWidth >= 1024) {
+      imagesPerPage = parseInt('{{ section.settings.images_per_page_desktop | default: 3 }}');
+    } else if (window.innerWidth >= 640) {
+      imagesPerPage = parseInt('{{ section.settings.images_per_page_tablet | default: 2 }}');
+    } else {
+      imagesPerPage = parseInt('{{ section.settings.images_per_page_mobile | default: 1 }}');
+    }
+  }
+  
+  // Update item widths based on images per page
+  function updateItemWidths() {
+    const containerWidth = container.offsetWidth || 1;
+    const gap = parseInt(getComputedStyle(track).gap) || 16;
+    const totalGapWidth = (imagesPerPage - 1) * gap;
+    const itemWidth = Math.floor((containerWidth - totalGapWidth) / imagesPerPage);
+    
+    imageItems.forEach((item) => {
+      item.style.width = `${itemWidth}px`;
+      item.style.flexShrink = '0';
+      item.style.flexGrow = '0';
+    });
+    
+    const totalWidth = (itemWidth * imageItems.length) + (gap * (imageItems.length - 1));
+    track.style.width = `${totalWidth}px`;
+  }
+  
+  // Animate to specific card index
+  function animateToIndex(newIndex) {
+    const maxIndex = imageItems.length - imagesPerPage;
+    if (newIndex < 0 || newIndex > maxIndex) return;
+    
+    currentIndex = newIndex;
+    const containerWidth = container.offsetWidth || 1;
+    const gap = parseInt(getComputedStyle(track).gap) || 16;
+    const totalGapWidth = (imagesPerPage - 1) * gap;
+    const itemWidth = (containerWidth - totalGapWidth) / imagesPerPage;
+    const targetX = -currentIndex * (itemWidth + gap);
+    
+    track.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+    track.style.transform = `translateX(${targetX}px)`;
+    
+    currentPage = Math.floor(currentIndex / imagesPerPage);
+    
+    updateButtons();
+    updateProgressDots();
+  }
+  
+  function updateButtons() {
+    const maxIndex = imageItems.length - imagesPerPage;
+    
+    prevBtn.disabled = currentIndex === 0;
+    nextBtn.disabled = currentIndex >= maxIndex;
+    
+    if (currentIndex === 0) {
+      prevBtn.style.opacity = '0.4';
+      prevBtn.style.cursor = 'not-allowed';
+    } else {
+      prevBtn.style.opacity = '0.7';
+      prevBtn.style.cursor = 'pointer';
+    }
+    
+    if (currentIndex >= maxIndex) {
+      nextBtn.style.opacity = '0.4';
+      nextBtn.style.cursor = 'not-allowed';
+    } else {
+      nextBtn.style.opacity = '0.7';
+      nextBtn.style.cursor = 'pointer';
+    }
+  }
+  
+  function updateProgressDots() {
+    if (!progressContainer) return;
+    
+    progressContainer.innerHTML = '';
+    
+    // Create one dot per image item
+    for (let i = 0; i < imageItems.length; i++) {
+      const dot = document.createElement('button');
+      dot.className = 'results-carousel-progress-dot';
+      // The active dot is the one representing the first visible card
+      if (i === currentIndex) {
+        dot.classList.add('is-active');
+      }
+      dot.setAttribute('data-index', i);
+      dot.setAttribute('aria-label', `Go to image ${i + 1}`);
+      dot.style.cursor = 'pointer';
+      dot.addEventListener('click', function() {
+        // Clamp to max scrollable index
+        const maxIndex = imageItems.length - imagesPerPage;
+        const targetIndex = Math.min(i, maxIndex);
+        animateToIndex(targetIndex);
+      });
+      progressContainer.appendChild(dot);
+    }
+  }
+  
+  // Navigation event listeners
+  prevBtn.addEventListener('click', function() {
+    if (currentIndex > 0) {
+      animateToIndex(currentIndex - 1);
+    }
+  });
+  
+  nextBtn.addEventListener('click', function() {
+    const maxIndex = imageItems.length - imagesPerPage;
+    if (currentIndex < maxIndex) {
+      animateToIndex(currentIndex + 1);
+    }
+  });
+  
+  // Touch/swipe support
+  let touchStartX = 0;
+  let touchEndX = 0;
+  
+  track.addEventListener('touchstart', function(e) {
+    touchStartX = e.changedTouches[0].screenX;
+  }, { passive: true });
+  
+  track.addEventListener('touchend', function(e) {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+  }, { passive: true });
+  
+  function handleSwipe() {
+    const swipeThreshold = 50;
+    const diff = touchStartX - touchEndX;
+    const maxIndex = imageItems.length - imagesPerPage;
+    
+    if (Math.abs(diff) > swipeThreshold) {
+      if (diff > 0 && currentIndex < maxIndex) {
+        animateToIndex(currentIndex + 1);
+      } else if (diff < 0 && currentIndex > 0) {
+        animateToIndex(currentIndex - 1);
+      }
+    }
+  }
+  
+  // Handle resize
+  let resizeTimeout;
+  window.addEventListener('resize', function() {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(function() {
+      updateImagesPerPage();
+      updateItemWidths();
+      const maxIndex = imageItems.length - imagesPerPage;
+      if (currentIndex > maxIndex) {
+        currentIndex = Math.max(0, maxIndex);
+      }
+      updateProgressDots();
+      animateToIndex(currentIndex);
+    }, 250);
+  });
+  
+  // Initialize
+  updateImagesPerPage();
+  updateItemWidths();
+  updateButtons();
+  updateProgressDots();
+  animateToIndex(0);
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Results Carousel",
+  "tag": "section",
+  "class": "results-carousel-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Container Settings"
+    },
+    {
+      "type": "select",
+      "id": "container_layout_width",
+      "label": "Layout Width (Container)",
+      "options": [
+        { "value": "container", "label": "Container" },
+        { "value": "container-full", "label": "Full Width (Container Full)" }
+      ],
+      "default": "container",
+      "info": "Choose whether the container is constrained to the width of the page or full width"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Results Carousel"
+    },
+    {
+      "type": "select",
+      "id": "title_font_family",
+      "label": "Title Font Family",
+      "options": [
+        { "value": "font-primary", "label": "Primary" },
+        { "value": "font-body", "label": "Body" },
+        { "value": "font-handwritten", "label": "Handwritten" },
+        { "value": "font-serif", "label": "Serif" }
+      ],
+      "default": "font-primary"
+    },
+    {
+      "type": "select",
+      "id": "title_font_size",
+      "label": "Title Font Size (Mobile)",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" },
+        { "value": "text-xl", "label": "Extra Large" },
+        { "value": "text-2xl", "label": "2X Large" },
+        { "value": "text-3xl", "label": "3X Large" },
+        { "value": "text-4xl", "label": "4X Large" },
+        { "value": "text-5xl", "label": "5X Large" },
+        { "value": "text-6xl", "label": "6X Large" },
+        { "value": "text-7xl", "label": "7X Large" },
+        { "value": "text-8xl", "label": "8X Large" },
+        { "value": "text-9xl", "label": "9X Large" }
+      ],
+      "default": "text-3xl"
+    },
+    {
+      "type": "select",
+      "id": "title_font_size_desktop",
+      "label": "Title Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-xs", "label": "Extra Small" },
+        { "value": "lg:text-sm", "label": "Small" },
+        { "value": "lg:text-base", "label": "Base" },
+        { "value": "lg:text-lg", "label": "Large" },
+        { "value": "lg:text-xl", "label": "Extra Large" },
+        { "value": "lg:text-2xl", "label": "2X Large" },
+        { "value": "lg:text-3xl", "label": "3X Large" },
+        { "value": "lg:text-4xl", "label": "4X Large" },
+        { "value": "lg:text-5xl", "label": "5X Large" },
+        { "value": "lg:text-6xl", "label": "6X Large" },
+        { "value": "lg:text-7xl", "label": "7X Large" },
+        { "value": "lg:text-8xl", "label": "8X Large" },
+        { "value": "lg:text-9xl", "label": "9X Large" }
+      ],
+      "default": "lg:text-4xl"
+    },
+    {
+      "type": "select",
+      "id": "title_font_weight",
+      "label": "Title Font Weight",
+      "options": [
+        { "value": "font-light", "label": "Light" },
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semi Bold" },
+        { "value": "font-bold", "label": "Bold" }
+      ],
+      "default": "font-bold"
+    },
+    {
+      "type": "select",
+      "id": "title_color",
+      "label": "Title Color",
+      "options": [
+        { "value": "text-white", "label": "White" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-primary", "label": "Primary" },
+        { "value": "text-secondary", "label": "Secondary" },
+        { "value": "text-tertiary", "label": "Tertiary" },
+        { "value": "text-quaternary", "label": "Quaternary" },
+        { "value": "text-success", "label": "Success" },
+        { "value": "text-warning", "label": "Warning" },
+        { "value": "text-error", "label": "Error" },
+        { "value": "text-info", "label": "Info" },
+        { "value": "text-neutral", "label": "Neutral" },
+        { "value": "text-neutral-light", "label": "Neutral Light" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "text-black"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Browse through our collection of videos"
+    },
+    {
+      "type": "select",
+      "id": "description_font_family",
+      "label": "Description Font Family",
+      "options": [
+        { "value": "font-primary", "label": "Primary" },
+        { "value": "font-body", "label": "Body" },
+        { "value": "font-handwritten", "label": "Handwritten" },
+        { "value": "font-serif", "label": "Serif" }
+      ],
+      "default": "font-body"
+    },
+    {
+      "type": "select",
+      "id": "description_font_size",
+      "label": "Description Font Size (Mobile)",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" },
+        { "value": "text-xl", "label": "Extra Large" },
+        { "value": "text-2xl", "label": "2X Large" },
+        { "value": "text-3xl", "label": "3X Large" },
+        { "value": "text-4xl", "label": "4X Large" },
+        { "value": "text-5xl", "label": "5X Large" },
+        { "value": "text-6xl", "label": "6X Large" },
+        { "value": "text-7xl", "label": "7X Large" },
+        { "value": "text-8xl", "label": "8X Large" },
+        { "value": "text-9xl", "label": "9X Large" }
+      ],
+      "default": "text-base"
+    },
+    {
+      "type": "select",
+      "id": "description_font_size_desktop",
+      "label": "Description Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-xs", "label": "Extra Small" },
+        { "value": "lg:text-sm", "label": "Small" },
+        { "value": "lg:text-base", "label": "Base" },
+        { "value": "lg:text-lg", "label": "Large" },
+        { "value": "lg:text-xl", "label": "Extra Large" },
+        { "value": "lg:text-2xl", "label": "2X Large" },
+        { "value": "lg:text-3xl", "label": "3X Large" },
+        { "value": "lg:text-4xl", "label": "4X Large" },
+        { "value": "lg:text-5xl", "label": "5X Large" },
+        { "value": "lg:text-6xl", "label": "6X Large" },
+        { "value": "lg:text-7xl", "label": "7X Large" },
+        { "value": "lg:text-8xl", "label": "8X Large" },
+        { "value": "lg:text-9xl", "label": "9X Large" }
+      ],
+      "default": "lg:text-lg"
+    },
+    {
+      "type": "select",
+      "id": "description_font_weight",
+      "label": "Description Font Weight",
+      "options": [
+        { "value": "font-light", "label": "Light" },
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semi Bold" },
+        { "value": "font-bold", "label": "Bold" }
+      ],
+      "default": "font-normal"
+    },
+    {
+      "type": "select",
+      "id": "description_color",
+      "label": "Description Color",
+      "options": [
+        { "value": "text-white", "label": "White" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-primary", "label": "Primary" },
+        { "value": "text-secondary", "label": "Secondary" },
+        { "value": "text-tertiary", "label": "Tertiary" },
+        { "value": "text-quaternary", "label": "Quaternary" },
+        { "value": "text-success", "label": "Success" },
+        { "value": "text-warning", "label": "Warning" },
+        { "value": "text-error", "label": "Error" },
+        { "value": "text-info", "label": "Info" },
+        { "value": "text-neutral", "label": "Neutral" },
+        { "value": "text-neutral-light", "label": "Neutral Light" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "text-neutral-dark"
+    },
+    {
+      "type": "select",
+      "id": "header_alignment",
+      "label": "Header Alignment",
+      "options": [
+        { "value": "text-left", "label": "Left" },
+        { "value": "text-center", "label": "Center" },
+        { "value": "text-right", "label": "Right" }
+      ],
+      "default": "text-left"
+    },
+    {
+      "type": "header",
+      "content": "Carousel Settings"
+    },
+    {
+      "type": "text",
+      "id": "carousel_max_width",
+      "label": "Carousel Max Width (px)",
+      "default": 1200,
+      "info": "Maximum width of the carousel container"
+    },
+    {
+      "type": "text",
+      "id": "images_per_page_mobile",
+      "label": "Images Per Page (Mobile)",
+      "default": 1,
+      "info": "Number of images visible on mobile devices"
+    },
+    {
+      "type": "text",
+      "id": "images_per_page_tablet",
+      "label": "Images Per Page (Tablet)",
+      "default": 2,
+      "info": "Number of images visible on tablet devices"
+    },
+    {
+      "type": "select",
+      "id": "images_per_page_desktop",
+      "label": "Images Per Page (Desktop)",
+      "options": [
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" },
+        { "value": "3", "label": "3" },
+        { "value": "4", "label": "4" },
+        { "value": "5", "label": "5" },
+        { "value": "6", "label": "6" }
+      ],
+      "default": "3",
+      "info": "Number of images visible on desktop devices. Image cards will automatically resize to fit."
+    },
+    {
+      "type": "header",
+      "content": "Image Card Styling"
+    },
+    {
+      "type": "select",
+      "id": "image_card_border_radius",
+      "label": "Image Card Border Radius",
+      "options": [
+        { "value": "rounded-none", "label": "None" },
+        { "value": "rounded-sm", "label": "Small" },
+        { "value": "rounded", "label": "Base" },
+        { "value": "rounded-md", "label": "Medium" },
+        { "value": "rounded-lg", "label": "Large" },
+        { "value": "rounded-xl", "label": "Extra Large" },
+        { "value": "rounded-2xl", "label": "2X Large" },
+        { "value": "rounded-3xl", "label": "3X Large" }
+      ],
+      "default": "rounded-lg",
+      "info": "Border radius for image cards. Uses theme border radius values."
+    },
+    {
+      "type": "select",
+      "id": "card_height",
+      "label": "Card Height",
+      "options": [
+        { "value": "9/16", "label": "Portrait (9:16)" },
+        { "value": "3/4", "label": "Portrait (3:4)" },
+        { "value": "1/1", "label": "Square (1:1)" },
+        { "value": "4/3", "label": "Landscape (4:3)" },
+        { "value": "16/9", "label": "Wide Landscape (16:9)" },
+        { "value": "custom", "label": "Custom Height (px)" }
+      ],
+      "default": "9/16",
+      "info": "Controls the aspect ratio (height relative to width) of the image cards."
+    },
+    {
+      "type": "range",
+      "id": "card_height_custom",
+      "label": "Custom Card Height (px)",
+      "min": 200,
+      "max": 800,
+      "step": 10,
+      "unit": "px",
+      "default": 400,
+      "info": "Only used when Card Height is set to 'Custom Height'"
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_gradient_overlay",
+      "label": "Hide Gradient Overlay",
+      "default": false,
+      "info": "When enabled, the dark gradient overlay at the bottom of cards will be hidden."
+    },
+    {
+      "type": "header",
+      "content": "Card Text Visibility"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_card_description",
+      "label": "Show Card Description",
+      "default": true,
+      "info": "Toggle visibility of description text on all cards"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_card_name",
+      "label": "Show Card Name",
+      "default": true,
+      "info": "Toggle visibility of name text on all cards"
+    },
+    {
+      "type": "header",
+      "content": "Card Description Text Styling"
+    },
+    {
+      "type": "select",
+      "id": "card_description_font_family",
+      "label": "Card Description Font Family",
+      "options": [
+        { "value": "font-primary", "label": "Primary" },
+        { "value": "font-body", "label": "Body" },
+        { "value": "font-handwritten", "label": "Handwritten" },
+        { "value": "font-serif", "label": "Serif" }
+      ],
+      "default": "font-body"
+    },
+    {
+      "type": "select",
+      "id": "card_description_font_size",
+      "label": "Card Description Font Size (Mobile)",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" },
+        { "value": "text-xl", "label": "Extra Large" },
+        { "value": "text-2xl", "label": "2X Large" }
+      ],
+      "default": "text-sm"
+    },
+    {
+      "type": "select",
+      "id": "card_description_font_size_desktop",
+      "label": "Card Description Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-xs", "label": "Extra Small" },
+        { "value": "lg:text-sm", "label": "Small" },
+        { "value": "lg:text-base", "label": "Base" },
+        { "value": "lg:text-lg", "label": "Large" },
+        { "value": "lg:text-xl", "label": "Extra Large" },
+        { "value": "lg:text-2xl", "label": "2X Large" }
+      ],
+      "default": "lg:text-base"
+    },
+    {
+      "type": "select",
+      "id": "card_description_font_weight",
+      "label": "Card Description Font Weight",
+      "options": [
+        { "value": "font-light", "label": "Light" },
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semi Bold" },
+        { "value": "font-bold", "label": "Bold" }
+      ],
+      "default": "font-normal"
+    },
+    {
+      "type": "select",
+      "id": "card_description_color",
+      "label": "Card Description Text Color",
+      "options": [
+        { "value": "text-white", "label": "White" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-primary", "label": "Primary" },
+        { "value": "text-secondary", "label": "Secondary" },
+        { "value": "text-tertiary", "label": "Tertiary" },
+        { "value": "text-quaternary", "label": "Quaternary" },
+        { "value": "text-success", "label": "Success" },
+        { "value": "text-warning", "label": "Warning" },
+        { "value": "text-error", "label": "Error" },
+        { "value": "text-info", "label": "Info" },
+        { "value": "text-neutral", "label": "Neutral" },
+        { "value": "text-neutral-light", "label": "Neutral Light" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "text-white"
+    },
+    {
+      "type": "header",
+      "content": "Card Name Text Styling"
+    },
+    {
+      "type": "select",
+      "id": "card_name_font_family",
+      "label": "Card Name Font Family",
+      "options": [
+        { "value": "font-primary", "label": "Primary" },
+        { "value": "font-body", "label": "Body" },
+        { "value": "font-handwritten", "label": "Handwritten" },
+        { "value": "font-serif", "label": "Serif" }
+      ],
+      "default": "font-primary"
+    },
+    {
+      "type": "select",
+      "id": "card_name_font_size",
+      "label": "Card Name Font Size (Mobile)",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" },
+        { "value": "text-xl", "label": "Extra Large" },
+        { "value": "text-2xl", "label": "2X Large" }
+      ],
+      "default": "text-base"
+    },
+    {
+      "type": "select",
+      "id": "card_name_font_size_desktop",
+      "label": "Card Name Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-xs", "label": "Extra Small" },
+        { "value": "lg:text-sm", "label": "Small" },
+        { "value": "lg:text-base", "label": "Base" },
+        { "value": "lg:text-lg", "label": "Large" },
+        { "value": "lg:text-xl", "label": "Extra Large" },
+        { "value": "lg:text-2xl", "label": "2X Large" }
+      ],
+      "default": "lg:text-lg"
+    },
+    {
+      "type": "select",
+      "id": "card_name_font_weight",
+      "label": "Card Name Font Weight",
+      "options": [
+        { "value": "font-light", "label": "Light" },
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semi Bold" },
+        { "value": "font-bold", "label": "Bold" }
+      ],
+      "default": "font-semibold"
+    },
+    {
+      "type": "select",
+      "id": "card_name_color",
+      "label": "Card Name Text Color",
+      "options": [
+        { "value": "text-white", "label": "White" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-primary", "label": "Primary" },
+        { "value": "text-secondary", "label": "Secondary" },
+        { "value": "text-tertiary", "label": "Tertiary" },
+        { "value": "text-quaternary", "label": "Quaternary" },
+        { "value": "text-success", "label": "Success" },
+        { "value": "text-warning", "label": "Warning" },
+        { "value": "text-error", "label": "Error" },
+        { "value": "text-info", "label": "Info" },
+        { "value": "text-neutral", "label": "Neutral" },
+        { "value": "text-neutral-light", "label": "Neutral Light" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "text-white"
+    },
+    {
+      "type": "header",
+      "content": "Navigation Controls"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_progress_dots",
+      "label": "Show Progress Dots",
+      "default": false,
+      "info": "Display dot indicators for each image"
+    },
+    {
+      "type": "select",
+      "id": "controls_layout",
+      "label": "Controls Layout",
+      "options": [
+        { "value": "arrows_left", "label": "Arrows Left, Dots Right" },
+        { "value": "dots_left", "label": "Dots Left, Arrows Right" }
+      ],
+      "default": "dots_left",
+      "info": "Position of navigation arrows and progress dots"
+    },
+    {
+      "type": "select",
+      "id": "nav_button_background",
+      "label": "Navigation Button Background",
+      "options": [
+        { "value": "bg-white", "label": "White" },
+        { "value": "bg-black", "label": "Black" },
+        { "value": "bg-primary", "label": "Primary" },
+        { "value": "bg-secondary", "label": "Secondary" },
+        { "value": "bg-tertiary", "label": "Tertiary" },
+        { "value": "bg-quaternary", "label": "Quaternary" },
+        { "value": "bg-success", "label": "Success" },
+        { "value": "bg-warning", "label": "Warning" },
+        { "value": "bg-error", "label": "Error" },
+        { "value": "bg-info", "label": "Info" },
+        { "value": "bg-neutral", "label": "Neutral" },
+        { "value": "bg-neutral-light", "label": "Neutral Light" },
+        { "value": "bg-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "bg-white"
+    },
+    {
+      "type": "select",
+      "id": "nav_button_color",
+      "label": "Navigation Button Icon Color",
+      "options": [
+        { "value": "text-white", "label": "White" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-primary", "label": "Primary" },
+        { "value": "text-secondary", "label": "Secondary" },
+        { "value": "text-tertiary", "label": "Tertiary" },
+        { "value": "text-quaternary", "label": "Quaternary" },
+        { "value": "text-success", "label": "Success" },
+        { "value": "text-warning", "label": "Warning" },
+        { "value": "text-error", "label": "Error" },
+        { "value": "text-info", "label": "Info" },
+        { "value": "text-neutral", "label": "Neutral" },
+        { "value": "text-neutral-light", "label": "Neutral Light" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "text-black"
+    },
+    {
+      "type": "header",
+      "content": "Layout Settings"
+    },
+    {
+      "type": "select",
+      "id": "background_color",
+      "label": "Section Background Color",
+      "options": [
+        { "value": "bg-white", "label": "White" },
+        { "value": "bg-black", "label": "Black" },
+        { "value": "bg-primary", "label": "Primary" },
+        { "value": "bg-secondary", "label": "Secondary" },
+        { "value": "bg-tertiary", "label": "Tertiary" },
+        { "value": "bg-quaternary", "label": "Quaternary" },
+        { "value": "bg-success", "label": "Success" },
+        { "value": "bg-warning", "label": "Warning" },
+        { "value": "bg-error", "label": "Error" },
+        { "value": "bg-info", "label": "Info" },
+        { "value": "bg-neutral", "label": "Neutral" },
+        { "value": "bg-neutral-light", "label": "Neutral Light" },
+        { "value": "bg-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "bg-neutral"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Section Background Image"
+    },
+   
+    {
+      "type": "select",
+      "id": "section_border_radius",
+      "label": "Section Border Radius",
+      "options": [
+        { "value": "rounded-none", "label": "None" },
+        { "value": "rounded-sm", "label": "Small" },
+        { "value": "rounded", "label": "Base" },
+        { "value": "rounded-md", "label": "Medium" },
+        { "value": "rounded-lg", "label": "Large" },
+        { "value": "rounded-xl", "label": "Extra Large" },
+        { "value": "rounded-2xl", "label": "2X Large" },
+        { "value": "rounded-3xl", "label": "3X Large" }
+      ],
+      "default": "rounded-none"
+    },
+
+    {
+      "type": "header",
+      "content": "Section spacing"
+    },
+    {
+      "type": "select",
+      "id": "padding_x_mobile",
+      "label": "Padding X (Mobile)",
+      "options": [
+        { "value": "px-0", "label": "None" },
+        { "value": "px-xs", "label": "Extra Small" },
+        { "value": "px-sm", "label": "Small" },
+        { "value": "px-md", "label": "Medium" },
+        { "value": "px-lg", "label": "Large" },
+        { "value": "px-xl", "label": "Extra Large" },
+        { "value": "px-2xl", "label": "2X Large" },
+        { "value": "px-3xl", "label": "3X Large" }
+      ],
+      "default": "px-0"
+    },
+    {
+      "type": "select",
+      "id": "padding_top_mobile",
+      "label": "Padding Top (Mobile)",
+      "options": [
+        { "value": "pt-0", "label": "None" },
+        { "value": "pt-xs", "label": "Extra Small" },
+        { "value": "pt-sm", "label": "Small" },
+        { "value": "pt-md", "label": "Medium" },
+        { "value": "pt-lg", "label": "Large" },
+        { "value": "pt-xl", "label": "Extra Large" },
+        { "value": "pt-2xl", "label": "2X Large" },
+        { "value": "pt-3xl", "label": "3X Large" }
+      ],
+      "default": "pt-xl"
+    },
+    {
+      "type": "select",
+      "id": "padding_bottom_mobile",
+      "label": "Padding Bottom (Mobile)",
+      "options": [
+        { "value": "pb-0", "label": "None" },
+        { "value": "pb-xs", "label": "Extra Small" },
+        { "value": "pb-sm", "label": "Small" },
+        { "value": "pb-md", "label": "Medium" },
+        { "value": "pb-lg", "label": "Large" },
+        { "value": "pb-xl", "label": "Extra Large" },
+        { "value": "pb-2xl", "label": "2X Large" },
+        { "value": "pb-3xl", "label": "3X Large" }
+      ],
+      "default": "pb-xl"
+    },
+    {
+      "type": "select",
+      "id": "padding_x_desktop",
+      "label": "Padding X (Desktop)",
+      "options": [
+        { "value": "px-0", "label": "None" },
+        { "value": "px-xs", "label": "Extra Small" },
+        { "value": "px-sm", "label": "Small" },
+        { "value": "px-md", "label": "Medium" },
+        { "value": "px-lg", "label": "Large" },
+        { "value": "px-xl", "label": "Extra Large" },
+        { "value": "px-2xl", "label": "2X Large" },
+        { "value": "px-3xl", "label": "3X Large" }
+      ],
+      "default": "px-0"
+    },
+    
+    {
+      "type": "select",
+      "id": "padding_top_desktop",
+      "label": "Padding Top (Desktop)",
+      "options": [
+        { "value": "pt-0", "label": "None" },
+        { "value": "pt-xs", "label": "Extra Small" },
+        { "value": "pt-sm", "label": "Small" },
+        { "value": "pt-md", "label": "Medium" },
+        { "value": "pt-lg", "label": "Large" },
+        { "value": "pt-xl", "label": "Extra Large" },
+        { "value": "pt-2xl", "label": "2X Large" },
+        { "value": "pt-3xl", "label": "3X Large" }
+      ],
+      "default": "pt-3xl"
+    },
+    {
+      "type": "select",
+      "id": "padding_bottom_desktop",
+      "label": "Padding Bottom (Desktop)",
+      "options": [
+        { "value": "pb-0", "label": "None" },
+        { "value": "pb-xs", "label": "Extra Small" },
+        { "value": "pb-sm", "label": "Small" },
+        { "value": "pb-md", "label": "Medium" },
+        { "value": "pb-lg", "label": "Large" },
+        { "value": "pb-xl", "label": "Extra Large" },
+        { "value": "pb-2xl", "label": "2X Large" },
+        { "value": "pb-3xl", "label": "3X Large" }
+      ],
+      "default": "pb-3xl"
+    },
+    {
+      "type": "header",
+      "content": "Container Settings"
+    },
+    {
+      "type": "select",
+      "id": "container_background_color",
+      "label": "Container Background Color",
+      "options": [
+        { "value": "", "label": "None (Transparent)" },
+        { "value": "bg-white", "label": "White" },
+        { "value": "bg-black", "label": "Black" },
+        { "value": "bg-primary", "label": "Primary" },
+        { "value": "bg-secondary", "label": "Secondary" },
+        { "value": "bg-tertiary", "label": "Tertiary" },
+        { "value": "bg-quaternary", "label": "Quaternary" },
+        { "value": "bg-success", "label": "Success" },
+        { "value": "bg-warning", "label": "Warning" },
+        { "value": "bg-error", "label": "Error" },
+        { "value": "bg-info", "label": "Info" },
+        { "value": "bg-neutral", "label": "Neutral" },
+        { "value": "bg-neutral-light", "label": "Neutral Light" },
+        { "value": "bg-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": ""
+    },
+    {
+      "type": "image_picker",
+      "id": "container_background_image",
+      "label": "Container Background Image"
+    },
+    {
+      "type": "select",
+      "id": "container_border_radius",
+      "label": "Container Border Radius",
+      "options": [
+        { "value": "rounded-none", "label": "None" },
+        { "value": "rounded-sm", "label": "Small" },
+        { "value": "rounded", "label": "Base" },
+        { "value": "rounded-md", "label": "Medium" },
+        { "value": "rounded-lg", "label": "Large" },
+        { "value": "rounded-xl", "label": "Extra Large" },
+        { "value": "rounded-2xl", "label": "2X Large" },
+        { "value": "rounded-3xl", "label": "3X Large" }
+      ],
+      "default": "rounded-none"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_y_mobile",
+      "label": "Container Padding Y (Mobile)",
+      "options": [
+        { "value": "py-xs", "label": "Extra Small" },
+        { "value": "py-sm", "label": "Small" },
+        { "value": "py-md", "label": "Medium" },
+        { "value": "py-lg", "label": "Large" },
+        { "value": "py-xl", "label": "Extra Large" },
+        { "value": "py-2xl", "label": "2X Large" },
+        { "value": "py-3xl", "label": "3X Large" }
+      ],
+      "default": "py-lg"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_y_desktop",
+      "label": "Container Padding Y (Desktop)",
+      "options": [
+        { "value": "lg:py-xs", "label": "Extra Small" },
+        { "value": "lg:py-sm", "label": "Small" },
+        { "value": "lg:py-md", "label": "Medium" },
+        { "value": "lg:py-lg", "label": "Large" },
+        { "value": "lg:py-xl", "label": "Extra Large" },
+        { "value": "lg:py-2xl", "label": "2X Large" },
+        { "value": "lg:py-3xl", "label": "3X Large" }
+      ],
+      "default": "lg:py-2xl"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_x_mobile",
+      "label": "Container Padding X (Mobile)",
+      "options": [
+        { "value": "px-0", "label": "None" },
+        { "value": "px-xs", "label": "Extra Small" },
+        { "value": "px-sm", "label": "Small" },
+        { "value": "px-md", "label": "Medium" },
+        { "value": "px-lg", "label": "Large" },
+        { "value": "px-xl", "label": "Extra Large" },
+        { "value": "px-2xl", "label": "2X Large" },
+        { "value": "px-3xl", "label": "3X Large" }
+      ],
+      "default": "px-0"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_x_desktop",
+      "label": "Container Padding X (Desktop)",
+      "options": [
+        { "value": "lg:px-0", "label": "None" },
+        { "value": "lg:px-xs", "label": "Extra Small" },
+        { "value": "lg:px-sm", "label": "Small" },
+        { "value": "lg:px-md", "label": "Medium" },
+        { "value": "lg:px-lg", "label": "Large" },
+        { "value": "lg:px-xl", "label": "Extra Large" },
+        { "value": "lg:px-2xl", "label": "2X Large" },
+        { "value": "lg:px-3xl", "label": "3X Large" }
+      ],
+      "default": "lg:px-0"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image_item",
+      "name": "Image Item",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Image Content"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "Image to display in the carousel"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Description text goes here",
+          "info": "Description text displayed on the image card"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Person Name",
+          "info": "Name of the person displayed below the description"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Results Carousel",
+      "blocks": [
+        {
+          "type": "image_item",
+          "settings": {
+            "description": "Amazing results!",
+            "name": "John Doe"
+          }
+        },
+        {
+          "type": "image_item",
+          "settings": {
+            "description": "Incredible transformation!",
+            "name": "Jane Smith"
+          }
+        },
+        {
+          "type": "image_item",
+          "settings": {
+            "description": "Life-changing experience!",
+            "name": "Mike Johnson"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+

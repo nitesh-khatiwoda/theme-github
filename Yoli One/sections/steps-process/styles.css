@@ -1,0 +1,180 @@
+/* Steps Process Section Styles */
+
+.steps-process {
+  position: relative;
+  overflow: hidden;
+}
+
+.steps-inner {
+  position: relative;
+}
+
+/* Heading */
+.steps-heading {
+  text-align: center;
+}
+
+.heading-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.steps-heading h2 {
+  margin: 0;
+}
+
+/* Steps Grid */
+.steps-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xl);
+  align-items: center;
+  width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .steps-grid {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 0;
+  }
+}
+
+/* Step Item Wrapper (contains step + connector) */
+.step-item-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 400px;
+}
+
+@media (min-width: 1024px) {
+  .step-item-wrapper {
+    flex-direction: row;
+    align-items: flex-start;
+    width: auto;
+    max-width: none;
+  }
+}
+
+/* Step Item */
+.step-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-lg);
+  width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .step-item {
+    flex-direction: row;
+    align-items: flex-start;
+    width: auto;
+  }
+}
+
+/* Icon Circle */
+.step-icon-circle {
+  min-width: 96px;
+  width: 96px;
+  height: 96px;
+  border-radius: 1000px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.step-icon-circle svg {
+  flex-shrink: 0;
+}
+
+.step-icon-circle img {
+  width: 60%;
+  height: 60%;
+  object-fit: contain;
+}
+
+/* Step Content */
+.step-content {
+  display: flex;
+  flex-direction: column;
+  max-width: 230px;
+  text-align: center;
+}
+
+@media (min-width: 1024px) {
+  .step-content {
+    text-align: left;
+  }
+}
+
+/* Step Title */
+.step-title-wrapper h3 {
+  margin: 0;
+}
+
+/* Step Description */
+.step-description p {
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Connector Line (Dashed) */
+.step-connector {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .step-connector {
+    display: block;
+    width: 149px;
+    height: 3px;
+    border-bottom: 3px dashed;
+    flex-shrink: 0;
+    margin-top: 48px; /* Half of icon height to center it */
+  }
+}
+
+/* CTA Section */
+.steps-cta-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+  width: 100%;
+  max-width: 550px;
+  margin: 0 auto;
+}
+
+.steps-cta-button {
+  width: 100%;
+}
+
+.steps-cta-button .btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Shipping Notice */
+.steps-notice {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+}
+
+.steps-notice svg {
+  flex-shrink: 0;
+}
+
+.steps-notice p {
+  margin: 0;
+  line-height: normal;
+}
+

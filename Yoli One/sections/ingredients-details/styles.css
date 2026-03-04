@@ -1,0 +1,315 @@
+/* ============================================
+   INGREDIENTS DETAILS SECTION
+   ============================================ */
+
+.ingredients-details {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Override global overlays */
+.ingredients-details::after {
+  display: none !important;
+}
+
+.ingredients-details[data-bg]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+  z-index: var(--z-0);
+  background-color: rgba(0, 0, 0, 0.3);
+  pointer-events: none;
+  display: block !important;
+}
+
+.ingredients-details__inner {
+  position: relative;
+  z-index: var(--z-10);
+}
+
+.ingredients-details__inner[data-bg]:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+  z-index: var(--z-0);
+  background-color: rgba(0, 0, 0, 0.3);
+  pointer-events: none;
+}
+
+.ingredients-details__inner > * {
+  position: relative;
+  z-index: var(--z-10);
+}
+
+/* ============================================
+   MAIN LAYOUT
+   ============================================ */
+
+.ingredients-details__layout {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xl);
+}
+
+@media (min-width: 991px) {
+  .ingredients-details__layout {
+    flex-direction: row;
+    gap: var(--space-3xl);
+    align-items: flex-start;
+  }
+}
+
+/* ============================================
+   CONTENT SIDE (Left - 1/3)
+   ============================================ */
+
+.ingredients-details__content-side {
+  flex: 0 0 100%;
+  max-width: 100%;
+}
+
+@media (min-width: 991px) {
+  .ingredients-details__content-side {
+    flex: 0 0 330px;
+    max-width: 330px;
+  }
+}
+
+.ingredients-details__heading-group {
+  margin-bottom: var(--space-lg);
+}
+
+.ingredients-details__heading-group h2 {
+  margin: 0 0 var(--space-xs) 0;
+  line-height: 1.2;
+}
+
+.ingredients-details__emphasis {
+  margin: 0;
+  line-height: 1.35;
+}
+
+.ingredients-details__description {
+  margin-bottom: var(--space-xl);
+}
+
+.ingredients-details__description p {
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* ============================================
+   BADGE LINKS
+   ============================================ */
+
+.ingredients-details__badges {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.ingredients-details__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: 6px 12px;
+  border: 1px solid #e9e9e9;
+  border-radius: 50px;
+  width: fit-content;
+}
+
+.ingredients-details__badge-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+.ingredients-details__badge span {
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+/* ============================================
+   CARDS SIDE (Right - 2/3)
+   ============================================ */
+
+.ingredients-details__cards-side {
+  flex: 1;
+}
+
+.ingredients-details__cards-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-lg);
+}
+
+@media (min-width: 768px) {
+  .ingredients-details__cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-xl);
+  }
+}
+
+@media (min-width: 991px) {
+  .ingredients-details__cards-grid {
+    gap: var(--space-2xl);
+  }
+}
+
+/* ============================================
+   PRODUCT CARD
+   ============================================ */
+
+.ingredients-details__card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ingredients-details__card:hover {
+  transform: translateY(-4px);
+}
+
+.ingredients-details__card-image {
+  position: relative;
+  width: 100%;
+  height: 545px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.ingredients-details__card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+@media (max-width: 767px) {
+  .ingredients-details__card-image {
+    height: 400px;
+  }
+}
+
+/* ============================================
+   CARD BADGE (Top Right)
+   ============================================ */
+
+.ingredients-details__card-badge {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  z-index: 2;
+}
+
+.ingredients-details__card-badge span {
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+/* ============================================
+   CARD OVERLAY (Bottom)
+   ============================================ */
+
+.ingredients-details__card-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20px;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  
+  /* Glassmorphism Effect */
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.ingredients-details__card-title {
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* ============================================
+   FEATURES LIST
+   ============================================ */
+
+.ingredients-details__features-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.ingredients-details__feature-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-top: 1px solid rgba(255, 255, 255, 1);
+}
+
+.ingredients-details__feature-item:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+
+.ingredients-details__feature-item:last-child {
+  padding-bottom: 0;
+}
+
+.ingredients-details__feature-item span {
+  line-height: 1.5;
+  flex: 1;
+}
+
+.ingredients-details__feature-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  object-fit: contain;
+  margin-left: var(--space-sm);
+}
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================ */
+
+@media (max-width: 767px) {
+  .ingredients-details__card-overlay {
+    padding: var(--space-md);
+  }
+
+  .ingredients-details__feature-item {
+    padding: 6px 0;
+  }
+
+  .ingredients-details__feature-icon {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
+
+.ingredients-details__card:focus {
+  outline: 2px solid var(--clr-primary);
+  outline-offset: 4px;
+  border-radius: 14px;
+}
+

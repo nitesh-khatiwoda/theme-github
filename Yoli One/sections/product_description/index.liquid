@@ -1,0 +1,278 @@
+<div class="pack-description">
+  <!-- Rating Section -->
+  {% if section.settings.show_reviews %}
+    <div class="rating-section" data-fluid-element="CQsJ0R4Z">
+      {% assign product = products[0] %}
+      <script>
+        console.log('product:', {{ product | json }});
+      </script>
+      {% if product.ratings and product.ratings > 0 %}
+        <div class="stars {{ section.settings.stars_color | default: 'stars-yellow' }} {{ section.settings.stars_size | default: 'stars-md' }}" data-fluid-element="I2yYs5XY">
+          {% for i in (1..product.ratings) %}
+            <svg class="star-icon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 .587l3.668 7.431 8.2 1.193-5.934 5.787 1.401 8.168L12 18.896 4.665 23.166l1.401-8.168L.132 9.211l8.2-1.193z"/></svg>
+          {% endfor %}
+          {% assign blank_stars = 5 | minus: product.ratings %}
+          {% for i in (1..blank_stars) %}
+            <svg class="star-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg"><path d="M12 .587l3.668 7.431 8.2 1.193-5.934 5.787 1.401 8.168L12 18.896 4.665 23.166l1.401-8.168L.132 9.211l8.2-1.193z"/></svg>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="stars {{ section.settings.stars_color | default: 'stars-yellow' }} {{ section.settings.stars_size | default: 'stars-md' }}" data-fluid-element="tb6xOYDA">
+          {% for i in (1..5) %}
+            <svg class="star-icon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 .587l3.668 7.431 8.2 1.193-5.934 5.787 1.401 8.168L12 18.896 4.665 23.166l1.401-8.168L.132 9.211l8.2-1.193z"/></svg>
+          {% endfor %}
+        </div>
+      {% endif %}
+      <div class="rating-text eina-2-font {{ section.settings.rating_text_font_size }} {{ section.settings.rating_text_font_size_mobile }} {{ section.settings.rating_text_font_weight }} {{ section.settings.rating_text_color }}" data-fluid-element="RgilW3z0">500,000+ Happy Partners</div>
+    </div>
+  {% endif %}
+  
+  <!-- Product Title -->
+  <h1 class="product-title title heading-color heading-letter-spacing {{ section.settings.product_title_font_size }} {{ section.settings.product_title_font_size_mobile }} {{ section.settings.product_title_font_weight }}" data-fluid-element="dusXK6mr">{{ enrollment_pack.title }}</h1>
+  
+  <!-- Product Subtitle -->
+  <p class="product-subtitle {{ section.settings.product_subtitle_font_size }} {{ section.settings.product_subtitle_font_size_mobile }} {{ section.settings.product_subtitle_font_weight }}" data-fluid-element="mk6wUW4V">{{ section.settings.subtitle }}</p>
+  
+  <!-- Product Description -->
+  <div class="product-description {{ section.settings.product_description_font_size }} {{ section.settings.product_description_font_size_mobile }} {{ section.settings.product_description_font_weight }}" data-fluid-element="tEPj37VY">
+    {{ enrollment_pack.description }}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Product Description",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Subtitle"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_subtitle",
+      "label": "Show subtitle",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Mix & Match Transformation Pack Products"
+    },
+    {
+      "type": "select",
+      "id": "product_subtitle_font_size",
+      "label": "Subtitle Font Size",
+      "options": [
+        { "value": "pd-text-xs", "label": "Extra Small" },
+        { "value": "pd-text-sm", "label": "Small" },
+        { "value": "pd-text-md", "label": "Medium" },
+        { "value": "pd-text-lg", "label": "Large" }
+      ],
+      "default": "pd-text-md"
+    },
+    {
+      "type": "select",
+      "id": "product_subtitle_font_size_mobile",
+      "label": "Subtitle Font Size (Mobile)",
+      "options": [
+        { "value": "pd-m-text-xs", "label": "Extra Small" },
+        { "value": "pd-m-text-sm", "label": "Small" },
+        { "value": "pd-m-text-md", "label": "Medium" },
+        { "value": "pd-m-text-lg", "label": "Large" }
+      ],
+      "default": "pd-m-text-sm"
+    },
+    {
+      "type": "select",
+      "id": "product_subtitle_font_weight",
+      "label": "Subtitle Font Weight",
+      "options": [
+        { "value": "pd-fw-light", "label": "Light" },
+        { "value": "pd-fw-normal", "label": "Normal" },
+        { "value": "pd-fw-medium", "label": "Medium" },
+        { "value": "pd-fw-semibold", "label": "Semi Bold" },
+        { "value": "pd-fw-bold", "label": "Bold" }
+      ],
+      "default": "pd-fw-bold"
+    },
+    {
+      "type": "header",
+      "content": "Title"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_title",
+      "label": "Show title",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "product_title_font_size",
+      "label": "Title Font Size",
+      "options": [
+        { "value": "pd-text-xs", "label": "Extra Small" },
+        { "value": "pd-text-sm", "label": "Small" },
+        { "value": "pd-text-md", "label": "Medium" },
+        { "value": "pd-text-lg", "label": "Large" }
+      ],
+      "default": "pd-text-md"
+    },
+    {
+      "type": "select",
+      "id": "product_title_font_size_mobile",
+      "label": "Title Font Size (Mobile)",
+      "options": [
+        { "value": "pd-m-text-xs", "label": "Extra Small" },
+        { "value": "pd-m-text-sm", "label": "Small" },
+        { "value": "pd-m-text-md", "label": "Medium" },
+        { "value": "pd-m-text-lg", "label": "Large" }
+      ],
+      "default": "pd-m-text-sm"
+    },
+    {
+      "type": "select",
+      "id": "product_title_font_weight",
+      "label": "Title Font Weight",
+      "options": [
+        { "value": "pd-fw-light", "label": "Light" },
+        { "value": "pd-fw-normal", "label": "Normal" },
+        { "value": "pd-fw-medium", "label": "Medium" },
+        { "value": "pd-fw-semibold", "label": "Semi Bold" },
+        { "value": "pd-fw-bold", "label": "Bold" }
+      ],
+      "default": "pd-fw-bold"
+    },
+    {
+      "type": "header",
+      "content": "Description"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_description",
+      "label": "Show description",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "product_description_font_size",
+      "label": "Description Font Size",
+      "options": [
+        { "value": "pd-text-xs", "label": "Extra Small" },
+        { "value": "pd-text-sm", "label": "Small" },
+        { "value": "pd-text-md", "label": "Medium" },
+        { "value": "pd-text-lg", "label": "Large" }
+      ],
+      "default": "pd-text-md"
+    },
+    {
+      "type": "select",
+      "id": "product_description_font_size_mobile",
+      "label": "Description Font Size (Mobile)",
+      "options": [
+        { "value": "pd-m-text-xs", "label": "Extra Small" },
+        { "value": "pd-m-text-sm", "label": "Small" },
+        { "value": "pd-m-text-md", "label": "Medium" },
+        { "value": "pd-m-text-lg", "label": "Large" }
+      ],
+      "default": "pd-m-text-sm"
+    },
+    {
+      "type": "select",
+      "id": "product_description_font_weight",
+      "label": "Description Font Weight",
+      "options": [
+        { "value": "pd-fw-light", "label": "Light" },
+        { "value": "pd-fw-normal", "label": "Normal" },
+        { "value": "pd-fw-medium", "label": "Medium" },
+        { "value": "pd-fw-semibold", "label": "Semi Bold" },
+        { "value": "pd-fw-bold", "label": "Bold" }
+      ],
+      "default": "pd-fw-normal"
+    },
+    {
+      "type": "header",
+      "content": "Reviews settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_reviews",
+      "label": "Show reviews",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "rating_text_font_size",
+      "label": "Rating Text Font Size",
+      "options": [
+        { "value": "pd-text-xs", "label": "Extra Small" },
+        { "value": "pd-text-sm", "label": "Small" },
+        { "value": "pd-text-md", "label": "Medium" },
+        { "value": "pd-text-lg", "label": "Large" }
+      ],
+      "default": "pd-text-md"
+    },
+    {
+      "type": "select",
+      "id": "rating_text_font_size_mobile",
+      "label": "Rating Text Font Size (Mobile)",
+      "options": [
+        { "value": "pd-m-text-xs", "label": "Extra Small" },
+        { "value": "pd-m-text-sm", "label": "Small" },
+        { "value": "pd-m-text-md", "label": "Medium" },
+        { "value": "pd-m-text-lg", "label": "Large" }
+      ],
+      "default": "pd-m-text-sm"
+    },
+    {
+      "type": "select",
+      "id": "rating_text_font_weight",
+      "label": "Rating Text Font Weight",
+      "options": [
+        { "value": "pd-fw-light", "label": "Light" },
+        { "value": "pd-fw-normal", "label": "Normal" },
+        { "value": "pd-fw-medium", "label": "Medium" },
+        { "value": "pd-fw-semibold", "label": "Semi Bold" },
+        { "value": "pd-fw-bold", "label": "Bold" }
+      ],
+      "default": "pd-fw-semibold"
+    },
+    {
+      "type": "select",
+      "id": "rating_text_color",
+      "label": "Rating Text Color",
+      "options": [
+        { "value": "text-blue", "label": "Blue" },
+        { "value": "text-gray", "label": "Gray" },
+        { "value": "text-neutral-dark", "label": "Brown" },
+        { "value": "text-brown-2", "label": "Brown 2" },
+        { "value": "text-gold", "label": "Gold" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-white", "label": "White)" }
+      ],
+      "default": "text-neutral-dark"
+    },
+    {
+      "type": "select",
+      "id": "stars_color",
+      "label": "Star color",
+      "options": [
+        { "value": "stars-yellow", "label": "Yellow Stars" },
+        { "value": "stars-text", "label": "Dark Stars" }
+      ],
+      "default": "stars-yellow"
+    },
+    {
+      "type": "select",
+      "id": "stars_size",
+      "label": "Star size",
+      "options": [
+        { "value": "stars-sm", "label": "Small" },
+        { "value": "stars-md", "label": "Medium" },
+        { "value": "stars-lg", "label": "Large" }
+      ],
+      "default": "stars-md"
+    }
+  ]
+}
+{% endschema %}

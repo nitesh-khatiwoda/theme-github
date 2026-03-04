@@ -1,0 +1,459 @@
+/* ============================================
+   BEFORE AFTER CAROUSEL SECTION
+   Split layout with text content and before/after slider
+   ============================================ */
+
+.before-after-carousel {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Inner Container */
+.before-after-inner {
+  position: relative;
+  width: 100%;
+}
+
+/* ============================================
+   HEADER ROW - Heading + Navigation
+   ============================================ */
+
+.before-after-header-row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  align-items: flex-start;
+  margin-bottom: var(--space-xl);
+  padding: 0 var(--space-xl);
+}
+
+@media (min-width: 768px) {
+  .before-after-header-row {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-2xl);
+  }
+}
+
+@media (min-width: 991px) {
+  .before-after-header-row {
+    padding: 0 var(--space-3xl);
+    margin-bottom: var(--space-2xl);
+  }
+}
+
+/* Heading Column */
+.before-after-heading-col {
+  flex: 1;
+}
+
+.before-after-heading-col h2 {
+  margin: 0;
+  line-height: 1.1;
+}
+
+/* Navigation Column */
+.before-after-nav-col {
+  flex-shrink: 0;
+}
+
+/* ============================================
+   MAIN WRAPPER
+   ============================================ */
+
+.before-after-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+  max-width: 1920px;
+  margin: 0 auto;
+  padding: 0 var(--space-xl);
+  width: 100%;
+}
+
+@media (min-width: 991px) {
+  .before-after-wrapper {
+    padding: 0 var(--space-3xl);
+  }
+}
+
+/* ============================================
+   CAROUSEL
+   ============================================ */
+
+.before-after-slider-carousel {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+/* Carousel Track */
+.carousel-track {
+  display: flex;
+  gap: var(--space-3xl);
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}
+
+/* Individual Slide */
+.slider-slide {
+  flex-shrink: 0;
+  width: 100%;
+  position: relative;
+}
+
+/* ============================================
+   TWO-COLUMN LAYOUT INSIDE EACH SLIDE
+   ============================================ */
+
+.slide-two-column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+  width: 100%;
+}
+
+@media (min-width: 991px) {
+  .slide-two-column {
+    flex-direction: row;
+    gap: var(--space-3xl);
+    align-items: center;
+  }
+}
+
+/* Left Column: Testimonial Content */
+.slide-left-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  width: 100%;
+}
+
+@media (min-width: 991px) {
+  .slide-left-content {
+    flex: 0 0 360px;
+    width: 360px;
+    max-width: 360px;
+    gap: var(--space-lg);
+  }
+}
+
+/* Right Column: Images (Bigger) */
+.slide-right-content {
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+}
+
+/* Star Rating */
+.star-rating-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.star-rating {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.star-rating svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+@media (min-width: 991px) {
+  .star-rating svg {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+/* Quote Text */
+.quote-text {
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Signature */
+.signature-text {
+  margin: 0;
+  line-height: 1.2;
+  margin-top: var(--space-sm);
+}
+
+/* Author Info */
+.author-name {
+  display: inline-block;
+  margin-top: var(--space-xs);
+}
+
+/* ============================================
+   BEFORE/AFTER IMAGE SLIDER
+   ============================================ */
+
+.before-after-image-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background-color: var(--clr-neutral-light);
+  cursor: ew-resize;
+  user-select: none;
+  -webkit-user-select: none;
+  z-index: 0;
+}
+
+@media (min-width: 768px) {
+  .before-after-image-container {
+    aspect-ratio: 4 / 3;
+  }
+}
+
+@media (min-width: 991px) {
+  .before-after-image-container {
+    aspect-ratio: 16 / 9;
+  }
+}
+
+/* Before Image (full container, gets clipped) */
+.before-image-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  clip-path: inset(0 50% 0 0);
+  transition: clip-path 0.1s ease-out;
+}
+
+.before-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* After Image (sits behind, always visible) */
+.after-image-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.after-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Before/After Labels */
+.image-label {
+  position: absolute;
+  top: 16px;
+  padding: 8px 16px;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  border-radius: var(--border-radius-sm);
+  z-index: 10;
+  pointer-events: none;
+}
+
+.image-label--before {
+  left: 16px;
+}
+
+.image-label--after {
+  right: 16px;
+}
+
+/* ============================================
+   SLIDER DIVIDER (Draggable Handle)
+   ============================================ */
+
+.slider-divider {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 4px;
+  height: 100%;
+  background-color: var(--clr-white);
+  z-index: 3;
+  transform: translateX(-50%);
+  cursor: ew-resize;
+  transition: left 0.1s ease-out;
+}
+
+.slider-handle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 48px;
+  height: 48px;
+  background-color: var(--clr-white);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  color: var(--clr-neutral-dark);
+  transition: transform 0.2s ease;
+}
+
+.slider-handle:hover {
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+.slider-handle svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* ============================================
+   CAROUSEL NAVIGATION
+   ============================================ */
+
+.carousel-controls {
+  display: flex;
+  gap: var(--space-md);
+  justify-content: flex-end;
+  position: relative;
+  z-index: 10;
+}
+
+.nav-arrow {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: var(--clr-white);
+}
+
+.nav-arrow:hover {
+  background-color: var(--clr-white);
+  border-color: var(--clr-white);
+  color: var(--clr-neutral-dark);
+  transform: scale(1.05);
+}
+
+.nav-arrow:active {
+  transform: scale(0.95);
+}
+
+.nav-arrow svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================ */
+
+@media (max-width: 990px) {
+  .before-after-header-row {
+    padding: 0 var(--space-lg);
+    margin-bottom: var(--space-lg);
+  }
+  
+  .before-after-wrapper {
+    padding: 0 var(--space-lg);
+  }
+  
+  .slide-two-column {
+    gap: var(--space-lg);
+  }
+  
+  .slide-left-content {
+    gap: var(--space-md);
+  }
+}
+
+@media (max-width: 767px) {
+  .before-after-header-row {
+    padding: 0 var(--space-md);
+    margin-bottom: var(--space-md);
+    gap: var(--space-md);
+  }
+  
+  .before-after-wrapper {
+    padding: 0 var(--space-md);
+  }
+
+  .slide-two-column {
+    gap: var(--space-md);
+  }
+
+  .slide-left-content {
+    gap: var(--space-sm);
+  }
+
+  .carousel-controls {
+    gap: var(--space-sm);
+  }
+
+  .nav-arrow {
+    width: 40px;
+    height: 40px;
+  }
+
+  .nav-arrow svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .slider-handle {
+    width: 40px;
+    height: 40px;
+  }
+
+  .slider-handle svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY & INTERACTIONS
+   ============================================ */
+
+/* Touch device optimizations */
+@media (hover: none) {
+  .slider-handle {
+    width: 56px;
+    height: 56px;
+  }
+}
+
+/* Focus states */
+.nav-arrow:focus {
+  outline: 2px solid var(--clr-white);
+  outline-offset: 2px;
+}
+
+.nav-arrow:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Prevent text selection during drag */
+.before-after-image-container * {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+}
+
+

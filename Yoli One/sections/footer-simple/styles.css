@@ -1,0 +1,310 @@
+/* Main Footer Styles - Based on Figma Design */
+
+.site-footer {
+  background-color: #161716;
+  color: #ffffff;
+  width: 100%;
+  box-shadow: 0px 10px 14px -10px rgba(0, 0, 0, 0.04);
+}
+
+.footer-container {
+  display: flex;
+  min-height: 642px;
+  width: 100%;
+}
+
+/* Main Content Section (Left) */
+.footer-main-content {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 72px 48px 48px;
+}
+
+.footer-inner {
+  max-width: 1296px;
+  width: 100%;
+  position: relative;
+}
+
+/* Navigation Columns */
+.footer-nav-columns {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 120px;
+  max-width: 680px;
+  margin-bottom: 72px;
+}
+
+.footer-column {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.footer-link {
+  padding: 8px;
+}
+
+.footer-link a {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 13.2px;
+  line-height: 21px;
+  letter-spacing: 0.28px;
+  color: #ffffff;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.footer-link a:hover {
+  opacity: 0.7;
+}
+
+/* Badge for "updated" etc */
+.footer-link.has-badge {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding-bottom: 0;
+}
+
+.footer-badge {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 10px;
+  line-height: 10px;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: #f69371;
+  margin-top: 4px;
+  padding-left: 8px;
+}
+
+/* Social Media Icons */
+.footer-social-icons {
+  display: flex;
+  gap: 32px;
+  margin-bottom: 48px;
+}
+
+.social-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  transition: opacity 0.2s ease;
+}
+
+.social-icon:hover {
+  opacity: 0.7;
+}
+
+.social-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Certification Logos */
+.footer-certifications {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 48px;
+  padding: 24px 0;
+}
+
+.certification-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 15px;
+  transition: opacity 0.2s ease;
+}
+
+.certification-logo:hover {
+  opacity: 0.8;
+}
+
+.certification-logo img {
+  height: 115px;
+  width: auto;
+  max-width: 82px;
+  object-fit: contain;
+}
+
+/* Footer Bottom Section */
+.footer-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding-top: 24px;
+}
+
+.footer-legal-text {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footer-legal-text p,
+.footer-legal-text a {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 10px;
+  line-height: 10px;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: #a6a6a6;
+  margin: 0;
+}
+
+.footer-bottom-link {
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+  padding: 8px 0;
+  display: inline-block;
+}
+
+.footer-bottom-link:hover {
+  opacity: 0.7;
+}
+
+/* Disclaimer Box */
+.footer-disclaimer {
+  border: 1px solid #323429;
+  padding: 16px 21px;
+  max-width: 400px;
+  margin-left: 490px;
+}
+
+.footer-disclaimer p {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 11.4px;
+  line-height: 18px;
+  letter-spacing: 0.24px;
+  color: #ffffff;
+  margin: 0;
+}
+
+/* CTA Section (Right) */
+.footer-cta-section {
+  background-color: #323429;
+  flex: 0 0 623px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px;
+  min-height: 224px;
+}
+
+.footer-cta-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 11px;
+  text-align: center;
+}
+
+.footer-cta-heading {
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 20px;
+  line-height: 22px;
+  letter-spacing: -0.6px;
+  color: #ffffff;
+  margin: 0;
+  white-space: pre-line;
+}
+
+.footer-cta-button {
+  background-color: #ffffff;
+  border: 1px solid #ffffff;
+  color: #323429;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+  font-size: 13px;
+  line-height: 53px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 0 22.9px;
+  height: 53px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 215px;
+  transition: all 0.2s ease;
+}
+
+.footer-cta-button:hover {
+  background-color: transparent;
+  color: #ffffff;
+}
+
+/* Tablet Styles */
+@media (max-width: 1024px) {
+  .footer-container {
+    flex-direction: column;
+  }
+  
+  .footer-cta-section {
+    flex: none;
+    width: 100%;
+  }
+  
+  .footer-nav-columns {
+    gap: 60px;
+  }
+  
+  .footer-disclaimer {
+    margin-left: 0;
+    max-width: 100%;
+  }
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+  .footer-main-content {
+    padding: 48px 24px;
+  }
+  
+  .footer-nav-columns {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  
+  .footer-certifications {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .certification-logo img {
+    height: 80px;
+    max-width: 60px;
+  }
+  
+  .footer-social-icons {
+    justify-content: center;
+  }
+  
+  .footer-disclaimer {
+    padding: 16px;
+  }
+  
+  .footer-disclaimer p {
+    font-size: 10px;
+    line-height: 16px;
+  }
+  
+  .footer-cta-section {
+    padding: 32px 24px;
+  }
+  
+  .footer-cta-heading {
+    font-size: 18px;
+    line-height: 20px;
+  }
+  
+  .footer-cta-button {
+    min-width: 100%;
+    font-size: 12px;
+  }
+}

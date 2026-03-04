@@ -1,0 +1,3417 @@
+<div class="container">
+    <div class="product-layout-grid  bg-neutral-light">
+      <div class="product-layout-grid-content">
+          {% section 'product-header-4', id: 'lgp_product_header' %}
+          
+          {% section 'scrolling-benefits', id: 'lgp_scrolling_benefits' %}
+          
+          {% section 'video-carousel', id: 'lgp_video_carousel' %}
+          
+          {% section 'lifestyle-info', id: 'lgp_lifestyle_info' %}
+          
+          
+          
+          
+          
+          {% section 'testimonials-videos-grid', id: 'lgp_testimonials' %}
+
+
+
+
+          
+          
+          
+          
+          
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% section 'learn-more-stack', id: 'lgp_learn_more' %}
+{% section 'faq-accordion-revamp', id: 'glpxxio2f5h' %}
+
+          
+          <script src="{{ 'product.js' |  asset_url }}" defer></script>
+          
+          
+
+
+
+{% section 'content-image-split-logos', id: 'lgp_content_split_2' %}
+          
+          
+{% section 'also_bought', id: 'ml8ov60n6u' %}
+
+          
+          {% section 'journey-hero', id: 'lgp_journey_hero_1' %}
+          
+
+      </div>
+      <div class="product-layout-grid-sidebar">
+      </div>
+    </div>
+    {% section 'journey-hero', id: 'lgp_journey_hero_2' %}
+</div>
+<script>
+  (function() {
+    function appendInfoColumnToSidebar() {
+    
+      // Only run on screens above 1024px
+      if (window.innerWidth <= 1024) {
+        return;
+      }
+      
+      
+  
+      // Find the product-header-4 section
+      const headerSection = document.querySelector('[data-fluid-section="lgp_product_header"]');
+      if (!headerSection) {
+        return;
+      }
+  
+      // Find the info-column inside the header section
+      const infoColumn = headerSection.querySelector('.info-column');
+      if (!infoColumn) {
+        return;
+      }
+  
+      // Find the sidebar
+      const sidebar = document.querySelector('.product-layout-grid-sidebar');
+      if (!sidebar) {
+        return;
+      }
+  
+      if (sidebar.querySelector('.fluid-sidebar-clone')) return;
+
+      const clonedInfoColumn = infoColumn.cloneNode(true);
+
+      const wrapper = document.createElement('section');
+      wrapper.className = 'fluid-sidebar-clone';
+      wrapper.setAttribute('data-fluid-section', 'lgp_product_header');
+      wrapper.setAttribute('data-fluid-section-type', 'product-header-4');
+
+      wrapper.appendChild(clonedInfoColumn);
+      sidebar.appendChild(wrapper);
+    }
+  
+    // Run on DOM ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', appendInfoColumnToSidebar);
+    } else {
+      appendInfoColumnToSidebar();
+    }
+  
+    // Handle window resize - remove if screen becomes smaller than 1024px
+    let resizeTimeout;
+    window.addEventListener('resize', function() {
+      let selectedCard;
+
+      $('.subscription-option-card').each(function () {
+        if ($(this).hasClass('selected')) {
+          selectedCard = $(this).attr('data-option');
+        }
+      });
+  
+      // Check radio only for the matching card
+      $('.subscription-option-card').each(function () {
+        if ($(this).attr('data-option') == selectedCard) {
+          $(this).addClass('selected');
+          $(this).find('.subscription-radio').prop('checked', true);
+        } else {
+          
+        }
+      });
+
+      
+      // Accordion functionality
+      const accordions = document.querySelectorAll('.product-layout-grid-sidebar .accordion-item');
+      
+      accordions.forEach(item => {
+        const header = item.querySelector('.accordion-header');
+        
+        if (header) {
+          header.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // Close all other accordions
+            accordions.forEach(otherItem => {
+              if (otherItem !== item) {
+                otherItem.classList.remove('active');
+              }
+            });
+            
+            // Toggle current accordion-item
+            item.classList.toggle('active');
+          });
+        }
+      });
+
+      // End Accordion
+      
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(function() {
+        const sidebar = document.querySelector('.product-layout-grid-sidebar');
+        if (sidebar && window.innerWidth <= 1024) {
+          const cloneWrapper = sidebar.querySelector('.fluid-sidebar-clone');
+          if (cloneWrapper) {
+            cloneWrapper.remove();
+          }
+        } else if (window.innerWidth > 1024) {
+          appendInfoColumnToSidebar();
+        }
+        
+      }, 250);
+    });
+    
+  })();
+  
+  
+  </script>
+
+{% schema %}
+{
+  "sections": {
+    "lgp_product_header": {
+      "type": "product-header-4",
+      "settings": {
+        "show_media_gallery": true,
+        "gallery_layout": "below",
+        "show_product_code": false,
+        "product_code": "DM-02",
+        "code_superscript": "™",
+        "code_font_size": "text-base",
+        "code_color": "text-primary",
+        "show_product_title": true,
+        "product_title": "Lorem Ipsum",
+        "title_font_family": "font-primary",
+        "title_font_size": "text-2xl",
+        "title_font_size_desktop": "lg:text-3xl",
+        "title_font_weight": "font-semibold",
+        "title_color": "text-primary",
+        "show_new_badge": false,
+        "badge_text": "New",
+        "badge_font_size": "text-xs",
+        "badge_text_color": "text-primary",
+        "badge_background_color": "bg-accent-warm",
+        "show_right_column_image": false,
+        "right_column_image_alt": "Product image",
+        "right_column_image_width": 140,
+        "right_column_image_height": 140,
+        "right_column_image_object_fit": "cover",
+        "right_column_image_border_width": 0,
+        "right_column_image_border_color": "border-neutral",
+        "right_column_image_border_radius_top_left": "rounded-lg",
+        "right_column_image_border_radius_top_right": "rounded-lg",
+        "right_column_image_border_radius_bottom_left": "rounded-lg",
+        "right_column_image_border_radius_bottom_right": "rounded-lg",
+        "right_column_image": "",
+        "show_description": true,
+        "description": "DM-02™ helps cover the nutritional needs of your body and gut microbiome with 100% daily value of 20 essential vitamins and minerals.*",
+        "description_font_family": "font-body",
+        "description_font_size": "text-base",
+        "description_font_size_desktop": "lg:text-base",
+        "description_font_weight": "font-semibold",
+        "description_color": "text-primary",
+        "show_cta": true,
+        "cta_text": "Add to Cart",
+        "quantity_layout": "side",
+        "quantity_label": "Quantity",
+        "quantity_border_radius": "use_theme",
+        "quantity_label_font_size": "text-sm",
+        "quantity_label_color": "text-primary",
+        "default_quantity": 1,
+        "max_quantity": 10,
+        "show_subscription_blocks": true,
+        "banner_bottom_spacing": "mb-xs",
+        "subscription_card_border_width": "1px",
+        "subscription_card_border_radius": "rounded-md",
+        "subscription_card_padding": "p-md",
+        "subscription_spacing_top_mobile": "mt-md",
+        "subscription_spacing_top_desktop": "lg:mt-md",
+        "subscription_spacing_bottom_mobile": "mb-md",
+        "subscription_spacing_bottom_desktop": "lg:mb-md",
+        "show_wysiwyg_content": true,
+        "wysiwyg_content": "<strong>Lean Green Plus</strong><br>Your overall health depends on balancing your body, brain, and mind. Lean Greens PLUS provides holistic support for optimal mental and physical wellness. Packed with supercharged greens and nutrients aimed at improving your daily nutrition, Lean Greens PLUS keeps your gut healthy, clears your mind, and takes you to the next level of wellness.",
+        "wysiwyg_font_size": "text-base",
+        "wysiwyg_color": "text-primary",
+        "show_guarantee_text": false,
+        "guarantee_text": "30-day risk-free guarantee. Free US shipping.",
+        "guarantee_font_size": "text-sm",
+        "guarantee_color": "text-neutral",
+        "show_benefits": true,
+        "benefits_title": "How To Use",
+        "benefits_content_font_size": "text-base",
+        "benefits_content_color": "text-primary",
+        "show_ingredients": true,
+        "ingredients_title": "Allergen and Important Information",
+        "accordion_font_size": "text-base",
+        "accordion_color": "text-primary",
+        "benefit_font_size": "text-base",
+        "benefit_color": "text-primary",
+        "ingredients_font_size": "text-base",
+        "ingredients_color": "text-primary",
+        "show_accordion_1": false,
+        "accordion_1_title": "Accordion 1",
+        "show_accordion_2": false,
+        "accordion_2_title": "Accordion 2",
+        "show_accordion_3": false,
+        "accordion_3_title": "Accordion 3",
+        "show_accordion_4": false,
+        "accordion_4_title": "Accordion 4",
+        "gallery_image_1": "",
+        "gallery_image_2": "https://ik.imagekit.io/fluid/980191045/images/99KCCL/ContrastLeaf_36gbIMUjZ.png",
+        "gallery_image_3": "https://ik.imagekit.io/fluid/980191045/images/DQZBSS/Our-StoryLooper-Compress-poster-00001_Qy3rRwRxVu.jpg",
+        "gallery_image_4": "https://ik.imagekit.io/fluid/980191045/images/4G66CZ/images_HOycEkmQp.jpeg",
+        "gallery_image_5": "https://ik.imagekit.io/fluid/980191045/images/DM9CTE/6364427_0oMDfM8nz.jpg",
+        "gallery_image_6": "https://ik.imagekit.io/fluid/980191045/images/MS5NPK/Sunflower_Q3XPZo3lJ.png",
+        "gallery_image_7": "https://ik.imagekit.io/fluid/980191045/images/EW4ESZ/KimiFender_wVtxz-j5GH.png",
+        "gallery_image_8": "https://ik.imagekit.io/fluid/980191045/images/CE4GZU/67bf59557cb0ef55c91db28a_green1_QYPigTbgR.jpg",
+        "gallery_image_9": "https://ik.imagekit.io/fluid/980191045/images/4QBW8K/Macro-Mushies2_PMMFlph52.png",
+        "gallery_image_10": "https://ik.imagekit.io/fluid/980191045/images/MHWTRK/68daf15ee98a8472ad17da70_AdobeStock_1580480684-p-500_sNgPIL-hS.webp",
+        "gallery_image_11": "https://ik.imagekit.io/fluid/980191045/images/NXQKTK/PH_Test-Kit-5-Packs_uYHcvqgWR.png",
+        "gallery_image_12": "https://ik.imagekit.io/fluid/980191045/images/99KCCL/ContrastLeaf_36gbIMUjZ.png",
+        "show_price": false,
+        "price": "$39.99",
+        "price_font_family": "font-primary",
+        "price_font_size": "text-xl",
+        "price_font_size_desktop": "lg:text-2xl",
+        "price_font_weight": "font-semibold",
+        "price_color": "text-primary",
+        "show_chat_help": true,
+        "chat_avatar_image": "https://ik.imagekit.io/fluid/980191045/images/YEHTS3/Picture1_KwtZ3V-eY.jpg",
+        "chat_avatar_alt": "Support representative",
+        "chat_avatar_size": 112,
+        "chat_gap": "var(--space-md)",
+        "chat_gap_custom": 12,
+        "chat_card_padding": "var(--space-md)",
+        "chat_card_padding_custom": 12,
+        "chat_avatar_border_radius": "rounded-full",
+        "chat_avatar_border_width": 2,
+        "chat_avatar_border_color": "custom",
+        "chat_avatar_border_color_custom": "#f1ece0",
+        "chat_heading": "Got Questions? I'm Here to Help!",
+        "chat_heading_font_size": "text-base",
+        "chat_heading_font_weight": "font-semibold",
+        "chat_heading_color": "text-primary",
+        "show_chat_link": true,
+        "chat_link_text": "Live Chat",
+        "chat_link_url": "#",
+        "chat_link_font_size": "text-sm",
+        "chat_link_color": "text-info",
+        "chat_background": "bg-secondary-light",
+        "chat_card_border_radius": "rounded-lg",
+        "thumbnail_size": "3xl",
+        "container_layout_width": "container-full",
+        "quantity_type": "stepper",
+        "background_color": "bg-neutral-light",
+        "section_border_radius": "rounded-none",
+        "zoom_mode": "none",
+        "zoom_lens_liquid_glass": false,
+        "arrow_position": "bottom_right",
+        "thumbnail_border_radius": "8",
+        "thumbnail_gap": "6",
+        "padding_x_mobile": "px-0",
+        "padding_top_mobile": "pt-md",
+        "padding_bottom_mobile": "pb-xl",
+        "padding_x_desktop": "px-0",
+        "padding_top_desktop": "pt-0",
+        "padding_bottom_desktop": "pb-0",
+        "gallery_border_radius": "16",
+        "show_rating": true,
+        "rating_value": "4.8",
+        "show_reviews_link": true,
+        "reviews_text": "18 Reviews",
+        "reviews_link": "#reviews",
+        "rating_font_size": "text-sm",
+        "rating_color": "text-primary",
+        "button_style": "filled",
+        "button_color": "accent-1",
+        "button_size": "btn-md",
+        "button_font_weight": "font-medium",
+        "show_product_description_content": true,
+        "product_description_font_size": "text-base",
+        "product_description_color": "text-primary",
+        "benefits_content": "<strong>Glow Up Your Skin Health Supplement Regime</strong><br><br>• Take 2 capsules daily with water for best results.<br><br>",
+        "ingredients_content": "Allergen and Important Information•  Contains no: dairy; gluten; or soy.•  Important: If you are pregnant, nursing, or taking medication, consult your healthcare provider before use.• Store in a cool, dry place.",
+        "show_selling_points_headline": true,
+        "selling_points_headline": "Nourish Your Skin from the Inside Out",
+        "selling_points_font_family": "font-body",
+        "selling_points_font_size": "text-base",
+        "selling_points_font_size_desktop": "lg:text-base",
+        "selling_points_font_weight": "font-normal",
+        "selling_points_color": "text-primary",
+        "selling_points_spacing_top": "mt-sm",
+        "selling_points_spacing_bottom": "mb-sm"
+      },
+      "blocks": {
+        "sbh6i7j8": {
+          "id": "sbh6i7j8",
+          "type": "subscription_benefit",
+          "name": "subscription_benefit",
+          "settings": {
+            "benefit_text": "Save {savings}% on every order",
+            "show_savings_percentage": true,
+            "benefit_font_size": "text-sm",
+            "benefit_color": "text-primary"
+          }
+        },
+        "sbk9l1m2": {
+          "id": "sbk9l1m2",
+          "type": "subscription_benefit",
+          "name": "subscription_benefit",
+          "settings": {
+            "benefit_text": "Cancel or modify anytime",
+            "show_savings_percentage": false,
+            "benefit_font_size": "text-sm",
+            "benefit_color": "text-primary"
+          }
+        }
+      }
+    },
+    "lgp_scrolling_benefits": {
+      "type": "scrolling-benefits",
+      "settings": {
+        "animation_speed": 20,
+        "container_background_color": "bg-black",
+        "container_border_radius": "rounded",
+        "container_padding_y_mobile": "py-sm",
+        "container_padding_y_desktop": "lg:py-sm",
+        "container_padding_x_mobile": "px-0",
+        "container_padding_x_desktop": "lg:px-0",
+        "layout_width": "full_width",
+        "show_dividers": false,
+        "divider_size": 38,
+        "background_color": "bg-neutral-light",
+        "section_padding_y_mobile": "py-md",
+        "section_padding_y_desktop": "lg:py-md",
+        "section_border_radius": "rounded-none",
+        "divider_image": "",
+        "item_gap": 68,
+        "animation_behavior": "scroll_continuous",
+        "scroll_direction": "left",
+        "icon_size": "48"
+      },
+      "blocks": {
+        "lgp_sb_2": {
+          "id": "lgp_sb_2",
+          "type": "item",
+          "name": "item",
+          "settings": {
+            "show_text": false,
+            "show_image": true,
+            "text": "",
+            "text_font_size": "text-sm",
+            "text_font_size_desktop": "lg:text-sm",
+            "text_font_weight": "font-medium",
+            "text_color": "text-white",
+            "image_size": "48",
+            "item_image": "https://ik.imagekit.io/fluid/980191045/images/WTU23N/Vogue_yddahuSP3.png"
+          }
+        },
+        "lgp_sb_3": {
+          "id": "lgp_sb_3",
+          "type": "item",
+          "name": "item",
+          "settings": {
+            "show_text": false,
+            "show_image": true,
+            "text": "",
+            "text_font_size": "text-sm",
+            "text_font_size_desktop": "lg:text-sm",
+            "text_font_weight": "font-medium",
+            "text_color": "text-white",
+            "image_size": 24,
+            "item_image": "https://ik.imagekit.io/fluid/980191045/images/SYGSRB/cosmopolitan__1nB17h2G.png"
+          }
+        },
+        "lgp_sb_4": {
+          "id": "lgp_sb_4",
+          "type": "item",
+          "name": "item",
+          "settings": {
+            "show_text": false,
+            "show_image": true,
+            "text": "",
+            "text_font_size": "text-sm",
+            "text_font_size_desktop": "lg:text-sm",
+            "text_font_weight": "font-medium",
+            "text_color": "text-white",
+            "image_size": 24,
+            "item_image": "https://ik.imagekit.io/fluid/980191045/images/TEQUTU/forbs_tYvtoqVtm.png"
+          }
+        },
+        "lgp_sb_5": {
+          "id": "lgp_sb_5",
+          "type": "item",
+          "name": "item",
+          "settings": {
+            "show_text": false,
+            "show_image": true,
+            "text": "",
+            "text_font_size": "text-sm",
+            "text_font_size_desktop": "lg:text-sm",
+            "text_font_weight": "font-medium",
+            "text_color": "text-white",
+            "item_image": "https://ik.imagekit.io/fluid/980191045/images/5F557F/gq_CAJVjoBU3.png",
+            "image_size": 24
+          }
+        },
+        "lgp_sb_6": {
+          "id": "lgp_sb_6",
+          "type": "item",
+          "name": "item",
+          "settings": {
+            "show_text": false,
+            "show_image": true,
+            "text": "",
+            "text_font_size": "text-sm",
+            "text_font_size_desktop": "lg:text-sm",
+            "text_font_weight": "font-medium",
+            "text_color": "text-white",
+            "item_image": "https://ik.imagekit.io/fluid/980191045/images/A5AC88/newyorkpost_OzlWJkjgn.png",
+            "image_size": 42
+          }
+        }
+      }
+    },
+    "lgp_video_carousel": {
+      "type": "video-carousel",
+      "settings": {
+        "title": "Real Results from the Yoli Community",
+        "title_font_family": "font-primary",
+        "title_font_size": "text-3xl",
+        "title_font_size_desktop": "lg:text-5xl",
+        "title_font_weight": "font-normal",
+        "title_color": "text-primary",
+        "description": "See how real people are incorporating Yoli products into their daily routines to support their health and wellness goals.",
+        "description_font_family": "font-body",
+        "description_font_size": "text-base",
+        "description_font_size_desktop": "lg:text-lg",
+        "description_font_weight": "font-normal",
+        "description_color": "text-primary",
+        "header_alignment": "text-left",
+        "video_card_border_radius": "rounded-lg",
+        "carousel_max_width": 1408,
+        "videos_per_page_mobile": 1,
+        "videos_per_page_tablet": 2,
+        "videos_per_page_desktop": "3",
+        "background_color": "bg-neutral-light",
+        "section_border_radius": "rounded-none",
+        "container_layout_width": "container-full",
+        "video_title_font_family": "font-primary",
+        "video_title_font_size": "text-base",
+        "video_title_font_size_desktop": "lg:text-lg",
+        "video_title_font_weight": "font-semibold",
+        "video_title_color": "text-white",
+        "container_background_color": "",
+        "container_border_radius": "rounded-none",
+        "container_padding_y_mobile": "py-lg",
+        "container_padding_y_desktop": "lg:py-2xl",
+        "container_padding_x_mobile": "px-0",
+        "container_padding_x_desktop": "lg:px-0",
+        "nav_button_background": "bg-white",
+        "nav_button_color": "text-black",
+        "video_card_height_mobile": 300,
+        "video_card_height_desktop": 600,
+        "video_card_width_mobile": 175,
+        "video_card_width_desktop": 350,
+        "padding_x_mobile": "px-0",
+        "padding_top_mobile": "pt-xl",
+        "padding_bottom_mobile": "pb-0",
+        "padding_x_desktop": "px-0",
+        "padding_top_desktop": "pt-sm",
+        "padding_bottom_desktop": "pb-0",
+        "show_play_button": true
+      },
+      "blocks": {
+        "51a3728e": {
+          "id": "51a3728e",
+          "type": "video_item",
+          "name": "video_item",
+          "settings": {
+            "media_id": "42202"
+          }
+        },
+        "b2d85fdb": {
+          "id": "b2d85fdb",
+          "type": "video_item",
+          "name": "video_item",
+          "settings": {
+            "media_id": "42206"
+          }
+        },
+        "331acf08": {
+          "id": "331acf08",
+          "type": "video_item",
+          "name": "video_item",
+          "settings": {
+            "media_id": "42207"
+          }
+        },
+        "block_1768253196886_cwth9r1wl": {
+          "id": "block_1768253196886_cwth9r1wl",
+          "type": "video_item",
+          "name": "video_item",
+          "settings": {
+            "media_id": "42208"
+          }
+        },
+        "block_1768253325860_t1ch3rlyg": {
+          "id": "block_1768253325860_t1ch3rlyg",
+          "type": "video_item",
+          "name": "video_item",
+          "settings": {
+            "media_id": "42209"
+          }
+        },
+        "content_1": {
+          "id": "content_1",
+          "type": "",
+          "name": "content_1",
+          "settings": {
+            "heading": "Your Journey\nStarts Here",
+            "heading_font_family": "font-primary",
+            "heading_font_size": "text-5xl",
+            "heading_font_size_desktop": "lg:text-6xl",
+            "heading_font_weight": "font-normal",
+            "heading_color": "text-white"
+          }
+        },
+        "9aa92bd0": {
+          "id": "9aa92bd0",
+          "type": "",
+          "name": "9aa92bd0",
+          "settings": {
+            "video_url": "https://ik.imagekit.io/fluid/980191045/videos/2HM5NT/Yoli-Testimonial-PassionQuickVid_71XXet5rL.mp4",
+            "poster_image": ""
+          }
+        }
+      }
+    },
+    "lgp_lifestyle_info": {
+      "type": "lifestyle-info",
+      "settings": {
+        "container_layout_width": "container-full",
+        "hide_main_image": false,
+        "main_image": "https://ik.imagekit.io/fluid/980191045/images/SZ6XAS/Yoli_Glow-Lifestyle_4LeXs4-UT.webp",
+        "image_alt": "Lifestyle image",
+        "image_fit_mode": "fill",
+        "image_height": 600,
+        "image_radius_top_left": "var(--radius-sm)",
+        "image_radius_top_right": "var(--radius-sm)",
+        "image_radius_bottom_left": "var(--radius-sm)",
+        "image_radius_bottom_right": "var(--radius-sm)",
+        "heading": "The Glow Difference",
+        "heading_font_family": "font-primary",
+        "heading_font_size": "text-4xl",
+        "heading_font_size_desktop": "lg:text-5xl",
+        "heading_font_weight": "font-normal",
+        "heading_color": "text-primary",
+        "flip_layout": false,
+        "background_color": "bg-neutral-light",
+        "section_padding_y_mobile": "py-xs",
+        "section_padding_y_desktop": "lg:py-xs",
+        "section_border_radius": "rounded-none",
+        "body_text": "",
+        "body_font_family": "font-body",
+        "body_font_size": "text-base",
+        "body_font_size_desktop": "lg:text-lg",
+        "body_font_weight": "font-normal",
+        "body_color": "text-primary",
+        "body_margin_bottom_mobile": "mb-lg",
+        "body_margin_bottom_desktop": "lg:mb-lg",
+        "heading_body_spacing_mobile": "mb-lg",
+        "heading_body_spacing_desktop": "lg:mb-lg",
+        "hide_all_blocks": false,
+        "show_row_dividers": false,
+        "blocks_gap_mobile": "lg",
+        "blocks_gap_desktop": "xl",
+        "image_text_gap_mobile": "md",
+        "image_text_gap_desktop": "lg",
+        "icon_size_mobile": "32",
+        "icon_size_desktop": "32",
+        "icon_color": "text-tertiary",
+        "feature_title_font_family": "font-body",
+        "feature_title_font_size": "text-base",
+        "feature_title_font_size_desktop": "lg:text-base",
+        "feature_title_font_weight": "font-bold",
+        "feature_title_color": "text-primary",
+        "feature_title_margin_bottom_mobile": "mb-xs",
+        "feature_title_margin_bottom_desktop": "lg:mb-xs",
+        "feature_description_font_family": "font-body",
+        "feature_description_font_size": "text-sm",
+        "feature_description_font_size_desktop": "lg:text-base",
+        "feature_description_font_weight": "font-normal",
+        "feature_description_color": "text-primary"
+      },
+      "blocks": {
+        "gw1a2b3c": {
+          "id": "gw1a2b3c",
+          "type": "feature_item",
+          "name": "feature_item",
+          "settings": {
+            "title": "Beauty From Within",
+            "description": "Nutrients designed to <br>support healthy hair, skin, and nails.",
+            "icon": "https://ik.imagekit.io/fluid/980191045/images/7RWMRP/leaf_simple2123132_G7ZrYshMG.png",
+            "icon_alt": "Feature icon",
+            "hide_icon": false
+          }
+        },
+        "gw4d5e6f": {
+          "id": "gw4d5e6f",
+          "type": "feature_item",
+          "name": "feature_item",
+          "settings": {
+            "title": "Structural Support Where It Matters",
+            "description": "Supports natural collagen production and skin health.",
+            "icon": "https://ik.imagekit.io/fluid/980191045/images/WCB7LS/shield_WA6-cfdNm.png",
+            "icon_alt": "Feature icon",
+            "hide_icon": false
+          }
+        },
+        "gw7g8h9i": {
+          "id": "gw7g8h9i",
+          "type": "feature_item",
+          "name": "feature_item",
+          "settings": {
+            "title": "Nourishment at the Cellular Level",
+            "description": "Antioxidants help protect against environmental stressors.",
+            "icon": "https://ik.imagekit.io/fluid/980191045/images/REFTMH/pulse_wYZ_kqam5.png",
+            "icon_alt": "Feature icon",
+            "hide_icon": false
+          }
+        },
+        "gwj0k1l2": {
+          "id": "gwj0k1l2",
+          "type": "feature_item",
+          "name": "feature_item",
+          "settings": {
+            "title": "Daily Replenishment Ritual",
+            "description": "Simple daily support for <br>visible wellness.",
+            "icon": "https://ik.imagekit.io/fluid/980191045/images/JQFXBW/sprout_fVYe3kPAEc.png",
+            "icon_alt": "Feature icon",
+            "hide_icon": false
+          }
+        }
+      }
+    },
+    "lgp_testimonials": {
+      "type": "testimonials-videos-grid",
+      "settings": {
+        "heading": "Better Health, Shared",
+        "heading_font_family": "font-primary",
+        "heading_font_size": "text-3xl",
+        "heading_font_size_desktop": "lg:text-5xl",
+        "heading_font_weight": "font-normal",
+        "heading_color": "text-primary",
+        "description": "Real feedback from people who have made Glow a core part of their journey toward a healthier lifestyle.",
+        "description_font_family": "font-body",
+        "description_font_size": "text-base",
+        "description_font_size_desktop": "lg:text-lg",
+        "description_font_weight": "font-normal",
+        "description_color": "text-primary",
+        "background_color": "bg-neutral-light",
+        "container_layout_width": "container-full",
+        "show_heading": true,
+        "heading_alignment": "left",
+        "show_top_gradient": false,
+        "top_gradient_color": "black",
+        "top_gradient_height": 150,
+        "show_bottom_gradient": false,
+        "bottom_gradient_color": "black",
+        "bottom_gradient_height": 150,
+        "section_border_radius": "rounded-none",
+        "container_background_color": "",
+        "container_border_radius": "rounded-none",
+        "container_padding_y_mobile": "py-lg",
+        "container_padding_y_desktop": "lg:py-2xl",
+        "container_padding_x_mobile": "px-0",
+        "container_padding_x_desktop": "lg:px-0",
+        "hide_video_blocks": false,
+        "show_play_button": true,
+        "content_based_height": true,
+        "show_card_shadows": true,
+        "testimonial_card_border_radius": "rounded-md",
+        "video_card_border_radius": "rounded-md",
+        "testimonial_card_background": "bg-white",
+        "testimonial_card_padding": "medium",
+        "video_card_background": "bg-black",
+        "columns_mobile": 1,
+        "columns_tablet": 1,
+        "columns_desktop": 2,
+        "padding_x_mobile": "px-0",
+        "padding_top_mobile": "pt-0",
+        "padding_bottom_mobile": "pb-0",
+        "padding_x_desktop": "px-0",
+        "padding_top_desktop": "pt-0",
+        "padding_bottom_desktop": "pb-0",
+        "show_mobile_scroll_dots": false,
+        "mobile_scroll_controls_layout": "dots_left",
+        "mobile_nav_button_background": "bg-white",
+        "mobile_nav_button_color": "text-black",
+        "card_width": 280,
+        "show_stars": true,
+        "star_color_filled": "text-warning",
+        "star_color_empty": "text-neutral-light",
+        "star_character": "★",
+        "star_size": "medium",
+        "review_font_family": "font-body",
+        "review_font_size": "text-lg",
+        "review_font_size_desktop": "lg:text-lg",
+        "review_font_weight": "font-normal",
+        "review_color": "text-primary",
+        "name_font_family": "font-body",
+        "name_font_size": "text-base",
+        "name_font_size_desktop": "lg:text-base",
+        "name_font_weight": "font-semibold",
+        "name_color": "text-primary"
+      },
+      "blocks": {
+        "ae61ba81": {
+          "id": "ae61ba81",
+          "type": "testimonial",
+          "name": "testimonial",
+          "settings": {
+            "review_text": "\"I’ve tried other greens powders and they all tasted like... well, grass. Lean Greens is a total game-changer! It tastes amazing, mixes easily, and I’ve noticed a huge difference in my afternoon energy levels. I actually look forward to drinking it every morning.\"",
+            "star_rating": 5,
+            "author_name": "Adam K.",
+            "author_avatar": "https://ik.imagekit.io/fluid/980191045/images/SVN6DY/Guy-16_1vkFhM_95.png"
+          }
+        },
+        "57c2b2c0": {
+          "id": "57c2b2c0",
+          "type": "testimonial",
+          "name": "testimonial",
+          "settings": {
+            "review_text": "\"I was skeptical, but my digestion has never been better. I was dealing with constant bloating and feeling sluggish after meals. After a month of Lean Greens, I feel so much lighter and more comfortable. This is a new daily essential for me.\"",
+            "star_rating": 5,
+            "author_name": "Brooke S.",
+            "author_avatar": "https://ik.imagekit.io/fluid/980191045/images/LKEFRV/Female-4_hOsy207YI.png"
+          }
+        },
+        "0649e3af": {
+          "id": "0649e3af",
+          "type": "testimonial",
+          "name": "testimonial",
+          "settings": {
+            "review_text": "\"I love the clean formula. No weird fillers, no strong aftertaste, just pure goodness. It does exactly what it promises. My skin looks clearer and I feel more vibrant. Highly recommend this product!\"",
+            "star_rating": 5,
+            "author_name": "Jessica M.",
+            "author_avatar": "https://ik.imagekit.io/fluid/980191045/images/UC9EYU/Girl-01_1i82AH43J.png"
+          }
+        },
+        "fd44d1f2": {
+          "id": "fd44d1f2",
+          "type": "testimonial",
+          "name": "testimonial",
+          "settings": {
+            "review_text": "\"I used to rely on 3 cups of coffee to get through the day, and I’d always end up crashing. Since starting Lean Greens, I have a clean, sustained energy that lasts all day with no jitters. I’ve cut back to one cup of coffee and feel incredible.\"",
+            "star_rating": 5,
+            "author_name": "Samuel M.",
+            "author_avatar": "https://ik.imagekit.io/fluid/980191045/images/DYK8PC/Man-06_hHpWN4INS.png"
+          }
+        },
+        "51a3728e": {
+          "id": "51a3728e",
+          "type": "",
+          "name": "51a3728e",
+          "settings": {
+            "video_url": "https://ik.imagekit.io/fluid/980191045/videos/AMK7EJ/ssstik.io__kaykirks1_1739990415483-wa3lm8fxsm_mQ4HEnnyq.mp4",
+            "poster_image": ""
+          }
+        },
+        "b2d85fdb": {
+          "id": "b2d85fdb",
+          "type": "",
+          "name": "b2d85fdb",
+          "settings": {
+            "video_url": "https://ik.imagekit.io/fluid/980191045/videos/EAGRAF/ssstik.io__firstklasequine_1739990234568-cj8bkcx2az_eoNS2qVr7.mp4"
+          }
+        },
+        "9aa92bd0": {
+          "id": "9aa92bd0",
+          "type": "",
+          "name": "9aa92bd0",
+          "settings": {
+            "video_url": "https://ik.imagekit.io/fluid/980191045/videos/2HM5NT/Yoli-Testimonial-PassionQuickVid_71XXet5rL.mp4",
+            "poster_image": ""
+          }
+        },
+        "331acf08": {
+          "id": "331acf08",
+          "type": "",
+          "name": "331acf08",
+          "settings": {
+            "video_url": "https://ik.imagekit.io/fluid/980191045/videos/ZYQ573/Yoli-Testimonial-Family_Vs7b7ltoz.mp4"
+          }
+        },
+        "f0a5ac3a": {
+          "id": "f0a5ac3a",
+          "type": "",
+          "name": "f0a5ac3a",
+          "settings": {
+            "video_thumbnail": "https://ik.imagekit.io/fluid/980191045/images/LUDKVF/67b62afe81ad0018e0a40aa2_68125de6cb03f1a340d941c8_YoliHeaderVid-poster-00001_Ny1ir37Vo.jpg",
+            "video_alt": "Video thumbnail"
+          }
+        }
+      }
+    },
+    "lgp_learn_more": {
+      "type": "learn-more-stack",
+      "settings": {
+        "heading": "An Exacting Blend of Ingredients that Support Your Beauty from Head to Toe",
+        "heading_font_size": "text-3xl",
+        "heading_font_size_desktop": "lg:text-5xl",
+        "heading_font_weight": "font-normal",
+        "heading_color": "text-primary",
+        "heading_font_family": "font-primary",
+        "show_faq_items": true,
+        "show_card_grid_items": false,
+        "item_background_color": "bg-card-secondary",
+        "border_style": "none",
+        "item_border_color": "black",
+        "item_border_radius": "rounded-md",
+        "item_padding_left": 0,
+        "item_padding_right": 0,
+        "icon_type": "regular_plus",
+        "faq_gap_mobile": "gap-lg",
+        "faq_gap_desktop": "lg:gap-lg",
+        "show_button": false,
+        "button_text": "Lorem Ipsum Dolor",
+        "button_style": "filled",
+        "button_color": "primary",
+        "button_size": "btn-md",
+        "question_font_family": "font-primary",
+        "question_font_size": "text-lg",
+        "question_font_size_desktop": "lg:text-xl",
+        "question_font_weight": "font-medium",
+        "question_color": "text-primary",
+        "layout": "side_by_side",
+        "background_color": "bg-card-primary",
+        "section_border_radius": "rounded-none",
+        "text_alignment": "left",
+        "description": "Glow blends essential vitamins, collagen, and powerful antioxidants to support healthy-looking skin, hair, and nails.",
+        "description_font_size": "text-base",
+        "description_font_size_desktop": "lg:text-lg",
+        "description_font_weight": "font-normal",
+        "description_color": "text-primary",
+        "heading_spacing_bottom_mobile": "mb-lg",
+        "heading_spacing_bottom_desktop": "lg:mb-lg",
+        "container_background_color": "",
+        "container_border_radius": "rounded-none",
+        "container_padding_y_mobile": "py-0",
+        "container_padding_y_desktop": "lg:py-0",
+        "container_padding_x_mobile": "px-0",
+        "container_padding_x_desktop": "lg:px-0",
+        "container_layout_width": "container-full",
+        "answer_font_family": "font-body",
+        "answer_font_size": "text-base",
+        "answer_font_size_desktop": "lg:text-lg",
+        "answer_font_weight": "font-normal",
+        "answer_color": "text-primary"
+      },
+      "blocks": {
+        "gw3m4n5p": {
+          "id": "gw3m4n5p",
+          "type": "faq_item",
+          "name": "faq_item",
+          "settings": {
+            "question": "Vitamins A, C, D, and E",
+            "answer": "Essential for supporting skin health, these vitamins promote hydration and elasticity.*",
+            "image_border_radius": "rounded-full",
+            "full_width_image_position": "above",
+            "side_image_position": "left",
+            "side_image_width": 40,
+            "image": "https://ik.imagekit.io/fluid/980191045/images/2WDF8V/vitamins-a-c-d-e_81HoIcFZK.webp",
+            "full_width_image": ""
+          }
+        },
+        "gw6q7r8s": {
+          "id": "gw6q7r8s",
+          "type": "faq_item",
+          "name": "faq_item",
+          "settings": {
+            "question": "Biotin (5000 mcg)",
+            "answer": "Biotin is a key nutrient for healthy-looking hair and nails.*",
+            "image": "https://ik.imagekit.io/fluid/980191045/images/6KYNB4/biotin_zwI1ZyFv7.webp",
+            "image_border_radius": "rounded-full",
+            "full_width_image": "",
+            "full_width_image_position": "above",
+            "side_image_position": "left",
+            "side_image_width": 40
+          }
+        },
+        "gw9t0u1v": {
+          "id": "gw9t0u1v",
+          "type": "faq_item",
+          "name": "faq_item",
+          "settings": {
+            "question": "Hydrolyzed collagen",
+            "answer": "Collagen peptides support skin elasticity and smoothness.*",
+            "image_border_radius": "rounded-full",
+            "full_width_image_position": "above",
+            "side_image_position": "left",
+            "side_image_width": 40,
+            "image": "https://ik.imagekit.io/fluid/980191045/images/2HWSS7/hydrolized-collagen_LhErUsvxW.webp"
+          }
+        },
+        "gw2w3x4y": {
+          "id": "gw2w3x4y",
+          "type": "faq_item",
+          "name": "faq_item",
+          "settings": {
+            "question": "Pomegranate fruit extract and sodium hyaluronate",
+            "answer": "These ingredients hydrate the skin and help defend against environmental damage.*",
+            "image_border_radius": "rounded-full",
+            "full_width_image_position": "above",
+            "side_image_position": "left",
+            "side_image_width": 40,
+            "image": "https://ik.imagekit.io/fluid/980191045/images/77WRLM/pomegranate_aK9XZQan9.webp",
+            "full_width_image": ""
+          }
+        },
+        "gwz5a6b7": {
+          "id": "gwz5a6b7",
+          "type": "faq_item",
+          "name": "faq_item",
+          "settings": {
+            "question": "Zinc and folate",
+            "answer": "Essential minerals for supporting cellular repair, these nutrients help maintain healthy-looking skin, hair, and nails.*",
+            "image_border_radius": "rounded-full",
+            "full_width_image_position": "above",
+            "side_image_position": "left",
+            "side_image_width": 40,
+            "image": "https://ik.imagekit.io/fluid/980191045/images/T95MDN/zinc-and-folate_4VYw_b31X.webp",
+            "full_width_image": ""
+          }
+        },
+        "51a3728e": {
+          "id": "51a3728e",
+          "type": "",
+          "name": "51a3728e",
+          "settings": {
+            "video_url": "https://ik.imagekit.io/fluid/980191045/videos/AMK7EJ/ssstik.io__kaykirks1_1739990415483-wa3lm8fxsm_mQ4HEnnyq.mp4",
+            "poster_image": ""
+          }
+        },
+        "b2d85fdb": {
+          "id": "b2d85fdb",
+          "type": "",
+          "name": "b2d85fdb",
+          "settings": {
+            "video_url": "https://ik.imagekit.io/fluid/980191045/videos/EAGRAF/ssstik.io__firstklasequine_1739990234568-cj8bkcx2az_eoNS2qVr7.mp4",
+            "title": "Video 3"
+          }
+        },
+        "9aa92bd0": {
+          "id": "9aa92bd0",
+          "type": "",
+          "name": "9aa92bd0",
+          "settings": {
+            "video_url": "https://ik.imagekit.io/fluid/980191045/videos/2HM5NT/Yoli-Testimonial-PassionQuickVid_71XXet5rL.mp4",
+            "poster_image": ""
+          }
+        },
+        "331acf08": {
+          "id": "331acf08",
+          "type": "",
+          "name": "331acf08",
+          "settings": {
+            "video_url": "https://ik.imagekit.io/fluid/980191045/videos/ZYQ573/Yoli-Testimonial-Family_Vs7b7ltoz.mp4"
+          }
+        },
+        "f0a5ac3a": {
+          "id": "f0a5ac3a",
+          "type": "",
+          "name": "f0a5ac3a",
+          "settings": {
+            "video_thumbnail": "https://ik.imagekit.io/fluid/980191045/images/LUDKVF/67b62afe81ad0018e0a40aa2_68125de6cb03f1a340d941c8_YoliHeaderVid-poster-00001_Ny1ir37Vo.jpg",
+            "video_alt": "Video thumbnail"
+          }
+        },
+        "ae61ba81": {
+          "id": "ae61ba81",
+          "type": "",
+          "name": "ae61ba81",
+          "settings": {
+            "review_text": "\"I’ve tried other greens powders and they all tasted like... well, grass. Lean Greens is a total game-changer! It tastes amazing, mixes easily, and I’ve noticed a huge difference in my afternoon energy levels. I actually look forward to drinking it every morning.\"",
+            "star_rating": 5,
+            "author_name": "Adam K.",
+            "author_avatar": "https://ik.imagekit.io/fluid/980191045/images/SVN6DY/Guy-16_1vkFhM_95.png"
+          }
+        },
+        "0649e3af": {
+          "id": "0649e3af",
+          "type": "",
+          "name": "0649e3af",
+          "settings": {
+            "review_text": "\"I love the clean formula. No weird fillers, no strong aftertaste, just pure goodness. It does exactly what it promises. My skin looks clearer and I feel more vibrant. Highly recommend this product!\"",
+            "star_rating": 5,
+            "author_name": "Jessica M.",
+            "author_avatar": "https://ik.imagekit.io/fluid/980191045/images/UC9EYU/Girl-01_1i82AH43J.png"
+          }
+        },
+        "57c2b2c0": {
+          "id": "57c2b2c0",
+          "type": "",
+          "name": "57c2b2c0",
+          "settings": {
+            "review_text": "\"I was skeptical, but my digestion has never been better. I was dealing with constant bloating and feeling sluggish after meals. After a month of Lean Greens, I feel so much lighter and more comfortable. This is a new daily essential for me.\"",
+            "star_rating": 5,
+            "author_name": "Brooke S.",
+            "author_avatar": "https://ik.imagekit.io/fluid/980191045/images/LKEFRV/Female-4_hOsy207YI.png"
+          }
+        },
+        "fd44d1f2": {
+          "id": "fd44d1f2",
+          "type": "",
+          "name": "fd44d1f2",
+          "settings": {
+            "review_text": "\"I used to rely on 3 cups of coffee to get through the day, and I’d always end up crashing. Since starting Lean Greens, I have a clean, sustained energy that lasts all day with no jitters. I’ve cut back to one cup of coffee and feel incredible.\"",
+            "star_rating": 5,
+            "author_name": "Samuel M.",
+            "author_avatar": "https://ik.imagekit.io/fluid/980191045/images/DYK8PC/Man-06_hHpWN4INS.png"
+          }
+        },
+        "6f9a982b": {
+          "id": "6f9a982b",
+          "type": "card_grid_item",
+          "name": "card_grid_item",
+          "settings": {
+            "question": "Learn More",
+            "show_card_1": false,
+            "show_card_2": false,
+            "show_card_3": false,
+            "show_card_4": false,
+            "show_card_5": false,
+            "show_card_6": false,
+            "show_card_7": false,
+            "show_card_8": false,
+            "image_border_radius": "rounded-full",
+            "show_full_width_image": false,
+            "full_width_image_position": "top",
+            "full_width_image_border_radius": "rounded-none",
+            "show_description": false,
+            "show_side_image": false,
+            "side_image_width": 40,
+            "card_1_button_text": "Read More",
+            "card_1_button_style": "filled",
+            "card_1_button_color": "primary",
+            "card_1_button_size": "btn-md",
+            "card_2_button_text": "Read More",
+            "card_2_button_style": "filled",
+            "card_2_button_color": "primary",
+            "card_2_button_size": "btn-md",
+            "card_3_button_text": "Read More",
+            "card_3_button_style": "filled",
+            "card_3_button_color": "primary",
+            "card_3_button_size": "btn-md",
+            "card_4_button_text": "Read More",
+            "card_4_button_style": "filled",
+            "card_4_button_color": "primary",
+            "card_4_button_size": "btn-md",
+            "card_5_button_text": "Read More",
+            "card_5_button_style": "filled",
+            "card_5_button_color": "primary",
+            "card_5_button_size": "btn-md",
+            "card_6_button_text": "Read More",
+            "card_6_button_style": "filled",
+            "card_6_button_color": "primary",
+            "card_6_button_size": "btn-md",
+            "card_7_button_text": "Read More",
+            "card_7_button_style": "filled",
+            "card_7_button_color": "primary",
+            "card_7_button_size": "btn-md",
+            "card_8_button_text": "Read More",
+            "card_8_button_style": "filled",
+            "card_8_button_color": "primary",
+            "card_8_button_size": "btn-md"
+          }
+        }
+      }
+    },
+    "glpxxio2f5h": {
+      "type": "faq-accordion-revamp",
+      "settings": {
+        "container_layout_width": "container-full",
+        "padding_x_mobile": "px-0",
+        "padding_top_mobile": "pt-lg",
+        "padding_bottom_mobile": "pb-lg",
+        "padding_x_desktop": "px-0",
+        "padding_top_desktop": "pt-3xl",
+        "padding_bottom_desktop": "pb-3xl",
+        "container_background_color": "",
+        "container_border_radius": "rounded-none",
+        "container_padding_y_mobile": "py-0",
+        "container_padding_y_desktop": "lg:py-0",
+        "container_padding_x_mobile": "px-0",
+        "container_padding_x_desktop": "lg:px-0",
+        "show_button": false,
+        "button_text": "Lorem Ipsum Dolor",
+        "button_style": "filled",
+        "button_color": "primary",
+        "button_size": "btn-md",
+        "heading": "You Have Questions, We Have Answers",
+        "heading_font_size": "text-3xl",
+        "heading_font_size_desktop": "lg:text-5xl",
+        "heading_font_weight": "font-medium",
+        "heading_color": "text-primary",
+        "heading_font_family": "font-primary",
+        "description": "",
+        "description_font_size": "text-base",
+        "description_font_size_desktop": "lg:text-lg",
+        "description_font_weight": "font-normal",
+        "description_color": "text-black",
+        "heading_spacing_bottom_mobile": "mb-lg",
+        "heading_spacing_bottom_desktop": "lg:mb-lg",
+        "item_background_color": "bg-card-primary",
+        "show_borders": true,
+        "item_border_color": "#000000",
+        "item_border_radius": 13,
+        "icon_type": "plus",
+        "faq_gap_mobile": "gap-lg",
+        "faq_gap_desktop": "lg:gap-lg",
+        "answer_font_family": "font-body",
+        "answer_font_size": "text-base",
+        "answer_font_size_desktop": "lg:text-lg",
+        "answer_font_weight": "font-normal",
+        "answer_color": "text-primary",
+        "question_font_family": "font-primary",
+        "question_font_size": "text-lg",
+        "question_font_size_desktop": "lg:text-xl",
+        "question_font_weight": "font-medium",
+        "question_color": "text-primary"
+      },
+      "blocks": {
+        "gwfaq1a2": {
+          "id": "gwfaq1a2",
+          "type": "faq_item",
+          "name": "faq_item",
+          "settings": {
+            "question": "Is Glow safe to take with other supplements?",
+            "answer": "Yes, Glow can be taken alongside other supplements. However, it is always recommended to consult your healthcare provider before combining multiple supplements.*"
+          }
+        }
+      }
+    },
+    "lgp_content_split_2": {
+      "type": "content-image-split-logos",
+      "settings": {
+        "image_fit_mode": "fill",
+        "image_height": 400,
+        "round_top_left_radius": "rounded-none",
+        "round_top_right_radius": "rounded-none",
+        "round_bottom_left_radius": "rounded-none",
+        "round_bottom_right_radius": "rounded-none",
+        "flip_layout": true,
+        "use_gradient_background": false,
+        "background_color": "bg-neutral-light",
+        "section_border_radius": "rounded-none",
+        "description": "Every Yoli product is rigorously tested for purity and potency. We stand behind our product with a 90-day money-back guarantee, because your wellness is worth getting right.",
+        "description_font_family": "font-body",
+        "description_font_size": "text-base",
+        "description_font_size_desktop": "lg:text-lg",
+        "description_font_weight": "font-normal",
+        "description_color": "text-primary",
+        "heading": "Our Quality Promise",
+        "heading_font_family": "font-primary",
+        "heading_font_size": "text-4xl",
+        "heading_font_size_desktop": "lg:text-5xl",
+        "heading_font_weight": "font-medium",
+        "heading_color": "text-primary",
+        "show_logos": true,
+        "logo_position": "image",
+        "show_button": false,
+        "button_text": "Learn More",
+        "button_style": "filled",
+        "button_color": "primary",
+        "button_size": "btn-md",
+        "button_font_weight": "font-medium",
+        "logo_size_mobile": "64",
+        "logo_size_desktop": "64",
+        "hide_main_image": true,
+        "container_layout_width": "container-full",
+        "content_alignment": "left",
+        "padding_x_mobile": "px-0",
+        "padding_top_mobile": "pt-0",
+        "padding_bottom_mobile": "pb-0",
+        "padding_x_desktop": "px-0",
+        "padding_top_desktop": "pt-0",
+        "padding_bottom_desktop": "pb-0"
+      },
+      "blocks": {
+        "bd62e502": {
+          "id": "bd62e502",
+          "type": "logo",
+          "name": "logo",
+          "settings": {
+            "logo_image": "https://ik.imagekit.io/fluid/980191045/images/EKM459/Mercury_JRCZmvuh1.png",
+            "show_text": false,
+            "title_font_size": "text-base",
+            "description_font_size": "text-sm",
+            "text_color": "text-neutral-dark"
+          }
+        },
+        "b09b0c85": {
+          "id": "b09b0c85",
+          "type": "logo",
+          "name": "logo",
+          "settings": {
+            "logo_image": "https://ik.imagekit.io/fluid/980191045/images/KNGALW/Science_b4O_dbWmJ.png",
+            "show_text": false,
+            "title_font_size": "text-base",
+            "description_font_size": "text-sm",
+            "text_color": "text-neutral-dark"
+          }
+        },
+        "2401f723": {
+          "id": "2401f723",
+          "type": "logo",
+          "name": "logo",
+          "settings": {
+            "logo_image": "https://ik.imagekit.io/fluid/980191045/images/7ETCGW/Omega_DsO1mKi4K.png",
+            "show_text": false,
+            "title_font_size": "text-base",
+            "description_font_size": "text-sm",
+            "text_color": "text-neutral-dark"
+          }
+        },
+        "block_risk": {
+          "id": "block_risk",
+          "type": "logo",
+          "name": "logo",
+          "settings": {
+            "logo_image": "https://ik.imagekit.io/fluid/980191045/images/HAFB8Y/Risk_NT8tyNISQp.png",
+            "show_text": false,
+            "title_font_size": "text-base",
+            "description_font_size": "text-sm",
+            "text_color": "text-neutral-dark"
+          }
+        },
+        "block_harvest": {
+          "id": "block_harvest",
+          "type": "logo",
+          "name": "logo",
+          "settings": {
+            "logo_image": "https://ik.imagekit.io/fluid/980191045/images/67E9LU/Harvest_ROzV3Hknl.png",
+            "show_text": false,
+            "title_font_size": "text-base",
+            "description_font_size": "text-sm",
+            "text_color": "text-neutral-dark"
+          }
+        }
+      }
+    },
+    "ml8ov60n6u": {
+      "type": "also_bought",
+      "blocks": {
+        "a5ca22bf": {
+          "id": "a5ca22bf",
+          "type": "product_card",
+          "name": "product_card",
+          "settings": {
+            "title": "Passion",
+            "description": "Your energy is our passion.",
+            "star_rating": 4.8,
+            "review_count": 126,
+            "product": "52192"
+          }
+        },
+        "25aa828b": {
+          "id": "25aa828b",
+          "type": "product_card",
+          "name": "product_card",
+          "settings": {
+            "title": "Pure",
+            "description": "Healthy Balanced Gut Health.",
+            "star_rating": 4.9,
+            "review_count": 142,
+            "product": "52653"
+          }
+        },
+        "809fe4ce": {
+          "id": "809fe4ce",
+          "type": "product_card",
+          "name": "product_card",
+          "settings": {
+            "title": "Alkalete",
+            "description": "Healthy Body pH.",
+            "star_rating": 4.7,
+            "review_count": 234,
+            "product": "52174"
+          }
+        }
+      },
+      "settings": {
+        "heading": "Others Like You Also Bought",
+        "heading_font_family": "font-primary",
+        "heading_font_size": "text-3xl",
+        "heading_font_size_desktop": "lg:text-5xl",
+        "heading_font_weight": "font-normal",
+        "heading_color": "#49473e",
+        "section_bg_color": "#F9F7F2",
+        "card_bg_color": "transparent",
+        "button_text": "ADD TO CART",
+        "button_size": "btn-md",
+        "button_border_radius": "rounded-md",
+        "button_bg_color": "#e5ac40",
+        "button_text_color": "#1a1a1a",
+        "button_hover_bg": "#e5ac40",
+        "show_description": true,
+        "show_rating": true,
+        "show_add_to_cart": true,
+        "product_title_font_family": "font-primary",
+        "product_title_font_size": "text-lg",
+        "product_title_font_weight": "font-semibold",
+        "product_title_color": "#49473E"
+      }
+    },
+    "lgp_journey_hero_1": {
+      "type": "journey-hero",
+      "settings": {
+        "container_layout_width": "container-full",
+        "enable_scroll_animation": true,
+        "background_color": "bg-neutral-light",
+        "section_padding_y_mobile": "py-xl",
+        "section_padding_y_desktop": "lg:py-xs",
+        "section_border_radius": "rounded-none",
+        "container_background_color": "",
+        "container_border_radius": "rounded-custom",
+        "container_padding_y_mobile": "py-lg",
+        "container_padding_y_desktop": "lg:py-xl",
+        "section_border_radius_mobile": "rounded-none",
+        "section_border_radius_desktop": "lg:rounded-none"
+      },
+      "blocks": {
+        "content_1": {
+          "id": "content_1",
+          "type": "content_block",
+          "name": "content_block",
+          "settings": {
+            "heading": "The Better Body Resolution Challenge",
+            "heading_font_family": "font-primary",
+            "heading_font_size": "text-5xl",
+            "heading_font_size_desktop": "lg:text-5xl",
+            "heading_font_weight": "font-medium",
+            "heading_color": "text-white",
+            "description": "Embark on a transformative journey toward a healthier, happier you!",
+            "description_font_family": "font-body",
+            "description_font_size": "text-base",
+            "description_font_size_desktop": "lg:text-lg",
+            "description_font_weight": "font-normal",
+            "description_color": "text-white",
+            "show_button": true,
+            "button_text": "Explore our Challenge Page",
+            "button_style": "filled",
+            "button_color": "white",
+            "button_size": "btn-md",
+            "button_font_weight": "font-normal",
+            "round_top_left_radius": "rounded-sm",
+            "round_top_right_radius": "rounded-sm",
+            "round_bottom_left_radius": "rounded-sm",
+            "content_alignment": "left",
+            "content_max_width": 1200,
+            "block_padding_top_mobile": "pt-xs",
+            "block_padding_top_desktop": "lg:pt-xs",
+            "block_padding_bottom_mobile": "pb-lg",
+            "block_padding_bottom_desktop": "lg:pb-sm",
+            "block_padding_x_mobile": "px-lg",
+            "block_padding_x_desktop": "lg:px-2xl",
+            "container_background_image": "https://ik.imagekit.io/fluid/980191045/images/RV6JWX/background_u-cU3XC5n.png",
+            "container_background_color": "",
+            "background_priority": "auto",
+            "show_gradient_overlay": false,
+            "show_content_image": true,
+            "content_image": "https://ik.imagekit.io/fluid/980191045/images/4AQMMP/ChallengePage-HealthGirls_koAUG9n0m.webp",
+            "content_image_position": "right",
+            "content_image_fit": "cover",
+            "round_bottom_right_radius": "rounded-sm",
+            "content_max_width_tablet": 600,
+            "content_max_width_desktop": 720,
+            "button_border": "auto",
+            "content_image_radius_top_left": "0",
+            "content_image_radius_top_right": "0",
+            "content_image_radius_bottom_left": "0",
+            "content_image_radius_bottom_right": "0",
+            "content_image_size_mobile": 100,
+            "content_image_size_desktop": 55,
+            "content_image_padding_edge_mobile": "pr-0",
+            "content_image_padding_edge_desktop": "lg:pr-2xl",
+            "content_image_border_radius": "var(--radius-sm)"
+          }
+        }
+      }
+    },
+    "lgp_journey_hero_2": {
+      "type": "journey-hero",
+      "settings": {
+        "container_layout_width": "container-full",
+        "enable_scroll_animation": true,
+        "background_color": "bg-neutral-light",
+        "section_padding_y_mobile": "py-xl",
+        "section_padding_y_desktop": "lg:py-3xl",
+        "section_border_radius": "rounded-none",
+        "container_background_color": "",
+        "container_border_radius": "rounded-custom",
+        "container_padding_y_mobile": "py-lg",
+        "container_padding_y_desktop": "lg:py-xl"
+      },
+      "blocks": {
+        "content_1": {
+          "id": "content_1",
+          "type": "content_block",
+          "name": "content_block",
+          "settings": {
+            "heading": "Your Journey\nStarts Here",
+            "heading_font_family": "font-primary",
+            "heading_font_size": "text-5xl",
+            "heading_font_size_desktop": "lg:text-6xl",
+            "heading_font_weight": "font-normal",
+            "heading_color": "text-white",
+            "description": "Our story started because we knew there was a better way. Now, it's your turn. We invite you to experience the difference that integrity makes and discover what it feels like to truly come to life.",
+            "description_font_family": "font-body",
+            "description_font_size": "text-base",
+            "description_font_size_desktop": "lg:text-lg",
+            "description_font_weight": "font-normal",
+            "description_color": "text-white",
+            "show_button": true,
+            "button_text": "Find your Transformation Kit",
+            "button_style": "filled",
+            "button_color": "white",
+            "button_size": "btn-md",
+            "button_font_weight": "font-normal",
+            "round_top_left_radius": "rounded-sm",
+            "round_top_right_radius": "rounded-sm",
+            "round_bottom_left_radius": "rounded-sm",
+            "round_bottom_right_radius": "rounded-4xl",
+            "content_alignment": "left",
+            "content_max_width": 1200,
+            "block_padding_top_mobile": "pt-xs",
+            "block_padding_top_desktop": "lg:pt-xs",
+            "block_padding_bottom_mobile": "pb-lg",
+            "block_padding_bottom_desktop": "lg:pb-sm",
+            "block_padding_x_mobile": "px-lg",
+            "block_padding_x_desktop": "lg:px-2xl",
+            "container_background_image": "https://ik.imagekit.io/fluid/980191045/images/M8WBTA/67c0b378d3a987d7fc10d760_yoliunboxing-01_2ex3Xagp3.jpeg",
+            "content_max_width_tablet": 600,
+            "content_max_width_desktop": 720,
+            "button_border": "auto",
+            "show_content_image": false,
+            "content_image_position": "right",
+            "content_image_fit": "cover",
+            "content_image_radius_top_left": "0",
+            "content_image_radius_top_right": "0",
+            "content_image_radius_bottom_left": "0",
+            "content_image_radius_bottom_right": "0",
+            "container_background_color": "",
+            "background_priority": "auto",
+            "show_gradient_overlay": true,
+            "content_image_border_radius": "0",
+            "content_image_size_mobile": 100,
+            "content_image_size_desktop": 50,
+            "content_image_padding_edge_mobile": "pr-0",
+            "content_image_padding_edge_desktop": "lg:pr-0"
+          }
+        }
+      }
+    },
+    "_unused_rcv9fzt29u": {
+      "type": "testimonials-videos-grid",
+      "blocks": {
+        "3a3f26b6": {
+          "id": "3a3f26b6",
+          "type": "testimonial",
+          "name": "testimonial",
+          "settings": {
+            "review_text": "I've tried every diet under the sun, and it always felt like a temporary fix. With Yoli, it's been three months, and I'm down 20 pounds. Even better — I have more energy and feel like I can keep this going. It isn't just a 'diet.' It's a whole lifestyle shift!",
+            "star_rating": 5,
+            "author_name": "Olivia K."
+          }
+        },
+        "fb291096": {
+          "id": "fb291096",
+          "type": "testimonial",
+          "name": "testimonial",
+          "settings": {
+            "review_text": "Taking the Pure probiotic and Alkalete has been a game-changer for me. Not only has my digestion improved, but I also feel calmer and more balanced. I didn't realize how connected gut health and mood really are until Yoli showed me the difference!",
+            "star_rating": 5,
+            "author_name": "Brooke S."
+          }
+        },
+        "3dfa6f68": {
+          "id": "3dfa6f68",
+          "type": "testimonial",
+          "name": "testimonial",
+          "settings": {
+            "review_text": "I started with Yoli's Better Body System and noticed a difference in just a week. I don't feel that ",
+            "star_rating": 5,
+            "author_name": "Javier M.",
+            "author_avatar": ""
+          }
+        },
+        "e07e7304": {
+          "id": "e07e7304",
+          "type": "testimonial",
+          "name": "testimonial",
+          "settings": {
+            "review_text": "I've tried so many supplements over the years, but Yoli is the first one that actually made me feel a difference. Within two weeks, I had more energy, less bloating, and was sleeping through the night. I didn't expect results this fast — I'm genuinely impressed.",
+            "star_rating": 5,
+            "author_name": "Sarah M."
+          }
+        },
+        "block_1763664289150_56yut40vb": {
+          "id": "block_1763664289150_56yut40vb",
+          "type": "testimonial",
+          "name": "testimonial",
+          "settings": {
+            "review_text": "I've tried so many supplements over the years, but Yoli is the first one that actually made me feel a difference. Within two weeks, I had more energy, less bloating, and was sleeping through the night. I didn't expect results this fast — I'm genuinely impressed.",
+            "star_rating": 5,
+            "author_name": "Sarah M."
+          }
+        },
+        "block_1763664289156_o18awtqew": {
+          "id": "block_1763664289156_o18awtqew",
+          "type": "testimonial",
+          "name": "testimonial",
+          "settings": {
+            "review_text": "I've tried so many supplements over the years, but Yoli is the first one that actually made me feel a difference. Within two weeks, I had more energy, less bloating, and was sleeping through the night. I didn't expect results this fast — I'm genuinely impressed.",
+            "star_rating": 5,
+            "author_name": "Sarah M."
+          }
+        },
+        "block_1763664296764_cp6aamok4": {
+          "id": "block_1763664296764_cp6aamok4",
+          "type": "testimonial",
+          "name": "testimonial",
+          "settings": {
+            "review_text": "I started with Yoli's Better Body System and noticed a difference in just a week. I don't feel that afternoon crash anymore, and I'm sleeping better at night, too. As someone who's tried countless supplements, I'm impressed by how clean and natural these feel.",
+            "star_rating": 5,
+            "author_name": "Javier M."
+          }
+        },
+        "block_1763664296770_3i64w9gbk": {
+          "id": "block_1763664296770_3i64w9gbk",
+          "type": "testimonial",
+          "name": "testimonial",
+          "settings": {
+            "review_text": "I started with Yoli's Better Body System and noticed a difference in just a week. I don't feel that afternoon crash anymore, and I'm sleeping better at night, too. As someone who's tried countless supplements, I'm impressed by how clean and natural these feel.",
+            "star_rating": 5,
+            "author_name": "Javier M."
+          }
+        }
+      },
+      "settings": {
+        "heading": "What Our Customers Say",
+        "heading_font_family": "font-serif",
+        "heading_font_size": "text-3xl",
+        "heading_font_size_desktop": "lg:text-5xl",
+        "heading_font_weight": "font-bold",
+        "heading_color": "text-black",
+        "description": "The reviews are in: Vital Omegas + breakthrough technology is changing what people expect from Omega-3 supplements. Here's what they're saying:",
+        "description_font_family": "font-body",
+        "description_font_size": "text-base",
+        "description_font_size_desktop": "lg:text-lg",
+        "description_font_weight": "font-normal",
+        "description_color": "text-neutral-dark",
+        "background_color": "bg-white",
+        "section_border_radius": "rounded-none",
+        "content_based_height": true,
+        "show_card_shadows": true,
+        "testimonial_card_border_radius": "rounded-md",
+        "video_card_border_radius": "rounded-md",
+        "testimonial_card_background": "bg-neutral-light",
+        "testimonial_card_padding": "medium",
+        "video_card_background": "bg-black",
+        "container_background_color": "",
+        "container_border_radius": "rounded-none",
+        "container_padding_y_mobile": "py-lg",
+        "container_padding_y_desktop": "lg:py-2xl",
+        "container_padding_x_mobile": "px-md",
+        "container_padding_x_desktop": "lg:px-xl",
+        "hide_video_blocks": true,
+        "show_play_button": true,
+        "layout_type": "columns"
+      }
+    },
+    "veh59dgyl6p": {
+      "type": "omega-comparison",
+      "settings": {
+        "heading": "A Smarter, Stronger Omega Formula. Backed by real science and not just a supplement label.",
+        "heading_font_family": "font-handwritten",
+        "heading_font_size": "text-4xl",
+        "heading_font_size_desktop": "lg:text-5xl",
+        "heading_font_weight": "font-normal",
+        "heading_color": "text-neutral-dark",
+        "layout_style": "sticky_labels",
+        "background_color": "bg-neutral-light",
+        "section_padding_y_mobile": "py-xl",
+        "section_padding_y_desktop": "lg:py-3xl",
+        "section_border_radius": "rounded-none"
+      },
+      "blocks": {
+        "05248f44": {
+          "id": "05248f44",
+          "type": "comparison_card",
+          "name": "comparison_card",
+          "settings": {
+            "is_highlighted": true,
+            "product_name": "Yoli's Vital Omegas+",
+            "spec_1_label": "Full Spectrum",
+            "spec_1_value": "Yes (Omegas 3, 7, 9, 11)",
+            "spec_2_label": "Form of Fatty Acids",
+            "spec_2_value": "Triglycerides",
+            "spec_3_label": "Omega-3 Fatty Acids",
+            "spec_3_value": "1,770 mg",
+            "spec_4_label": "Other Omega 3's",
+            "spec_4_value": "200 mg",
+            "spec_5_label": "EPA",
+            "spec_5_value": "1,000 mg",
+            "spec_6_label": "DHA",
+            "spec_6_value": "570 mg",
+            "spec_7_label": "Vitamin D3",
+            "spec_7_value": "50 mcg 2,000 IU",
+            "spec_8_label": "Source",
+            "spec_8_value": "Wild Caught Sardines, Anchovy, Mackerel",
+            "spec_9_label": "Omega-3 Test Kit",
+            "spec_9_value": "+ FREE test kit (4 bottles, 4 month supply)",
+            "spec_10_label": "$ Back Guarantee",
+            "spec_10_value": "90-Day",
+            "product_image": "https://ik.imagekit.io/fluid/980191045/images/CMSMFX/BBS_GmInVMhFP.png"
+          }
+        },
+        "f0c7be29": {
+          "id": "f0c7be29",
+          "type": "comparison_card",
+          "name": "comparison_card",
+          "settings": {
+            "is_highlighted": false,
+            "product_name": "Competitor Product",
+            "spec_1_label": "Full Spectrum",
+            "spec_1_value": "No",
+            "spec_2_label": "Form of Fatty Acids",
+            "spec_2_value": "Ethyl Esters",
+            "spec_3_label": "Omega-3 Fatty Acids",
+            "spec_3_value": "1,000 mg",
+            "spec_4_label": "Other Omega 3's",
+            "spec_4_value": "100 mg",
+            "spec_5_label": "EPA",
+            "spec_5_value": "600 mg",
+            "spec_6_label": "DHA",
+            "spec_6_value": "400 mg",
+            "spec_7_label": "Vitamin D3",
+            "spec_7_value": "No",
+            "spec_8_label": "Source",
+            "spec_8_value": "Farm-raised fish",
+            "spec_9_label": "Omega-3 Test Kit",
+            "spec_9_value": "Not included",
+            "spec_10_label": "$ Back Guarantee",
+            "spec_10_value": "30-Day",
+            "product_image": "https://ik.imagekit.io/fluid/980191045/images/JQ4MTX/Alkalete-packaginghighres-e1702588887824_VF7z6d3SL.png"
+          }
+        },
+        "block_1763787500682_cv0ljx5zl": {
+          "id": "block_1763787500682_cv0ljx5zl",
+          "type": "comparison_card",
+          "name": "comparison_card",
+          "settings": {
+            "is_highlighted": false,
+            "product_name": "Competitor Product",
+            "spec_1_label": "Full Spectrum",
+            "spec_1_value": "No",
+            "spec_2_label": "Form of Fatty Acids",
+            "spec_2_value": "Ethyl Esters",
+            "spec_3_label": "Omega-3 Fatty Acids",
+            "spec_3_value": "1,000 mg",
+            "spec_4_label": "Other Omega 3's",
+            "spec_4_value": "100 mg",
+            "spec_5_label": "EPA",
+            "spec_5_value": "600 mg",
+            "spec_6_label": "DHA",
+            "spec_6_value": "400 mg",
+            "spec_7_label": "Vitamin D3",
+            "spec_7_value": "No",
+            "spec_8_label": "Source",
+            "spec_8_value": "Farm-raised fish",
+            "spec_9_label": "Omega-3 Test Kit",
+            "spec_9_value": "Not included",
+            "spec_10_label": "$ Back Guarantee",
+            "spec_10_value": "30-Day"
+          }
+        },
+        "block_1763787500703_kvlce7zji": {
+          "id": "block_1763787500703_kvlce7zji",
+          "type": "comparison_card",
+          "name": "comparison_card",
+          "settings": {
+            "is_highlighted": false,
+            "product_name": "Competitor Product",
+            "spec_1_label": "Full Spectrum",
+            "spec_1_value": "No",
+            "spec_2_label": "Form of Fatty Acids",
+            "spec_2_value": "Ethyl Esters",
+            "spec_3_label": "Omega-3 Fatty Acids",
+            "spec_3_value": "1,000 mg",
+            "spec_4_label": "Other Omega 3's",
+            "spec_4_value": "100 mg",
+            "spec_5_label": "EPA",
+            "spec_5_value": "600 mg",
+            "spec_6_label": "DHA",
+            "spec_6_value": "400 mg",
+            "spec_7_label": "Vitamin D3",
+            "spec_7_value": "No",
+            "spec_8_label": "Source",
+            "spec_8_value": "Farm-raised fish",
+            "spec_9_label": "Omega-3 Test Kit",
+            "spec_9_value": "Not included",
+            "spec_10_label": "$ Back Guarantee",
+            "spec_10_value": "30-Day"
+          }
+        },
+        "block_1763787501554_wkggg1ic0": {
+          "id": "block_1763787501554_wkggg1ic0",
+          "type": "comparison_card",
+          "name": "comparison_card",
+          "settings": {
+            "is_highlighted": false,
+            "product_name": "Competitor Product",
+            "spec_1_label": "Full Spectrum",
+            "spec_1_value": "No",
+            "spec_2_label": "Form of Fatty Acids",
+            "spec_2_value": "Ethyl Esters",
+            "spec_3_label": "Omega-3 Fatty Acids",
+            "spec_3_value": "1,000 mg",
+            "spec_4_label": "Other Omega 3's",
+            "spec_4_value": "100 mg",
+            "spec_5_label": "EPA",
+            "spec_5_value": "600 mg",
+            "spec_6_label": "DHA",
+            "spec_6_value": "400 mg",
+            "spec_7_label": "Vitamin D3",
+            "spec_7_value": "No",
+            "spec_8_label": "Source",
+            "spec_8_value": "Farm-raised fish",
+            "spec_9_label": "Omega-3 Test Kit",
+            "spec_9_value": "Not included",
+            "spec_10_label": "$ Back Guarantee",
+            "spec_10_value": "30-Day"
+          }
+        },
+        "block_1763787501568_xl4g4sgeg": {
+          "id": "block_1763787501568_xl4g4sgeg",
+          "type": "comparison_card",
+          "name": "comparison_card",
+          "settings": {
+            "is_highlighted": false,
+            "product_name": "Competitor Product",
+            "spec_1_label": "Full Spectrum",
+            "spec_1_value": "No",
+            "spec_2_label": "Form of Fatty Acids",
+            "spec_2_value": "Ethyl Esters",
+            "spec_3_label": "Omega-3 Fatty Acids",
+            "spec_3_value": "1,000 mg",
+            "spec_4_label": "Other Omega 3's",
+            "spec_4_value": "100 mg",
+            "spec_5_label": "EPA",
+            "spec_5_value": "600 mg",
+            "spec_6_label": "DHA",
+            "spec_6_value": "400 mg",
+            "spec_7_label": "Vitamin D3",
+            "spec_7_value": "No",
+            "spec_8_label": "Source",
+            "spec_8_value": "Farm-raised fish",
+            "spec_9_label": "Omega-3 Test Kit",
+            "spec_9_value": "Not included",
+            "spec_10_label": "$ Back Guarantee",
+            "spec_10_value": "30-Day"
+          }
+        }
+      }
+    },
+    "o59sgcwdqr": {
+      "type": "results-carousel",
+      "settings": {
+        "title": "Backed by Science. Proven in<br>Your Blood.",
+        "title_font_family": "font-serif",
+        "title_font_size": "text-3xl",
+        "title_font_size_desktop": "lg:text-4xl",
+        "title_font_weight": "font-bold",
+        "title_color": "text-black",
+        "description": "Over 90% of Americans are below optimal Omega-3 levels. But with Yoli Vital Omegas+, users have seen measurable improvements—fast. The Omega-3 Index Test Kit lets you track your progress with real data from your own body.",
+        "description_font_family": "font-body",
+        "description_font_size": "text-base",
+        "description_font_size_desktop": "lg:text-lg",
+        "description_font_weight": "font-normal",
+        "description_color": "text-neutral-dark",
+        "header_alignment": "text-left",
+        "image_card_border_radius": "rounded-lg",
+        "card_height": "16/9",
+        "hide_gradient_overlay": true,
+        "background_color": "bg-white",
+        "section_border_radius": "rounded-none"
+      },
+      "blocks": {
+        "9315e8e1": {
+          "id": "9315e8e1",
+          "type": "image_item",
+          "name": "image_item",
+          "settings": {
+            "description": "Amazing results!",
+            "name": "John Doe",
+            "image": "https://ik.imagekit.io/fluid/980191045/images/4QBW8K/Macro-Mushies2_PMMFlph52.png"
+          }
+        },
+        "887db8cb": {
+          "id": "887db8cb",
+          "type": "image_item",
+          "name": "image_item",
+          "settings": {
+            "description": "Incredible transformation!",
+            "name": "Jane Smith",
+            "image": "https://ik.imagekit.io/fluid/980191045/images/CE4GZU/67bf59557cb0ef55c91db28a_green1_QYPigTbgR.jpg"
+          }
+        },
+        "98ac82c3": {
+          "id": "98ac82c3",
+          "type": "image_item",
+          "name": "image_item",
+          "settings": {
+            "image": "https://ik.imagekit.io/fluid/980191045/images/555JW5/ChallengePage-Hero-p-2600_ZAtAuIfjp.webp",
+            "description": "Life-changing experience!",
+            "name": "Mike Johnson"
+          }
+        }
+      }
+    },
+    "vyocjxl44ed": {
+      "type": "feature-cards-grid",
+      "blocks": {
+        "7ef78ff4": {
+          "id": "7ef78ff4",
+          "type": "feature_card",
+          "name": "feature_card",
+          "settings": {
+            "icon_round_top_left_radius": "rounded-none",
+            "icon_round_top_right_radius": "rounded-none",
+            "icon_round_bottom_left_radius": "rounded-none",
+            "icon_round_bottom_right_radius": "rounded-none",
+            "title": "Supports Healthy Cognition",
+            "title_font_family": "font-body",
+            "title_font_size": "text-lg",
+            "title_font_size_desktop": "lg:text-xl",
+            "title_font_weight": "font-bold",
+            "title_color": "text-neutral-dark",
+            "description": "Add your first feature description here.",
+            "description_font_family": "font-body",
+            "description_font_size": "text-sm",
+            "description_font_size_desktop": "lg:text-base",
+            "description_font_weight": "font-normal",
+            "description_color": "text-neutral-dark",
+            "show_button": false,
+            "button_text": "Learn More",
+            "button_style": "filled",
+            "button_color": "primary",
+            "button_size": "btn-md",
+            "button_font_weight": "font-medium",
+            "use_custom_border_color": false,
+            "button_border_color": "primary",
+            "icon": ""
+          }
+        },
+        "c4653b39": {
+          "id": "c4653b39",
+          "type": "feature_card",
+          "name": "feature_card",
+          "settings": {
+            "icon_round_top_left_radius": "rounded-none",
+            "icon_round_top_right_radius": "rounded-none",
+            "icon_round_bottom_left_radius": "rounded-none",
+            "icon_round_bottom_right_radius": "rounded-none",
+            "title": "Circulatory Health",
+            "title_font_family": "font-body",
+            "title_font_size": "text-lg",
+            "title_font_size_desktop": "lg:text-xl",
+            "title_font_weight": "font-bold",
+            "title_color": "text-neutral-dark",
+            "description": "Add your second feature description here.",
+            "description_font_family": "font-body",
+            "description_font_size": "text-sm",
+            "description_font_size_desktop": "lg:text-base",
+            "description_font_weight": "font-normal",
+            "description_color": "text-neutral-dark",
+            "show_button": false,
+            "button_text": "Learn More",
+            "button_style": "filled",
+            "button_color": "primary",
+            "button_size": "btn-md",
+            "button_font_weight": "font-medium",
+            "use_custom_border_color": false,
+            "button_border_color": "primary",
+            "icon": ""
+          }
+        },
+        "67a71f2b": {
+          "id": "67a71f2b",
+          "type": "feature_card",
+          "name": "feature_card",
+          "settings": {
+            "icon_round_top_left_radius": "rounded-none",
+            "icon_round_top_right_radius": "rounded-none",
+            "icon_round_bottom_left_radius": "rounded-none",
+            "icon_round_bottom_right_radius": "rounded-none",
+            "title": "Supports Healthy Joints",
+            "title_font_family": "font-body",
+            "title_font_size": "text-lg",
+            "title_font_size_desktop": "lg:text-xl",
+            "title_font_weight": "font-bold",
+            "title_color": "text-neutral-dark",
+            "description": "Add your third feature description here.",
+            "description_font_family": "font-body",
+            "description_font_size": "text-sm",
+            "description_font_size_desktop": "lg:text-base",
+            "description_font_weight": "font-normal",
+            "description_color": "text-neutral-dark",
+            "show_button": false,
+            "button_text": "Learn More",
+            "button_style": "filled",
+            "button_color": "primary",
+            "button_size": "btn-md",
+            "button_font_weight": "font-medium",
+            "use_custom_border_color": false,
+            "button_border_color": "primary",
+            "icon": ""
+          }
+        },
+        "block_1763681379498_ftrv57sc6": {
+          "id": "block_1763681379498_ftrv57sc6",
+          "type": "feature_card",
+          "name": "feature_card",
+          "settings": {
+            "icon_round_top_left_radius": "rounded-none",
+            "icon_round_top_right_radius": "rounded-none",
+            "icon_round_bottom_left_radius": "rounded-none",
+            "icon_round_bottom_right_radius": "rounded-none",
+            "title": "Eye Function Support",
+            "title_font_family": "font-body",
+            "title_font_size": "text-lg",
+            "title_font_size_desktop": "lg:text-xl",
+            "title_font_weight": "font-bold",
+            "title_color": "text-neutral-dark",
+            "description": "Add your third feature description here.",
+            "description_font_family": "font-body",
+            "description_font_size": "text-sm",
+            "description_font_size_desktop": "lg:text-base",
+            "description_font_weight": "font-normal",
+            "description_color": "text-neutral-dark",
+            "show_button": false,
+            "button_text": "Learn More",
+            "button_style": "filled",
+            "button_color": "primary",
+            "button_size": "btn-md",
+            "button_font_weight": "font-medium",
+            "use_custom_border_color": false,
+            "button_border_color": "primary"
+          }
+        },
+        "block_1763681379508_pa0qqh7ai": {
+          "id": "block_1763681379508_pa0qqh7ai",
+          "type": "feature_card",
+          "name": "feature_card",
+          "settings": {
+            "icon_round_top_left_radius": "rounded-none",
+            "icon_round_top_right_radius": "rounded-none",
+            "icon_round_bottom_left_radius": "rounded-none",
+            "icon_round_bottom_right_radius": "rounded-none",
+            "title": "Promotes Healthy Skin",
+            "title_font_family": "font-body",
+            "title_font_size": "text-lg",
+            "title_font_size_desktop": "lg:text-xl",
+            "title_font_weight": "font-bold",
+            "title_color": "text-neutral-dark",
+            "description": "Add your third feature description here.",
+            "description_font_family": "font-body",
+            "description_font_size": "text-sm",
+            "description_font_size_desktop": "lg:text-base",
+            "description_font_weight": "font-normal",
+            "description_color": "text-neutral-dark",
+            "show_button": false,
+            "button_text": "Learn More",
+            "button_style": "filled",
+            "button_color": "primary",
+            "button_size": "btn-md",
+            "button_font_weight": "font-medium",
+            "use_custom_border_color": false,
+            "button_border_color": "primary"
+          }
+        },
+        "block_1763681383650_qs1b90r70": {
+          "id": "block_1763681383650_qs1b90r70",
+          "type": "feature_card",
+          "name": "feature_card",
+          "settings": {
+            "icon_round_top_left_radius": "rounded-none",
+            "icon_round_top_right_radius": "rounded-none",
+            "icon_round_bottom_left_radius": "rounded-none",
+            "icon_round_bottom_right_radius": "rounded-none",
+            "title": "Boosts Immune Function",
+            "title_font_family": "font-body",
+            "title_font_size": "text-lg",
+            "title_font_size_desktop": "lg:text-xl",
+            "title_font_weight": "font-bold",
+            "title_color": "text-neutral-dark",
+            "description": "Add your third feature description here.",
+            "description_font_family": "font-body",
+            "description_font_size": "text-sm",
+            "description_font_size_desktop": "lg:text-base",
+            "description_font_weight": "font-normal",
+            "description_color": "text-neutral-dark",
+            "show_button": false,
+            "button_text": "Learn More",
+            "button_style": "filled",
+            "button_color": "primary",
+            "button_size": "btn-md",
+            "button_font_weight": "font-medium",
+            "use_custom_border_color": false,
+            "button_border_color": "primary"
+          }
+        }
+      },
+      "settings": {
+        "heading": "Feature Heading",
+        "heading_font_family": "font-serif",
+        "heading_font_size": "text-4xl",
+        "heading_font_size_desktop": "lg:text-5xl",
+        "heading_font_weight": "font-normal",
+        "heading_color": "text-neutral-dark",
+        "card_width_desktop": "25",
+        "hide_header": true
+      }
+    },
+    "qcg39evk8v": {
+      "type": "feature-cards-grid",
+      "settings": {
+        "hide_header": false,
+        "heading": "Where do you start?",
+        "heading_font_family": "font-serif",
+        "heading_font_size": "text-4xl",
+        "heading_font_size_desktop": "lg:text-5xl",
+        "heading_font_weight": "font-normal",
+        "heading_color": "text-neutral-dark",
+        "background_color": "bg-white",
+        "section_padding_y_mobile": "py-xl",
+        "section_padding_y_desktop": "lg:py-3xl",
+        "section_border_radius": "rounded-none",
+        "card_padding_y_mobile": "py-xl",
+        "card_padding_y_desktop": "lg:py-xl",
+        "card_padding_x_mobile": "px-xl",
+        "card_padding_x_desktop": "lg:px-xl",
+        "card_background_color": "bg-white",
+        "card_border_radius": "rounded-md",
+        "card_title_font_family": "font-body",
+        "card_title_font_size": "text-lg",
+        "card_title_font_size_desktop": "lg:text-xl",
+        "card_title_font_weight": "font-bold",
+        "card_title_color": "text-neutral-dark",
+        "card_description_font_family": "font-body",
+        "card_description_font_size": "text-sm",
+        "card_description_font_size_desktop": "lg:text-base",
+        "card_description_font_weight": "font-normal",
+        "card_description_color": "text-neutral-dark",
+        "container_background_color": "",
+        "container_border_radius": "rounded-none",
+        "container_padding_y_mobile": "py-lg",
+        "container_padding_y_desktop": "lg:py-2xl",
+        "container_padding_x_mobile": "px-md",
+        "container_padding_x_desktop": "lg:px-xl",
+        "padding_x_mobile": "px-0",
+        "padding_top_mobile": "pt-xl",
+        "padding_bottom_mobile": "pb-xl",
+        "padding_x_desktop": "px-0",
+        "padding_top_desktop": "pt-3xl",
+        "padding_bottom_desktop": "pb-3xl",
+        "description": "Worldwide, omega-3s are one of the most popular supplements. Despite this, 90% of people in the United States are still below the desirable range. And of the 7.8% of adults who do take them, research has shown that 70% of them are still deficient.*",
+        "description_font_family": "font-body",
+        "description_font_size": "text-base",
+        "description_font_size_desktop": "lg:text-lg",
+        "description_font_weight": "font-normal",
+        "description_color": "text-neutral-dark",
+        "card_width_desktop": "33.333"
+      },
+      "blocks": {
+        "dc1f11b8": {
+          "id": "dc1f11b8",
+          "type": "feature_card",
+          "name": "feature_card",
+          "settings": {
+            "hide_icon": true,
+            "icon_round_top_left_radius": "rounded-none",
+            "icon_round_top_right_radius": "rounded-none",
+            "icon_round_bottom_left_radius": "rounded-none",
+            "icon_round_bottom_right_radius": "rounded-none",
+            "hide_title": true,
+            "title": "Feature One",
+            "title_font_family": "font-body",
+            "title_font_size": "text-lg",
+            "title_font_size_desktop": "lg:text-xl",
+            "title_font_weight": "font-bold",
+            "title_color": "text-neutral-dark",
+            "hide_description": false,
+            "description": "<strong>Omega-3 Index Risk Zones<br>(Percent of EPA+DHA in Red Blood Cells)</strong>",
+            "description_font_family": "font-body",
+            "description_font_size": "text-sm",
+            "description_font_size_desktop": "lg:text-lg",
+            "description_font_weight": "font-semibold",
+            "description_color": "text-warning",
+            "show_button": false,
+            "button_text": "Learn More",
+            "button_style": "filled",
+            "button_color": "primary",
+            "button_size": "btn-md",
+            "button_font_weight": "font-medium",
+            "use_custom_border_color": false,
+            "button_border_color": "primary",
+            "icon": ""
+          }
+        },
+        "5da3541e": {
+          "id": "5da3541e",
+          "type": "feature_card",
+          "name": "feature_card",
+          "settings": {
+            "hide_icon": false,
+            "icon_round_top_left_radius": "rounded-none",
+            "icon_round_top_right_radius": "rounded-none",
+            "icon_round_bottom_left_radius": "rounded-none",
+            "icon_round_bottom_right_radius": "rounded-none",
+            "hide_title": true,
+            "title": "Feature Three",
+            "title_font_family": "font-body",
+            "title_font_size": "text-lg",
+            "title_font_size_desktop": "lg:text-xl",
+            "title_font_weight": "font-bold",
+            "title_color": "text-neutral-dark",
+            "hide_description": true,
+            "description": "Add your third feature description here.",
+            "description_font_family": "font-body",
+            "description_font_size": "text-sm",
+            "description_font_size_desktop": "lg:text-base",
+            "description_font_weight": "font-normal",
+            "description_color": "text-neutral-dark",
+            "show_button": false,
+            "button_text": "Learn More",
+            "button_style": "filled",
+            "button_color": "primary",
+            "button_size": "btn-md",
+            "button_font_weight": "font-medium",
+            "use_custom_border_color": false,
+            "button_border_color": "primary",
+            "icon": ""
+          }
+        }
+      }
+    },
+    "wfaeffq1l": {
+      "type": "content-image-split-logos",
+      "settings": {
+        "image_fit_mode": "fill",
+        "image_height": 400,
+        "flip_layout": true,
+        "use_gradient_background": false,
+        "background_color": "bg-white",
+        "section_border_radius": "rounded-none",
+        "heading": "Test.. and Regain Control of Your Health — Guaranteed!",
+        "heading_font_family": "font-serif",
+        "heading_font_size": "text-4xl",
+        "heading_font_size_desktop": "lg:text-5xl",
+        "heading_font_weight": "font-normal",
+        "heading_color": "text-neutral-dark",
+        "description": "Why guess, when you can test? Take our simple home assessment test to identify your likely deficiencies.<br><br>Within just 90 days, we guarantee your Omega-3 Index score, which measures the concentration of omega-3 fatty acids in red blood cells, will increase, or your money back.<br><br>With the Vitality Omega-3 Index Test, you get reliable, science-backed insights that are both meaningful and actionable-helping you be in charge of your health.",
+        "description_font_family": "font-body",
+        "description_font_size": "text-base",
+        "description_font_size_desktop": "lg:text-lg",
+        "description_font_weight": "font-normal",
+        "description_color": "text-neutral-dark",
+        "image": "https://ik.imagekit.io/fluid/980191045/images/89J49L/Yoli_Vital_Balance_Box_2025-10-3_XlSg0Hvd5.png",
+        "logo_size_mobile": "56",
+        "logo_size_desktop": "56",
+        "show_button": false,
+        "button_text": "Learn More",
+        "button_style": "filled",
+        "button_color": "primary",
+        "button_size": "btn-md",
+        "button_font_weight": "font-medium",
+        "container_background_color": "",
+        "container_border_radius": "rounded-none",
+        "container_padding_y_mobile": "py-lg",
+        "container_padding_y_desktop": "lg:py-2xl",
+        "container_padding_x_mobile": "px-md",
+        "container_padding_x_desktop": "lg:px-xl",
+        "round_top_left_radius": "rounded-none",
+        "round_top_right_radius": "rounded-none",
+        "round_bottom_left_radius": "rounded-none",
+        "round_bottom_right_radius": "rounded-none",
+        "padding_x_mobile": "px-0",
+        "padding_top_mobile": "pt-xl",
+        "padding_bottom_mobile": "pb-xl",
+        "padding_x_desktop": "px-0",
+        "padding_top_desktop": "pt-3xl",
+        "padding_bottom_desktop": "pb-3xl",
+        "show_logos": false
+      }
+    },
+    "bgsrevbzsr7": {
+      "type": "numbered-steps",
+      "settings": {
+        "number_font_family": "font-primary",
+        "number_font_size": "text-6xl",
+        "number_font_size_desktop": "lg:text-6xl",
+        "number_font_weight": "font-bold",
+        "number_color": "text-warning",
+        "title_font_family": "font-primary",
+        "title_font_size": "text-xl",
+        "title_font_size_desktop": "lg:text-xl",
+        "title_font_weight": "font-bold",
+        "title_color": "text-neutral-dark"
+      }
+    },
+    "py4mgc7ymz": {
+      "type": "content-image-split-logos",
+      "settings": {
+        "image_fit_mode": "fill",
+        "image_height": 400,
+        "flip_layout": true,
+        "use_gradient_background": false,
+        "background_color": "bg-white",
+        "section_border_radius": "rounded-none",
+        "show_logos": false,
+        "image": "https://ik.imagekit.io/fluid/980191045/images/Q6BQ66/BBS_6ziib5237.png",
+        "heading": "Get Back Into Balance",
+        "heading_font_family": "font-serif",
+        "heading_font_size": "text-4xl",
+        "heading_font_size_desktop": "lg:text-5xl",
+        "heading_font_weight": "font-normal",
+        "heading_color": "text-neutral-dark"
+      }
+    },
+    "2hjv2vvrp4w": {
+      "type": "content-statistics-split",
+      "blocks": {
+        "da4a01d1": {
+          "id": "da4a01d1",
+          "type": "statistics_block",
+          "name": "statistics_block",
+          "settings": {
+            "subheading": "The Omega-3 Index Predicts Total Mortality",
+            "subheading_font_family": "font-body",
+            "subheading_font_size": "text-2xl",
+            "subheading_font_size_desktop": "lg:text-2xl",
+            "subheading_font_weight": "font-bold",
+            "subheading_color": "text-tertiary",
+            "body_text": "Higher red blood cell levels of marine omega fatty acids were associated with reduced risk for all-cause mortality. These findings support the beneficial relationship between the Omega-3 Index and health outcomes.*",
+            "body_text_font_family": "font-body",
+            "body_text_font_size": "text-base",
+            "body_text_font_size_desktop": "lg:text-lg",
+            "body_text_font_weight": "font-normal",
+            "body_text_color": "text-neutral-dark",
+            "source_citation": "Source: Harris Et Al (2021) \"Blood N-3 Fatty Acid Levels and Total and Cause-Specific Mortality from 17 Prospective Studies.\"",
+            "source_citation_font_family": "font-body",
+            "source_citation_font_size": "text-xs",
+            "source_citation_font_size_desktop": "lg:text-xs",
+            "source_citation_font_weight": "font-normal",
+            "source_citation_color": "text-neutral-dark",
+            "image_alt": "Content image",
+            "content_image": "https://ik.imagekit.io/fluid/980191045/images/99KCCL/ContrastLeaf_36gbIMUjZ.png"
+          }
+        },
+        "block_1763684380521_ciwsh7djy": {
+          "id": "block_1763684380521_ciwsh7djy",
+          "type": "statistics_block",
+          "name": "statistics_block",
+          "settings": {
+            "subheading": "The Omega-3 Index Predicts Total Mortality",
+            "subheading_font_family": "font-body",
+            "subheading_font_size": "text-2xl",
+            "subheading_font_size_desktop": "lg:text-2xl",
+            "subheading_font_weight": "font-bold",
+            "subheading_color": "text-tertiary",
+            "body_text": "Higher red blood cell levels of marine omega fatty acids were associated with reduced risk for all-cause mortality. These findings support the beneficial relationship between the Omega-3 Index and health outcomes.*",
+            "body_text_font_family": "font-body",
+            "body_text_font_size": "text-base",
+            "body_text_font_size_desktop": "lg:text-lg",
+            "body_text_font_weight": "font-normal",
+            "body_text_color": "text-neutral-dark",
+            "source_citation": "Source: Harris Et Al (2021) \"Blood N-3 Fatty Acid Levels and Total and Cause-Specific Mortality from 17 Prospective Studies.\"",
+            "source_citation_font_family": "font-body",
+            "source_citation_font_size": "text-xs",
+            "source_citation_font_size_desktop": "lg:text-xs",
+            "source_citation_font_weight": "font-normal",
+            "source_citation_color": "text-neutral-dark",
+            "image_alt": "Content image",
+            "content_image": "https://ik.imagekit.io/fluid/980191045/images/DQZBSS/Our-StoryLooper-Compress-poster-00001_Qy3rRwRxVu.jpg"
+          }
+        }
+      }
+    },
+    "zff4pq5giuj": {
+      "type": "learn-more-stack",
+      "settings": {
+        "heading": "Frequently Asked Questions",
+        "heading_font_size": "text-3xl",
+        "heading_font_size_desktop": "lg:text-4xl",
+        "heading_font_weight": "font-medium",
+        "heading_color": "text-primary",
+        "heading_font_family": "font-primary",
+        "description": "<strong>Superior Formulation. Trusted Purity.</strong><br>Yoli Vital Omegas+ delivers a comprehensive<br>blend of essential omega fatty acids—Omega<br>3, 7, 9, and 11—plus DHA, EPA, and Vitamin<br>D3. Each dose is third-party tested and free of<br>mercury, arsenic, and lead. With 1770 mg of<br>total Omega-3 fatty acids, this clean, potent<br>formula supports heart, brain, joint, and<br>immune health—helping you feel balanced<br>and energized, naturally.",
+        "description_font_size": "text-base",
+        "description_font_size_desktop": "lg:text-lg",
+        "description_font_weight": "font-normal",
+        "description_color": "text-black",
+        "heading_spacing_bottom_mobile": "mb-lg",
+        "heading_spacing_bottom_desktop": "lg:mb-lg",
+        "item_background_color": "bg-card-secondary",
+        "show_borders": true,
+        "item_border_color": "#000000",
+        "item_border_radius": "rounded-md",
+        "icon_type": "regular_plus",
+        "faq_gap_mobile": "gap-lg",
+        "faq_gap_desktop": "lg:gap-md",
+        "show_button": false,
+        "button_text": "Lorem Ipsum Dolor",
+        "button_style": "filled",
+        "button_color": "primary",
+        "button_size": "btn-md",
+        "border_style": "none",
+        "item_padding_left": 0,
+        "item_padding_right": 0
+      },
+      "blocks": {
+        "d4f37ce5": {
+          "id": "d4f37ce5",
+          "type": "card_grid_item",
+          "name": "card_grid_item",
+          "settings": {
+            "question": "Learn More",
+            "show_card_1": false,
+            "show_card_2": false,
+            "show_card_3": false,
+            "show_card_4": false,
+            "show_card_5": false,
+            "show_card_6": false,
+            "show_card_7": false,
+            "show_card_8": false
+          }
+        },
+        "block_1763740916546_d4fzaydsq": {
+          "id": "block_1763740916546_d4fzaydsq",
+          "type": "card_grid_item",
+          "name": "card_grid_item",
+          "settings": {
+            "image_border_radius": "rounded-full",
+            "question": "Learn More",
+            "show_card_1": false,
+            "card_1_button_text": "Read More",
+            "card_1_button_style": "filled",
+            "card_1_button_color": "primary",
+            "card_1_button_size": "btn-md",
+            "show_card_2": false,
+            "card_2_button_text": "Read More",
+            "card_2_button_style": "filled",
+            "card_2_button_color": "primary",
+            "card_2_button_size": "btn-md",
+            "show_card_3": false,
+            "card_3_button_text": "Read More",
+            "card_3_button_style": "filled",
+            "card_3_button_color": "primary",
+            "card_3_button_size": "btn-md",
+            "show_card_4": false,
+            "card_4_button_text": "Read More",
+            "card_4_button_style": "filled",
+            "card_4_button_color": "primary",
+            "card_4_button_size": "btn-md",
+            "show_card_5": false,
+            "card_5_button_text": "Read More",
+            "card_5_button_style": "filled",
+            "card_5_button_color": "primary",
+            "card_5_button_size": "btn-md",
+            "show_card_6": false,
+            "card_6_button_text": "Read More",
+            "card_6_button_style": "filled",
+            "card_6_button_color": "primary",
+            "card_6_button_size": "btn-md",
+            "show_card_7": false,
+            "card_7_button_text": "Read More",
+            "card_7_button_style": "filled",
+            "card_7_button_color": "primary",
+            "card_7_button_size": "btn-md",
+            "show_card_8": false,
+            "card_8_button_text": "Read More",
+            "card_8_button_style": "filled",
+            "card_8_button_color": "primary",
+            "card_8_button_size": "btn-md"
+          }
+        },
+        "block_1763740916554_3utp19w9c": {
+          "id": "block_1763740916554_3utp19w9c",
+          "type": "card_grid_item",
+          "name": "card_grid_item",
+          "settings": {
+            "image_border_radius": "rounded-full",
+            "question": "Learn More",
+            "show_card_1": false,
+            "card_1_button_text": "Read More",
+            "card_1_button_style": "filled",
+            "card_1_button_color": "primary",
+            "card_1_button_size": "btn-md",
+            "show_card_2": false,
+            "card_2_button_text": "Read More",
+            "card_2_button_style": "filled",
+            "card_2_button_color": "primary",
+            "card_2_button_size": "btn-md",
+            "show_card_3": false,
+            "card_3_button_text": "Read More",
+            "card_3_button_style": "filled",
+            "card_3_button_color": "primary",
+            "card_3_button_size": "btn-md",
+            "show_card_4": false,
+            "card_4_button_text": "Read More",
+            "card_4_button_style": "filled",
+            "card_4_button_color": "primary",
+            "card_4_button_size": "btn-md",
+            "show_card_5": false,
+            "card_5_button_text": "Read More",
+            "card_5_button_style": "filled",
+            "card_5_button_color": "primary",
+            "card_5_button_size": "btn-md",
+            "show_card_6": false,
+            "card_6_button_text": "Read More",
+            "card_6_button_style": "filled",
+            "card_6_button_color": "primary",
+            "card_6_button_size": "btn-md",
+            "show_card_7": false,
+            "card_7_button_text": "Read More",
+            "card_7_button_style": "filled",
+            "card_7_button_color": "primary",
+            "card_7_button_size": "btn-md",
+            "show_card_8": false,
+            "card_8_button_text": "Read More",
+            "card_8_button_style": "filled",
+            "card_8_button_color": "primary",
+            "card_8_button_size": "btn-md"
+          }
+        },
+        "block_1763740925445_s422rapim": {
+          "id": "block_1763740925445_s422rapim",
+          "type": "card_grid_item",
+          "name": "card_grid_item",
+          "settings": {
+            "image_border_radius": "rounded-full",
+            "question": "Learn More",
+            "show_card_1": false,
+            "card_1_button_text": "Read More",
+            "card_1_button_style": "filled",
+            "card_1_button_color": "primary",
+            "card_1_button_size": "btn-md",
+            "show_card_2": false,
+            "card_2_button_text": "Read More",
+            "card_2_button_style": "filled",
+            "card_2_button_color": "primary",
+            "card_2_button_size": "btn-md",
+            "show_card_3": false,
+            "card_3_button_text": "Read More",
+            "card_3_button_style": "filled",
+            "card_3_button_color": "primary",
+            "card_3_button_size": "btn-md",
+            "show_card_4": false,
+            "card_4_button_text": "Read More",
+            "card_4_button_style": "filled",
+            "card_4_button_color": "primary",
+            "card_4_button_size": "btn-md",
+            "show_card_5": false,
+            "card_5_button_text": "Read More",
+            "card_5_button_style": "filled",
+            "card_5_button_color": "primary",
+            "card_5_button_size": "btn-md",
+            "show_card_6": false,
+            "card_6_button_text": "Read More",
+            "card_6_button_style": "filled",
+            "card_6_button_color": "primary",
+            "card_6_button_size": "btn-md",
+            "show_card_7": false,
+            "card_7_button_text": "Read More",
+            "card_7_button_style": "filled",
+            "card_7_button_color": "primary",
+            "card_7_button_size": "btn-md",
+            "show_card_8": false,
+            "card_8_button_text": "Read More",
+            "card_8_button_style": "filled",
+            "card_8_button_color": "primary",
+            "card_8_button_size": "btn-md"
+          }
+        },
+        "block_1763740931671_tyuw361af": {
+          "id": "block_1763740931671_tyuw361af",
+          "type": "card_grid_item",
+          "name": "card_grid_item",
+          "settings": {
+            "image_border_radius": "rounded-full",
+            "question": "Learn More",
+            "show_card_1": false,
+            "card_1_button_text": "Read More",
+            "card_1_button_style": "filled",
+            "card_1_button_color": "primary",
+            "card_1_button_size": "btn-md",
+            "show_card_2": false,
+            "card_2_button_text": "Read More",
+            "card_2_button_style": "filled",
+            "card_2_button_color": "primary",
+            "card_2_button_size": "btn-md",
+            "show_card_3": false,
+            "card_3_button_text": "Read More",
+            "card_3_button_style": "filled",
+            "card_3_button_color": "primary",
+            "card_3_button_size": "btn-md",
+            "show_card_4": false,
+            "card_4_button_text": "Read More",
+            "card_4_button_style": "filled",
+            "card_4_button_color": "primary",
+            "card_4_button_size": "btn-md",
+            "show_card_5": false,
+            "card_5_button_text": "Read More",
+            "card_5_button_style": "filled",
+            "card_5_button_color": "primary",
+            "card_5_button_size": "btn-md",
+            "show_card_6": false,
+            "card_6_button_text": "Read More",
+            "card_6_button_style": "filled",
+            "card_6_button_color": "primary",
+            "card_6_button_size": "btn-md",
+            "show_card_7": false,
+            "card_7_button_text": "Read More",
+            "card_7_button_style": "filled",
+            "card_7_button_color": "primary",
+            "card_7_button_size": "btn-md",
+            "show_card_8": false,
+            "card_8_button_text": "Read More",
+            "card_8_button_style": "filled",
+            "card_8_button_color": "primary",
+            "card_8_button_size": "btn-md"
+          }
+        },
+        "block_1764001618045_bpxgrnt9y": {
+          "id": "block_1764001618045_bpxgrnt9y",
+          "type": "card_grid_item",
+          "name": "card_grid_item",
+          "settings": {
+            "image_border_radius": "rounded-full",
+            "question": "Learn More",
+            "show_full_width_image": false,
+            "full_width_image_position": "top",
+            "full_width_image_border_radius": "rounded-none",
+            "show_description": false,
+            "show_side_image": false,
+            "side_image_width": 40,
+            "show_card_1": false,
+            "card_1_button_text": "Read More",
+            "card_1_button_style": "filled",
+            "card_1_button_color": "primary",
+            "card_1_button_size": "btn-md",
+            "show_card_2": false,
+            "card_2_button_text": "Read More",
+            "card_2_button_style": "filled",
+            "card_2_button_color": "primary",
+            "card_2_button_size": "btn-md",
+            "show_card_3": false,
+            "card_3_button_text": "Read More",
+            "card_3_button_style": "filled",
+            "card_3_button_color": "primary",
+            "card_3_button_size": "btn-md",
+            "show_card_4": false,
+            "card_4_button_text": "Read More",
+            "card_4_button_style": "filled",
+            "card_4_button_color": "primary",
+            "card_4_button_size": "btn-md",
+            "show_card_5": false,
+            "card_5_button_text": "Read More",
+            "card_5_button_style": "filled",
+            "card_5_button_color": "primary",
+            "card_5_button_size": "btn-md",
+            "show_card_6": false,
+            "card_6_button_text": "Read More",
+            "card_6_button_style": "filled",
+            "card_6_button_color": "primary",
+            "card_6_button_size": "btn-md",
+            "show_card_7": false,
+            "card_7_button_text": "Read More",
+            "card_7_button_style": "filled",
+            "card_7_button_color": "primary",
+            "card_7_button_size": "btn-md",
+            "show_card_8": false,
+            "card_8_button_text": "Read More",
+            "card_8_button_style": "filled",
+            "card_8_button_color": "primary",
+            "card_8_button_size": "btn-md"
+          }
+        },
+        "block_1764004029384_0k2wkb2qx": {
+          "id": "block_1764004029384_0k2wkb2qx",
+          "type": "card_grid_item",
+          "name": "card_grid_item",
+          "settings": {
+            "image_border_radius": "rounded-full",
+            "question": "Learn More",
+            "show_full_width_image": false,
+            "full_width_image_position": "top",
+            "full_width_image_border_radius": "rounded-none",
+            "show_description": false,
+            "show_side_image": false,
+            "side_image_width": 40,
+            "show_card_1": false,
+            "card_1_button_text": "Read More",
+            "card_1_button_style": "filled",
+            "card_1_button_color": "primary",
+            "card_1_button_size": "btn-md",
+            "show_card_2": false,
+            "card_2_button_text": "Read More",
+            "card_2_button_style": "filled",
+            "card_2_button_color": "primary",
+            "card_2_button_size": "btn-md",
+            "show_card_3": false,
+            "card_3_button_text": "Read More",
+            "card_3_button_style": "filled",
+            "card_3_button_color": "primary",
+            "card_3_button_size": "btn-md",
+            "show_card_4": false,
+            "card_4_button_text": "Read More",
+            "card_4_button_style": "filled",
+            "card_4_button_color": "primary",
+            "card_4_button_size": "btn-md",
+            "show_card_5": false,
+            "card_5_button_text": "Read More",
+            "card_5_button_style": "filled",
+            "card_5_button_color": "primary",
+            "card_5_button_size": "btn-md",
+            "show_card_6": false,
+            "card_6_button_text": "Read More",
+            "card_6_button_style": "filled",
+            "card_6_button_color": "primary",
+            "card_6_button_size": "btn-md",
+            "show_card_7": false,
+            "card_7_button_text": "Read More",
+            "card_7_button_style": "filled",
+            "card_7_button_color": "primary",
+            "card_7_button_size": "btn-md",
+            "show_card_8": false,
+            "card_8_button_text": "Read More",
+            "card_8_button_style": "filled",
+            "card_8_button_color": "primary",
+            "card_8_button_size": "btn-md"
+          }
+        },
+        "block_1764004029391_jkw7cfdsx": {
+          "id": "block_1764004029391_jkw7cfdsx",
+          "type": "card_grid_item",
+          "name": "card_grid_item",
+          "settings": {
+            "image_border_radius": "rounded-full",
+            "question": "Learn More",
+            "show_full_width_image": false,
+            "full_width_image_position": "top",
+            "full_width_image_border_radius": "rounded-none",
+            "show_description": false,
+            "show_side_image": false,
+            "side_image_width": 40,
+            "show_card_1": false,
+            "card_1_button_text": "Read More",
+            "card_1_button_style": "filled",
+            "card_1_button_color": "primary",
+            "card_1_button_size": "btn-md",
+            "show_card_2": false,
+            "card_2_button_text": "Read More",
+            "card_2_button_style": "filled",
+            "card_2_button_color": "primary",
+            "card_2_button_size": "btn-md",
+            "show_card_3": false,
+            "card_3_button_text": "Read More",
+            "card_3_button_style": "filled",
+            "card_3_button_color": "primary",
+            "card_3_button_size": "btn-md",
+            "show_card_4": false,
+            "card_4_button_text": "Read More",
+            "card_4_button_style": "filled",
+            "card_4_button_color": "primary",
+            "card_4_button_size": "btn-md",
+            "show_card_5": false,
+            "card_5_button_text": "Read More",
+            "card_5_button_style": "filled",
+            "card_5_button_color": "primary",
+            "card_5_button_size": "btn-md",
+            "show_card_6": false,
+            "card_6_button_text": "Read More",
+            "card_6_button_style": "filled",
+            "card_6_button_color": "primary",
+            "card_6_button_size": "btn-md",
+            "show_card_7": false,
+            "card_7_button_text": "Read More",
+            "card_7_button_style": "filled",
+            "card_7_button_color": "primary",
+            "card_7_button_size": "btn-md",
+            "show_card_8": false,
+            "card_8_button_text": "Read More",
+            "card_8_button_style": "filled",
+            "card_8_button_color": "primary",
+            "card_8_button_size": "btn-md"
+          }
+        }
+      }
+    },
+    "30817mcto2x": {
+      "type": "learn-more-stack",
+      "settings": {
+        "heading": "A new era of full-spectrum omega wellness",
+        "heading_font_size": "text-3xl",
+        "heading_font_size_desktop": "lg:text-4xl",
+        "heading_font_weight": "font-medium",
+        "heading_color": "text-primary",
+        "heading_font_family": "font-serif",
+        "description": "Got questions? We've got you covered. Here's what people usually ask us and what we think is good to know.",
+        "description_font_size": "text-base",
+        "description_font_size_desktop": "lg:text-lg",
+        "description_font_weight": "font-normal",
+        "description_color": "text-black",
+        "heading_spacing_bottom_mobile": "mb-lg",
+        "heading_spacing_bottom_desktop": "lg:mb-lg",
+        "show_button": false,
+        "button_text": "Lorem Ipsum Dolor",
+        "button_style": "filled",
+        "button_color": "primary",
+        "button_size": "btn-md",
+        "layout": "stacked",
+        "background_color": "bg-card-primary",
+        "section_border_radius": "rounded-none",
+        "padding_x_mobile": "px-0",
+        "padding_top_mobile": "pt-xl",
+        "padding_bottom_mobile": "pb-xl",
+        "padding_x_desktop": "px-0",
+        "padding_top_desktop": "pt-3xl",
+        "padding_bottom_desktop": "pb-3xl",
+        "item_background_color": "bg-card-primary",
+        "show_borders": true,
+        "item_border_color": "#000000",
+        "item_border_radius": "rounded-none",
+        "icon_type": "chevron",
+        "faq_gap_mobile": "gap-xs",
+        "faq_gap_desktop": "lg:gap-xs",
+        "border_style": "bottom",
+        "item_padding_left": 0,
+        "item_padding_right": 0,
+        "container_background_color": "",
+        "container_border_radius": "rounded-none",
+        "container_padding_y_mobile": "py-0",
+        "container_padding_y_desktop": "lg:py-0",
+        "container_padding_x_mobile": "px-0",
+        "container_padding_x_desktop": "lg:px-0"
+      },
+      "blocks": {
+        "e5g48df6": {
+          "id": "e5g48df6",
+          "type": "card_grid_item",
+          "name": "card_grid_item",
+          "settings": {
+            "question": "Learn More",
+            "show_card_1": false,
+            "show_card_2": false,
+            "show_card_3": false,
+            "show_card_4": false,
+            "show_card_5": false,
+            "show_card_6": false,
+            "show_card_7": false,
+            "show_card_8": false,
+            "image": "",
+            "image_border_radius": "rounded-full",
+            "card_1_button_text": "Read More",
+            "card_1_button_style": "filled",
+            "card_1_button_color": "primary",
+            "card_1_button_size": "btn-md",
+            "card_2_logo": "",
+            "card_2_button_text": "Read More",
+            "card_2_button_style": "filled",
+            "card_2_button_color": "primary",
+            "card_2_button_size": "btn-md",
+            "card_3_button_text": "Read More",
+            "card_3_button_style": "filled",
+            "card_3_button_color": "primary",
+            "card_3_button_size": "btn-md",
+            "card_4_button_text": "Read More",
+            "card_4_button_style": "filled",
+            "card_4_button_color": "primary",
+            "card_4_button_size": "btn-md",
+            "card_5_button_text": "Read More",
+            "card_5_button_style": "filled",
+            "card_5_button_color": "primary",
+            "card_5_button_size": "btn-md",
+            "card_6_button_text": "Read More",
+            "card_6_button_style": "filled",
+            "card_6_button_color": "primary",
+            "card_6_button_size": "btn-md",
+            "card_7_button_text": "Read More",
+            "card_7_button_style": "filled",
+            "card_7_button_color": "primary",
+            "card_7_button_size": "btn-md",
+            "card_8_button_text": "Read More",
+            "card_8_button_style": "filled",
+            "card_8_button_color": "primary",
+            "card_8_button_size": "btn-md",
+            "show_full_width_image": false,
+            "full_width_image": "https://ik.imagekit.io/fluid/980191045/images/99KCCL/ContrastLeaf_36gbIMUjZ.png",
+            "full_width_image_position": "top",
+            "full_width_image_border_radius": "rounded-sm",
+            "show_description": true,
+            "show_side_image": false,
+            "side_image_width": 40,
+            "card_1_logo": "",
+            "description": "Your overall health depends on balancing your body, brain,Your overall health depends on balancing your body, brain,Your overall health depends on balancing your body, brain,",
+            "side_image": ""
+          }
+        },
+        "block_1763740824899_6kkzieqet": {
+          "id": "block_1763740824899_6kkzieqet",
+          "type": "card_grid_item",
+          "name": "card_grid_item",
+          "settings": {
+            "image_border_radius": "rounded-full",
+            "question": "Learn More",
+            "show_card_1": true,
+            "card_1_button_text": "Read More",
+            "card_1_button_style": "filled",
+            "card_1_button_color": "primary",
+            "card_1_button_size": "btn-md",
+            "show_card_2": true,
+            "card_2_button_text": "Read More",
+            "card_2_button_style": "filled",
+            "card_2_button_color": "primary",
+            "card_2_button_size": "btn-md",
+            "show_card_3": false,
+            "card_3_button_text": "Read More",
+            "card_3_button_style": "filled",
+            "card_3_button_color": "primary",
+            "card_3_button_size": "btn-md",
+            "show_card_4": false,
+            "card_4_button_text": "Read More",
+            "card_4_button_style": "filled",
+            "card_4_button_color": "primary",
+            "card_4_button_size": "btn-md",
+            "show_card_5": false,
+            "card_5_button_text": "Read More",
+            "card_5_button_style": "filled",
+            "card_5_button_color": "primary",
+            "card_5_button_size": "btn-md",
+            "show_card_6": false,
+            "card_6_button_text": "Read More",
+            "card_6_button_style": "filled",
+            "card_6_button_color": "primary",
+            "card_6_button_size": "btn-md",
+            "show_card_7": false,
+            "card_7_button_text": "Read More",
+            "card_7_button_style": "filled",
+            "card_7_button_color": "primary",
+            "card_7_button_size": "btn-md",
+            "show_card_8": false,
+            "card_8_button_text": "Read More",
+            "card_8_button_style": "filled",
+            "card_8_button_color": "primary",
+            "card_8_button_size": "btn-md",
+            "show_full_width_image": false,
+            "full_width_image_position": "top",
+            "full_width_image_border_radius": "rounded-none",
+            "show_description": false,
+            "show_side_image": false,
+            "side_image_width": 40,
+            "image": "",
+            "full_width_image": "",
+            "side_image": "",
+            "card_1_logo": "https://ik.imagekit.io/fluid/980191045/images/Q6BQ66/BBS_6ziib5237.png",
+            "card_1_text": "Your overall health depends on balancing your body, brain,",
+            "card_2_logo": "https://ik.imagekit.io/fluid/980191045/images/DQZBSS/Our-StoryLooper-Compress-poster-00001_Qy3rRwRxVu.jpg",
+            "card_2_text": "Your overall health depends on balancing your body, brain,"
+          }
+        },
+        "block_1763740861944_1jwuua9zd": {
+          "id": "block_1763740861944_1jwuua9zd",
+          "type": "card_grid_item",
+          "name": "card_grid_item",
+          "settings": {
+            "image_border_radius": "rounded-full",
+            "question": "Learn More",
+            "show_card_1": false,
+            "card_1_button_text": "Read More",
+            "card_1_button_style": "filled",
+            "card_1_button_color": "primary",
+            "card_1_button_size": "btn-md",
+            "show_card_2": false,
+            "card_2_button_text": "Read More",
+            "card_2_button_style": "filled",
+            "card_2_button_color": "primary",
+            "card_2_button_size": "btn-md",
+            "show_card_3": false,
+            "card_3_button_text": "Read More",
+            "card_3_button_style": "filled",
+            "card_3_button_color": "primary",
+            "card_3_button_size": "btn-md",
+            "show_card_4": false,
+            "card_4_button_text": "Read More",
+            "card_4_button_style": "filled",
+            "card_4_button_color": "primary",
+            "card_4_button_size": "btn-md",
+            "show_card_5": false,
+            "card_5_button_text": "Read More",
+            "card_5_button_style": "filled",
+            "card_5_button_color": "primary",
+            "card_5_button_size": "btn-md",
+            "show_card_6": false,
+            "card_6_button_text": "Read More",
+            "card_6_button_style": "filled",
+            "card_6_button_color": "primary",
+            "card_6_button_size": "btn-md",
+            "show_card_7": false,
+            "card_7_button_text": "Read More",
+            "card_7_button_style": "filled",
+            "card_7_button_color": "primary",
+            "card_7_button_size": "btn-md",
+            "show_card_8": false,
+            "card_8_button_text": "Read More",
+            "card_8_button_style": "filled",
+            "card_8_button_color": "primary",
+            "card_8_button_size": "btn-md",
+            "show_full_width_image": false,
+            "full_width_image_position": "top",
+            "full_width_image_border_radius": "rounded-none",
+            "show_description": true,
+            "show_side_image": true,
+            "side_image_width": 40,
+            "description": "Your overall health depends on balancing your body, brain,Your overall health depends on balancing your body, brain,",
+            "side_image": "https://ik.imagekit.io/fluid/980191045/images/JQ4MTX/Alkalete-packaginghighres-e1702588887824_VF7z6d3SL.png",
+            "image": "",
+            "full_width_image": ""
+          }
+        },
+        "block_1763740867470_9g6j7aq8o": {
+          "id": "block_1763740867470_9g6j7aq8o",
+          "type": "card_grid_item",
+          "name": "card_grid_item",
+          "settings": {
+            "image_border_radius": "rounded-full",
+            "question": "Learn More",
+            "show_card_1": false,
+            "card_1_button_text": "Read More",
+            "card_1_button_style": "filled",
+            "card_1_button_color": "primary",
+            "card_1_button_size": "btn-md",
+            "show_card_2": false,
+            "card_2_button_text": "Read More",
+            "card_2_button_style": "filled",
+            "card_2_button_color": "primary",
+            "card_2_button_size": "btn-md",
+            "show_card_3": false,
+            "card_3_button_text": "Read More",
+            "card_3_button_style": "filled",
+            "card_3_button_color": "primary",
+            "card_3_button_size": "btn-md",
+            "show_card_4": false,
+            "card_4_button_text": "Read More",
+            "card_4_button_style": "filled",
+            "card_4_button_color": "primary",
+            "card_4_button_size": "btn-md",
+            "show_card_5": false,
+            "card_5_button_text": "Read More",
+            "card_5_button_style": "filled",
+            "card_5_button_color": "primary",
+            "card_5_button_size": "btn-md",
+            "show_card_6": false,
+            "card_6_button_text": "Read More",
+            "card_6_button_style": "filled",
+            "card_6_button_color": "primary",
+            "card_6_button_size": "btn-md",
+            "show_card_7": false,
+            "card_7_button_text": "Read More",
+            "card_7_button_style": "filled",
+            "card_7_button_color": "primary",
+            "card_7_button_size": "btn-md",
+            "show_card_8": false,
+            "card_8_button_text": "Read More",
+            "card_8_button_style": "filled",
+            "card_8_button_color": "primary",
+            "card_8_button_size": "btn-md",
+            "show_full_width_image": false,
+            "full_width_image_position": "top",
+            "full_width_image_border_radius": "rounded-none",
+            "show_description": false,
+            "show_side_image": false,
+            "side_image_width": 40
+          }
+        },
+        "block_1763740871789_l9g6jn3vq": {
+          "id": "block_1763740871789_l9g6jn3vq",
+          "type": "card_grid_item",
+          "name": "card_grid_item",
+          "settings": {
+            "image_border_radius": "rounded-full",
+            "question": "Learn More",
+            "show_card_1": false,
+            "card_1_button_text": "Read More",
+            "card_1_button_style": "filled",
+            "card_1_button_color": "primary",
+            "card_1_button_size": "btn-md",
+            "show_card_2": false,
+            "card_2_button_text": "Read More",
+            "card_2_button_style": "filled",
+            "card_2_button_color": "primary",
+            "card_2_button_size": "btn-md",
+            "show_card_3": false,
+            "card_3_button_text": "Read More",
+            "card_3_button_style": "filled",
+            "card_3_button_color": "primary",
+            "card_3_button_size": "btn-md",
+            "show_card_4": false,
+            "card_4_button_text": "Read More",
+            "card_4_button_style": "filled",
+            "card_4_button_color": "primary",
+            "card_4_button_size": "btn-md",
+            "show_card_5": false,
+            "card_5_button_text": "Read More",
+            "card_5_button_style": "filled",
+            "card_5_button_color": "primary",
+            "card_5_button_size": "btn-md",
+            "show_card_6": false,
+            "card_6_button_text": "Read More",
+            "card_6_button_style": "filled",
+            "card_6_button_color": "primary",
+            "card_6_button_size": "btn-md",
+            "show_card_7": false,
+            "card_7_button_text": "Read More",
+            "card_7_button_style": "filled",
+            "card_7_button_color": "primary",
+            "card_7_button_size": "btn-md",
+            "show_card_8": false,
+            "card_8_button_text": "Read More",
+            "card_8_button_style": "filled",
+            "card_8_button_color": "primary",
+            "card_8_button_size": "btn-md",
+            "show_full_width_image": false,
+            "full_width_image_position": "top",
+            "full_width_image_border_radius": "rounded-none",
+            "show_description": false,
+            "show_side_image": false,
+            "side_image_width": 40
+          }
+        },
+        "block_1763740877604_5dgsu1u6z": {
+          "id": "block_1763740877604_5dgsu1u6z",
+          "type": "card_grid_item",
+          "name": "card_grid_item",
+          "settings": {
+            "image_border_radius": "rounded-full",
+            "question": "Learn More",
+            "show_card_1": false,
+            "card_1_button_text": "Read More",
+            "card_1_button_style": "filled",
+            "card_1_button_color": "primary",
+            "card_1_button_size": "btn-md",
+            "show_card_2": false,
+            "card_2_button_text": "Read More",
+            "card_2_button_style": "filled",
+            "card_2_button_color": "primary",
+            "card_2_button_size": "btn-md",
+            "show_card_3": false,
+            "card_3_button_text": "Read More",
+            "card_3_button_style": "filled",
+            "card_3_button_color": "primary",
+            "card_3_button_size": "btn-md",
+            "show_card_4": false,
+            "card_4_button_text": "Read More",
+            "card_4_button_style": "filled",
+            "card_4_button_color": "primary",
+            "card_4_button_size": "btn-md",
+            "show_card_5": false,
+            "card_5_button_text": "Read More",
+            "card_5_button_style": "filled",
+            "card_5_button_color": "primary",
+            "card_5_button_size": "btn-md",
+            "show_card_6": false,
+            "card_6_button_text": "Read More",
+            "card_6_button_style": "filled",
+            "card_6_button_color": "primary",
+            "card_6_button_size": "btn-md",
+            "show_card_7": false,
+            "card_7_button_text": "Read More",
+            "card_7_button_style": "filled",
+            "card_7_button_color": "primary",
+            "card_7_button_size": "btn-md",
+            "show_card_8": false,
+            "card_8_button_text": "Read More",
+            "card_8_button_style": "filled",
+            "card_8_button_color": "primary",
+            "card_8_button_size": "btn-md",
+            "show_full_width_image": false,
+            "full_width_image_position": "top",
+            "full_width_image_border_radius": "rounded-none",
+            "show_description": false,
+            "show_side_image": false,
+            "side_image_width": 40
+          }
+        }
+      }
+    },
+    "rcefy1vmt5a": {
+      "type": "best-sellers-carousel",
+      "settings": {
+        "title": "Shop our best sellers",
+        "title_font_family": "font-primary",
+        "title_font_size": "text-2xl",
+        "title_font_size_desktop": "lg:text-3xl",
+        "title_font_weight": "font-bold",
+        "title_color": "text-black",
+        "show_shop_all_button": false,
+        "show_navigation_controls": false,
+        "container_background_color": "",
+        "container_border_radius": "rounded-none",
+        "container_padding_y_mobile": "py-lg",
+        "container_padding_y_desktop": "lg:py-2xl",
+        "container_padding_x_mobile": "px-md",
+        "container_padding_x_desktop": "lg:px-xl",
+        "background_color": "bg-neutral-light",
+        "section_padding_y_mobile": "py-xl",
+        "section_padding_y_desktop": "lg:py-3xl",
+        "section_border_radius": "rounded-none"
+      }
+    },
+    "r79komq847m": {
+      "type": "content-image-split-logos",
+      "settings": {
+        "image_fit_mode": "fill",
+        "image_height": 400,
+        "round_top_left_radius": "rounded-none",
+        "round_top_right_radius": "rounded-none",
+        "round_bottom_left_radius": "rounded-none",
+        "round_bottom_right_radius": "rounded-none",
+        "flip_layout": true,
+        "use_gradient_background": false,
+        "background_color": "bg-white",
+        "section_border_radius": "rounded-none",
+        "description": "With Yoli's Omega Test Kit, you can quickly measure your omega-3 index and take control of your long-term health. When you reach the 8% benchmark, you'll join the Yoli 8 Percent Club — proof that you're fueling your body the right way.",
+        "description_font_family": "font-body",
+        "description_font_size": "text-base",
+        "description_font_size_desktop": "lg:text-lg",
+        "description_font_weight": "font-normal",
+        "description_color": "text-neutral-dark",
+        "heading": "Our Quality Promise",
+        "heading_font_family": "font-primary",
+        "heading_font_size": "text-4xl",
+        "heading_font_size_desktop": "lg:text-4xl",
+        "heading_font_weight": "font-medium",
+        "heading_color": "text-neutral-dark",
+        "show_logos": true,
+        "logo_position": "image",
+        "show_button": false,
+        "button_text": "Learn More",
+        "button_style": "filled",
+        "button_color": "primary",
+        "button_size": "btn-md",
+        "button_font_weight": "font-medium",
+        "logo_size_mobile": "96",
+        "logo_size_desktop": "96",
+        "hide_main_image": true
+      },
+      "blocks": {
+        "26ab320f": {
+          "id": "26ab320f",
+          "type": "logo",
+          "name": "logo",
+          "settings": {
+            "logo_image": "https://ik.imagekit.io/fluid/980191045/images/NZHANQ/67bf4f08aa3c041f068aecec_SoyFree_j1JXopbAt.png"
+          }
+        },
+        "80428ec9": {
+          "id": "80428ec9",
+          "type": "logo",
+          "name": "logo",
+          "settings": {
+            "logo_image": "https://ik.imagekit.io/fluid/980191045/images/ZXX4P2/67bf4f08051cfcde909f3596_NonGMO_x7v37yc9j.png"
+          }
+        },
+        "58aea520": {
+          "id": "58aea520",
+          "type": "logo",
+          "name": "logo",
+          "settings": {
+            "logo_image": "https://ik.imagekit.io/fluid/980191045/images/YBN8WJ/67bf4f0bef24625b868d0059_DairyFree_b9TVxXAx1.png"
+          }
+        },
+        "block_1764002221617_f5g4113rw": {
+          "id": "block_1764002221617_f5g4113rw",
+          "type": "logo",
+          "name": "logo",
+          "settings": {
+            "logo_image": "https://ik.imagekit.io/fluid/980191045/images/P3Q3H5/67bf4f087b97b4cab7d42c3e_GlutenFree_xU9JPwe4j.png"
+          }
+        },
+        "block_1764002221633_7zuxedjw8": {
+          "id": "block_1764002221633_7zuxedjw8",
+          "type": "logo",
+          "name": "logo",
+          "settings": {
+            "logo_image": "https://ik.imagekit.io/fluid/980191045/images/ZXX4P2/67bf4f08051cfcde909f3596_NonGMO_x7v37yc9j.png"
+          }
+        }
+      }
+    },
+    "kvbcn5oa07o": {
+      "type": "journey-hero",
+      "blocks": {
+        "adabba92": {
+          "id": "adabba92",
+          "type": "content_block",
+          "name": "content_block",
+          "settings": {
+            "heading": "Better Body Resolution Open Now",
+            "heading_font_family": "font-serif",
+            "heading_font_size": "text-5xl",
+            "heading_font_size_desktop": "lg:text-6xl",
+            "heading_font_weight": "font-normal",
+            "heading_color": "text-white",
+            "description": "Our story started because we knew there was a better way. Now, it's your turn. We invite you to experience the difference that integrity makes and discover what it feels like to truly come to life.",
+            "description_font_family": "font-body",
+            "description_font_size": "text-base",
+            "description_font_size_desktop": "lg:text-lg",
+            "description_font_weight": "font-normal",
+            "description_color": "text-white",
+            "show_button": true,
+            "button_text": "Find your Transformation kit",
+            "button_style": "filled",
+            "button_color": "white",
+            "button_size": "btn-md",
+            "button_font_weight": "font-normal",
+            "round_top_left_radius": "rounded-md",
+            "round_top_right_radius": "rounded-md",
+            "round_bottom_left_radius": "rounded-md",
+            "round_bottom_right_radius": "rounded-md",
+            "content_alignment": "left",
+            "content_max_width": 1200,
+            "block_padding_top_mobile": "pt-lg",
+            "block_padding_top_desktop": "lg:pt-xl",
+            "block_padding_bottom_mobile": "pb-lg",
+            "block_padding_bottom_desktop": "lg:pb-xl",
+            "block_padding_x_mobile": "px-lg",
+            "block_padding_x_desktop": "lg:px-2xl",
+            "container_background_image": "",
+            "container_background_color": "black",
+            "background_priority": "color",
+            "show_gradient_overlay": true,
+            "button_border": "hide",
+            "show_content_image": true,
+            "content_image_position": "right",
+            "content_image_fit": "cover",
+            "content_image_radius_top_left": "var(--radius-sm)",
+            "content_image_radius_top_right": "var(--radius-sm)",
+            "content_image_radius_bottom_left": "var(--radius-sm)",
+            "content_image_radius_bottom_right": "var(--radius-sm)",
+            "content_image": "https://ik.imagekit.io/fluid/980191045/images/43HUZ2/women-of-yoli-group-photo_MJq3wqI3h.webp"
+          }
+        }
+      },
+      "settings": {
+        "background_color": "bg-white",
+        "section_padding_y_mobile": "py-xl",
+        "section_padding_y_desktop": "lg:py-3xl",
+        "section_border_radius": "rounded-none",
+        "container_background_color": "",
+        "container_border_radius": "rounded-lg",
+        "container_padding_y_mobile": "py-lg",
+        "container_padding_y_desktop": "lg:py-lg",
+        "container_padding_x_mobile": "px-md",
+        "container_padding_x_desktop": "lg:px-xl"
+      }
+    },
+    "08dyhpaahzsb": {
+      "type": "journey-hero",
+      "blocks": {
+        "430e6c83": {
+          "id": "430e6c83",
+          "type": "content_block",
+          "name": "content_block",
+          "settings": {
+            "heading": "Your Journey\nStarts Here",
+            "heading_font_family": "font-handwritten",
+            "heading_font_size": "text-5xl",
+            "heading_font_size_desktop": "lg:text-6xl",
+            "heading_font_weight": "font-normal",
+            "heading_color": "text-white",
+            "description": "Our story started because we knew there was a better way.\nNow, it's your turn. We invite you to experience the\ndifference that integrity makes and discover what it feels like\nto truly come to life.",
+            "description_font_family": "font-body",
+            "description_font_size": "text-base",
+            "description_font_size_desktop": "lg:text-lg",
+            "description_font_weight": "font-normal",
+            "description_color": "text-white",
+            "show_button": true,
+            "button_text": "Find your Transformation kit",
+            "button_style": "filled",
+            "button_color": "white",
+            "button_size": "btn-md",
+            "button_font_weight": "font-normal",
+            "round_top_left_radius": "rounded-sm",
+            "round_top_right_radius": "rounded-sm",
+            "round_bottom_left_radius": "rounded-sm",
+            "round_bottom_right_radius": "rounded-4xl",
+            "content_alignment": "left",
+            "content_max_width": 1200,
+            "block_padding_top_mobile": "pt-lg",
+            "block_padding_top_desktop": "lg:pt-sm",
+            "block_padding_bottom_mobile": "pb-lg",
+            "block_padding_bottom_desktop": "lg:pb-sm",
+            "block_padding_x_mobile": "px-lg",
+            "block_padding_x_desktop": "lg:px-2xl",
+            "container_background_image": "https://ik.imagekit.io/fluid/980191045/images/YEHTS3/Picture1_KwtZ3V-eY.jpg",
+            "button_border": "hide",
+            "show_content_image": false,
+            "content_image_position": "right",
+            "content_image_fit": "cover",
+            "content_image_radius_top_left": "0",
+            "content_image_radius_top_right": "0",
+            "content_image_radius_bottom_left": "0",
+            "content_image_radius_bottom_right": "0",
+            "container_background_color": "",
+            "background_priority": "auto",
+            "show_gradient_overlay": true
+          }
+        }
+      }
+    }
+  },
+  "order": [
+    "lgp_product_header",
+    "lgp_scrolling_benefits",
+    "lgp_video_carousel",
+    "lgp_lifestyle_info",
+    "lgp_video_content_hero",
+    "lgp_standards",
+    "lgp_testimonials",
+    "lgp_content_split_1",
+    "lgp_numbered_steps",
+    "lgp_learn_more",
+    "lgp_best_sellers",
+    "lgp_content_split_2",
+    "lgp_journey_hero_1",
+    "lgp_journey_hero_2"
+  ]
+}
+{% endschema %}

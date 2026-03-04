@@ -1,0 +1,508 @@
+<!-- Text Block Effects 2 Section -->
+<section 
+  class="text-block-effects-2 {{ section.settings.background_color | default: 'bg-white' }} {{ section.settings.padding_top_mobile | default: 'pt-xl' }} {{ section.settings.padding_bottom_mobile | default: 'pb-3xl' }} {{ section.settings.padding_x_mobile | default: 'px-md' }} {% if section.settings.padding_top_desktop != blank %}{{ section.settings.padding_top_desktop }}{% else %}lg:pt-2xl{% endif %} {% if section.settings.padding_bottom_desktop != blank %}{{ section.settings.padding_bottom_desktop }}{% else %}lg:pb-4xl{% endif %} {% if section.settings.padding_x_desktop != blank %}{{ section.settings.padding_x_desktop }}{% else %}lg:px-xl{% endif %}"
+  id="section-{{ section.id }}">
+  
+  <div class="{{ section.settings.container_layout_width | default: 'container' }}">
+    <div class="text-block-effects-2-inner text-{{ section.settings.alignment | default: 'center' }}">
+      
+      <!-- Heading Text -->
+      {% if section.settings.heading != blank %}
+      <div class="text-block-effects-2-heading">
+        <h2 class="text-block-effects-2__heading {{ section.settings.heading_font_family | default: 'font-primary' }} {{ section.settings.heading_font_size | default: 'text-3xl' }} {{ section.settings.heading_font_size_desktop | default: 'lg:text-5xl' }} {{ section.settings.heading_font_weight | default: 'font-semibold' }} {{ section.settings.heading_color | default: 'text-black' }}">
+          {{ section.settings.heading }}
+        </h2>
+      </div>
+      {% endif %}
+      
+      <!-- Optional Button -->
+      {% if section.settings.button_text != blank and section.settings.button_url != blank %}
+      <div class="text-block-effects-2-footer">
+        <a href="{{ section.settings.button_url }}" class="btn btn-{{ section.settings.button_style | default: 'filled' }}-{{ section.settings.button_color | default: 'primary' }} {{ section.settings.button_size | default: 'btn-md' }} {{ settings.button_border_radius | default: 'rounded-md' }}" style="cursor: pointer;">
+          {{ section.settings.button_text }}
+        </a>
+      </div>
+      {% endif %}
+      
+    </div>
+  </div>
+</section>
+
+<style>
+  .text-block-effects-2-inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+    width: 100%;
+  }
+  
+  .text-block-effects-2-inner.text-left {
+    align-items: flex-start;
+  }
+  
+  .text-block-effects-2-inner.text-center {
+    align-items: center;
+  }
+  
+  .text-block-effects-2-inner.text-right {
+    align-items: flex-end;
+  }
+  
+  .text-block-effects-2-heading {
+    width: 100%;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+  
+  .text-block-effects-2-heading.fade-in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .text-block-effects-2__heading {
+    margin: 0;
+    line-height: 1.1;
+  }
+  
+  .text-block-effects-2-footer {
+    display: flex;
+    justify-content: inherit;
+  }
+  
+  /* Ensure heading font family classes work */
+  .text-block-effects-2 .text-block-effects-2__heading.font-primary {
+    font-family: var(--font-primary) !important;
+  }
+  
+  .text-block-effects-2 .text-block-effects-2__heading.font-body {
+    font-family: var(--font-body) !important;
+  }
+  
+  .text-block-effects-2 .text-block-effects-2__heading.font-handwritten {
+    font-family: var(--font-handwritten) !important;
+  }
+  
+  .text-block-effects-2 .text-block-effects-2__heading.font-serif {
+    font-family: var(--font-serif) !important;
+  }
+  
+  /* Ensure heading font weight classes work */
+  .text-block-effects-2 .text-block-effects-2__heading.font-light {
+    font-weight: 300 !important;
+  }
+  
+  .text-block-effects-2 .text-block-effects-2__heading.font-normal {
+    font-weight: 400 !important;
+  }
+  
+  .text-block-effects-2 .text-block-effects-2__heading.font-medium {
+    font-weight: 500 !important;
+  }
+  
+  .text-block-effects-2 .text-block-effects-2__heading.font-semibold {
+    font-weight: 600 !important;
+  }
+  
+  .text-block-effects-2 .text-block-effects-2__heading.font-bold {
+    font-weight: 700 !important;
+  }
+  
+  /* Ensure heading font size classes work */
+  .text-block-effects-2 .text-block-effects-2__heading.text-xs { font-size: var(--font-size-xs) !important; }
+  .text-block-effects-2 .text-block-effects-2__heading.text-sm { font-size: var(--font-size-sm) !important; }
+  .text-block-effects-2 .text-block-effects-2__heading.text-base { font-size: var(--font-size-base) !important; }
+  .text-block-effects-2 .text-block-effects-2__heading.text-lg { font-size: var(--font-size-lg) !important; }
+  .text-block-effects-2 .text-block-effects-2__heading.text-xl { font-size: var(--font-size-xl) !important; }
+  .text-block-effects-2 .text-block-effects-2__heading.text-2xl { font-size: var(--font-size-2xl) !important; }
+  .text-block-effects-2 .text-block-effects-2__heading.text-3xl { font-size: var(--font-size-3xl) !important; }
+  .text-block-effects-2 .text-block-effects-2__heading.text-4xl { font-size: var(--font-size-4xl) !important; }
+  .text-block-effects-2 .text-block-effects-2__heading.text-5xl { font-size: var(--font-size-5xl) !important; }
+  .text-block-effects-2 .text-block-effects-2__heading.text-6xl { font-size: var(--font-size-6xl) !important; }
+  .text-block-effects-2 .text-block-effects-2__heading.text-7xl { font-size: var(--font-size-7xl) !important; }
+  .text-block-effects-2 .text-block-effects-2__heading.text-8xl { font-size: var(--font-size-8xl) !important; }
+  .text-block-effects-2 .text-block-effects-2__heading.text-9xl { font-size: var(--font-size-9xl) !important; }
+  
+  /* Ensure heading desktop font size classes work */
+  @media (min-width: 1024px) {
+    .text-block-effects-2 .text-block-effects-2__heading.lg\:text-xs { font-size: var(--font-size-xs) !important; }
+    .text-block-effects-2 .text-block-effects-2__heading.lg\:text-sm { font-size: var(--font-size-sm) !important; }
+    .text-block-effects-2 .text-block-effects-2__heading.lg\:text-base { font-size: var(--font-size-base) !important; }
+    .text-block-effects-2 .text-block-effects-2__heading.lg\:text-lg { font-size: var(--font-size-lg) !important; }
+    .text-block-effects-2 .text-block-effects-2__heading.lg\:text-xl { font-size: var(--font-size-xl) !important; }
+    .text-block-effects-2 .text-block-effects-2__heading.lg\:text-2xl { font-size: var(--font-size-2xl) !important; }
+    .text-block-effects-2 .text-block-effects-2__heading.lg\:text-3xl { font-size: var(--font-size-3xl) !important; }
+    .text-block-effects-2 .text-block-effects-2__heading.lg\:text-4xl { font-size: var(--font-size-4xl) !important; }
+    .text-block-effects-2 .text-block-effects-2__heading.lg\:text-5xl { font-size: var(--font-size-5xl) !important; }
+    .text-block-effects-2 .text-block-effects-2__heading.lg\:text-6xl { font-size: var(--font-size-6xl) !important; }
+    .text-block-effects-2 .text-block-effects-2__heading.lg\:text-7xl { font-size: var(--font-size-7xl) !important; }
+    .text-block-effects-2 .text-block-effects-2__heading.lg\:text-8xl { font-size: var(--font-size-8xl) !important; }
+    .text-block-effects-2 .text-block-effects-2__heading.lg\:text-9xl { font-size: var(--font-size-9xl) !important; }
+  }
+  
+  /* Ensure heading color classes work */
+  .text-block-effects-2 .text-block-effects-2__heading.text-white { color: var(--clr-white) !important; }
+  .text-block-effects-2 .text-block-effects-2__heading.text-black { color: var(--clr-black) !important; }
+  .text-block-effects-2 .text-block-effects-2__heading.text-primary { color: var(--clr-primary) !important; }
+  .text-block-effects-2 .text-block-effects-2__heading.text-secondary { color: var(--clr-secondary) !important; }
+  .text-block-effects-2 .text-block-effects-2__heading.text-tertiary { color: var(--clr-tertiary) !important; }
+  .text-block-effects-2 .text-block-effects-2__heading.text-quaternary { color: var(--clr-quaternary) !important; }
+  .text-block-effects-2 .text-block-effects-2__heading.text-success { color: var(--clr-success) !important; }
+  .text-block-effects-2 .text-block-effects-2__heading.text-warning { color: var(--clr-warning) !important; }
+  .text-block-effects-2 .text-block-effects-2__heading.text-error { color: var(--clr-error) !important; }
+  .text-block-effects-2 .text-block-effects-2__heading.text-info { color: var(--clr-info) !important; }
+  .text-block-effects-2 .text-block-effects-2__heading.text-neutral { color: var(--clr-neutral) !important; }
+  .text-block-effects-2 .text-block-effects-2__heading.text-neutral-light { color: var(--clr-neutral-light) !important; }
+  .text-block-effects-2 .text-block-effects-2__heading.text-neutral-dark { color: var(--clr-neutral-dark) !important; }
+</style>
+
+<script>
+(function() {
+  const sectionId = 'section-{{ section.id }}';
+  
+  function initFadeUp() {
+    const section = document.getElementById(sectionId);
+    if (!section) return;
+    
+    const headingBlock = section.querySelector('.text-block-effects-2-heading');
+    if (!headingBlock) return;
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('fade-in');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    });
+    
+    observer.observe(headingBlock);
+  }
+  
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initFadeUp);
+  } else {
+    initFadeUp();
+  }
+  
+  // Re-init on Shopify theme editor updates
+  if (typeof Shopify !== 'undefined' && Shopify.designMode) {
+    document.addEventListener('shopify:section:load', initFadeUp);
+  }
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Text Block Effects 2",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout Width (Container)"
+    },
+    {
+      "type": "select",
+      "id": "container_layout_width",
+      "label": "Layout Width (Container)",
+      "options": [
+        { "value": "container", "label": "Container" },
+        { "value": "container-full", "label": "Full Width (Container Full)" }
+      ],
+      "default": "container",
+      "info": "Choose whether the container is constrained to the width of the page or full width"
+    },
+    {
+      "type": "header",
+      "content": "Heading"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading Text",
+      "default": "Your Journey Starts Here"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_family",
+      "label": "Font Family",
+      "options": [
+        { "value": "font-primary", "label": "Primary" },
+        { "value": "font-body", "label": "Body" },
+        { "value": "font-handwritten", "label": "Handwritten" },
+        { "value": "font-serif", "label": "Serif" }
+      ],
+      "default": "font-primary"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_size",
+      "label": "Font Size (Mobile)",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" },
+        { "value": "text-xl", "label": "Extra Large" },
+        { "value": "text-2xl", "label": "2X Large" },
+        { "value": "text-3xl", "label": "3X Large" },
+        { "value": "text-4xl", "label": "4X Large" },
+        { "value": "text-5xl", "label": "5X Large" },
+        { "value": "text-6xl", "label": "6X Large" },
+        { "value": "text-7xl", "label": "7X Large" },
+        { "value": "text-8xl", "label": "8X Large" },
+        { "value": "text-9xl", "label": "9X Large" }
+      ],
+      "default": "text-3xl"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_size_desktop",
+      "label": "Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-xs", "label": "Extra Small" },
+        { "value": "lg:text-sm", "label": "Small" },
+        { "value": "lg:text-base", "label": "Base" },
+        { "value": "lg:text-lg", "label": "Large" },
+        { "value": "lg:text-xl", "label": "Extra Large" },
+        { "value": "lg:text-2xl", "label": "2X Large" },
+        { "value": "lg:text-3xl", "label": "3X Large" },
+        { "value": "lg:text-4xl", "label": "4X Large" },
+        { "value": "lg:text-5xl", "label": "5X Large" },
+        { "value": "lg:text-6xl", "label": "6X Large" },
+        { "value": "lg:text-7xl", "label": "7X Large" },
+        { "value": "lg:text-8xl", "label": "8X Large" },
+        { "value": "lg:text-9xl", "label": "9X Large" }
+      ],
+      "default": "lg:text-5xl"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_weight",
+      "label": "Font Weight",
+      "options": [
+        { "value": "font-light", "label": "Light" },
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semi Bold" },
+        { "value": "font-bold", "label": "Bold" }
+      ],
+      "default": "font-semibold"
+    },
+    {
+      "type": "select",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "options": [
+        { "value": "text-white", "label": "White" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-primary", "label": "Primary" },
+        { "value": "text-secondary", "label": "Secondary" },
+        { "value": "text-tertiary", "label": "Tertiary" },
+        { "value": "text-quaternary", "label": "Quaternary" },
+        { "value": "text-success", "label": "Success" },
+        { "value": "text-warning", "label": "Warning" },
+        { "value": "text-error", "label": "Error" },
+        { "value": "text-info", "label": "Info" },
+        { "value": "text-neutral", "label": "Neutral" },
+        { "value": "text-neutral-light", "label": "Neutral Light" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "text-black"
+    },
+    {
+      "type": "header",
+      "content": "Layout Settings"
+    },
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "Text Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Button Settings"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button URL"
+    },
+    {
+      "type": "select",
+      "id": "button_style",
+      "label": "Button Style",
+      "options": [
+        { "value": "filled", "label": "Filled" },
+        { "value": "outline", "label": "Outline" },
+        { "value": "ghost", "label": "Ghost" }
+      ],
+      "default": "filled"
+    },
+    {
+      "type": "select",
+      "id": "button_color",
+      "label": "Button Color",
+      "options": [
+        { "value": "primary", "label": "Primary" },
+        { "value": "secondary", "label": "Secondary" },
+        { "value": "tertiary", "label": "Tertiary" },
+        { "value": "quaternary", "label": "Quaternary" },
+        { "value": "black", "label": "Black" },
+        { "value": "white", "label": "White" }
+      ],
+      "default": "primary"
+    },
+    {
+      "type": "select",
+      "id": "button_size",
+      "label": "Button Size",
+      "options": [
+        { "value": "btn-xs", "label": "Extra Small" },
+        { "value": "btn-sm", "label": "Small" },
+        { "value": "btn-md", "label": "Medium" },
+        { "value": "btn-lg", "label": "Large" },
+        { "value": "btn-xl", "label": "Extra Large" }
+      ],
+      "default": "btn-md"
+    },
+    {
+      "type": "header",
+      "content": "Section Background"
+    },
+    {
+      "type": "select",
+      "id": "background_color",
+      "label": "Background Color",
+      "options": [
+        { "value": "bg-white", "label": "White" },
+        { "value": "bg-black", "label": "Black" },
+        { "value": "bg-primary", "label": "Primary" },
+        { "value": "bg-secondary", "label": "Secondary" },
+        { "value": "bg-tertiary", "label": "Tertiary" },
+        { "value": "bg-quaternary", "label": "Quaternary" },
+        { "value": "bg-neutral", "label": "Neutral" },
+        { "value": "bg-neutral-light", "label": "Neutral Light" },
+        { "value": "bg-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "bg-white"
+    },
+    {
+      "type": "header",
+      "content": "Section Spacing"
+    },
+    {
+      "type": "select",
+      "id": "padding_top_mobile",
+      "label": "Padding Top (Mobile)",
+      "options": [
+        { "value": "pt-0", "label": "None" },
+        { "value": "pt-xs", "label": "Extra Small" },
+        { "value": "pt-sm", "label": "Small" },
+        { "value": "pt-md", "label": "Medium" },
+        { "value": "pt-lg", "label": "Large" },
+        { "value": "pt-xl", "label": "Extra Large" },
+        { "value": "pt-2xl", "label": "2X Large" },
+        { "value": "pt-3xl", "label": "3X Large" }
+      ],
+      "default": "pt-xl"
+    },
+    {
+      "type": "select",
+      "id": "padding_bottom_mobile",
+      "label": "Padding Bottom (Mobile)",
+      "options": [
+        { "value": "pb-0", "label": "None" },
+        { "value": "pb-xs", "label": "Extra Small" },
+        { "value": "pb-sm", "label": "Small" },
+        { "value": "pb-md", "label": "Medium" },
+        { "value": "pb-lg", "label": "Large" },
+        { "value": "pb-xl", "label": "Extra Large" },
+        { "value": "pb-2xl", "label": "2X Large" },
+        { "value": "pb-3xl", "label": "3X Large" }
+      ],
+      "default": "pb-3xl"
+    },
+    {
+      "type": "select",
+      "id": "padding_x_mobile",
+      "label": "Padding Left Right (Mobile)",
+      "options": [
+        { "value": "px-0", "label": "None" },
+        { "value": "px-xs", "label": "Extra Small" },
+        { "value": "px-sm", "label": "Small" },
+        { "value": "px-md", "label": "Medium" },
+        { "value": "px-lg", "label": "Large" },
+        { "value": "px-xl", "label": "Extra Large" }
+      ],
+      "default": "px-md"
+    },
+    {
+      "type": "select",
+      "id": "padding_top_desktop",
+      "label": "Padding Top (Desktop)",
+      "options": [
+        { "value": "lg:pt-0", "label": "None" },
+        { "value": "lg:pt-xs", "label": "Extra Small" },
+        { "value": "lg:pt-sm", "label": "Small" },
+        { "value": "lg:pt-md", "label": "Medium" },
+        { "value": "lg:pt-lg", "label": "Large" },
+        { "value": "lg:pt-xl", "label": "Extra Large" },
+        { "value": "lg:pt-2xl", "label": "2X Large" },
+        { "value": "lg:pt-3xl", "label": "3X Large" }
+      ],
+      "default": "lg:pt-2xl"
+    },
+    {
+      "type": "select",
+      "id": "padding_bottom_desktop",
+      "label": "Padding Bottom (Desktop)",
+      "options": [
+        { "value": "lg:pb-0", "label": "None" },
+        { "value": "lg:pb-xs", "label": "Extra Small" },
+        { "value": "lg:pb-sm", "label": "Small" },
+        { "value": "lg:pb-md", "label": "Medium" },
+        { "value": "lg:pb-lg", "label": "Large" },
+        { "value": "lg:pb-xl", "label": "Extra Large" },
+        { "value": "lg:pb-2xl", "label": "2X Large" },
+        { "value": "lg:pb-3xl", "label": "3X Large" },
+        { "value": "lg:pb-4xl", "label": "4X Large" }
+      ],
+      "default": "lg:pb-4xl"
+    },
+    {
+      "type": "select",
+      "id": "padding_x_desktop",
+      "label": "Padding Left Right (Desktop)",
+      "options": [
+        { "value": "lg:px-0", "label": "None" },
+        { "value": "lg:px-xs", "label": "Extra Small" },
+        { "value": "lg:px-sm", "label": "Small" },
+        { "value": "lg:px-md", "label": "Medium" },
+        { "value": "lg:px-lg", "label": "Large" },
+        { "value": "lg:px-xl", "label": "Extra Large" },
+        { "value": "lg:px-2xl", "label": "2X Large" }
+      ],
+      "default": "lg:px-xl"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Text Block Effects 2"
+    }
+  ]
+}
+{% endschema %}

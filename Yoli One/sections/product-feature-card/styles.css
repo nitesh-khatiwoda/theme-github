@@ -1,0 +1,208 @@
+/* ============================================
+   PRODUCT FEATURE CARD SECTION
+   Background image with overlaid white card
+   ============================================ */
+
+.product-feature-card {
+  position: relative;
+  /* z-index: var(--z-10); */
+  overflow: hidden;
+  margin: 2rem;
+}
+
+/* Section background image styling */
+.product-feature-card[data-bg] {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* ============================================
+   CONTAINER
+   ============================================ */
+
+.product-feature-card__inner {
+  position: relative;
+  z-index: var(--z-10);
+}
+
+.product-feature-card__inner > * {
+  position: relative;
+  z-index: var(--z-10);
+}
+
+/* ============================================
+   WHITE CARD CONTAINER
+   ============================================ */
+
+.product-feature-card__card {
+  width: 100%;
+  overflow: hidden;
+}
+
+/* ============================================
+   HEADER (Title + Button)
+   ============================================ */
+
+.product-feature-card__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  padding: 2rem;
+  align-items: flex-start;
+}
+
+@media (min-width: 991px) {
+  .product-feature-card__header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem;
+  }
+}
+
+/* Title Wrapper */
+.product-feature-card__title-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  min-width: 0;
+}
+
+.product-feature-card__title {
+  margin: 0;
+  line-height: 1.28;
+  letter-spacing: -0.011em;
+}
+
+.product-feature-card__subtitle {
+  margin: 0;
+  margin-top: 4px;
+  line-height: 1.58;
+  letter-spacing: -0.011em;
+}
+
+/* Button Wrapper */
+.product-feature-card__button-wrapper {
+  flex-shrink: 0;
+}
+
+/* ============================================
+   SEPARATOR
+   ============================================ */
+
+.product-feature-card__separator {
+  height: 1px;
+  width: 100%;
+  background-color: rgba(233, 231, 230, 1);
+  border: none;
+}
+
+/* ============================================
+   FEATURES GRID
+   ============================================ */
+
+.product-feature-card__features {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-2xl);
+  padding: 2rem;
+}
+
+@media (min-width: 768px) {
+  .product-feature-card__features {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 991px) {
+  .product-feature-card__features {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-3xl);
+    padding: 2rem;
+  }
+}
+
+/* Individual Feature */
+.product-feature-card__feature {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  min-width: 0;
+}
+
+/* Feature Icon */
+.product-feature-card__icon {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-sm);
+}
+
+.product-feature-card__icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.product-feature-card__icon svg {
+  width: 100%;
+  height: 100%;
+  flex-shrink: 0;
+  color: var(--clr-primary);
+}
+
+/* Feature Title */
+.product-feature-card__feature-title {
+  margin: 0;
+  line-height: 1.63;
+  letter-spacing: -0.011em;
+}
+
+/* Feature Description */
+.product-feature-card__feature-description {
+  margin: 0;
+  margin-top: 4px;
+  line-height: 1.79;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+/* Mobile: Stack everything */
+@media (max-width: 767px) {
+  .product-feature-card__header {
+    padding: 2rem;
+  }
+  
+  .product-feature-card__features {
+    padding: 2rem;
+  }
+  
+  .product-feature-card__button-wrapper {
+    width: 100%;
+  }
+  
+  .product-feature-card__button-wrapper .btn {
+    width: 100%;
+  }
+}
+
+/* Tablet: Two columns for features */
+@media (min-width: 768px) and (max-width: 990px) {
+  .product-feature-card__header {
+    padding: 2rem;
+  }
+  
+  .product-feature-card__features {
+    padding: 2rem;
+  }
+}
+
+

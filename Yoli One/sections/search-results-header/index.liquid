@@ -1,0 +1,118 @@
+{%- style -%}
+  .search-results-header-section {
+    text-align: center;
+    padding: 40px 16px 32px;
+  }
+  
+  @media (min-width: 768px) {
+    .search-results-header-section {
+      padding: 60px 32px 48px;
+    }
+  }
+  
+  .search-results-header-section .container {
+    max-width: var(--container-max-width, 1408px);
+    margin: 0 auto;
+  }
+  
+  .search-results-heading {
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--color-text, #1a1a1a);
+    margin: 0 0 12px;
+    font-family: var(--font-primary);
+  }
+  
+  @media (min-width: 768px) {
+    .search-results-heading {
+      font-size: 42px;
+      margin-bottom: 16px;
+    }
+  }
+  
+  .search-results-count {
+    font-size: 16px;
+    color: var(--color-text-muted, #666);
+    margin: 0;
+    font-family: var(--font-body);
+  }
+  
+  @media (min-width: 768px) {
+    .search-results-count {
+      font-size: 18px;
+    }
+  }
+  
+  .search-results-query {
+    font-weight: 500;
+    color: var(--color-text, #1a1a1a);
+  }
+{%- endstyle -%}
+
+{% assign search_query = request.path | split: '?' | last | split: 'q=' | last | split: '&' | first | url_decode %}
+{% if search_query == blank %}
+  {% assign search_query = params.q | default: params.search | default: '' %}
+{% endif %}
+
+<section class="search-results-header-section {{ section.settings.background_color }}">
+  <div class="container">
+    <h1 class="search-results-heading">{{ section.settings.heading | default: 'Search' }}</h1>
+    
+    {% if search_query != blank %}
+      <p class="search-results-count">
+        {{ section.settings.results_text_before | default: 'Results for' }} 
+        "<span class="search-results-query">{{ search_query }}</span>"
+      </p>
+    {% else %}
+      <p class="search-results-count">{{ section.settings.no_query_text | default: 'Browse all products' }}</p>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Search Results Header",
+  "tag": "section",
+  "class": "search-results-header",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Search"
+    },
+    {
+      "type": "text",
+      "id": "results_text_before",
+      "label": "Results Text (before query)",
+      "default": "Results for"
+    },
+    {
+      "type": "text",
+      "id": "no_query_text",
+      "label": "Text when no query",
+      "default": "Browse all products"
+    },
+    {
+      "type": "select",
+      "id": "background_color",
+      "label": "Background Color",
+      "options": [
+        { "value": "bg-white", "label": "White" },
+        { "value": "bg-primary", "label": "Primary" },
+        { "value": "bg-secondary", "label": "Secondary" },
+        { "value": "bg-tertiary", "label": "Tertiary" },
+        { "value": "bg-neutral", "label": "Neutral" },
+        { "value": "bg-neutral-light", "label": "Neutral Light" }
+      ],
+      "default": "bg-white"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Search Results Header"
+    }
+  ]
+}
+{% endschema %}
+

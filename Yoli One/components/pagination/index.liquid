@@ -1,0 +1,179 @@
+{%- comment -%}
+  Pagination Component (Yoli One Style)
+  
+  Supports both approaches:
+  1. Liquid's built-in paginate object (like fluid theme):
+     {% render 'components/pagination/index', paginate: paginate, anchor: '' %}
+  
+  2. Manual parameters:
+     {% render 'components/pagination/index', 
+       current_page: current_page,
+       total_pages: total_pages,
+       total_count: total_count,
+       per_page: per_page
+     %}
+  
+  Optional styling parameters:
+  - button_font_family, button_font_size, button_font_weight, button_color
+  - info_font_family, info_font_size, info_color
+  - base_url, anchor
+{%- endcomment -%}
+
+{%- comment -%} Check if using Liquid's paginate object (fluid approach) {%- endcomment -%}
+{%- if paginate -%}
+  {%- assign current_page_num = paginate.current_page -%}
+  {%- assign total_pages_num = paginate.pages -%}
+  {%- assign has_paginate_object = true -%}
+{%- else -%}
+  {%- assign has_paginate_object = false -%}
+  {%- assign per_page = per_page | default: 10 -%}
+  {%- if pagination and pagination.per_page -%}
+    {%- assign per_page = pagination.per_page | plus: 0 -%}
+  {%- elsif request.query_parameters.count -%}
+    {%- assign per_page = request.query_parameters.count | plus: 0 -%}
+  {%- endif -%}
+
+  {%- assign current_page_num = current_page | default: 1 -%}
+  {%- if pagination and pagination.current_page -%}
+    {%- assign current_page_num = pagination.current_page | plus: 0 -%}
+  {%- elsif request.query_parameters.page -%}
+    {%- assign current_page_num = request.query_parameters.page | plus: 0 -%}
+  {%- endif -%}
+
+  {%- assign total_pages_num = 0 -%}
+  {%- if total_pages and total_pages > 0 -%}
+    {%- assign total_pages_num = total_pages | plus: 0 -%}
+  {%- elsif pagination and pagination.total_pages -%}
+    {%- assign total_pages_num = pagination.total_pages | plus: 0 -%}
+  {%- elsif total_count and total_count > 0 -%}
+    {%- assign total_count_num = total_count | plus: 0 -%}
+    {%- assign total_pages_num = total_count_num | divided_by: per_page | plus: 0 -%}
+    {%- if total_count_num | modulo: per_page > 0 -%}
+      {%- assign total_pages_num = total_pages_num | plus: 1 -%}
+    {%- endif -%}
+  {%- endif -%}
+{%- endif -%}
+
+{%- assign pagination_anchor = anchor | default: '' -%}
+{%- assign pagination_base_url = base_url | default: url | default: request.path -%}
+
+{%- comment -%} Show pagination if we have more than one page {%- endcomment -%}
+{%- if total_pages_num > 1 -%}
+  <div class="shop-pagination" data-current-page="{{ current_page_num }}" data-total-pages="{{ total_pages_num }}" data-base-url="{{ pagination_base_url }}">
+    <div class="pagination-wrapper">
+      {%- comment -%} Previous Button {%- endcomment -%}
+      {%- if has_paginate_object and paginate.previous -%}
+        {%- comment -%} Use Liquid's paginate object (fluid approach) {%- endcomment -%}
+        <a href="{{ paginate.previous.url }}{{ pagination_anchor }}" class="pagination-btn pagination-prev {{ button_font_family | default: 'font-body' }} {{ button_font_size | default: 'text-sm' }} {{ button_color | default: 'text-primary' }} font-{{ button_font_weight | default: 'medium' }}" aria-label="Previous page">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>Previous</span>
+        </a>
+      {%- elsif current_page_num > 1 -%}
+        {%- comment -%} Manual pagination approach {%- endcomment -%}
+        {%- assign prev_page = current_page_num | minus: 1 -%}
+        <a href="#" class="pagination-btn pagination-prev {{ button_font_family | default: 'font-body' }} {{ button_font_size | default: 'text-sm' }} {{ button_color | default: 'text-primary' }} font-{{ button_font_weight | default: 'medium' }}" data-page="{{ prev_page }}" aria-label="Previous page">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>Previous</span>
+        </a>
+      {%- else -%}
+        <span class="pagination-btn pagination-prev pagination-disabled {{ button_font_family | default: 'font-body' }} {{ button_font_size | default: 'text-sm' }} {{ button_color | default: 'text-primary' }} font-{{ button_font_weight | default: 'medium' }}" aria-label="Previous page" aria-disabled="true">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"/>
+          </svg>
+          <span>Previous</span>
+        </span>
+      {%- endif -%}
+      
+      {%- comment -%} Page Info {%- endcomment -%}
+      <div class="pagination-info {{ info_font_family | default: 'font-body' }} {{ info_font_size | default: 'text-sm' }} {{ info_color | default: 'text-primary' }}">
+        <span>Page {{ current_page_num }} of {{ total_pages_num }}</span>
+      </div>
+      
+      {%- comment -%} Next Button {%- endcomment -%}
+      {%- if has_paginate_object and paginate.next -%}
+        {%- comment -%} Use Liquid's paginate object (fluid approach) {%- endcomment -%}
+        <a href="{{ paginate.next.url }}{{ pagination_anchor }}" class="pagination-btn pagination-next {{ button_font_family | default: 'font-body' }} {{ button_font_size | default: 'text-sm' }} {{ button_color | default: 'text-primary' }} font-{{ button_font_weight | default: 'medium' }}" aria-label="Next page">
+          <span>Next</span>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6 4L10 8L6 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      {%- elsif current_page_num < total_pages_num -%}
+        {%- comment -%} Manual pagination approach {%- endcomment -%}
+        {%- assign next_page = current_page_num | plus: 1 -%}
+        <a href="#" class="pagination-btn pagination-next {{ button_font_family | default: 'font-body' }} {{ button_font_size | default: 'text-sm' }} {{ button_color | default: 'text-primary' }} font-{{ button_font_weight | default: 'medium' }}" data-page="{{ next_page }}" aria-label="Next page">
+          <span>Next</span>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6 4L10 8L6 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      {%- else -%}
+        <span class="pagination-btn pagination-next pagination-disabled {{ button_font_family | default: 'font-body' }} {{ button_font_size | default: 'text-sm' }} {{ button_color | default: 'text-primary' }} font-{{ button_font_weight | default: 'medium' }}" aria-label="Next page" aria-disabled="true">
+          <span>Next</span>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6 4L10 8L6 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"/>
+          </svg>
+        </span>
+      {%- endif -%}
+    </div>
+  </div>
+  
+  {%- comment -%} Only include JavaScript for manual pagination (not needed for Liquid's paginate) {%- endcomment -%}
+  {%- unless has_paginate_object -%}
+    <script>
+      (function() {
+        // Handle pagination clicks
+        function handlePaginationClick(e) {
+          const btn = e.currentTarget;
+          if (btn.classList.contains('pagination-disabled')) {
+            e.preventDefault();
+            return false;
+          }
+          
+          const page = btn.getAttribute('data-page');
+          if (!page) {
+            e.preventDefault();
+            return false;
+          }
+          
+          // Get the filter form if it exists
+          const filterForm = document.getElementById('filterrific_filter');
+          const currentUrl = new URL(window.location.href);
+          const currentParams = new URLSearchParams(currentUrl.search);
+          
+          // Update page parameter
+          currentParams.set('page', page);
+          
+          // Build new URL
+          let baseUrl = window.location.pathname;
+          if (filterForm) {
+            baseUrl = filterForm.getAttribute('url') || baseUrl;
+          }
+          const newUrl = baseUrl.split('?')[0] + '?' + currentParams.toString();
+          
+          // Navigate to new URL
+          window.location.href = newUrl;
+          e.preventDefault();
+          return false;
+        }
+        
+        // Initialize pagination when DOM is ready
+        function initPagination() {
+          document.querySelectorAll('.shop-pagination .pagination-btn[data-page]').forEach(function(btn) {
+            btn.addEventListener('click', handlePaginationClick);
+          });
+        }
+        
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', initPagination);
+        } else {
+          initPagination();
+        }
+      })();
+    </script>
+  {%- endunless -%}
+{%- endif -%}

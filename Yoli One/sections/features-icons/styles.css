@@ -1,0 +1,100 @@
+/* Features Icons Section Styles */
+
+.features-icons {
+  position: relative;
+}
+
+/* Features Header - Extra spacing to accommodate overlapping icon badges */
+.features-header {
+  margin-bottom: 120px !important;
+}
+
+@media (max-width: 767px) {
+  .features-header {
+    margin-bottom: 90px !important;
+  }
+}
+
+/* Features Grid */
+.features-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-lg);
+}
+
+@media (min-width: 768px) {
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .features-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Feature Card */
+.feature-card {
+  position: relative;
+  padding: 81px 22px 30px 22px;
+  display: flex;
+  flex-direction: column;
+  min-height: 250px;
+}
+
+/* Icon Badge - Overlapping Circle */
+.feature-icon-badge {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+.feature-icon-badge img,
+.feature-icon-badge svg {
+  display: block;
+}
+
+/* Card Content */
+.feature-card-content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.feature-title h3 {
+  margin: 0;
+  line-height: 1.2;
+}
+
+.feature-description p {
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Mobile Adjustments */
+@media (max-width: 767px) {
+  .feature-card {
+    padding: 70px 18px 24px 18px;
+    min-height: 220px;
+  }
+
+  .features-grid {
+    gap: var(--space-md);
+  }
+}
+
+/* Tablet Adjustments */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-lg);
+  }
+}
+

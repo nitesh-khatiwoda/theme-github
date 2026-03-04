@@ -1,0 +1,134 @@
+/* Scrolling Benefits / Ticker Styles */
+
+.scrolling-benefits {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+/* Ticker Wrapper */
+.ticker-wrapper {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Ticker Content - Animated Container */
+.ticker-content {
+  display: flex;
+  align-items: center;
+  animation: scroll linear infinite;
+  will-change: transform;
+}
+
+/* Ticker Items Container */
+.ticker-items {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  /* Gap is now controlled by inline style from section settings */
+}
+
+/* Individual Ticker Item */
+.ticker-item {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  gap: var(--space-sm);
+  /* Padding removed - spacing now controlled by ticker-items gap */
+}
+
+.ticker-item span {
+  white-space: nowrap;
+  letter-spacing: 0.05em;
+}
+
+/* Ticker Item Image */
+.ticker-item-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ticker-item-image img {
+  display: block;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+/* Ticker Icon/Separator */
+.ticker-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  /* Padding removed - spacing now controlled by ticker-items gap */
+}
+
+.ticker-icon svg,
+.ticker-icon img {
+  flex-shrink: 0;
+}
+
+/* Scrolling Animation */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Reverse Scrolling Animation (right direction) */
+@keyframes scroll-reverse {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+/* Apply reverse animation when scroll-reverse class is present */
+.ticker-content.scroll-reverse {
+  animation-name: scroll-reverse;
+}
+
+/* Pause animation on hover (default behavior) */
+.scrolling-benefits:hover .ticker-content {
+  animation-play-state: paused;
+}
+
+/* Continuous scroll - don't pause on hover */
+.scrolling-benefits.no-hover-pause:hover .ticker-content {
+  animation-play-state: running;
+}
+
+/* Static mode - no animation */
+.scrolling-benefits.ticker-static .ticker-content {
+  animation: none;
+  justify-content: center;
+}
+
+/* Hide duplicate items in static mode (not needed for looping) */
+.scrolling-benefits.ticker-static .ticker-items[aria-hidden="true"] {
+  display: none;
+}
+
+/* Static mode - items span container edge to edge */
+.scrolling-benefits.ticker-static .ticker-items {
+  width: 100%;
+  justify-content: space-between;
+}
+
+/* Ensure smooth animation */
+.ticker-content {
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Mobile Adjustments - spacing now controlled by ticker-items gap setting */
+

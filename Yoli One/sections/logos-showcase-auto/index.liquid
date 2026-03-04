@@ -1,0 +1,661 @@
+<link rel="stylesheet" href="{{ 'logos-showcase-auto/styles.css' | asset_url }}">
+
+<!-- Logos Showcase Auto Section -->
+<section 
+  class="logos-showcase-auto {{ section.settings.background_color | default: 'bg-neutral' }} {{section.settings.padding_top_mobile}} {{section.settings.padding_bottom_mobile}} {{section.settings.padding_x_mobile}}  lg:{{section.settings.padding_top_desktop}} lg:{{section.settings.padding_bottom_desktop}} lg:{{section.settings.padding_x_desktop}} {{ section.settings.section_border_radius | default: 'rounded-none' }}" 
+  id="logos-showcase-{{ section.id }}"
+  {% if section.settings.background_image %}data-bg="{{ section.settings.background_image | image_url }}"{% endif %}>
+  
+  <div class="{{section.settings.container_layout_width | default: 'container'}}">
+    <div class="logos-showcase-inner {{ section.settings.container_background_color | default: '' }} {{ section.settings.container_border_radius | default: 'rounded-none' }} {{ section.settings.container_padding_y_mobile | default: 'py-lg' }} {{ section.settings.container_padding_y_desktop | default: 'lg:py-2xl' }} {{ section.settings.container_padding_x_mobile | default: 'px-md' }} {{ section.settings.container_padding_x_desktop | default: 'lg:px-xl' }} {% unless section.settings.show_heading and section.settings.heading != blank %}no-heading{% endunless %}" 
+      {% if section.settings.container_background_image %}data-bg="{{ section.settings.container_background_image | image_url }}"{% endif %}>
+      
+      <!-- Heading -->
+      {% if section.settings.show_heading and section.settings.heading != blank %}
+      <div class="logos-showcase-heading mb-lg" style="max-width: 100%; margin: 0 auto; text-align: center;">
+        <h1 class="{{ section.settings.heading_font_family | default: 'font-primary' }} {{ section.settings.heading_font_size | default: 'text-2xl' }} {{ section.settings.heading_font_size_desktop | default: 'lg:text-4xl' }} {{ section.settings.heading_font_weight | default: 'font-bold' }} {{ section.settings.heading_color | default: 'text-black' }}" style="line-height: 1;">
+          {{ section.settings.heading }}
+        </h1>
+      </div>
+      {% endif %}
+      
+      <!-- Carousel Wrapper -->
+      <div class="logos-showcase-carousel-wrapper">
+        <div class="logos-showcase-carousel-container">
+          <div class="logos-showcase-carousel-track" id="carousel-track-{{ section.id }}" data-loop="true">
+            {% for block in section.blocks %}
+              {% if block.type == 'logo' %}
+              <div class="logos-showcase-carousel-item" {{ block.fluid_attributes }}>
+                <div class="logos-showcase-logo-wrapper">
+                  {% if block.settings.logo_image != blank %}
+                    <img 
+                      src="{{ block.settings.logo_image | image_url: width: 200 }}" 
+                      alt="{{ block.settings.logo_alt | default: 'Logo' }}" 
+                      class="logos-showcase-logo {{ block.settings.logo_class | default: 'h-7 w-auto' }}"
+                      loading="lazy">
+                  {% else %}
+                    <img 
+                      src="{{ 'placeholder-image.png' | asset_url }}" 
+                      alt="Logo placeholder" 
+                      class="logos-showcase-logo {{ block.settings.logo_class | default: 'h-7 w-auto' }}"
+                      loading="lazy">
+                  {% endif %}
+                </div>
+              </div>
+              {% endif %}
+            {% endfor %}
+            
+            <!-- Duplicate set for seamless loop -->
+            {% for block in section.blocks %}
+              {% if block.type == 'logo' %}
+              <div class="logos-showcase-carousel-item" aria-hidden="true">
+                <div class="logos-showcase-logo-wrapper">
+                  {% if block.settings.logo_image != blank %}
+                    <img 
+                      src="{{ block.settings.logo_image | image_url: width: 200 }}" 
+                      alt="{{ block.settings.logo_alt | default: 'Logo' }}" 
+                      class="logos-showcase-logo {{ block.settings.logo_class | default: 'h-7 w-auto' }}"
+                      loading="lazy">
+                  {% else %}
+                    <img 
+                      src="{{ 'placeholder-image.png' | asset_url }}" 
+                      alt="Logo placeholder" 
+                      class="logos-showcase-logo {{ block.settings.logo_class | default: 'h-7 w-auto' }}"
+                      loading="lazy">
+                  {% endif %}
+                </div>
+              </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+          
+          <!-- Fade Gradients -->
+          <div class="logos-showcase-fade-left"></div>
+          <div class="logos-showcase-fade-right"></div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</section>
+
+<script>
+(function() {
+  const sectionId = '{{ section.id }}';
+  const track = document.getElementById('carousel-track-' + sectionId);
+  
+  if (!track) return;
+  
+  const items = track.querySelectorAll('.logos-showcase-carousel-item');
+  if (items.length === 0) return;
+  
+  const scrollSpeed = {{ section.settings.scroll_speed | default: 1 }};
+  const scrollDirection = '{{ section.settings.scroll_direction | default: "left" }}';
+  
+  // Calculate initial position based on direction
+  const itemWidth = items[0].offsetWidth;
+  const gap = 80; // mx-10 = 40px on each side = 80px total
+  const itemTotalWidth = itemWidth + gap;
+  const totalWidth = (items.length / 2) * itemTotalWidth;
+  
+  let scrollPosition = scrollDirection === 'right' ? totalWidth : 0;
+  let animationId = null;
+  let isPaused = false;
+  
+  function autoScroll() {
+    if (isPaused) {
+      animationId = requestAnimationFrame(autoScroll);
+      return;
+    }
+    
+    // Update scroll position based on direction
+    if (scrollDirection === 'right') {
+      scrollPosition -= scrollSpeed; // Scroll right (negative translateX)
+      // Reset when we've scrolled backwards one full set
+      if (scrollPosition <= 0) {
+        scrollPosition = totalWidth;
+      }
+    } else {
+      scrollPosition += scrollSpeed; // Scroll left (positive translateX)
+      // Reset when we've scrolled forward one full set
+      if (scrollPosition >= totalWidth) {
+        scrollPosition = 0;
+      }
+    }
+    
+    track.style.transform = `translateX(-${scrollPosition}px)`;
+    animationId = requestAnimationFrame(autoScroll);
+  }
+  
+  // Pause on hover
+  const wrapper = track.closest('.logos-showcase-carousel-container');
+  if (wrapper) {
+    wrapper.addEventListener('mouseenter', function() {
+      isPaused = true;
+    });
+    
+    wrapper.addEventListener('mouseleave', function() {
+      isPaused = false;
+    });
+  }
+  
+  // Start auto-scroll
+  autoScroll();
+  
+  // Handle resize
+  let resizeTimeout;
+  window.addEventListener('resize', function() {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(function() {
+      // Reset scroll position on resize based on direction
+      const newItemWidth = items[0].offsetWidth;
+      const newItemTotalWidth = newItemWidth + gap;
+      const newTotalWidth = (items.length / 2) * newItemTotalWidth;
+      scrollPosition = scrollDirection === 'right' ? newTotalWidth : 0;
+      track.style.transform = `translateX(-${scrollPosition}px)`;
+    }, 250);
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Logos Showcase Auto",
+  "tag": "section",
+  "class": "logos-showcase-auto-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout Width (Container)"
+    },
+    {
+      "type": "select",
+      "id": "container_layout_width",
+      "label": "Layout Width (Container)",
+      "options": [
+        { "value": "container", "label": "Container" },
+        { "value": "container-full", "label": "Full Width (Container Full)" }
+      ],
+      "default": "container",
+      "info": "Choose whether the container is constrained to the width of the page or full width"
+    },
+    {
+      "type": "header",
+      "content": "Heading"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_heading",
+      "label": "Show Heading",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading Text",
+      "default": "Trusted by these companies"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_family",
+      "label": "Font Family",
+      "options": [
+        { "value": "font-primary", "label": "Primary" },
+        { "value": "font-body", "label": "Body" },
+        { "value": "font-handwritten", "label": "Handwritten" },
+        { "value": "font-serif", "label": "Serif" }
+      ],
+      "default": "font-primary"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_size",
+      "label": "Font Size (Mobile)",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" },
+        { "value": "text-xl", "label": "Extra Large" },
+        { "value": "text-2xl", "label": "2X Large" },
+        { "value": "text-3xl", "label": "3X Large" },
+        { "value": "text-4xl", "label": "4X Large" },
+        { "value": "text-5xl", "label": "5X Large" },
+        { "value": "text-6xl", "label": "6X Large" },
+        { "value": "text-7xl", "label": "7X Large" },
+        { "value": "text-8xl", "label": "8X Large" },
+        { "value": "text-9xl", "label": "9X Large" }
+      ],
+      "default": "text-2xl"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_size_desktop",
+      "label": "Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-xs", "label": "Extra Small" },
+        { "value": "lg:text-sm", "label": "Small" },
+        { "value": "lg:text-base", "label": "Base" },
+        { "value": "lg:text-lg", "label": "Large" },
+        { "value": "lg:text-xl", "label": "Extra Large" },
+        { "value": "lg:text-2xl", "label": "2X Large" },
+        { "value": "lg:text-3xl", "label": "3X Large" },
+        { "value": "lg:text-4xl", "label": "4X Large" },
+        { "value": "lg:text-5xl", "label": "5X Large" },
+        { "value": "lg:text-6xl", "label": "6X Large" },
+        { "value": "lg:text-7xl", "label": "7X Large" },
+        { "value": "lg:text-8xl", "label": "8X Large" },
+        { "value": "lg:text-9xl", "label": "9X Large" }
+      ],
+      "default": "lg:text-4xl"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_weight",
+      "label": "Font Weight",
+      "options": [
+        { "value": "font-light", "label": "Light" },
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semi Bold" },
+        { "value": "font-bold", "label": "Bold" }
+      ],
+      "default": "font-bold"
+    },
+    {
+      "type": "select",
+      "id": "heading_color",
+      "label": "Text Color",
+      "options": [
+        { "value": "text-white", "label": "White" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-primary", "label": "Primary" },
+        { "value": "text-secondary", "label": "Secondary" },
+        { "value": "text-tertiary", "label": "Tertiary" },
+        { "value": "text-quaternary", "label": "Quaternary" },
+        { "value": "text-success", "label": "Success" },
+        { "value": "text-warning", "label": "Warning" },
+        { "value": "text-error", "label": "Error" },
+        { "value": "text-info", "label": "Info" },
+        { "value": "text-neutral", "label": "Neutral" },
+        { "value": "text-neutral-light", "label": "Neutral Light" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "text-black"
+    },
+    {
+      "type": "header",
+      "content": "Carousel Settings"
+    },
+    {
+      "type": "select",
+      "id": "scroll_direction",
+      "label": "Scroll Direction",
+      "options": [
+        { "value": "left", "label": "Left to Right" },
+        { "value": "right", "label": "Right to Left" }
+      ],
+      "default": "left",
+      "info": "Choose the direction the logos scroll"
+    },
+    {
+      "type": "range",
+      "id": "scroll_speed",
+      "label": "Scroll Speed",
+      "min": 0.5,
+      "max": 3,
+      "step": 0.1,
+      "default": 1,
+      "info": "Higher values = faster scroll"
+    },
+    {
+      "type": "header",
+      "content": "Layout Settings"
+    },
+    {
+      "type": "select",
+      "id": "background_color",
+      "label": "Section Background Color",
+      "options": [
+        { "value": "bg-white", "label": "White" },
+        { "value": "bg-black", "label": "Black" },
+        { "value": "bg-primary", "label": "Primary" },
+        { "value": "bg-secondary", "label": "Secondary" },
+        { "value": "bg-tertiary", "label": "Tertiary" },
+        { "value": "bg-quaternary", "label": "Quaternary" },
+        { "value": "bg-success", "label": "Success" },
+        { "value": "bg-warning", "label": "Warning" },
+        { "value": "bg-error", "label": "Error" },
+        { "value": "bg-info", "label": "Info" },
+        { "value": "bg-neutral", "label": "Neutral" },
+        { "value": "bg-neutral-light", "label": "Neutral Light" },
+        { "value": "bg-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "bg-neutral"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Section Background Image"
+    },
+  
+    {
+      "type": "select",
+      "id": "section_border_radius",
+      "label": "Section Border Radius",
+      "options": [
+        { "value": "rounded-none", "label": "None" },
+        { "value": "rounded-sm", "label": "Small" },
+        { "value": "rounded", "label": "Base" },
+        { "value": "rounded-md", "label": "Medium" },
+        { "value": "rounded-lg", "label": "Large" },
+        { "value": "rounded-xl", "label": "Extra Large" },
+        { "value": "rounded-2xl", "label": "2X Large" },
+        { "value": "rounded-3xl", "label": "3X Large" }
+      ],
+      "default": "rounded-none"
+    },
+
+    {
+      "type": "header",
+      "content": "Section spacing"
+    },
+    {
+      "type": "select",
+      "id": "padding_x_mobile",
+      "label": "Padding X (Mobile)",
+      "options": [
+        { "value": "px-0", "label": "None" },
+        { "value": "px-xs", "label": "Extra Small" },
+        { "value": "px-sm", "label": "Small" },
+        { "value": "px-md", "label": "Medium" },
+        { "value": "px-lg", "label": "Large" },
+        { "value": "px-xl", "label": "Extra Large" },
+        { "value": "px-2xl", "label": "2X Large" },
+        { "value": "px-3xl", "label": "3X Large" }
+      ],
+      "default": "px-0"
+    },
+    {
+      "type": "select",
+      "id": "padding_top_mobile",
+      "label": "Padding Top (Mobile)",
+      "options": [
+        { "value": "pt-0", "label": "None" },
+        { "value": "pt-xs", "label": "Extra Small" },
+        { "value": "pt-sm", "label": "Small" },
+        { "value": "pt-md", "label": "Medium" },
+        { "value": "pt-lg", "label": "Large" },
+        { "value": "pt-xl", "label": "Extra Large" },
+        { "value": "pt-2xl", "label": "2X Large" },
+        { "value": "pt-3xl", "label": "3X Large" }
+      ],
+      "default": "pt-xl"
+    },
+    {
+      "type": "select",
+      "id": "padding_bottom_mobile",
+      "label": "Padding Bottom (Mobile)",
+      "options": [
+        { "value": "pb-0", "label": "None" },
+        { "value": "pb-xs", "label": "Extra Small" },
+        { "value": "pb-sm", "label": "Small" },
+        { "value": "pb-md", "label": "Medium" },
+        { "value": "pb-lg", "label": "Large" },
+        { "value": "pb-xl", "label": "Extra Large" },
+        { "value": "pb-2xl", "label": "2X Large" },
+        { "value": "pb-3xl", "label": "3X Large" }
+      ],
+      "default": "pb-xl"
+    },
+    {
+      "type": "select",
+      "id": "padding_x_desktop",
+      "label": "Padding X (Desktop)",
+      "options": [
+        { "value": "px-0", "label": "None" },
+        { "value": "px-xs", "label": "Extra Small" },
+        { "value": "px-sm", "label": "Small" },
+        { "value": "px-md", "label": "Medium" },
+        { "value": "px-lg", "label": "Large" },
+        { "value": "px-xl", "label": "Extra Large" },
+        { "value": "px-2xl", "label": "2X Large" },
+        { "value": "px-3xl", "label": "3X Large" }
+      ],
+      "default": "px-0"
+    },
+    
+    {
+      "type": "select",
+      "id": "padding_top_desktop",
+      "label": "Padding Top (Desktop)",
+      "options": [
+        { "value": "pt-0", "label": "None" },
+        { "value": "pt-xs", "label": "Extra Small" },
+        { "value": "pt-sm", "label": "Small" },
+        { "value": "pt-md", "label": "Medium" },
+        { "value": "pt-lg", "label": "Large" },
+        { "value": "pt-xl", "label": "Extra Large" },
+        { "value": "pt-2xl", "label": "2X Large" },
+        { "value": "pt-3xl", "label": "3X Large" }
+      ],
+      "default": "pt-3xl"
+    },
+    {
+      "type": "select",
+      "id": "padding_bottom_desktop",
+      "label": "Padding Bottom (Desktop)",
+      "options": [
+        { "value": "pb-0", "label": "None" },
+        { "value": "pb-xs", "label": "Extra Small" },
+        { "value": "pb-sm", "label": "Small" },
+        { "value": "pb-md", "label": "Medium" },
+        { "value": "pb-lg", "label": "Large" },
+        { "value": "pb-xl", "label": "Extra Large" },
+        { "value": "pb-2xl", "label": "2X Large" },
+        { "value": "pb-3xl", "label": "3X Large" }
+      ],
+      "default": "pb-3xl"
+    },
+    {
+      "type": "header",
+      "content": "Container Settings"
+    },
+    {
+      "type": "select",
+      "id": "container_background_color",
+      "label": "Container Background Color",
+      "options": [
+        { "value": "", "label": "None (Transparent)" },
+        { "value": "bg-white", "label": "White" },
+        { "value": "bg-black", "label": "Black" },
+        { "value": "bg-primary", "label": "Primary" },
+        { "value": "bg-secondary", "label": "Secondary" },
+        { "value": "bg-tertiary", "label": "Tertiary" },
+        { "value": "bg-quaternary", "label": "Quaternary" },
+        { "value": "bg-success", "label": "Success" },
+        { "value": "bg-warning", "label": "Warning" },
+        { "value": "bg-error", "label": "Error" },
+        { "value": "bg-info", "label": "Info" },
+        { "value": "bg-neutral", "label": "Neutral" },
+        { "value": "bg-neutral-light", "label": "Neutral Light" },
+        { "value": "bg-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": ""
+    },
+    {
+      "type": "image_picker",
+      "id": "container_background_image",
+      "label": "Container Background Image"
+    },
+    {
+      "type": "select",
+      "id": "container_border_radius",
+      "label": "Container Border Radius",
+      "options": [
+        { "value": "rounded-none", "label": "None" },
+        { "value": "rounded-sm", "label": "Small" },
+        { "value": "rounded", "label": "Base" },
+        { "value": "rounded-md", "label": "Medium" },
+        { "value": "rounded-lg", "label": "Large" },
+        { "value": "rounded-xl", "label": "Extra Large" },
+        { "value": "rounded-2xl", "label": "2X Large" },
+        { "value": "rounded-3xl", "label": "3X Large" }
+      ],
+      "default": "rounded-none"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_y_mobile",
+      "label": "Container Padding Y (Mobile)",
+      "options": [
+        { "value": "py-xs", "label": "Extra Small" },
+        { "value": "py-sm", "label": "Small" },
+        { "value": "py-md", "label": "Medium" },
+        { "value": "py-lg", "label": "Large" },
+        { "value": "py-xl", "label": "Extra Large" },
+        { "value": "py-2xl", "label": "2X Large" },
+        { "value": "py-3xl", "label": "3X Large" }
+      ],
+      "default": "py-lg"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_y_desktop",
+      "label": "Container Padding Y (Desktop)",
+      "options": [
+        { "value": "lg:py-xs", "label": "Extra Small" },
+        { "value": "lg:py-sm", "label": "Small" },
+        { "value": "lg:py-md", "label": "Medium" },
+        { "value": "lg:py-lg", "label": "Large" },
+        { "value": "lg:py-xl", "label": "Extra Large" },
+        { "value": "lg:py-2xl", "label": "2X Large" },
+        { "value": "lg:py-3xl", "label": "3X Large" }
+      ],
+      "default": "lg:py-2xl"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_x_mobile",
+      "label": "Container Padding X (Mobile)",
+      "options": [
+        { "value": "px-0", "label": "None" },
+        { "value": "px-xs", "label": "Extra Small" },
+        { "value": "px-sm", "label": "Small" },
+        { "value": "px-md", "label": "Medium" },
+        { "value": "px-lg", "label": "Large" },
+        { "value": "px-xl", "label": "Extra Large" },
+        { "value": "px-2xl", "label": "2X Large" },
+        { "value": "px-3xl", "label": "3X Large" }
+      ],
+      "default": "px-0"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_x_desktop",
+      "label": "Container Padding X (Desktop)",
+      "options": [
+        { "value": "lg:px-0", "label": "None" },
+        { "value": "lg:px-xs", "label": "Extra Small" },
+        { "value": "lg:px-sm", "label": "Small" },
+        { "value": "lg:px-md", "label": "Medium" },
+        { "value": "lg:px-lg", "label": "Large" },
+        { "value": "lg:px-xl", "label": "Extra Large" },
+        { "value": "lg:px-2xl", "label": "2X Large" },
+        { "value": "lg:px-3xl", "label": "3X Large" }
+      ],
+      "default": "lg:px-0"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "logo",
+      "name": "Logo",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "logo_image",
+          "label": "Logo Image"
+        },
+        {
+          "type": "text",
+          "id": "logo_alt",
+          "label": "Logo Alt Text",
+          "default": "Company logo"
+        },
+        {
+          "type": "text",
+          "id": "logo_class",
+          "label": "Logo CSS Classes",
+          "default": "h-7 w-auto",
+          "info": "Custom CSS classes for logo sizing (e.g., 'h-7 w-auto' or 'h-4 w-auto')"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Logos Showcase Auto",
+      "blocks": [
+        {
+          "type": "logo",
+          "settings": {
+            "logo_alt": "Astro",
+            "logo_class": "h-7 w-auto"
+          }
+        },
+        {
+          "type": "logo",
+          "settings": {
+            "logo_alt": "Figma",
+            "logo_class": "h-7 w-auto"
+          }
+        },
+        {
+          "type": "logo",
+          "settings": {
+            "logo_alt": "Next.js",
+            "logo_class": "h-7 w-auto"
+          }
+        },
+        {
+          "type": "logo",
+          "settings": {
+            "logo_alt": "React",
+            "logo_class": "h-7 w-auto"
+          }
+        },
+        {
+          "type": "logo",
+          "settings": {
+            "logo_alt": "shadcn/ui",
+            "logo_class": "h-7 w-auto"
+          }
+        },
+        {
+          "type": "logo",
+          "settings": {
+            "logo_alt": "Supabase",
+            "logo_class": "h-7 w-auto"
+          }
+        },
+        {
+          "type": "logo",
+          "settings": {
+            "logo_alt": "Tailwind CSS",
+            "logo_class": "h-4 w-auto"
+          }
+        },
+        {
+          "type": "logo",
+          "settings": {
+            "logo_alt": "Vercel",
+            "logo_class": "h-7 w-auto"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+

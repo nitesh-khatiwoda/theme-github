@@ -1,0 +1,248 @@
+/* Product Banner Section Styles */
+
+.product-banner-section .banner {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.product-banner-section .banner img {
+  object-fit: cover;
+  display: block;
+}
+
+.product-banner-section .banner-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 2rem 17rem 2rem 2rem;
+  color: white;
+  background: linear-gradient(to right, 
+    rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.2) 40%, transparent 50%
+  );
+}
+
+.product-banner-section .banner-content h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  max-width: 50%;
+  font-weight: 300;
+  font-family: 'Reckless Neue', serif;
+}
+
+.product-banner-section .banner-content p {
+  font-size: 0.8rem;
+  margin-bottom: 1rem;
+  max-width: 23rem;
+}
+
+.product-banner-section .banner-content button {
+  background-color: white;
+  color: black;
+  border: none;
+  font-size: .8rem;
+  padding: .4rem .8rem;
+  border-radius: 25px;
+}
+
+.product-banner-section .pack-section-container {
+  border-radius: 18px;
+  margin: 40px 0;
+}
+
+.product-banner-section .pack-section-title {
+  font-size: 1.6em;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #2a2a2a;
+}
+
+.product-banner-section .pack-section-subtitle {
+  font-size: 1.1em;
+  font-weight: 700;
+  color: #444;
+  margin-bottom: 32px;
+}
+
+/* Title variants (keep defaults when using title-md) */
+.product-banner-section .pack-section-title.title-xs { font-size: 1.2rem; }
+.product-banner-section .pack-section-title.title-sm { font-size: 1.4rem; }
+.product-banner-section .pack-section-title.title-lg { font-size: 2.1rem; }
+.product-banner-section .pack-section-title.title-fw-light { font-weight: 300; }
+.product-banner-section .pack-section-title.title-fw-normal { font-weight: 400; }
+.product-banner-section .pack-section-title.title-fw-medium { font-weight: 500; }
+.product-banner-section .pack-section-title.title-fw-semibold { font-weight: 600; }
+.product-banner-section .pack-section-title.title-fw-bold { font-weight: 700; }
+
+/* Subtitle variants (keep defaults when using subtitle-md) */
+.product-banner-section .pack-section-subtitle.subtitle-xs { font-size: 0.9rem; }
+.product-banner-section .pack-section-subtitle.subtitle-sm { font-size: 1rem; }
+.product-banner-section .pack-section-subtitle.subtitle-lg { font-size: 1.3rem; }
+.product-banner-section .pack-section-subtitle.subtitle-fw-light { font-weight: 300; }
+.product-banner-section .pack-section-subtitle.subtitle-fw-normal { font-weight: 400; }
+.product-banner-section .pack-section-subtitle.subtitle-fw-medium { font-weight: 500; }
+.product-banner-section .pack-section-subtitle.subtitle-fw-semibold { font-weight: 600; }
+.product-banner-section .pack-section-subtitle.subtitle-fw-bold { font-weight: 700; }
+
+/* Mobile typography utilities */
+@media (max-width: 480px) {
+  .product-banner-section .pack-section-title.title-m-xs { font-size: 1rem !important; }
+  .product-banner-section .pack-section-title.title-m-sm { font-size: 1.1rem !important; }
+  .product-banner-section .pack-section-title.title-m-md { font-size: 1.25rem !important; }
+  .product-banner-section .pack-section-title.title-m-lg { font-size: 1.4rem !important; }
+
+  .product-banner-section .pack-section-subtitle.subtitle-m-xs { font-size: 0.85rem !important; }
+  .product-banner-section .pack-section-subtitle.subtitle-m-sm { font-size: 0.9rem !important; }
+  .product-banner-section .pack-section-subtitle.subtitle-m-md { font-size: 1rem !important; }
+  .product-banner-section .pack-section-subtitle.subtitle-m-lg { font-size: 1.1rem !important; }
+}
+
+.product-banner-section .packs-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 32px;
+}
+
+.product-banner-section .pack-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  justify-content: space-between;
+}
+
+.product-banner-section .pack-image {
+  background: rgba(232, 220, 204, 1);
+  padding: 18px 12px;
+  border-radius: 16px;
+  width: 100%;
+  margin-bottom: 12px;
+  height: 100%;
+}
+
+/* Border radius utilities for pack images */
+.product-banner-section .pack-image.rounded-none { border-radius: 0; }
+.product-banner-section .pack-image.rounded-sm { border-radius: 4px; }
+.product-banner-section .pack-image.rounded { border-radius: 6px; }
+.product-banner-section .pack-image.rounded-md { border-radius: 8px; }
+.product-banner-section .pack-image.rounded-lg { border-radius: 12px; }
+.product-banner-section .pack-image.rounded-xl { border-radius: 16px; }
+.product-banner-section .pack-image.rounded-2xl { border-radius: 20px; }
+
+.product-banner-section .pack-title {
+  font-weight: 700;
+  font-size: 1rem;
+  color: #2a2a2a;
+}
+
+/* Pack title utilities - desktop */
+.product-banner-section .pack-title.pt-text-xs { font-size: 0.85rem !important; }
+.product-banner-section .pack-title.pt-text-sm { font-size: 0.95rem !important; }
+.product-banner-section .pack-title.pt-text-md { font-size: 1rem !important; }
+.product-banner-section .pack-title.pt-text-lg { font-size: 1.15rem !important; }
+
+.product-banner-section .pack-title.pt-fw-light { font-weight: 300 !important; }
+.product-banner-section .pack-title.pt-fw-normal { font-weight: 400 !important; }
+.product-banner-section .pack-title.pt-fw-medium { font-weight: 500 !important; }
+.product-banner-section .pack-title.pt-fw-semibold { font-weight: 600 !important; }
+.product-banner-section .pack-title.pt-fw-bold { font-weight: 700 !important; }
+
+/* Pack title color utilities */
+.product-banner-section .pack-title.text-blue { color: #012169 !important; }
+.product-banner-section .pack-title.text-gray { color: #7f8283 !important; }
+.product-banner-section .pack-title.text-neutral-dark { color: #49473D !important; }
+.product-banner-section .pack-title.text-brown-2 { color: #484333 !important; }
+.product-banner-section .pack-title.text-gold { color: #EEA81A !important; }
+.product-banner-section .pack-title.text-black { color: #000 !important; }
+.product-banner-section .pack-title.text-white { color: #fff !important; }
+.product-banner-section .pack-title.text-dark { color: #2a2a2a !important; }
+
+/* Pack title utilities - mobile */
+@media (max-width: 480px) {
+  .product-banner-section .pack-title.pt-m-text-xs { font-size: 0.8rem !important; }
+  .product-banner-section .pack-title.pt-m-text-sm { font-size: 0.9rem !important; }
+  .product-banner-section .pack-title.pt-m-text-md { font-size: 1rem !important; }
+  .product-banner-section .pack-title.pt-m-text-lg { font-size: 1.1rem !important; }
+}
+
+.product-banner-section .favorites-img {
+  background: rgba(232, 220, 204, 1);
+  padding: 18px 12px;
+  border-radius: 16px;
+  width: 100%;
+  margin-bottom: 12px;
+  height: 110%;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+.product-banner-section .banner {
+    border-radius: 14px;
+    margin: 18px 0 0 0;
+    padding: 1rem 0;
+    margin-bottom: 50px;
+    position: static;
+  }
+
+.product-banner-section .banner-content {
+    position: static;
+    padding: 0;
+    background: none;
+    color: #2a2a2a;
+  }
+
+.product-banner-section .favorites-img {
+    background: rgba(232, 220, 204, 1);
+    padding: 18px 12px;
+    border-radius: 16px;
+    width: 100%;
+    margin-bottom: 12px;
+    height: auto;
+    object-fit: contain;
+  }
+}
+
+@media (max-width: 480px) {
+  .product-banner-section .banner {
+      border-radius: 14px;
+      margin: 18px 0 0 0;
+      padding: 0;
+      margin-bottom: 50px;
+    }
+
+  .product-banner-section .banner img {
+      border-radius: 14px;
+      width: 100%;
+      height: 100%;
+      margin-bottom: 0;
+    }
+
+  .product-banner-section .banner-content {
+      padding: 0;
+      font-size: 1rem;
+      max-width: 100%;
+    }
+
+  .product-banner-section .banner-content h2 {
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+      max-width: 100%;
+    }
+
+  .product-banner-section .banner-content p {
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+      max-width: 100%;
+    }
+
+  .product-banner-section .pack-title {
+      font-size: .9rem;
+  }
+}

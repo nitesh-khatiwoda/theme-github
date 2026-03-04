@@ -1,0 +1,138 @@
+/* Email Signup Hero Styles */
+
+.email-signup-hero {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Inner container for proper layout */
+.signup-inner {
+  position: relative;
+}
+
+/* Signup Grid - Two Column Layout */
+.signup-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-lg);
+  align-items: center;
+  position: relative;
+}
+
+/* Content Column */
+.signup-content {
+  max-width: 680px;
+  z-index: 2;
+}
+
+.signup-heading h2 {
+  margin: 0;
+}
+
+.signup-description p {
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Email Form */
+.email-form {
+  max-width: 600px;
+}
+
+.email-form input::placeholder {
+  opacity: 0.5;
+}
+
+.email-form input:focus {
+  outline: none;
+}
+
+/* Image Column */
+.signup-image {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.signup-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Desktop Layout - Image flush to right edge */
+@media (min-width: 1024px) {
+  .email-signup-hero {
+    overflow: hidden;
+    position: relative;
+  }
+
+  .signup-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-2xl);
+    align-items: center;
+  }
+
+  /* Flipped layout: Image on left, content on right */
+  .signup-grid--flipped {
+    direction: rtl;
+  }
+
+  .signup-grid--flipped > * {
+    direction: ltr;
+  }
+
+  .signup-content {
+    max-width: 680px;
+  }
+
+  .signup-image {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    height: 100%;
+    width: 50%;
+    max-width: none;
+    margin: 0;
+  }
+
+  .signup-image img {
+    height: 100%;
+    width: 100%;
+    max-width: none;
+    display: block;
+    object-fit: cover;
+    object-position: center;
+  }
+}
+
+/* Tablet Layout */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .signup-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+  }
+
+  .signup-image {
+    max-width: 500px;
+  }
+}
+
+/* Mobile Layout */
+@media (max-width: 767px) {
+  .email-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .email-form input {
+    width: 100%;
+  }
+
+  .email-form button {
+    width: 100%;
+  }
+}
+

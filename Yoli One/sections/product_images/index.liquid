@@ -1,0 +1,175 @@
+<div class="product-images">
+  <div class="main-image-container">
+    <img src="{{ enrollment_pack.images_array[0] }}" alt="{{ enrollment_pack.title }}" loading="lazy"
+      class="primary-image {{ section.settings.hero_border_radius | default: 'rounded-lg' }}" id="mainImage">
+
+    {% if enrollment_pack.images_array.size > 1 %}
+    <button class="nav-btn prev-btn" id="prevBtn">
+      <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path>
+      </svg>
+    </button>
+    <button class="nav-btn next-btn" id="nextBtn">
+      <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12z"></path>
+      </svg>
+    </button>
+    {% endif %}
+  </div>
+
+  {% if enrollment_pack.images_array.size > 1 %}
+  <div class="image-thumbnails" id="thumbnailsContainer">
+    {% for image_url in enrollment_pack.images_array %}
+    <div class="thumbnail-slide">
+      <img src="{{ image_url }}" alt="{{ enrollment_pack.title }}"
+        class="thumbnail {{ section.settings.thumbs_border_radius | default: 'rounded-lg' }}{% if forloop.first %} active{% endif %}" id="next-image-{{ forloop.index0 }}"
+        data-index="{{ forloop.index0 }}" loading="lazy">
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/keen-slider@6.8.6/keen-slider.min.js"></script>
+<script>
+  (function () {
+    if (navigator.userAgent.includes("Safari") && !navigator.userAgent.includes("Chrome")) {
+      document.body.classList.add("is-safari");
+      const navButtons = document.querySelectorAll('.nav-btn');
+      navButtons.forEach(button => {
+        button.classList.remove('nav-btn');
+        button.classList.add('nav-btn-safari');
+      });
+    }
+
+    setTimeout(function () {
+      const images = {{ enrollment_pack.images_array | json }};
+
+      if (images.length < 2) {
+        return;
+      }
+
+      const mainImg = document.getElementById('mainImage');
+      const thumbnailsContainer = document.getElementById('thumbnailsContainer');
+      const thumbnails = document.querySelectorAll('#thumbnailsContainer .thumbnail');
+      const nextButton = document.getElementById('nextBtn');
+      const prevButton = document.getElementById('prevBtn');
+
+      let currentImg = 0;
+      let thumbnailSlider = null;
+
+      if (thumbnailsContainer && window.KeenSlider) {
+        try {
+          thumbnailsContainer.classList.add('keen-slider');
+          thumbnailsContainer.querySelectorAll('.thumbnail-slide').forEach(function (slide) {
+            slide.classList.add('keen-slider__slide');
+          });
+
+          thumbnailSlider = new KeenSlider(thumbnailsContainer, {
+            loop: true,
+            mode: 'snap',
+            slides: {
+              perView: 4,
+              spacing: 10,
+            },
+            slideChanged(s) {
+              currentImg = s.track.details.rel;
+              updateAllImages();
+            },
+          });
+        } catch (e) {
+          console.error('Keen Slider error:', e);
+        }
+      }
+
+      function updateAllImages() {
+        if (mainImg && thumbnails.length > 0) {
+          mainImg.src = images[currentImg];
+
+          thumbnails.forEach((thumb) => {
+            thumb.classList.remove('active');
+          });
+
+          if (thumbnails[currentImg]) {
+            thumbnails[currentImg].classList.add('active');
+          }
+        }
+      }
+
+      if (nextButton) {
+        nextButton.onclick = function () {
+          if (thumbnailSlider) {
+            thumbnailSlider.next();
+          } else {
+            currentImg = (currentImg + 1) % images.length;
+            updateAllImages();
+          }
+        };
+      }
+
+      if (prevButton) {
+        prevButton.onclick = function () {
+          if (thumbnailSlider) {
+            thumbnailSlider.prev();
+          } else {
+            currentImg = (currentImg - 1 + images.length) % images.length;
+            updateAllImages();
+          }
+        };
+      }
+
+      thumbnails.forEach((thumb, index) => {
+        thumb.onclick = function () {
+          if (thumbnailSlider) {
+            thumbnailSlider.moveToIdx(index);
+          } else {
+            currentImg = index;
+            updateAllImages();
+          }
+        };
+      });
+
+      updateAllImages();
+    }, 100);
+  }) ();
+</script>
+{% schema %}
+{
+  "name": "Product Images",
+  "settings": [
+    { "type": "header", "content": "Hero Image" },
+    {
+      "type": "select",
+      "id": "hero_border_radius",
+      "label": "Hero Border Radius",
+      "options": [
+        { "value": "rounded-none", "label": "None" },
+        { "value": "rounded-sm", "label": "Small" },
+        { "value": "rounded", "label": "Base" },
+        { "value": "rounded-md", "label": "Medium" },
+        { "value": "rounded-lg", "label": "Large" },
+        { "value": "rounded-xl", "label": "Extra Large" },
+        { "value": "rounded-2xl", "label": "2X Large" }
+      ],
+      "default": "rounded-lg"
+    },
+
+    { "type": "header", "content": "Thumbnails" },
+    {
+      "type": "select",
+      "id": "thumbs_border_radius",
+      "label": "Thumbnails Border Radius",
+      "options": [
+        { "value": "rounded-none", "label": "None" },
+        { "value": "rounded-sm", "label": "Small" },
+        { "value": "rounded", "label": "Base" },
+        { "value": "rounded-md", "label": "Medium" },
+        { "value": "rounded-lg", "label": "Large" },
+        { "value": "rounded-xl", "label": "Extra Large" },
+        { "value": "rounded-2xl", "label": "2X Large" }
+      ],
+      "default": "rounded-md"
+    }
+  ]
+}
+{% endschema %}

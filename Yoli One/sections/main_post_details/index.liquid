@@ -1,0 +1,1419 @@
+<section 
+    class="post-details-{{ section.id }} {{ section.settings.background_color }} {{ section.settings.section_padding_y_mobile }} {{ section.settings.section_padding_y_desktop }} {{ section.settings.section_border_radius }}"
+    {% if section.settings.background_image %}
+      data-bg="{{ section.settings.background_image | image_url }}"
+    {% endif %}
+  >
+    <div class="{{section.settings.container_layout_width | default : 'container'}}">
+      {% if post %}
+        <article class="post-details-wrapper">
+          <!-- Post Header -->
+          <div class="post-header mb-xl">
+            {% if section.settings.show_category and post.category %}
+              <div class="post-category mb-md">
+                <a href="{{ post.category.preview_url | default: '#' }}" class="category-badge {{ section.settings.category_badge_background }} {{ section.settings.category_badge_border_radius | default: 'rounded-full' }} {{ section.settings.category_font_size | default: 'text-sm' }} {{ section.settings.category_font_weight | default: 'font-medium' }} {{ section.settings.category_color }}">
+                  {{ post.category.title }}
+                </a>
+              </div>
+            {% endif %}
+
+            {% if section.settings.show_title %}
+              <h1 class="post-title {{ section.settings.title_font_family }} {{ section.settings.title_font_size | default: 'text-3xl' }} {{ section.settings.title_font_size_desktop | default: 'lg:text-4xl' }} {{ section.settings.title_font_weight | default: 'font-bold' }} {{ section.settings.title_color }} mb-md">
+                {{ post.title }}
+              </h1>
+            {% endif %}
+
+            {% if section.settings.show_meta %}
+              <div class="post-meta flex flex-wrap items-center gap-md {{ section.settings.meta_font_size | default: 'text-sm' }} {{ section.settings.meta_color }}">
+                {% if section.settings.show_author and post.post_author %}
+                  <div class="post-author flex items-center gap-sm">
+                    {% if section.settings.show_author_icon %}
+                      <div class="author-icon-wrapper">
+                        <svg class="author-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                        </svg>
+                      </div>
+                    {% endif %}
+                    <span class="author-name">{{ post.post_author }}</span>
+                  </div>
+                {% endif %}
+
+                {% assign display_date = post.post_date %}
+                {% if display_date == blank or display_date == null %}
+                  {% assign display_date = post.created_at %}
+                {% endif %}
+                
+                {% if section.settings.show_date and display_date %}
+                  <div class="post-date flex items-center gap-sm">
+                    {% if section.settings.show_date_icon %}
+                      <div class="date-icon-wrapper">
+                        <svg class="date-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                        </svg>
+                      </div>
+                    {% endif %}
+                    <time datetime="{{ display_date | date: '%Y-%m-%d' }}" class="date-text">{{ display_date | date: section.settings.date_format | default: '%B %d, %Y' }}</time>
+                  </div>
+                {% endif %}
+
+                {% if section.settings.show_updated_at and post.updated_at %}
+                  <div class="post-updated flex items-center gap-sm">
+                    <span>Updated: <time datetime="{{ post.updated_at | date: '%Y-%m-%d' }}">{{ post.updated_at | date: section.settings.date_format | default: '%B %d, %Y' }}</time></span>
+                  </div>
+                {% endif %}
+              </div>
+            {% endif %}
+          </div>
+
+          <!-- Post Featured Image -->
+          {% if section.settings.show_featured_image %}
+            {% assign image_url = '' %}
+            {% if post.image_url %}
+              {% assign image_url = post.image_url %}
+            {% elsif post.image %}
+              {% assign image_url = post.image | image_url %}
+            {% elsif post.images.size > 0 %}
+              {% assign image_url = post.images[0].src %}
+            {% endif %}
+
+            {% if image_url != '' %}
+              <div class="post-featured-image-wrapper mb-xl">
+                <div class="post-featured-image {{ section.settings.featured_image_border_radius | default: 'rounded-2xl' }} overflow-hidden">
+                  <div class="image-container">
+                    <img 
+                      src="{{ image_url }}"
+                      alt="{{ post.title }}"
+                      loading="lazy"
+                      class="featured-image" />
+                    <div class="image-overlay"></div>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+          {% endif %}
+
+          <!-- Post Summary -->
+          {% if section.settings.show_summary and post.summary %}
+            <div class="post-summary mb-xl">
+              <div class="summary-card {{ section.settings.summary_background }} {{ section.settings.summary_padding | default: 'p-lg' }} {{ section.settings.summary_border_radius | default: 'rounded-xl' }}">
+                <div class="summary-content {{ section.settings.summary_font_size | default: 'text-lg' }} {{ section.settings.summary_font_size_desktop | default: 'lg:text-xl' }} {{ section.settings.summary_font_weight | default: 'font-medium' }} {{ section.settings.summary_color }}">
+                  {{ post.summary | unescape }}
+                </div>
+              </div>
+            </div>
+          {% endif %}
+
+          <!-- Post Description/Content -->
+          {% if section.settings.show_description and post.description %}
+            <div class="post-content mb-xl">
+              <div class="content-wrapper {{ section.settings.description_font_size | default: 'text-base' }} {{ section.settings.description_font_size_desktop | default: 'lg:text-lg' }} {{ section.settings.description_font_weight | default: 'font-normal' }} {{ section.settings.description_color }} trix-content">
+                {{ post.description | unescape }}
+              </div>
+            </div>
+          {% endif %}
+
+          <!-- Post Collections -->
+          {% if section.settings.show_collections and post.collections.size > 0 %}
+            <div class="post-collections mb-xl">
+              {% if section.settings.collections_title %}
+                <h3 class="collections-title {{ section.settings.collections_title_font_size | default: 'text-xl' }} {{ section.settings.collections_title_font_size_desktop | default: 'lg:text-2xl' }} {{ section.settings.collections_title_font_weight | default: 'font-semibold' }} {{ section.settings.collections_title_color }} mb-md">
+                  {{ section.settings.collections_title }}
+                </h3>
+              {% endif %}
+              <div class="collections-list flex flex-wrap gap-sm">
+                {% for collection in post.collections %}
+                  <a href="{{ collection.preview_url | default: '#' }}" class="collection-badge {{ section.settings.collection_badge_background }} {{ section.settings.collection_badge_border_radius | default: 'rounded-full' }} {{ section.settings.collection_font_size | default: 'text-sm' }} {{ section.settings.collection_font_weight | default: 'font-medium' }} {{ section.settings.collection_color }} {{ section.settings.collection_padding | default: 'px-md py-xs' }}">
+                    {{ collection.title }}
+                  </a>
+                {% endfor %}
+              </div>
+            </div>
+          {% endif %}
+
+          <!-- Post Navigation -->
+          {% if section.settings.show_post_navigation %}
+            <div class="post-navigation mt-xl pt-xl border-t {{ section.settings.navigation_border_color | default: 'border-neutral-light' }}">
+              <div class="post-navigation-wrapper">
+                {% assign previous_post = post.previous_post %}
+                {% assign next_post = post.next_post %}
+                
+                <!-- Previous Post -->
+                {% if previous_post and previous_post.title %}
+                  <a href="{{ previous_post.preview_url | default: '#' }}" class="post-nav-card post-nav-prev {{ section.settings.nav_button_font_family | default: 'font-body' }} {{ section.settings.nav_button_font_size | default: 'text-sm' }} {{ section.settings.nav_button_color | default: 'text-primary' }} {{ section.settings.nav_button_font_weight | default: 'font-medium' }}">
+                    <div class="nav-icon-wrapper">
+                      <svg width="20" height="20" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </div>
+                    <div class="nav-content">
+                      <span class="nav-label">{{ section.settings.previous_label | default: 'Previous Post' }}</span>
+                      <span class="nav-title">{{ previous_post.title }}</span>
+                    </div>
+                  </a>
+                {% else %}
+                  <span class="post-nav-card post-nav-prev post-nav-disabled {{ section.settings.nav_button_font_family | default: 'font-body' }} {{ section.settings.nav_button_font_size | default: 'text-sm' }} {{ section.settings.nav_button_color | default: 'text-primary' }} {{ section.settings.nav_button_font_weight | default: 'font-medium' }}">
+                    <div class="nav-icon-wrapper">
+                      <svg width="20" height="20" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"/>
+                      </svg>
+                    </div>
+                    <div class="nav-content">
+                      <span class="nav-label">{{ section.settings.previous_label | default: 'Previous Post' }}</span>
+                    </div>
+                  </span>
+                {% endif %}
+                
+                <!-- Next Post -->
+                {% if next_post and next_post.title %}
+                  <a href="{{ next_post.preview_url | default: '#' }}" class="post-nav-card post-nav-next {{ section.settings.nav_button_font_family | default: 'font-body' }} {{ section.settings.nav_button_font_size | default: 'text-sm' }} {{ section.settings.nav_button_color | default: 'text-primary' }} {{ section.settings.nav_button_font_weight | default: 'font-medium' }}">
+                    <div class="nav-content">
+                      <span class="nav-label">{{ section.settings.next_label | default: 'Next Post' }}</span>
+                      <span class="nav-title">{{ next_post.title }}</span>
+                    </div>
+                    <div class="nav-icon-wrapper">
+                      <svg width="20" height="20" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6 4L10 8L6 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </div>
+                  </a>
+                {% else %}
+                  <span class="post-nav-card post-nav-next post-nav-disabled {{ section.settings.nav_button_font_family | default: 'font-body' }} {{ section.settings.nav_button_font_size | default: 'text-sm' }} {{ section.settings.nav_button_color | default: 'text-primary' }} {{ section.settings.nav_button_font_weight | default: 'font-medium' }}">
+                    <div class="nav-content">
+                      <span class="nav-label">{{ section.settings.next_label | default: 'Next Post' }}</span>
+                    </div>
+                    <div class="nav-icon-wrapper">
+                      <svg width="20" height="20" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6 4L10 8L6 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"/>
+                      </svg>
+                    </div>
+                  </span>
+                {% endif %}
+              </div>
+            </div>
+          {% endif %}
+          
+          <!-- Post Footer -->
+          {% if section.settings.show_post_footer %}
+            <div class="post-footer mt-lg {{ section.settings.footer_font_size | default: 'text-sm' }} {{ section.settings.footer_color }}">
+              {% if section.settings.show_social_share %}
+                <div class="social-share text-center">
+                  <span>{{ section.settings.social_share_label | default: 'Share:' }}</span>
+                  <!-- Add social share buttons here if needed -->
+                </div>
+              {% endif %}
+            </div>
+          {% endif %}
+        </article>
+      {% else %}
+        <div class="text-center py-2xl">
+          <p class="text-gray-500">{{ section.settings.empty_state_text | default: 'Post not found' }}</p>
+        </div>
+      {% endif %}
+    </div>
+  </section>
+
+  {% schema %}
+  {
+    "name": "Post Details",
+    "tag": "section",
+    "enabled_on": {
+      "templates": ["post"]
+    },
+    "settings": [
+      {
+        "type": "header",
+        "content": "Layout Width (Container)"
+      },
+      {
+        "type": "select",
+        "id": "container_layout_width",
+        "label": "Layout Width (Container)",
+        "options": [
+          { "value": "container", "label": "Container" },
+          { "value": "container-full", "label": "Full Width (Container Full)" }
+        ],
+        "default": "container",
+        "info": "Choose whether the container is constrained to the width of the page or full width"
+      },
+      {
+        "type": "header",
+        "content": "Post Title"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_title",
+        "label": "Show Post Title",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "title_font_family",
+        "label": "Font Family",
+        "options": [
+          { "value": "font-primary", "label": "Primary" },
+          { "value": "font-body", "label": "Body" },
+          { "value": "font-handwritten", "label": "Handwritten" },
+          { "value": "font-serif", "label": "Serif" }
+        ],
+        "default": "font-body"
+      },
+      {
+        "type": "select",
+        "id": "title_font_size",
+        "label": "Font Size (Mobile)",
+        "options": [
+          { "value": "text-xs", "label": "Extra Small" },
+          { "value": "text-sm", "label": "Small" },
+          { "value": "text-base", "label": "Base" },
+          { "value": "text-lg", "label": "Large" },
+          { "value": "text-xl", "label": "Extra Large" },
+          { "value": "text-2xl", "label": "2X Large" },
+          { "value": "text-3xl", "label": "3X Large" },
+          { "value": "text-4xl", "label": "4X Large" },
+          { "value": "text-5xl", "label": "5X Large" },
+          { "value": "text-6xl", "label": "6X Large" },
+          { "value": "text-7xl", "label": "7X Large" },
+          { "value": "text-8xl", "label": "8X Large" },
+          { "value": "text-9xl", "label": "9X Large" }
+        ],
+        "default": "text-3xl"
+      },
+      {
+        "type": "select",
+        "id": "title_font_size_desktop",
+        "label": "Font Size (Desktop)",
+        "options": [
+          { "value": "lg:text-xs", "label": "Extra Small" },
+          { "value": "lg:text-sm", "label": "Small" },
+          { "value": "lg:text-base", "label": "Base" },
+          { "value": "lg:text-lg", "label": "Large" },
+          { "value": "lg:text-xl", "label": "Extra Large" },
+          { "value": "lg:text-2xl", "label": "2X Large" },
+          { "value": "lg:text-3xl", "label": "3X Large" },
+          { "value": "lg:text-4xl", "label": "4X Large" },
+          { "value": "lg:text-5xl", "label": "5X Large" },
+          { "value": "lg:text-6xl", "label": "6X Large" },
+          { "value": "lg:text-7xl", "label": "7X Large" },
+          { "value": "lg:text-8xl", "label": "8X Large" },
+          { "value": "lg:text-9xl", "label": "9X Large" }
+        ],
+        "default": "lg:text-4xl"
+      },
+      {
+        "type": "select",
+        "id": "title_font_weight",
+        "label": "Font Weight",
+        "options": [
+          { "value": "font-light", "label": "Light" },
+          { "value": "font-normal", "label": "Normal" },
+          { "value": "font-medium", "label": "Medium" },
+          { "value": "font-semibold", "label": "Semi Bold" },
+          { "value": "font-bold", "label": "Bold" }
+        ],
+        "default": "font-bold"
+      },
+      {
+        "type": "select",
+        "id": "title_color",
+        "label": "Text Color",
+        "options": [
+          { "value": "text-white", "label": "White" },
+          { "value": "text-black", "label": "Black" },
+          { "value": "text-primary", "label": "Primary" },
+          { "value": "text-secondary", "label": "Secondary" },
+          { "value": "text-tertiary", "label": "Tertiary" },
+          { "value": "text-neutral", "label": "Neutral" },
+          { "value": "text-neutral-dark", "label": "Neutral Dark" },
+          { "value": "text-inverse", "label": "Inverse" },
+          { "value": "text-muted", "label": "Muted" },
+          { "value": "text-accent", "label": "Accent" },
+          { "value": "text-success", "label": "Success" },
+          { "value": "text-warning", "label": "Warning" },
+          { "value": "text-error", "label": "Error" },
+          { "value": "text-info", "label": "Info" },
+          { "value": "text-brand-primary", "label": "Brand Primary" },
+          { "value": "text-brand-secondary", "label": "Brand Secondary" },
+          { "value": "text-brand-tertiary", "label": "Brand Tertiary" },
+          { "value": "text-brand-quaternary", "label": "Brand Quaternary" },
+          { "value": "text-brand-quinary", "label": "Brand Quinary" },
+          { "value": "text-brand-senary", "label": "Brand Senary" },
+          { "value": "text-brand-septenary", "label": "Brand Septenary" },
+          { "value": "text-brand-octonary", "label": "Brand Octonary" },
+          { "value": "text-brand-nonary", "label": "Brand Nonary" },
+          { "value": "text-brand-denary", "label": "Brand Denary" },
+          { "value": "text-brand-undenary", "label": "Brand Undenary" },
+          { "value": "text-brand-duodenary", "label": "Brand Duodenary" },
+          { "value": "text-brand-tredenary", "label": "Brand Tredenary" },
+          { "value": "text-brand-quattuordenary", "label": "Brand Quattuordenary" }
+        ],
+        "default": "text-primary"
+      },
+      {
+        "type": "header",
+        "content": "Post Meta Information"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_meta",
+        "label": "Show Meta Information",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_author",
+        "label": "Show Author",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_author_icon",
+        "label": "Show Author Icon",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_date",
+        "label": "Show Post Date",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_date_icon",
+        "label": "Show Date Icon",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_updated_at",
+        "label": "Show Updated At",
+        "default": false
+      },
+      {
+        "type": "text",
+        "id": "date_format",
+        "label": "Date Format",
+        "default": "%B %d, %Y",
+        "info": "Liquid date format (e.g., %B %d, %Y for 'January 15, 2024')"
+      },
+      {
+        "type": "select",
+        "id": "meta_font_size",
+        "label": "Meta Font Size",
+        "options": [
+          { "value": "text-xs", "label": "Extra Small" },
+          { "value": "text-sm", "label": "Small" },
+          { "value": "text-base", "label": "Base" },
+          { "value": "text-lg", "label": "Large" },
+          { "value": "text-xl", "label": "Extra Large" },
+          { "value": "text-2xl", "label": "2X Large" },
+          { "value": "text-3xl", "label": "3X Large" },
+          { "value": "text-4xl", "label": "4X Large" },
+          { "value": "text-5xl", "label": "5X Large" },
+          { "value": "text-6xl", "label": "6X Large" },
+          { "value": "text-7xl", "label": "7X Large" },
+          { "value": "text-8xl", "label": "8X Large" },
+          { "value": "text-9xl", "label": "9X Large" }
+        ],
+        "default": "text-sm"
+      },
+      {
+        "type": "select",
+        "id": "meta_color",
+        "label": "Meta Text Color",
+        "options": [
+          { "value": "text-white", "label": "White" },
+          { "value": "text-black", "label": "Black" },
+          { "value": "text-primary", "label": "Primary" },
+          { "value": "text-neutral", "label": "Neutral" },
+          { "value": "text-neutral-dark", "label": "Neutral Dark" },
+          { "value": "text-inverse", "label": "Inverse" },
+          { "value": "text-muted", "label": "Muted" },
+          { "value": "text-accent", "label": "Accent" },
+          { "value": "text-success", "label": "Success" },
+          { "value": "text-warning", "label": "Warning" },
+          { "value": "text-error", "label": "Error" },
+          { "value": "text-info", "label": "Info" },
+          { "value": "text-brand-primary", "label": "Brand Primary" },
+          { "value": "text-brand-secondary", "label": "Brand Secondary" },
+          { "value": "text-brand-tertiary", "label": "Brand Tertiary" },
+          { "value": "text-brand-quaternary", "label": "Brand Quaternary" },
+          { "value": "text-brand-quinary", "label": "Brand Quinary" },
+          { "value": "text-brand-senary", "label": "Brand Senary" },
+          { "value": "text-brand-septenary", "label": "Brand Septenary" },
+          { "value": "text-brand-octonary", "label": "Brand Octonary" },
+          { "value": "text-brand-nonary", "label": "Brand Nonary" },
+          { "value": "text-brand-denary", "label": "Brand Denary" },
+          { "value": "text-brand-undenary", "label": "Brand Undenary" },
+          { "value": "text-brand-duodenary", "label": "Brand Duodenary" },
+          { "value": "text-brand-tredenary", "label": "Brand Tredenary" },
+          { "value": "text-brand-quattuordenary", "label": "Brand Quattuordenary" }
+        ],
+        "default": "text-neutral-dark"
+      },
+      {
+        "type": "header",
+        "content": "Post Category"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_category",
+        "label": "Show Category",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "category_badge_background",
+        "label": "Category Badge Background",
+        "options": [
+          { "value": "bg-primary", "label": "Primary" },
+          { "value": "bg-secondary", "label": "Secondary" },
+          { "value": "bg-neutral", "label": "Neutral" },
+          { "value": "bg-neutral-light", "label": "Neutral Light" },
+          { "value": "bg-inverse", "label": "Inverse" },
+          { "value": "bg-muted", "label": "Muted" },
+          { "value": "bg-accent", "label": "Accent" },
+          { "value": "bg-success", "label": "Success" },
+          { "value": "bg-warning", "label": "Warning" },
+          { "value": "bg-error", "label": "Error" },
+          { "value": "bg-info", "label": "Info" },
+          { "value": "bg-brand-primary", "label": "Brand Primary" },
+          { "value": "bg-brand-secondary", "label": "Brand Secondary" },
+          { "value": "bg-brand-tertiary", "label": "Brand Tertiary" },
+          { "value": "bg-brand-quaternary", "label": "Brand Quaternary" },
+          { "value": "bg-brand-quinary", "label": "Brand Quinary" },
+          { "value": "bg-brand-senary", "label": "Brand Senary" },
+          { "value": "bg-brand-septenary", "label": "Brand Septenary" },
+          { "value": "bg-brand-octonary", "label": "Brand Octonary" },
+          { "value": "bg-brand-nonary", "label": "Brand Nonary" },
+          { "value": "bg-brand-denary", "label": "Brand Denary" },
+          { "value": "bg-brand-undenary", "label": "Brand Undenary" },
+          { "value": "bg-brand-duodenary", "label": "Brand Duodenary" },
+          { "value": "bg-brand-tredenary", "label": "Brand Tredenary" },
+          { "value": "bg-brand-quattuordenary", "label": "Brand Quattuordenary" }
+        ],
+        "default": "bg-neutral-light"
+      },
+      {
+        "type": "select",
+        "id": "category_font_size",
+        "label": "Category Font Size",
+        "options": [
+          { "value": "text-xs", "label": "Extra Small" },
+          { "value": "text-sm", "label": "Small" },
+          { "value": "text-base", "label": "Base" },
+          { "value": "text-lg", "label": "Large" },
+          { "value": "text-xl", "label": "Extra Large" },
+          { "value": "text-2xl", "label": "2X Large" },
+          { "value": "text-3xl", "label": "3X Large" },
+          { "value": "text-4xl", "label": "4X Large" },
+          { "value": "text-5xl", "label": "5X Large" },
+          { "value": "text-6xl", "label": "6X Large" },
+          { "value": "text-7xl", "label": "7X Large" },
+          { "value": "text-8xl", "label": "8X Large" },
+          { "value": "text-9xl", "label": "9X Large" }
+        ],
+        "default": "text-sm"
+      },
+      {
+        "type": "select",
+        "id": "category_font_weight",
+        "label": "Category Font Weight",
+        "options": [
+          { "value": "font-normal", "label": "Normal" },
+          { "value": "font-medium", "label": "Medium" },
+          { "value": "font-semibold", "label": "Semi Bold" }
+        ],
+        "default": "font-medium"
+      },
+      {
+        "type": "select",
+        "id": "category_color",
+        "label": "Category Text Color",
+        "options": [
+          { "value": "text-white", "label": "White" },
+          { "value": "text-black", "label": "Black" },
+          { "value": "text-primary", "label": "Primary" },
+          { "value": "text-neutral-dark", "label": "Neutral Dark" },
+          { "value": "text-inverse", "label": "Inverse" },
+          { "value": "text-muted", "label": "Muted" },
+          { "value": "text-accent", "label": "Accent" },
+          { "value": "text-success", "label": "Success" },
+          { "value": "text-warning", "label": "Warning" },
+          { "value": "text-error", "label": "Error" },
+          { "value": "text-info", "label": "Info" },
+          { "value": "text-brand-primary", "label": "Brand Primary" },
+          { "value": "text-brand-secondary", "label": "Brand Secondary" },
+          { "value": "text-brand-tertiary", "label": "Brand Tertiary" },
+          { "value": "text-brand-quaternary", "label": "Brand Quaternary" },
+          { "value": "text-brand-quinary", "label": "Brand Quinary" },
+          { "value": "text-brand-senary", "label": "Brand Senary" },
+          { "value": "text-brand-septenary", "label": "Brand Septenary" },
+          { "value": "text-brand-octonary", "label": "Brand Octonary" },
+          { "value": "text-brand-nonary", "label": "Brand Nonary" },
+          { "value": "text-brand-denary", "label": "Brand Denary" },
+          { "value": "text-brand-undenary", "label": "Brand Undenary" },
+          { "value": "text-brand-duodenary", "label": "Brand Duodenary" },
+          { "value": "text-brand-tredenary", "label": "Brand Tredenary" },
+          { "value": "text-brand-quattuordenary", "label": "Brand Quattuordenary" }
+        ],
+        "default": "text-primary"
+      },
+      {
+        "type": "select",
+        "id": "category_badge_border_radius",
+        "label": "Category Badge Border Radius",
+        "options": [
+          { "value": "rounded-none", "label": "None" },
+          { "value": "rounded-sm", "label": "Small" },
+          { "value": "rounded", "label": "Base" },
+          { "value": "rounded-md", "label": "Medium" },
+          { "value": "rounded-lg", "label": "Large" },
+          { "value": "rounded-full", "label": "Full (Pill)" }
+        ],
+        "default": "rounded-full"
+      },
+      {
+        "type": "header",
+        "content": "Featured Image"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_featured_image",
+        "label": "Show Featured Image",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "featured_image_height",
+        "label": "Image Height",
+        "options": [
+          { "value": "h-auto", "label": "Auto" },
+          { "value": "h-64", "label": "Small (256px)" },
+          { "value": "h-80", "label": "Medium (320px)" },
+          { "value": "h-96", "label": "Large (384px)" },
+          { "value": "h-[500px]", "label": "Extra Large (500px)" }
+        ],
+        "default": "h-auto"
+      },
+      {
+        "type": "select",
+        "id": "featured_image_border_radius",
+        "label": "Image Border Radius",
+        "options": [
+          { "value": "rounded-none", "label": "None" },
+          { "value": "rounded-sm", "label": "Small" },
+          { "value": "rounded", "label": "Base" },
+          { "value": "rounded-md", "label": "Medium" },
+          { "value": "rounded-lg", "label": "Large" },
+          { "value": "rounded-xl", "label": "Extra Large" },
+          { "value": "rounded-2xl", "label": "2X Large" }
+        ],
+        "default": "rounded-xl"
+      },
+      {
+        "type": "header",
+        "content": "Post Summary"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_summary",
+        "label": "Show Summary",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "summary_font_size",
+        "label": "Font Size (Mobile)",
+        "options": [
+          { "value": "text-xs", "label": "Extra Small" },
+          { "value": "text-sm", "label": "Small" },
+          { "value": "text-base", "label": "Base" },
+          { "value": "text-lg", "label": "Large" },
+          { "value": "text-xl", "label": "Extra Large" },
+          { "value": "text-2xl", "label": "2X Large" },
+          { "value": "text-3xl", "label": "3X Large" },
+          { "value": "text-4xl", "label": "4X Large" },
+          { "value": "text-5xl", "label": "5X Large" },
+          { "value": "text-6xl", "label": "6X Large" },
+          { "value": "text-7xl", "label": "7X Large" },
+          { "value": "text-8xl", "label": "8X Large" },
+          { "value": "text-9xl", "label": "9X Large" }
+        ],
+        "default": "text-lg"
+      },
+      {
+        "type": "select",
+        "id": "summary_font_size_desktop",
+        "label": "Font Size (Desktop)",
+        "options": [
+          { "value": "lg:text-xs", "label": "Extra Small" },
+          { "value": "lg:text-sm", "label": "Small" },
+          { "value": "lg:text-base", "label": "Base" },
+          { "value": "lg:text-lg", "label": "Large" },
+          { "value": "lg:text-xl", "label": "Extra Large" },
+          { "value": "lg:text-2xl", "label": "2X Large" },
+          { "value": "lg:text-3xl", "label": "3X Large" },
+          { "value": "lg:text-4xl", "label": "4X Large" },
+          { "value": "lg:text-5xl", "label": "5X Large" },
+          { "value": "lg:text-6xl", "label": "6X Large" },
+          { "value": "lg:text-7xl", "label": "7X Large" },
+          { "value": "lg:text-8xl", "label": "8X Large" },
+          { "value": "lg:text-9xl", "label": "9X Large" }
+        ],
+        "default": "lg:text-xl"
+      },
+      {
+        "type": "select",
+        "id": "summary_font_weight",
+        "label": "Font Weight",
+        "options": [
+          { "value": "font-normal", "label": "Normal" },
+          { "value": "font-medium", "label": "Medium" },
+          { "value": "font-semibold", "label": "Semi Bold" }
+        ],
+        "default": "font-medium"
+      },
+      {
+        "type": "select",
+        "id": "summary_color",
+        "label": "Text Color",
+        "options": [
+          { "value": "text-white", "label": "White" },
+          { "value": "text-black", "label": "Black" },
+          { "value": "text-primary", "label": "Primary" },
+          { "value": "text-neutral", "label": "Neutral" },
+          { "value": "text-neutral-dark", "label": "Neutral Dark" },
+          { "value": "text-inverse", "label": "Inverse" },
+          { "value": "text-muted", "label": "Muted" },
+          { "value": "text-accent", "label": "Accent" },
+          { "value": "text-success", "label": "Success" },
+          { "value": "text-warning", "label": "Warning" },
+          { "value": "text-error", "label": "Error" },
+          { "value": "text-info", "label": "Info" },
+          { "value": "text-brand-primary", "label": "Brand Primary" },
+          { "value": "text-brand-secondary", "label": "Brand Secondary" },
+          { "value": "text-brand-tertiary", "label": "Brand Tertiary" },
+          { "value": "text-brand-quaternary", "label": "Brand Quaternary" },
+          { "value": "text-brand-quinary", "label": "Brand Quinary" },
+          { "value": "text-brand-senary", "label": "Brand Senary" },
+          { "value": "text-brand-septenary", "label": "Brand Septenary" },
+          { "value": "text-brand-octonary", "label": "Brand Octonary" },
+          { "value": "text-brand-nonary", "label": "Brand Nonary" },
+          { "value": "text-brand-denary", "label": "Brand Denary" },
+          { "value": "text-brand-undenary", "label": "Brand Undenary" },
+          { "value": "text-brand-duodenary", "label": "Brand Duodenary" },
+          { "value": "text-brand-tredenary", "label": "Brand Tredenary" },
+          { "value": "text-brand-quattuordenary", "label": "Brand Quattuordenary" }
+        ],
+        "default": "text-neutral-dark"
+      },
+      {
+        "type": "select",
+        "id": "summary_background",
+        "label": "Background Color",
+        "options": [
+          { "value": "", "label": "None" },
+          { "value": "bg-neutral-light", "label": "Neutral Light" },
+          { "value": "bg-neutral", "label": "Neutral" },
+          { "value": "bg-inverse", "label": "Inverse" },
+          { "value": "bg-muted", "label": "Muted" },
+          { "value": "bg-accent", "label": "Accent" },
+          { "value": "bg-success", "label": "Success" },
+          { "value": "bg-warning", "label": "Warning" },
+          { "value": "bg-error", "label": "Error" },
+          { "value": "bg-info", "label": "Info" },
+          { "value": "bg-brand-primary", "label": "Brand Primary" },
+          { "value": "bg-brand-secondary", "label": "Brand Secondary" },
+          { "value": "bg-brand-tertiary", "label": "Brand Tertiary" },
+          { "value": "bg-brand-quaternary", "label": "Brand Quaternary" },
+          { "value": "bg-brand-quinary", "label": "Brand Quinary" },
+          { "value": "bg-brand-senary", "label": "Brand Senary" },
+          { "value": "bg-brand-septenary", "label": "Brand Septenary" },
+          { "value": "bg-brand-octonary", "label": "Brand Octonary" },
+          { "value": "bg-brand-nonary", "label": "Brand Nonary" },
+          { "value": "bg-brand-denary", "label": "Brand Denary" },
+          { "value": "bg-brand-undenary", "label": "Brand Undenary" },
+          { "value": "bg-brand-duodenary", "label": "Brand Duodenary" },
+          { "value": "bg-brand-tredenary", "label": "Brand Tredenary" },
+          { "value": "bg-brand-quattuordenary", "label": "Brand Quattuordenary" }
+        ],
+        "default": ""
+      },
+      {
+        "type": "select",
+        "id": "summary_padding",
+        "label": "Padding",
+        "options": [
+          { "value": "p-xs", "label": "Extra Small" },
+          { "value": "p-sm", "label": "Small" },
+          { "value": "p-md", "label": "Medium" },
+          { "value": "p-lg", "label": "Large" },
+          { "value": "p-xl", "label": "Extra Large" },
+          { "value": "p-2xl", "label": "2X Large" },
+          { "value": "p-3xl", "label": "3X Large" },
+          { "value": "p-4xl", "label": "4X Large" },
+          { "value": "p-5xl", "label": "5X Large" },
+          { "value": "p-6xl", "label": "6X Large" },
+          { "value": "p-7xl", "label": "7X Large" },
+          { "value": "p-8xl", "label": "8X Large" },
+          { "value": "p-9xl", "label": "9X Large" }
+        ],
+        "default": "p-md"
+      },
+      {
+        "type": "select",
+        "id": "summary_border_radius",
+        "label": "Border Radius",
+        "options": [
+          { "value": "rounded-none", "label": "None" },
+          { "value": "rounded-sm", "label": "Small" },
+          { "value": "rounded", "label": "Base" },
+          { "value": "rounded-md", "label": "Medium" },
+          { "value": "rounded-lg", "label": "Large" },
+          { "value": "rounded-xl", "label": "Extra Large" }
+        ],
+        "default": "rounded-lg"
+      },
+      {
+        "type": "header",
+        "content": "Post Description/Content"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_description",
+        "label": "Show Description",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "description_font_size",
+        "label": "Font Size (Mobile)",
+        "options": [
+          { "value": "text-xs", "label": "Extra Small" },
+          { "value": "text-sm", "label": "Small" },
+          { "value": "text-base", "label": "Base" },
+          { "value": "text-lg", "label": "Large" },
+          { "value": "text-xl", "label": "Extra Large" },
+          { "value": "text-2xl", "label": "2X Large" },
+          { "value": "text-3xl", "label": "3X Large" },
+          { "value": "text-4xl", "label": "4X Large" },
+          { "value": "text-5xl", "label": "5X Large" },
+          { "value": "text-6xl", "label": "6X Large" },
+          { "value": "text-7xl", "label": "7X Large" },
+          { "value": "text-8xl", "label": "8X Large" },
+          { "value": "text-9xl", "label": "9X Large" }
+        ],
+        "default": "text-base"
+      },
+      {
+        "type": "select",
+        "id": "description_font_size_desktop",
+        "label": "Font Size (Desktop)",
+        "options": [
+          { "value": "lg:text-xs", "label": "Extra Small" },
+          { "value": "lg:text-sm", "label": "Small" },
+          { "value": "lg:text-base", "label": "Base" },
+          { "value": "lg:text-lg", "label": "Large" },
+          { "value": "lg:text-xl", "label": "Extra Large" },
+          { "value": "lg:text-2xl", "label": "2X Large" },
+          { "value": "lg:text-3xl", "label": "3X Large" },
+          { "value": "lg:text-4xl", "label": "4X Large" },
+          { "value": "lg:text-5xl", "label": "5X Large" },
+          { "value": "lg:text-6xl", "label": "6X Large" },
+          { "value": "lg:text-7xl", "label": "7X Large" },
+          { "value": "lg:text-8xl", "label": "8X Large" },
+          { "value": "lg:text-9xl", "label": "9X Large" }
+        ],
+        "default": "lg:text-lg"
+      },
+      {
+        "type": "select",
+        "id": "description_font_weight",
+        "label": "Font Weight",
+        "options": [
+          { "value": "font-light", "label": "Light" },
+          { "value": "font-normal", "label": "Normal" },
+          { "value": "font-medium", "label": "Medium" }
+        ],
+        "default": "font-normal"
+      },
+      {
+        "type": "select",
+        "id": "description_color",
+        "label": "Text Color",
+        "options": [
+          { "value": "text-white", "label": "White" },
+          { "value": "text-black", "label": "Black" },
+          { "value": "text-primary", "label": "Primary" },
+          { "value": "text-neutral", "label": "Neutral" },
+          { "value": "text-neutral-dark", "label": "Neutral Dark" },
+          { "value": "text-inverse", "label": "Inverse" },
+          { "value": "text-muted", "label": "Muted" },
+          { "value": "text-accent", "label": "Accent" },
+          { "value": "text-success", "label": "Success" },
+          { "value": "text-warning", "label": "Warning" },
+          { "value": "text-error", "label": "Error" },
+          { "value": "text-info", "label": "Info" },
+          { "value": "text-brand-primary", "label": "Brand Primary" },
+          { "value": "text-brand-secondary", "label": "Brand Secondary" },
+          { "value": "text-brand-tertiary", "label": "Brand Tertiary" },
+          { "value": "text-brand-quaternary", "label": "Brand Quaternary" },
+          { "value": "text-brand-quinary", "label": "Brand Quinary" },
+          { "value": "text-brand-senary", "label": "Brand Senary" },
+          { "value": "text-brand-septenary", "label": "Brand Septenary" },
+          { "value": "text-brand-octonary", "label": "Brand Octonary" },
+          { "value": "text-brand-nonary", "label": "Brand Nonary" },
+          { "value": "text-brand-denary", "label": "Brand Denary" },
+          { "value": "text-brand-undenary", "label": "Brand Undenary" },
+          { "value": "text-brand-duodenary", "label": "Brand Duodenary" },
+          { "value": "text-brand-tredenary", "label": "Brand Tredenary" },
+          { "value": "text-brand-quattuordenary", "label": "Brand Quattuordenary" }
+        ],
+        "default": "text-neutral-dark"
+      },
+      {
+        "type": "header",
+        "content": "Post Collections"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_collections",
+        "label": "Show Collections",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "collections_title",
+        "label": "Collections Title",
+        "default": "Related Collections"
+      },
+      {
+        "type": "select",
+        "id": "collections_title_font_size",
+        "label": "Title Font Size (Mobile)",
+        "options": [
+          { "value": "text-xs", "label": "Extra Small" },
+          { "value": "text-sm", "label": "Small" },
+          { "value": "text-base", "label": "Base" },
+          { "value": "text-lg", "label": "Large" },
+          { "value": "text-xl", "label": "Extra Large" },
+          { "value": "text-2xl", "label": "2X Large" },
+          { "value": "text-3xl", "label": "3X Large" },
+          { "value": "text-4xl", "label": "4X Large" },
+          { "value": "text-5xl", "label": "5X Large" },
+          { "value": "text-6xl", "label": "6X Large" },
+          { "value": "text-7xl", "label": "7X Large" },
+          { "value": "text-8xl", "label": "8X Large" },
+          { "value": "text-9xl", "label": "9X Large" }
+        ],
+        "default": "text-xl"
+      },
+      {
+        "type": "select",
+        "id": "collections_title_font_size_desktop",
+        "label": "Title Font Size (Desktop)",
+        "options": [
+          { "value": "lg:text-xs", "label": "Extra Small" },
+          { "value": "lg:text-sm", "label": "Small" },
+          { "value": "lg:text-base", "label": "Base" },
+          { "value": "lg:text-lg", "label": "Large" },
+          { "value": "lg:text-xl", "label": "Extra Large" },
+          { "value": "lg:text-2xl", "label": "2X Large" },
+          { "value": "lg:text-3xl", "label": "3X Large" },
+          { "value": "lg:text-4xl", "label": "4X Large" },
+          { "value": "lg:text-5xl", "label": "5X Large" },
+          { "value": "lg:text-6xl", "label": "6X Large" },
+          { "value": "lg:text-7xl", "label": "7X Large" },
+          { "value": "lg:text-8xl", "label": "8X Large" },
+          { "value": "lg:text-9xl", "label": "9X Large" }
+        ],
+        "default": "lg:text-2xl"
+      },
+      {
+        "type": "select",
+        "id": "collections_title_font_weight",
+        "label": "Title Font Weight",
+        "options": [
+          { "value": "font-medium", "label": "Medium" },
+          { "value": "font-semibold", "label": "Semi Bold" },
+          { "value": "font-bold", "label": "Bold" }
+        ],
+        "default": "font-semibold"
+      },
+      {
+        "type": "select",
+        "id": "collections_title_color",
+        "label": "Title Color",
+        "options": [
+          { "value": "text-white", "label": "White" },
+          { "value": "text-black", "label": "Black" },
+          { "value": "text-primary", "label": "Primary" },
+          { "value": "text-neutral-dark", "label": "Neutral Dark" },
+          { "value": "text-inverse", "label": "Inverse" },
+          { "value": "text-muted", "label": "Muted" },
+          { "value": "text-accent", "label": "Accent" },
+          { "value": "text-success", "label": "Success" },
+          { "value": "text-warning", "label": "Warning" },
+          { "value": "text-error", "label": "Error" },
+          { "value": "text-info", "label": "Info" },
+          { "value": "text-brand-primary", "label": "Brand Primary" },
+          { "value": "text-brand-secondary", "label": "Brand Secondary" },
+          { "value": "text-brand-tertiary", "label": "Brand Tertiary" },
+          { "value": "text-brand-quaternary", "label": "Brand Quaternary" },
+          { "value": "text-brand-quinary", "label": "Brand Quinary" },
+          { "value": "text-brand-senary", "label": "Brand Senary" },
+          { "value": "text-brand-septenary", "label": "Brand Septenary" },
+          { "value": "text-brand-octonary", "label": "Brand Octonary" },
+          { "value": "text-brand-nonary", "label": "Brand Nonary" },
+          { "value": "text-brand-denary", "label": "Brand Denary" },
+          { "value": "text-brand-undenary", "label": "Brand Undenary" },
+          { "value": "text-brand-duodenary", "label": "Brand Duodenary" },
+          { "value": "text-brand-tredenary", "label": "Brand Tredenary" },
+          { "value": "text-brand-quattuordenary", "label": "Brand Quattuordenary" }
+        ],
+        "default": "text-primary"
+      },
+      {
+        "type": "select",
+        "id": "collection_badge_background",
+        "label": "Collection Badge Background",
+        "options": [
+          { "value": "bg-primary", "label": "Primary" },
+          { "value": "bg-secondary", "label": "Secondary" },
+          { "value": "bg-neutral", "label": "Neutral" },
+          { "value": "bg-neutral-light", "label": "Neutral Light" },
+          { "value": "bg-inverse", "label": "Inverse" },
+          { "value": "bg-muted", "label": "Muted" },
+          { "value": "bg-accent", "label": "Accent" },
+          { "value": "bg-success", "label": "Success" },
+          { "value": "bg-warning", "label": "Warning" },
+          { "value": "bg-error", "label": "Error" },
+          { "value": "bg-info", "label": "Info" },
+          { "value": "bg-brand-primary", "label": "Brand Primary" },
+          { "value": "bg-brand-secondary", "label": "Brand Secondary" },
+          { "value": "bg-brand-tertiary", "label": "Brand Tertiary" },
+          { "value": "bg-brand-quaternary", "label": "Brand Quaternary" },
+          { "value": "bg-brand-quinary", "label": "Brand Quinary" },
+          { "value": "bg-brand-senary", "label": "Brand Senary" },
+          { "value": "bg-brand-septenary", "label": "Brand Septenary" },
+          { "value": "bg-brand-octonary", "label": "Brand Octonary" },
+          { "value": "bg-brand-nonary", "label": "Brand Nonary" },
+          { "value": "bg-brand-denary", "label": "Brand Denary" },
+          { "value": "bg-brand-undenary", "label": "Brand Undenary" },
+          { "value": "bg-brand-duodenary", "label": "Brand Duodenary" },
+          { "value": "bg-brand-tredenary", "label": "Brand Tredenary" },
+          { "value": "bg-brand-quattuordenary", "label": "Brand Quattuordenary" }
+        ],
+        "default": "bg-neutral-light"
+      },
+      {
+        "type": "select",
+        "id": "collection_font_size",
+        "label": "Collection Font Size",
+        "options": [
+          { "value": "text-xs", "label": "Extra Small" },
+          { "value": "text-sm", "label": "Small" },
+          { "value": "text-base", "label": "Base" },
+          { "value": "text-lg", "label": "Large" },
+          { "value": "text-xl", "label": "Extra Large" },
+          { "value": "text-2xl", "label": "2X Large" },
+          { "value": "text-3xl", "label": "3X Large" },
+          { "value": "text-4xl", "label": "4X Large" },
+          { "value": "text-5xl", "label": "5X Large" },
+          { "value": "text-6xl", "label": "6X Large" },
+          { "value": "text-7xl", "label": "7X Large" },
+          { "value": "text-8xl", "label": "8X Large" },
+          { "value": "text-9xl", "label": "9X Large" }
+        ],
+        "default": "text-sm"
+      },
+      {
+        "type": "select",
+        "id": "collection_font_weight",
+        "label": "Collection Font Weight",
+        "options": [
+          { "value": "font-normal", "label": "Normal" },
+          { "value": "font-medium", "label": "Medium" },
+          { "value": "font-semibold", "label": "Semi Bold" }
+        ],
+        "default": "font-medium"
+      },
+      {
+        "type": "select",
+        "id": "collection_color",
+        "label": "Collection Text Color",
+        "options": [
+          { "value": "text-white", "label": "White" },
+          { "value": "text-black", "label": "Black" },
+          { "value": "text-primary", "label": "Primary" },
+          { "value": "text-neutral-dark", "label": "Neutral Dark" },
+          { "value": "text-inverse", "label": "Inverse" },
+          { "value": "text-muted", "label": "Muted" },
+          { "value": "text-accent", "label": "Accent" },
+          { "value": "text-success", "label": "Success" },
+          { "value": "text-warning", "label": "Warning" },
+          { "value": "text-error", "label": "Error" },
+          { "value": "text-info", "label": "Info" },
+          { "value": "text-brand-primary", "label": "Brand Primary" },
+          { "value": "text-brand-secondary", "label": "Brand Secondary" },
+          { "value": "text-brand-tertiary", "label": "Brand Tertiary" },
+          { "value": "text-brand-quaternary", "label": "Brand Quaternary" },
+          { "value": "text-brand-quinary", "label": "Brand Quinary" },
+          { "value": "text-brand-senary", "label": "Brand Senary" },
+          { "value": "text-brand-septenary", "label": "Brand Septenary" },
+          { "value": "text-brand-octonary", "label": "Brand Octonary" },
+          { "value": "text-brand-nonary", "label": "Brand Nonary" },
+          { "value": "text-brand-denary", "label": "Brand Denary" },
+          { "value": "text-brand-undenary", "label": "Brand Undenary" },
+          { "value": "text-brand-duodenary", "label": "Brand Duodenary" },
+          { "value": "text-brand-tredenary", "label": "Brand Tredenary" },
+          { "value": "text-brand-quattuordenary", "label": "Brand Quattuordenary" }
+        ],
+        "default": "text-primary"
+      },
+      {
+        "type": "select",
+        "id": "collection_padding",
+        "label": "Collection Badge Padding",
+        "options": [
+          { "value": "px-xs py-xs", "label": "Extra Small" },
+          { "value": "px-sm py-xs", "label": "Small" },
+          { "value": "px-md py-xs", "label": "Medium" },
+          { "value": "px-md py-sm", "label": "Large" }
+        ],
+        "default": "px-md py-xs"
+      },
+      {
+        "type": "select",
+        "id": "collection_badge_border_radius",
+        "label": "Collection Badge Border Radius",
+        "options": [
+          { "value": "rounded-none", "label": "None" },
+          { "value": "rounded-sm", "label": "Small" },
+          { "value": "rounded", "label": "Base" },
+          { "value": "rounded-md", "label": "Medium" },
+          { "value": "rounded-lg", "label": "Large" },
+          { "value": "rounded-full", "label": "Full (Pill)" }
+        ],
+        "default": "rounded-full"
+      },
+      {
+        "type": "header",
+        "content": "Post Navigation"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_post_navigation",
+        "label": "Show Post Navigation",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "previous_label",
+        "label": "Previous Post Label",
+        "default": "Previous Post"
+      },
+      {
+        "type": "text",
+        "id": "next_label",
+        "label": "Next Post Label",
+        "default": "Next Post"
+      },
+      {
+        "type": "select",
+        "id": "nav_button_font_family",
+        "label": "Navigation Button Font Family",
+        "options": [
+          { "value": "font-primary", "label": "Primary" },
+          { "value": "font-body", "label": "Body" },
+          { "value": "font-handwritten", "label": "Handwritten" },
+          { "value": "font-serif", "label": "Serif" }
+        ],
+        "default": "font-body"
+      },
+      {
+        "type": "select",
+        "id": "nav_button_font_size",
+        "label": "Navigation Button Font Size",
+        "options": [
+          { "value": "text-xs", "label": "Extra Small" },
+          { "value": "text-sm", "label": "Small" },
+          { "value": "text-base", "label": "Base" },
+          { "value": "text-lg", "label": "Large" }
+        ],
+        "default": "text-sm"
+      },
+      {
+        "type": "select",
+        "id": "nav_button_font_weight",
+        "label": "Navigation Button Font Weight",
+        "options": [
+          { "value": "font-normal", "label": "Normal" },
+          { "value": "font-medium", "label": "Medium" },
+          { "value": "font-semibold", "label": "Semi Bold" },
+          { "value": "font-bold", "label": "Bold" }
+        ],
+        "default": "font-medium"
+      },
+      {
+        "type": "select",
+        "id": "nav_button_color",
+        "label": "Navigation Button Color",
+        "options": [
+          { "value": "text-white", "label": "White" },
+          { "value": "text-black", "label": "Black" },
+          { "value": "text-primary", "label": "Primary" },
+          { "value": "text-neutral-dark", "label": "Neutral Dark" }
+        ],
+        "default": "text-primary"
+      },
+      {
+        "type": "select",
+        "id": "navigation_border_color",
+        "label": "Navigation Border Color",
+        "options": [
+          { "value": "border-white", "label": "White" },
+          { "value": "border-black", "label": "Black" },
+          { "value": "border-primary", "label": "Primary" },
+          { "value": "border-neutral", "label": "Neutral" },
+          { "value": "border-neutral-light", "label": "Neutral Light" },
+          { "value": "border-neutral-dark", "label": "Neutral Dark" }
+        ],
+        "default": "border-neutral-light"
+      },
+      {
+        "type": "header",
+        "content": "Post Footer"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_post_footer",
+        "label": "Show Post Footer",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "show_social_share",
+        "label": "Show Social Share",
+        "default": false
+      },
+      {
+        "type": "text",
+        "id": "social_share_label",
+        "label": "Social Share Label",
+        "default": "Share:"
+      },
+      {
+        "type": "select",
+        "id": "footer_font_size",
+        "label": "Footer Font Size",
+        "options": [
+          { "value": "text-xs", "label": "Extra Small" },
+          { "value": "text-sm", "label": "Small" },
+          { "value": "text-base", "label": "Base" },
+          { "value": "text-lg", "label": "Large" },
+          { "value": "text-xl", "label": "Extra Large" },
+          { "value": "text-2xl", "label": "2X Large" },
+          { "value": "text-3xl", "label": "3X Large" },
+          { "value": "text-4xl", "label": "4X Large" },
+          { "value": "text-5xl", "label": "5X Large" },
+          { "value": "text-6xl", "label": "6X Large" },
+          { "value": "text-7xl", "label": "7X Large" },
+          { "value": "text-8xl", "label": "8X Large" },
+          { "value": "text-9xl", "label": "9X Large" }
+        ],
+        "default": "text-sm"
+      },
+      {
+        "type": "select",
+        "id": "footer_color",
+        "label": "Footer Text Color",
+        "options": [
+          { "value": "text-white", "label": "White" },
+          { "value": "text-black", "label": "Black" },
+          { "value": "text-primary", "label": "Primary" },
+          { "value": "text-neutral", "label": "Neutral" },
+          { "value": "text-neutral-dark", "label": "Neutral Dark" },
+          { "value": "text-inverse", "label": "Inverse" },
+          { "value": "text-muted", "label": "Muted" },
+          { "value": "text-accent", "label": "Accent" },
+          { "value": "text-success", "label": "Success" },
+          { "value": "text-warning", "label": "Warning" },
+          { "value": "text-error", "label": "Error" },
+          { "value": "text-info", "label": "Info" },
+          { "value": "text-brand-primary", "label": "Brand Primary" },
+          { "value": "text-brand-secondary", "label": "Brand Secondary" },
+          { "value": "text-brand-tertiary", "label": "Brand Tertiary" },
+          { "value": "text-brand-quaternary", "label": "Brand Quaternary" },
+          { "value": "text-brand-quinary", "label": "Brand Quinary" },
+          { "value": "text-brand-senary", "label": "Brand Senary" },
+          { "value": "text-brand-septenary", "label": "Brand Septenary" },
+          { "value": "text-brand-octonary", "label": "Brand Octonary" },
+          { "value": "text-brand-nonary", "label": "Brand Nonary" },
+          { "value": "text-brand-denary", "label": "Brand Denary" },
+          { "value": "text-brand-undenary", "label": "Brand Undenary" },
+          { "value": "text-brand-duodenary", "label": "Brand Duodenary" },
+          { "value": "text-brand-tredenary", "label": "Brand Tredenary" },
+          { "value": "text-brand-quattuordenary", "label": "Brand Quattuordenary" }
+        ],
+        "default": "text-neutral-dark"
+      },
+      {
+        "type": "select",
+        "id": "footer_border_color",
+        "label": "Footer Border Color",
+        "options": [
+          { "value": "border-white", "label": "White" },
+          { "value": "border-black", "label": "Black" },
+          { "value": "border-primary", "label": "Primary" },
+          { "value": "border-neutral", "label": "Neutral" },
+          { "value": "border-neutral-light", "label": "Neutral Light" },
+          { "value": "border-neutral-dark", "label": "Neutral Dark" }
+        ],
+        "default": "border-neutral-light"
+      },
+      {
+        "type": "select",
+        "id": "back_link_color",
+        "label": "Back Link Color",
+        "options": [
+          { "value": "text-white", "label": "White" },
+          { "value": "text-black", "label": "Black" },
+          { "value": "text-primary", "label": "Primary" },
+          { "value": "text-neutral-dark", "label": "Neutral Dark" },
+          { "value": "text-inverse", "label": "Inverse" },
+          { "value": "text-muted", "label": "Muted" },
+          { "value": "text-accent", "label": "Accent" },
+          { "value": "text-success", "label": "Success" },
+          { "value": "text-warning", "label": "Warning" },
+          { "value": "text-error", "label": "Error" },
+          { "value": "text-info", "label": "Info" },
+          { "value": "text-brand-primary", "label": "Brand Primary" },
+          { "value": "text-brand-secondary", "label": "Brand Secondary" },
+          { "value": "text-brand-tertiary", "label": "Brand Tertiary" },
+          { "value": "text-brand-quaternary", "label": "Brand Quaternary" },
+          { "value": "text-brand-quinary", "label": "Brand Quinary" },
+          { "value": "text-brand-senary", "label": "Brand Senary" },
+          { "value": "text-brand-septenary", "label": "Brand Septenary" },
+          { "value": "text-brand-octonary", "label": "Brand Octonary" },
+          { "value": "text-brand-nonary", "label": "Brand Nonary" },
+          { "value": "text-brand-denary", "label": "Brand Denary" },
+          { "value": "text-brand-undenary", "label": "Brand Undenary" },
+          { "value": "text-brand-duodenary", "label": "Brand Duodenary" },
+          { "value": "text-brand-tredenary", "label": "Brand Tredenary" },
+          { "value": "text-brand-quattuordenary", "label": "Brand Quattuordenary" }
+        ],
+        "default": "text-primary"
+      },
+      {
+        "type": "header",
+        "content": "Layout Settings"
+      },
+      {
+        "type": "select",
+        "id": "background_color",
+        "label": "Section Background Color",
+        "options": [
+          { "value": "", "label": "None (Transparent)" },
+          { "value": "bg-white", "label": "White" },
+          { "value": "bg-black", "label": "Black" },
+          { "value": "bg-primary", "label": "Primary" },
+          { "value": "bg-secondary", "label": "Secondary" },
+          { "value": "bg-tertiary", "label": "Tertiary" },
+          { "value": "bg-neutral", "label": "Neutral" },
+          { "value": "bg-neutral-light", "label": "Neutral Light" },
+          { "value": "bg-inverse", "label": "Inverse" },
+          { "value": "bg-muted", "label": "Muted" },
+          { "value": "bg-accent", "label": "Accent" },
+          { "value": "bg-success", "label": "Success" },
+          { "value": "bg-warning", "label": "Warning" },
+          { "value": "bg-error", "label": "Error" },
+          { "value": "bg-info", "label": "Info" },
+          { "value": "bg-brand-primary", "label": "Brand Primary" },
+          { "value": "bg-brand-secondary", "label": "Brand Secondary" },
+          { "value": "bg-brand-tertiary", "label": "Brand Tertiary" },
+          { "value": "bg-brand-quaternary", "label": "Brand Quaternary" },
+          { "value": "bg-brand-quinary", "label": "Brand Quinary" },
+          { "value": "bg-brand-senary", "label": "Brand Senary" },
+          { "value": "bg-brand-septenary", "label": "Brand Septenary" },
+          { "value": "bg-brand-octonary", "label": "Brand Octonary" },
+          { "value": "bg-brand-nonary", "label": "Brand Nonary" },
+          { "value": "bg-brand-denary", "label": "Brand Denary" },
+          { "value": "bg-brand-undenary", "label": "Brand Undenary" },
+          { "value": "bg-brand-duodenary", "label": "Brand Duodenary" },
+          { "value": "bg-brand-tredenary", "label": "Brand Tredenary" },
+          { "value": "bg-brand-quattuordenary", "label": "Brand Quattuordenary" }
+        ],
+        "default": ""
+      },
+      {
+        "type": "image_picker",
+        "id": "background_image",
+        "label": "Section Background Image"
+      },
+      {
+        "type": "select",
+        "id": "section_padding_y_mobile",
+        "label": "Section Vertical Padding (Mobile)",
+        "options": [
+          { "value": "py-xs", "label": "Extra Small" },
+          { "value": "py-sm", "label": "Small" },
+          { "value": "py-md", "label": "Medium" },
+          { "value": "py-lg", "label": "Large" },
+          { "value": "py-xl", "label": "Extra Large" },
+          { "value": "py-2xl", "label": "2X Large" },
+          { "value": "py-3xl", "label": "3X Large" },
+          { "value": "py-4xl", "label": "4X Large" },
+          { "value": "py-5xl", "label": "5X Large" },
+          { "value": "py-6xl", "label": "6X Large" },
+          { "value": "py-7xl", "label": "7X Large" },
+          { "value": "py-8xl", "label": "8X Large" },
+          { "value": "py-9xl", "label": "9X Large" }
+        ],
+        "default": "py-md"
+      },
+      {
+        "type": "select",
+        "id": "section_padding_y_desktop",
+        "label": "Section Vertical Padding (Desktop)",
+        "options": [
+          { "value": "lg:py-xs", "label": "Extra Small" },
+          { "value": "lg:py-sm", "label": "Small" },
+          { "value": "lg:py-md", "label": "Medium" },
+          { "value": "lg:py-lg", "label": "Large" },
+          { "value": "lg:py-xl", "label": "Extra Large" },
+          { "value": "lg:py-2xl", "label": "2X Large" },
+          { "value": "lg:py-3xl", "label": "3X Large" },
+          { "value": "lg:py-4xl", "label": "4X Large" },
+          { "value": "lg:py-5xl", "label": "5X Large" },
+          { "value": "lg:py-6xl", "label": "6X Large" },
+          { "value": "lg:py-7xl", "label": "7X Large" },
+          { "value": "lg:py-8xl", "label": "8X Large" },
+          { "value": "lg:py-9xl", "label": "9X Large" }
+        ],
+        "default": "lg:py-lg"
+      },
+      {
+        "type": "select",
+        "id": "section_border_radius",
+        "label": "Section Border Radius",
+        "options": [
+          { "value": "rounded-none", "label": "None" },
+          { "value": "rounded-sm", "label": "Small" },
+          { "value": "rounded", "label": "Base" },
+          { "value": "rounded-md", "label": "Medium" },
+          { "value": "rounded-lg", "label": "Large" },
+          { "value": "rounded-xl", "label": "Extra Large" },
+          { "value": "rounded-2xl", "label": "2X Large" }
+        ],
+        "default": "rounded-none"
+      },
+      {
+        "type": "text",
+        "id": "empty_state_text",
+        "label": "Empty state text",
+        "default": "Post not found"
+      }
+    ]
+  }
+  {% endschema %}

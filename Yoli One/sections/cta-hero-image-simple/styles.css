@@ -1,0 +1,517 @@
+/* CTA Hero Image Simple Section */
+
+.cta-hero-image-simple {
+  position: relative;
+}
+
+.cta-hero-image-simple-inner {
+  position: relative;
+}
+
+.cta-hero-image-simple-wrapper {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: inherit;
+}
+
+/* Hero Image - Edge to Edge (Full Width) */
+.cta-hero-image-simple-image-wrapper {
+  position: relative;
+  width: 100vw;
+  margin-left: 50%;
+  transform: translateX(-50%);
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Tall mode - revert to normal (base) height on mobile */
+@media (max-width: 1023px) {
+  .cta-hero-image-simple-image-wrapper--tall {
+    min-height: var(--base-height) !important;
+  }
+}
+
+
+.cta-hero-image-simple-image,
+.cta-hero-image-simple-video {
+  width: 100%;
+  height: 100%;
+  min-height: inherit;
+  display: block;
+  object-fit: cover; /* Default fallback, overridden by inline style */
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
+
+.cta-hero-image-simple-video {
+  background-color: #000;
+}
+
+/* Image/Video fit options */
+.cta-hero-image-simple-image--cover,
+.cta-hero-image-simple-video.cta-hero-image-simple-image--cover {
+  object-fit: cover;
+}
+
+.cta-hero-image-simple-image--contain,
+.cta-hero-image-simple-video.cta-hero-image-simple-image--contain {
+  object-fit: contain;
+}
+
+.cta-hero-image-simple-image--fill,
+.cta-hero-image-simple-video.cta-hero-image-simple-image--fill {
+  object-fit: fill;
+}
+
+.cta-hero-image-simple-image--none,
+.cta-hero-image-simple-video.cta-hero-image-simple-image--none {
+  object-fit: none;
+}
+
+.cta-hero-image-simple-image--scale-down,
+.cta-hero-image-simple-video.cta-hero-image-simple-image--scale-down {
+  object-fit: scale-down;
+}
+
+
+/* Content Overlay */
+.cta-hero-image-simple-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  /* padding-top: var(--space-lg);
+  padding-bottom: var(--space-lg); */
+  z-index: 2;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.6) 100%);
+}
+
+/* Text Container */
+.cta-hero-image-simple-text-container {
+  width: var(--text-width-mobile, 100%);
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (min-width: 1024px) {
+  .cta-hero-image-simple-text-container {
+    width: 100%;
+    max-width: var(--text-width-desktop, 800px);
+  }
+}
+
+/* Horizontal Alignment */
+.cta-hero-image-simple-content--left {
+  align-items: flex-start;
+  text-align: left;
+}
+
+.cta-hero-image-simple-content--left .top-heading-cycle-container,
+.cta-hero-image-simple-content--left .heading-cycle-container {
+  justify-items: start;
+}
+
+.cta-hero-image-simple-content--left .cta-hero-image-simple-buttons {
+  justify-content: flex-start;
+}
+
+.cta-hero-image-simple-content--right {
+  align-items: flex-end;
+  text-align: right;
+}
+
+.cta-hero-image-simple-content--right .top-heading-cycle-container,
+.cta-hero-image-simple-content--right .heading-cycle-container {
+  justify-items: end;
+}
+
+.cta-hero-image-simple-content--right .cta-hero-image-simple-buttons {
+  justify-content: flex-end;
+}
+a.btn.btn-filled-black{
+  border: 1px solid var(--clr-neutral);
+}
+
+/* Text Justification Overrides (independent of container alignment) */
+.cta-hero-image-simple-content--justify-left {
+  text-align: left !important;
+}
+
+.cta-hero-image-simple-content--justify-left .top-heading-cycle-container,
+.cta-hero-image-simple-content--justify-left .heading-cycle-container {
+  justify-items: start !important;
+}
+
+.cta-hero-image-simple-content--justify-left .cta-hero-image-simple-buttons {
+  justify-content: flex-start !important;
+}
+
+.cta-hero-image-simple-content--justify-center {
+  text-align: center !important;
+}
+
+.cta-hero-image-simple-content--justify-center .top-heading-cycle-container,
+.cta-hero-image-simple-content--justify-center .heading-cycle-container {
+  justify-items: center !important;
+}
+
+.cta-hero-image-simple-content--justify-center .cta-hero-image-simple-buttons {
+  justify-content: center !important;
+}
+
+.cta-hero-image-simple-content--justify-right {
+  text-align: right !important;
+}
+
+.cta-hero-image-simple-content--justify-right .top-heading-cycle-container,
+.cta-hero-image-simple-content--justify-right .heading-cycle-container {
+  justify-items: end !important;
+}
+
+.cta-hero-image-simple-content--justify-right .cta-hero-image-simple-buttons {
+  justify-content: flex-end !important;
+}
+
+/* Vertical Alignment */
+.cta-hero-image-simple-content--top {
+  justify-content: flex-start;
+}
+
+.cta-hero-image-simple-content--bottom {
+  justify-content: flex-end;
+}
+
+/* Horizontal padding is now controlled via utility classes from schema settings */
+/* Vertical padding remains responsive */
+@media (min-width: 768px) {
+  .cta-hero-image-simple-content {
+    padding-top: var(--space-xl);
+    padding-bottom: var(--space-xl);
+  }
+}
+
+@media (min-width: 1024px) {
+  .cta-hero-image-simple-content {
+    padding-top: var(--space-2xl);
+    padding-bottom: var(--space-2xl);
+  }
+}
+
+/* Heading */
+.cta-hero-image-simple-heading {
+  margin-bottom: var(--space-lg);
+}
+
+/* Heading Cycle Containers (Top and Main) */
+.top-heading-cycle-container,
+.heading-cycle-container {
+  position: relative;
+  display: grid;
+  align-items: center;
+  justify-items: center;
+}
+
+.top-heading-cycle-item,
+.heading-cycle-item {
+  grid-area: 1 / 1;
+  opacity: 0;
+  transition: opacity 0.6s ease-in-out;
+  margin: 0;
+}
+
+.top-heading-cycle-item.active,
+.heading-cycle-item.active {
+  opacity: 1;
+}
+
+.cta-hero-image-simple-heading h2 {
+  margin: 0;
+}
+
+/* Ensure heading text utility classes work */
+.cta-hero-image-simple-heading-text {
+  /* Ensure font-weight and font-family utilities work */
+  font-weight: inherit;
+  font-family: inherit;
+}
+
+/* Ensure font-weight utilities override any inherited styles */
+.cta-hero-image-simple-heading-text.font-light {
+  font-weight: 300 !important;
+}
+
+.cta-hero-image-simple-heading-text.font-normal {
+  font-weight: 400 !important;
+}
+
+.cta-hero-image-simple-heading-text.font-medium {
+  font-weight: 500 !important;
+}
+
+.cta-hero-image-simple-heading-text.font-semibold {
+  font-weight: 600 !important;
+}
+
+.cta-hero-image-simple-heading-text.font-bold {
+  font-weight: 700 !important;
+}
+
+/* Ensure font-family utilities work */
+.cta-hero-image-simple-heading-text.font-primary {
+  font-family: var(--font-primary) !important;
+}
+
+.cta-hero-image-simple-heading-text.font-body {
+  font-family: var(--font-body) !important;
+}
+
+.cta-hero-image-simple-heading-text.font-handwritten {
+  font-family: var(--font-handwritten) !important;
+}
+
+.cta-hero-image-simple-heading-text.font-serif {
+  font-family: var(--font-serif) !important;
+}
+
+/* Ensure color utilities work */
+.cta-hero-image-simple-heading-text.text-white {
+  color: #fff !important;
+}
+
+.cta-hero-image-simple-heading-text.text-black {
+  color: #000 !important;
+}
+
+.cta-hero-image-simple-heading-text.text-primary {
+  color: var(--color-primary) !important;
+}
+
+.cta-hero-image-simple-heading-text.text-secondary {
+  color: var(--color-secondary) !important;
+}
+
+.cta-hero-image-simple-heading-text.text-tertiary {
+  color: var(--color-tertiary) !important;
+}
+
+.cta-hero-image-simple-heading-text.text-quaternary {
+  color: var(--color-quaternary) !important;
+}
+
+.cta-hero-image-simple-heading-text.text-success {
+  color: var(--color-success) !important;
+}
+
+.cta-hero-image-simple-heading-text.text-warning {
+  color: var(--color-warning) !important;
+}
+
+.cta-hero-image-simple-heading-text.text-error {
+  color: var(--color-error) !important;
+}
+
+.cta-hero-image-simple-heading-text.text-info {
+  color: var(--color-info) !important;
+}
+
+.cta-hero-image-simple-heading-text.text-neutral {
+  color: var(--color-neutral) !important;
+}
+
+.cta-hero-image-simple-heading-text.text-neutral-light {
+  color: var(--color-neutral-light) !important;
+}
+
+.cta-hero-image-simple-heading-text.text-neutral-dark {
+  color: var(--color-neutral-dark) !important;
+}
+
+@media (min-width: 1024px) {
+  .cta-hero-image-simple-heading {
+    margin-bottom: var(--space-lg);
+  }
+  
+  .cta-hero-image-simple-heading h2 {
+    line-height: 1.1;
+  }
+}
+
+/* Subheading */
+.cta-hero-image-simple-subheading {
+  margin-bottom: var(--space-sm);
+}
+
+.cta-hero-image-simple-subheading-text {
+  margin: 0;
+  /* Ensure font-weight and font-family utilities work */
+  font-weight: inherit;
+  font-family: inherit;
+}
+
+/* Ensure font-weight utilities override any inherited styles */
+.cta-hero-image-simple-subheading-text.font-light {
+  font-weight: 300 !important;
+}
+
+.cta-hero-image-simple-subheading-text.font-normal {
+  font-weight: 400 !important;
+}
+
+.cta-hero-image-simple-subheading-text.font-medium {
+  font-weight: 500 !important;
+}
+
+.cta-hero-image-simple-subheading-text.font-semibold {
+  font-weight: 600 !important;
+}
+
+.cta-hero-image-simple-subheading-text.font-bold {
+  font-weight: 700 !important;
+}
+
+/* Ensure font-family utilities work */
+.cta-hero-image-simple-subheading-text.font-primary {
+  font-family: var(--font-primary) !important;
+}
+
+.cta-hero-image-simple-subheading-text.font-body {
+  font-family: var(--font-body) !important;
+}
+
+.cta-hero-image-simple-subheading-text.font-handwritten {
+  font-family: var(--font-handwritten) !important;
+}
+
+.cta-hero-image-simple-subheading-text.font-serif {
+  font-family: var(--font-serif) !important;
+}
+
+@media (min-width: 1024px) {
+  .cta-hero-image-simple-subheading {
+    margin-bottom: var(--space-sm);
+  }
+}
+
+/* Description */
+.cta-hero-image-simple-description {
+  margin-bottom: var(--space-lg);
+}
+
+.cta-hero-image-simple-description p {
+  margin: 0;
+}
+
+@media (min-width: 1024px) {
+  .cta-hero-image-simple-description {
+    margin-bottom: var(--space-xl);
+  }
+}
+
+/* Buttons Container */
+.cta-hero-image-simple-buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+  margin-top: var(--space-xl);
+}
+
+.cta-hero-image-simple-buttons--left {
+  flex-direction: row;
+}
+
+.cta-hero-image-simple-buttons--right {
+  flex-direction: row-reverse;
+}
+
+/* Button */
+.cta-hero-image-simple-button {
+  margin-top: 0;
+}
+
+.cta-hero-image-simple-button .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Background Image Handling */
+.cta-hero-image-simple[data-bg] {
+  position: relative;
+}
+
+.cta-hero-image-simple[data-bg]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 0;
+  background-image: var(--section-bg-image);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+
+.cta-hero-image-simple[data-bg]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.3);
+  pointer-events: none;
+  display: block !important;
+}
+
+.cta-hero-image-simple-inner {
+  position: relative;
+  z-index: 10;
+}
+
+.cta-hero-image-simple-inner[data-bg]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  pointer-events: none;
+}
+
+.cta-hero-image-simple-inner > * {
+  position: relative;
+  z-index: 10;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 767px) {
+  .cta-hero-image-simple-content {
+    padding-top: var(--space-md);
+    padding-bottom: var(--space-md);
+  }
+}
+

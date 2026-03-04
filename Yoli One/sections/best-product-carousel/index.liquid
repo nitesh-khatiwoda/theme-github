@@ -1,0 +1,1576 @@
+<link rel="stylesheet" href="{{ 'best-sellers-carousel/styles.css' | asset_url }}">
+
+<section 
+  class="best-sellers-carousel {{ section.settings.background_color | default: 'bg-neutral' }} {{ section.settings.section_padding_y_mobile | default: 'py-xl' }} {{ section.settings.section_padding_y_desktop | default: 'lg:py-3xl' }} {{ section.settings.section_border_radius | default: 'rounded-none' }}" 
+  id="best-sellers-carousel-{{ section.id }}"
+  {% if section.settings.background_image %}data-bg="{{ section.settings.background_image | image_url }}"{% endif %}>
+  
+  <!-- Header Container (broken out, no container wrapper) -->
+  
+  <div class="best-sellers-carousel-header-container {{ section.settings.container_background_color }} {{ section.settings.container_border_radius | default: 'rounded-none' }} {{ section.settings.container_padding_y_mobile | default: 'py-lg' }} {{ section.settings.container_padding_y_desktop | default: 'lg:py-2xl' }} {{ section.settings.container_padding_x_mobile | default: 'px-md' }} {{ section.settings.container_padding_x_desktop | default: 'lg:px-xl' }}" 
+    {% if section.settings.container_background_image %}data-bg="{{ section.settings.container_background_image | image_url }}"{% endif %}>
+    <div class="{{ section.settings.container_layout_width | default: 'container' }}">
+      <!-- Header with Title and Shop All Button -->
+      {% if section.settings.title != blank or section.settings.show_shop_all_button %}
+        <div class="best-sellers-carousel-header">
+          <div class="best-sellers-carousel-header-content">
+          {% if section.settings.title != blank %}
+          <div class="best-sellers-carousel-title-wrapper">
+            <h2 class="best-sellers-carousel-title {{ section.settings.title_font_family | default: 'font-primary' }} {{ section.settings.title_font_size | default: 'text-2xl' }} {{ section.settings.title_font_size_desktop | default: 'lg:text-3xl' }} {{ section.settings.title_font_weight | default: 'font-bold' }} {{ section.settings.title_color | default: 'text-black' }}">
+              {{ section.settings.title }}
+            </h2>
+          </div>
+          {% endif %}
+          
+          {% if section.settings.show_shop_all_button %}
+          <a href="{{ section.settings.shop_all_url | default: '#' }}" 
+             class="btn btn-{{ section.settings.shop_all_button_style | default: 'filled' }}-{{ section.settings.shop_all_button_color | default: 'black' }} {{ section.settings.shop_all_button_size | default: 'btn-md' }} {{ section.settings.shop_all_button_font_weight | default: 'font-medium' }} font-body {{ settings.button_border_radius | default: 'rounded' }}">
+            {{ section.settings.shop_all_button_text | default: 'Shop All' }}
+          </a>
+          {% endif %}
+        </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+  
+  <!-- Carousel Container (broken out, same structure as header) -->
+  {% if section.blocks.size > 0 %}
+    <div class="{{ section.settings.container_layout_width | default: 'container' }}">
+      <div class="best-sellers-carousel-wrapper-container">
+        <style>
+          #best-sellers-carousel-{{ section.id }} .best-sellers-carousel-item {
+            width: {{ section.settings.card_width_mobile | default: 280 }}px;
+          }
+          @media (min-width: 640px) {
+            #best-sellers-carousel-{{ section.id }} .best-sellers-carousel-item {
+              width: {{ section.settings.card_width_tablet | default: 320 }}px;
+            }
+          }
+          @media (min-width: 1024px) {
+            #best-sellers-carousel-{{ section.id }} .best-sellers-carousel-item {
+              width: {{ section.settings.card_width_desktop | default: 360 }}px;
+            }
+          }
+        </style>
+        <div class="best-sellers-carousel-wrapper">
+        
+        <!-- Carousel Container -->
+        <div class="best-sellers-carousel-container {% unless section.settings.clip_overflow %}best-sellers-carousel-no-clip{% endunless %}" data-carousel-container="{{ section.id }}">
+              
+          <!-- Carousel Track -->
+          <div class="best-sellers-carousel-track {{ section.settings.carousel_card_gap | default: 'gap-md' }}" data-carousel-track="{{ section.id }}">
+            
+            {%- comment -%} BLOCK-BASED PRODUCTS - Each block represents one product {%- endcomment -%}
+            {% for block in section.blocks %}
+              {% if block.type == 'product_item' %}
+                {%- assign product_slug = block.settings.product_slug -%}
+                {%- assign product = blank -%}
+                
+                {%- if product_slug != blank -%}
+                  {%- comment -%} Look up product by slug or ID in products array {%- endcomment -%}
+                  {%- for p in products -%}
+                    {%- if p.slug == product_slug or p.id == product_slug or p.id == product_slug | plus: 0 -%}
+                      {%- assign product = p -%}
+                      {%- break -%}
+                    {%- endif -%}
+                  {%- endfor -%}
+                {%- endif -%}
+                
+                {%- if product != blank -%}
+                <div class="best-sellers-carousel-item" data-product-item="{{ section.id }}-{{ forloop.index0 }}" {{ block.fluid_attributes }}>
+                  <a href="{{ product.url | default: '#' }}" class="best-sellers-product-link">
+                    <div class="best-sellers-product-card {{ section.settings.product_card_border_radius | default: 'rounded-lg' }}">
+                      
+                      <!-- Product Image -->
+                      <div class="best-sellers-product-image-wrapper">
+                        {% if product.image_url != blank %}
+                          <img
+                            class="best-sellers-product-image"
+                            src="{{ product.image_url }}"
+                            alt="{{ product.title | default: 'Product' }}"
+                            loading="lazy"
+                            style="box-shadow: none !important;">
+                        {% else %}
+                          <img src="{{ 'placeholder-image.png' | asset_url }}"
+                              alt="Placeholder"
+                              loading="lazy"
+                              class="best-sellers-product-image"
+                              style="box-shadow: none !important;">
+                        {% endif %}
+                      </div>
+                      
+                      <!-- Product Info -->
+                      <div class="best-sellers-product-info">
+                        {% assign rating_pos = block.settings.rating_position | default: 'top' %}
+                        
+                        <!-- Rating and Reviews (Top Position) -->
+                        {% if section.settings.show_stars and rating_pos == 'top' %}
+                        <div class="best-sellers-product-rating">
+                          <div class="best-sellers-stars-rating stars-size-{{ section.settings.star_size | default: 'medium' }}">
+                            {% assign star_rating = block.settings.star_rating | default: 5 %}
+                            {% assign full_stars = star_rating | floor %}
+                            {% assign empty_stars = 5 | minus: full_stars %}
+                            
+                            {% if full_stars > 0 %}
+                              {% for i in (1..full_stars) %}
+                                <span class="best-sellers-star star-full {{ section.settings.star_color_filled | default: 'text-warning' }}">{{ section.settings.star_character | default: '★' }}</span>
+                              {% endfor %}
+                            {% endif %}
+                            
+                            {% if empty_stars > 0 %}
+                              {% for i in (1..empty_stars) %}
+                                <span class="best-sellers-star star-empty {{ section.settings.star_color_empty | default: 'text-neutral-light' }}">{{ section.settings.star_character | default: '★' }}</span>
+                              {% endfor %}
+                            {% endif %}
+                          </div>
+                          {% if block.settings.review_count != blank %}
+                          <span class="best-sellers-review-text {{ section.settings.rating_text_font_family | default: 'font-body' }} {{ section.settings.rating_text_font_size | default: 'text-sm' }} {{ section.settings.rating_text_color | default: 'text-neutral-dark' }}">
+                            {{ star_rating }} • ({{ block.settings.review_count }} Reviews)
+                          </span>
+                          {% endif %}
+                        </div>
+                        {% endif %}
+                        
+                        <!-- Product Title -->
+                        {% if product.title != blank %}
+                        <div class="best-sellers-product-title {{ section.settings.product_title_font_family | default: 'font-body' }} {{ section.settings.product_title_font_size | default: 'text-xl' }} {{ section.settings.product_title_font_size_desktop | default: 'lg:text-2xl' }} {{ section.settings.product_title_font_weight | default: 'font-bold' }} {{ section.settings.product_title_color | default: 'text-black' }}">
+                          {{ product.title }}
+                        </div>
+                        {% endif %}
+                        
+                        <!-- Product Description -->
+                        {% if product.description != blank or block.settings.product_description != blank %}
+                        <div class="best-sellers-product-description {{ section.settings.product_description_font_family | default: 'font-body' }} {{ section.settings.product_description_font_size | default: 'text-sm' }} {{ section.settings.product_description_font_size_desktop | default: 'lg:text-base' }} {{ section.settings.product_description_font_weight | default: 'font-normal' }} {{ section.settings.product_description_color | default: 'text-neutral-dark' }}">
+                          {{ product.description | default: block.settings.product_description }}
+                        </div>
+                        {% endif %}
+                        
+                        <!-- Rating and Reviews (Above Price Position) -->
+                        {% if section.settings.show_stars and rating_pos == 'above_price' %}
+                        <div class="best-sellers-product-rating">
+                          <div class="best-sellers-stars-rating stars-size-{{ section.settings.star_size | default: 'medium' }}">
+                            {% assign star_rating = block.settings.star_rating | default: 5 %}
+                            {% assign full_stars = star_rating | floor %}
+                            {% assign empty_stars = 5 | minus: full_stars %}
+                            
+                            {% if full_stars > 0 %}
+                              {% for i in (1..full_stars) %}
+                                <span class="best-sellers-star star-full {{ section.settings.star_color_filled | default: 'text-warning' }}">{{ section.settings.star_character | default: '★' }}</span>
+                              {% endfor %}
+                            {% endif %}
+                            
+                            {% if empty_stars > 0 %}
+                              {% for i in (1..empty_stars) %}
+                                <span class="best-sellers-star star-empty {{ section.settings.star_color_empty | default: 'text-neutral-light' }}">{{ section.settings.star_character | default: '★' }}</span>
+                              {% endfor %}
+                            {% endif %}
+                          </div>
+                          {% if block.settings.review_count != blank %}
+                          <span class="best-sellers-review-text {{ section.settings.rating_text_font_family | default: 'font-body' }} {{ section.settings.rating_text_font_size | default: 'text-sm' }} {{ section.settings.rating_text_color | default: 'text-neutral-dark' }}">
+                            {{ star_rating }} • ({{ block.settings.review_count }} Reviews)
+                          </span>
+                          {% endif %}
+                        </div>
+                        {% endif %}
+                        
+                        <!-- Product Price -->
+                        {% if product.price != blank %}
+                        <div class="best-sellers-product-price {{ section.settings.product_price_font_family | default: 'font-body' }} {{ section.settings.product_price_font_size | default: 'text-base' }} {{ section.settings.product_price_font_size_desktop | default: 'lg:text-lg' }} {{ section.settings.product_price_font_weight | default: 'font-bold' }} {{ section.settings.product_price_color | default: 'text-neutral-dark' }}">
+                          {{ product.currency_symbol }}{{ product.price }}
+                        </div>
+                        {% endif %}
+                        
+                      </div>
+                      
+                      <!-- Add to Cart Button -->
+                      {% if block.settings.show_add_to_cart_button %}
+                      <div class="best-sellers-add-to-cart-wrapper">
+                        {% if block.settings.add_to_cart_button_url != blank %}
+                          <a href="{{ block.settings.add_to_cart_button_url }}" 
+                            class="btn btn-{{ block.settings.add_to_cart_button_style | default: 'filled' }}-{{ block.settings.add_to_cart_button_color | default: 'black' }} {{ block.settings.add_to_cart_button_size | default: 'btn-md' }} {{ block.settings.add_to_cart_button_font_weight | default: 'font-medium' }} font-body {{ section.settings.add_to_cart_button_border_radius | default: settings.button_border_radius | default: 'rounded-md' }} w-full best-sellers-add-to-cart-btn"
+                            onclick="event.stopPropagation(); event.preventDefault();">
+                            {{ block.settings.add_to_cart_button_text | default: 'Add to Cart' }}
+                          </a>
+                        {% else %}
+                          <button type="button"
+                                  class="btn btn-{{ block.settings.add_to_cart_button_style | default: 'filled' }}-{{ block.settings.add_to_cart_button_color | default: 'black' }} {{ block.settings.add_to_cart_button_size | default: 'btn-md' }} {{ block.settings.add_to_cart_button_font_weight | default: 'font-medium' }} font-body {{ section.settings.add_to_cart_button_border_radius | default: settings.button_border_radius | default: 'rounded-md' }} w-full best-sellers-add-to-cart-btn"
+                                  onclick="event.stopPropagation();">
+                            {{ block.settings.add_to_cart_button_text | default: 'Add to Cart' }}
+                          </button>
+                        {% endif %}
+                      </div>
+                      {% endif %}
+                    </div>
+                  </a>
+                </div>
+                {%- endif -%}
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+  {% endif %}
+  
+  <!-- Navigation Controls Container (Same structure as header) -->
+  {% if section.blocks.size > 0 %}
+    {% if section.settings.show_navigation_controls %}
+    <div class="{{ section.settings.container_layout_width | default: 'container' }}">
+      <div class="best-sellers-carousel-controls-container {{ section.settings.container_background_color }} {{ section.settings.container_border_radius | default: 'rounded-none' }} {{ section.settings.container_padding_y_mobile | default: 'py-md' }} {{ section.settings.container_padding_y_desktop | default: 'lg:py-lg' }} {{ section.settings.container_padding_x_mobile | default: 'px-md' }} {{ section.settings.container_padding_x_desktop | default: 'lg:px-xl' }}">
+        <div class="best-sellers-carousel-controls {% if section.settings.controls_layout == 'dots_left' %}controls-layout-reversed{% endif %}">
+          <div class="best-sellers-carousel-nav-buttons">
+            <button 
+              type="button"
+              class="best-sellers-carousel-nav-btn best-sellers-carousel-prev {{ section.settings.nav_button_background | default: 'bg-white' }} {{ section.settings.nav_button_color | default: 'text-black' }}"
+              data-carousel-prev="{{ section.id }}"
+              aria-label="Previous page">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M15 19l-7-7 7-7"/>
+              </svg>
+            </button>
+            
+            <button 
+              type="button"
+              class="best-sellers-carousel-nav-btn best-sellers-carousel-next {{ section.settings.nav_button_background | default: 'bg-white' }} {{ section.settings.nav_button_color | default: 'text-black' }}"
+              data-carousel-next="{{ section.id }}"
+              aria-label="Next page">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 5l7 7-7 7"/>
+              </svg>
+            </button>
+          </div>
+          
+          <!-- Progress Indicator -->
+          {% if section.settings.show_progress_dots %}
+          <div class="best-sellers-carousel-progress" data-carousel-progress="{{ section.id }}">
+            <!-- Dots will be generated by JavaScript -->
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  {% endif %}
+</section>
+
+<script>
+(function() {
+  try {
+    // Wait for DOM to be fully loaded
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initCarousel);
+    } else {
+      initCarousel();
+    }
+    
+    function initCarousel() {
+      try {
+  const sectionId = '{{ section.id }}';
+  const container = document.querySelector(`[data-carousel-container="${sectionId}"]`);
+  const track = document.querySelector(`[data-carousel-track="${sectionId}"]`);
+  const prevBtn = document.querySelector(`[data-carousel-prev="${sectionId}"]`);
+  const nextBtn = document.querySelector(`[data-carousel-next="${sectionId}"]`);
+  const progressContainer = document.querySelector(`[data-carousel-progress="${sectionId}"]`);
+  
+        if (!container || !track) {
+          console.warn('Best Sellers Carousel: Container or track not found');
+          return;
+        }
+        
+        // Navigation buttons are optional (can be hidden via settings)
+        const hasNavButtons = prevBtn && nextBtn;
+  
+  const productItems = track.querySelectorAll('.best-sellers-carousel-item');
+        if (productItems.length === 0) {
+          console.warn('Best Sellers Carousel: No product items found');
+          return;
+        }
+  
+  let currentIndex = 0;
+  let currentPage = 0;
+  let productsPerPage = parseInt('{{ section.settings.products_per_page_desktop | default: 4 }}');
+  
+  // Calculate products per page based on actual visible cards in container
+  function updateProductsPerPage() {
+    const firstItem = productItems[0];
+    if (!firstItem || !container) {
+      // Fallback to settings if elements not ready
+      if (window.innerWidth >= 1024) {
+        productsPerPage = parseInt('{{ section.settings.products_per_page_desktop | default: 4 }}');
+      } else if (window.innerWidth >= 640) {
+        productsPerPage = parseInt('{{ section.settings.products_per_page_tablet | default: 2 }}');
+      } else {
+        productsPerPage = parseInt('{{ section.settings.products_per_page_mobile | default: 1 }}');
+      }
+      return;
+    }
+    
+    // Calculate based on actual container and card widths
+    const containerWidth = container.offsetWidth;
+    const cardWidth = firstItem.offsetWidth;
+    const gap = parseInt(getComputedStyle(track).gap) || 16;
+    
+    // Calculate how many full cards fit in the visible container
+    productsPerPage = Math.floor((containerWidth + gap) / (cardWidth + gap));
+    productsPerPage = Math.max(1, productsPerPage); // At least 1
+  }
+  
+  // Calculate total pages
+  function getTotalPages() {
+    return Math.ceil(productItems.length / productsPerPage);
+  }
+  
+  // Animate to specific card index (moves one card at a time)
+  function animateToIndex(newIndex) {
+    const maxIndex = productItems.length - productsPerPage;
+    if (newIndex < 0 || newIndex > maxIndex) return;
+    
+    currentIndex = newIndex;
+    
+    // Get actual item width from first item (set by CSS)
+    const firstItem = productItems[0];
+    if (!firstItem) return;
+    
+    const itemWidth = firstItem.offsetWidth;
+    const gap = parseInt(getComputedStyle(track).gap) || 16;
+    
+    // Calculate scroll distance based on single card movement
+    const scrollDistance = currentIndex * (itemWidth + gap);
+    
+    track.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+    track.style.transform = `translateX(-${scrollDistance}px)`;
+    
+    // Update currentPage for progress dots
+    currentPage = Math.floor(currentIndex / productsPerPage);
+    
+    updateButtons();
+    updateProgressDots();
+  }
+  
+  // Animate to page (for progress dots)
+  function animateToPage(newPage) {
+    const totalPages = getTotalPages();
+    if (newPage < 0 || newPage >= totalPages) return;
+    
+    const targetIndex = newPage * productsPerPage;
+    animateToIndex(targetIndex);
+  }
+  
+  function updateButtons() {
+    if (!hasNavButtons) return;
+    
+    const maxIndex = productItems.length - productsPerPage;
+    
+    // Update previous button
+    if (currentIndex === 0) {
+      prevBtn.disabled = true;
+      prevBtn.setAttribute('aria-disabled', 'true');
+      prevBtn.style.opacity = '0.4';
+      prevBtn.style.cursor = 'not-allowed';
+    } else {
+      prevBtn.disabled = false;
+      prevBtn.setAttribute('aria-disabled', 'false');
+      prevBtn.style.opacity = '0.7';
+      prevBtn.style.cursor = 'pointer';
+    }
+    
+    // Update next button
+    if (currentIndex >= maxIndex) {
+      nextBtn.disabled = true;
+      nextBtn.setAttribute('aria-disabled', 'true');
+      nextBtn.style.opacity = '0.4';
+      nextBtn.style.cursor = 'not-allowed';
+    } else {
+      nextBtn.disabled = false;
+      nextBtn.setAttribute('aria-disabled', 'false');
+      nextBtn.style.opacity = '0.7';
+      nextBtn.style.cursor = 'pointer';
+    }
+  }
+  
+  function updateProgressDots() {
+    if (!progressContainer) return;
+    
+    // Clear existing dots
+    progressContainer.innerHTML = '';
+    
+    // Create one dot per product item
+    for (let i = 0; i < productItems.length; i++) {
+      const dot = document.createElement('button');
+      dot.className = 'best-sellers-carousel-progress-dot';
+      // The active dot is the one representing the first visible card
+      if (i === currentIndex) {
+        dot.classList.add('is-active');
+      }
+      dot.setAttribute('data-index', i);
+      dot.setAttribute('aria-label', `Go to product ${i + 1}`);
+      dot.style.cursor = 'pointer';
+      dot.addEventListener('click', function() {
+        // Clamp to max scrollable index
+        const maxIndex = productItems.length - productsPerPage;
+        const targetIndex = Math.min(i, maxIndex);
+        animateToIndex(targetIndex);
+      });
+      progressContainer.appendChild(dot);
+    }
+  }
+  
+  // Navigation event listeners - move one card at a time
+  if (hasNavButtons) {
+    prevBtn.addEventListener('click', function() {
+      if (currentIndex > 0) {
+        animateToIndex(currentIndex - 1);
+      }
+    });
+    
+    nextBtn.addEventListener('click', function() {
+      const maxIndex = productItems.length - productsPerPage;
+      if (currentIndex < maxIndex) {
+        animateToIndex(currentIndex + 1);
+      }
+    });
+  }
+  
+  // Touch/swipe support
+  let touchStartX = 0;
+  let touchEndX = 0;
+  
+  track.addEventListener('touchstart', function(e) {
+    touchStartX = e.changedTouches[0].screenX;
+  }, { passive: true });
+  
+  track.addEventListener('touchend', function(e) {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+  }, { passive: true });
+  
+  function handleSwipe() {
+    const swipeThreshold = 50;
+    const diff = touchStartX - touchEndX;
+    const maxIndex = productItems.length - productsPerPage;
+    
+    if (Math.abs(diff) > swipeThreshold) {
+      if (diff > 0 && currentIndex < maxIndex) {
+        // Swipe left - next
+        animateToIndex(currentIndex + 1);
+      } else if (diff < 0 && currentIndex > 0) {
+        // Swipe right - previous
+        animateToIndex(currentIndex - 1);
+      }
+    }
+  }
+  
+  // Handle resize
+  let resizeTimeout;
+  window.addEventListener('resize', function() {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(function() {
+      updateProductsPerPage();
+      const maxIndex = productItems.length - productsPerPage;
+      if (currentIndex > maxIndex) {
+        currentIndex = Math.max(0, maxIndex);
+      }
+      updateProgressDots();
+      animateToIndex(currentIndex);
+    }, 250);
+  });
+  
+  // Initialize
+  updateProductsPerPage();
+  updateButtons();
+  updateProgressDots();
+  animateToIndex(0);
+        
+      } catch (e) {
+        console.error('Best Sellers Carousel initialization error:', e);
+      }
+    }
+  } catch (e) {
+    console.error('Best Sellers Carousel script error:', e);
+  }
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Best Sellers Carousel",
+  "tag": "section",
+  "class": "best-sellers-carousel-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Title"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Shop our best sellers"
+    },
+    {
+      "type": "select",
+      "id": "title_font_family",
+      "label": "Title Font Family",
+      "options": [
+        { "value": "font-primary", "label": "Primary" },
+        { "value": "font-body", "label": "Body" },
+        { "value": "font-handwritten", "label": "Handwritten" },
+        { "value": "font-serif", "label": "Serif" }
+      ],
+      "default": "font-primary"
+    },
+    {
+      "type": "select",
+      "id": "title_font_size",
+      "label": "Title Font Size (Mobile)",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" },
+        { "value": "text-xl", "label": "Extra Large" },
+        { "value": "text-2xl", "label": "2X Large" },
+        { "value": "text-3xl", "label": "3X Large" },
+        { "value": "text-4xl", "label": "4X Large" },
+        { "value": "text-5xl", "label": "5X Large" },
+        { "value": "text-6xl", "label": "6X Large" },
+        { "value": "text-7xl", "label": "7X Large" },
+        { "value": "text-8xl", "label": "8X Large" },
+        { "value": "text-9xl", "label": "9X Large" }
+      ],
+      "default": "text-2xl"
+    },
+    {
+      "type": "select",
+      "id": "title_font_size_desktop",
+      "label": "Title Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-xs", "label": "Extra Small" },
+        { "value": "lg:text-sm", "label": "Small" },
+        { "value": "lg:text-base", "label": "Base" },
+        { "value": "lg:text-lg", "label": "Large" },
+        { "value": "lg:text-xl", "label": "Extra Large" },
+        { "value": "lg:text-2xl", "label": "2X Large" },
+        { "value": "lg:text-3xl", "label": "3X Large" },
+        { "value": "lg:text-4xl", "label": "4X Large" },
+        { "value": "lg:text-5xl", "label": "5X Large" },
+        { "value": "lg:text-6xl", "label": "6X Large" },
+        { "value": "lg:text-7xl", "label": "7X Large" },
+        { "value": "lg:text-8xl", "label": "8X Large" },
+        { "value": "lg:text-9xl", "label": "9X Large" }
+      ],
+      "default": "lg:text-3xl"
+    },
+    {
+      "type": "select",
+      "id": "title_font_weight",
+      "label": "Title Font Weight",
+      "options": [
+        { "value": "font-light", "label": "Light" },
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semi Bold" },
+        { "value": "font-bold", "label": "Bold" }
+      ],
+      "default": "font-bold"
+    },
+    {
+      "type": "select",
+      "id": "title_color",
+      "label": "Title Color",
+      "options": [
+        { "value": "text-white", "label": "White" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-primary", "label": "Primary" },
+        { "value": "text-secondary", "label": "Secondary" },
+        { "value": "text-tertiary", "label": "Tertiary" },
+        { "value": "text-quaternary", "label": "Quaternary" },
+        { "value": "text-success", "label": "Success" },
+        { "value": "text-warning", "label": "Warning" },
+        { "value": "text-error", "label": "Error" },
+        { "value": "text-info", "label": "Info" },
+        { "value": "text-neutral", "label": "Neutral" },
+        { "value": "text-neutral-light", "label": "Neutral Light" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "text-black"
+    },
+    {
+      "type": "header",
+      "content": "Shop All Button"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_shop_all_button",
+      "label": "Show Shop All Button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "shop_all_button_text",
+      "label": "Button Text",
+      "default": "Shop All"
+    },
+    {
+      "type": "url",
+      "id": "shop_all_url",
+      "label": "Button URL"
+    },
+    {
+      "type": "select",
+      "id": "shop_all_button_style",
+      "label": "Button Style",
+      "options": [
+        { "value": "filled", "label": "Filled" },
+        { "value": "outline", "label": "Outline" },
+        { "value": "ghost", "label": "Ghost" }
+      ],
+      "default": "filled"
+    },
+    {
+      "type": "select",
+      "id": "shop_all_button_color",
+      "label": "Button Color",
+      "options": [
+        { "value": "primary", "label": "Primary" },
+        { "value": "secondary", "label": "Secondary" },
+        { "value": "tertiary", "label": "Tertiary" },
+        { "value": "quaternary", "label": "Quaternary" },
+        { "value": "success", "label": "Success" },
+        { "value": "warning", "label": "Warning" },
+        { "value": "error", "label": "Error" },
+        { "value": "info", "label": "Info" },
+        { "value": "black", "label": "Black" },
+        { "value": "white", "label": "White" }
+      ],
+      "default": "black"
+    },
+    {
+      "type": "select",
+      "id": "shop_all_button_size",
+      "label": "Button Size",
+      "options": [
+        { "value": "btn-xs", "label": "Extra Small" },
+        { "value": "btn-sm", "label": "Small" },
+        { "value": "btn-md", "label": "Medium" },
+        { "value": "btn-lg", "label": "Large" },
+        { "value": "btn-xl", "label": "Extra Large" }
+      ],
+      "default": "btn-md"
+    },
+    {
+      "type": "select",
+      "id": "shop_all_button_font_weight",
+      "label": "Button Font Weight",
+      "options": [
+        { "value": "font-light", "label": "Light" },
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semi Bold" },
+        { "value": "font-bold", "label": "Bold" }
+      ],
+      "default": "font-medium"
+    },
+    {
+      "type": "header",
+      "content": "Carousel Behavior"
+    },
+    {
+      "type": "text",
+      "id": "products_per_page_mobile",
+      "label": "Products Per Page (Mobile)",
+      "default": 1,
+      "info": "Number of products visible on mobile devices"
+    },
+    {
+      "type": "text",
+      "id": "products_per_page_tablet",
+      "label": "Products Per Page (Tablet)",
+      "default": 2,
+      "info": "Number of products visible on tablet devices"
+    },
+    {
+      "type": "select",
+      "id": "products_per_page_desktop",
+      "label": "Products Per Page (Desktop)",
+      "options": [
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" },
+        { "value": "3", "label": "3" },
+        { "value": "4", "label": "4" },
+        { "value": "5", "label": "5" },
+        { "value": "6", "label": "6" }
+      ],
+      "default": "4",
+      "info": "Number of products visible on desktop devices. Product cards will automatically resize to fit."
+    },
+    {
+      "type": "select",
+      "id": "carousel_card_gap",
+      "label": "Gap Between Cards",
+      "options": [
+        { "value": "gap-xs", "label": "Extra Small" },
+        { "value": "gap-sm", "label": "Small" },
+        { "value": "gap-md", "label": "Medium" },
+        { "value": "gap-lg", "label": "Large" },
+        { "value": "gap-xl", "label": "Extra Large" },
+        { "value": "gap-2xl", "label": "2X Large" },
+        { "value": "gap-3xl", "label": "3X Large" }
+      ],
+      "default": "gap-md",
+      "info": "Spacing between product cards in the carousel"
+    },
+    {
+      "type": "text",
+      "id": "card_width_mobile",
+      "label": "Card Width - Mobile (px)",
+      "default": "280",
+      "info": "Width of product cards on mobile devices (default: 280px)"
+    },
+    {
+      "type": "text",
+      "id": "card_width_tablet",
+      "label": "Card Width - Tablet (px)",
+      "default": "320",
+      "info": "Width of product cards on tablet devices (default: 320px)"
+    },
+    {
+      "type": "text",
+      "id": "card_width_desktop",
+      "label": "Card Width - Desktop (px)",
+      "default": "360",
+      "info": "Width of product cards on desktop devices (default: 360px)"
+    },
+    {
+      "type": "checkbox",
+      "id": "clip_overflow",
+      "label": "Clip Overflow Content",
+      "default": true,
+      "info": "When enabled, cards extending beyond the carousel are hidden. When disabled, you can see cards peeking out to the right."
+    },
+    {
+      "type": "header",
+      "content": "Product Card Styling"
+    },
+    {
+      "type": "select",
+      "id": "product_card_border_radius",
+      "label": "Card Border Radius",
+      "options": [
+        { "value": "rounded-none", "label": "None" },
+        { "value": "rounded-sm", "label": "Small" },
+        { "value": "rounded", "label": "Base" },
+        { "value": "rounded-md", "label": "Medium" },
+        { "value": "rounded-lg", "label": "Large" },
+        { "value": "rounded-xl", "label": "Extra Large" },
+        { "value": "rounded-2xl", "label": "2X Large" },
+        { "value": "rounded-3xl", "label": "3X Large" }
+      ],
+      "default": "rounded-lg",
+      "info": "Border radius for product cards"
+    },
+    {
+      "type": "select",
+      "id": "add_to_cart_button_border_radius",
+      "label": "Add to Cart Button Border Radius",
+      "options": [
+        { "value": "", "label": "Use Theme Default" },
+        { "value": "rounded-none", "label": "None" },
+        { "value": "rounded-sm", "label": "Small" },
+        { "value": "rounded", "label": "Base" },
+        { "value": "rounded-md", "label": "Medium" },
+        { "value": "rounded-lg", "label": "Large" },
+        { "value": "rounded-xl", "label": "Extra Large" },
+        { "value": "rounded-2xl", "label": "2X Large" },
+        { "value": "rounded-3xl", "label": "3X Large" }
+      ],
+      "default": "",
+      "info": "Border radius for add to cart buttons. Leave as 'Use Theme Default' to follow global theme settings."
+    },
+    {
+      "type": "header",
+      "content": "Product Card Typography"
+    },
+    {
+      "type": "select",
+      "id": "product_title_font_family",
+      "label": "Product Title Font Family",
+      "options": [
+        { "value": "font-primary", "label": "Primary" },
+        { "value": "font-body", "label": "Body" },
+        { "value": "font-handwritten", "label": "Handwritten" },
+        { "value": "font-serif", "label": "Serif" }
+      ],
+      "default": "font-body"
+    },
+    {
+      "type": "select",
+      "id": "product_title_font_size",
+      "label": "Product Title Font Size (Mobile)",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" },
+        { "value": "text-xl", "label": "Extra Large" },
+        { "value": "text-2xl", "label": "2X Large" },
+        { "value": "text-3xl", "label": "3X Large" }
+      ],
+      "default": "text-xl"
+    },
+    {
+      "type": "select",
+      "id": "product_title_font_size_desktop",
+      "label": "Product Title Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-xs", "label": "Extra Small" },
+        { "value": "lg:text-sm", "label": "Small" },
+        { "value": "lg:text-base", "label": "Base" },
+        { "value": "lg:text-lg", "label": "Large" },
+        { "value": "lg:text-xl", "label": "Extra Large" },
+        { "value": "lg:text-2xl", "label": "2X Large" },
+        { "value": "lg:text-3xl", "label": "3X Large" }
+      ],
+      "default": "lg:text-2xl"
+    },
+    {
+      "type": "select",
+      "id": "product_title_font_weight",
+      "label": "Product Title Font Weight",
+      "options": [
+        { "value": "font-light", "label": "Light" },
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semi Bold" },
+        { "value": "font-bold", "label": "Bold" }
+      ],
+      "default": "font-bold"
+    },
+    {
+      "type": "select",
+      "id": "product_title_color",
+      "label": "Product Title Text Color",
+      "options": [
+        { "value": "text-white", "label": "White" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-primary", "label": "Primary" },
+        { "value": "text-secondary", "label": "Secondary" },
+        { "value": "text-tertiary", "label": "Tertiary" },
+        { "value": "text-quaternary", "label": "Quaternary" },
+        { "value": "text-success", "label": "Success" },
+        { "value": "text-warning", "label": "Warning" },
+        { "value": "text-error", "label": "Error" },
+        { "value": "text-info", "label": "Info" },
+        { "value": "text-neutral", "label": "Neutral" },
+        { "value": "text-neutral-light", "label": "Neutral Light" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "text-black"
+    },
+    {
+      "type": "select",
+      "id": "product_description_font_family",
+      "label": "Product Description Font Family",
+      "options": [
+        { "value": "font-primary", "label": "Primary" },
+        { "value": "font-body", "label": "Body" },
+        { "value": "font-handwritten", "label": "Handwritten" },
+        { "value": "font-serif", "label": "Serif" }
+      ],
+      "default": "font-body"
+    },
+    {
+      "type": "select",
+      "id": "product_description_font_size",
+      "label": "Product Description Font Size (Mobile)",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" },
+        { "value": "text-xl", "label": "Extra Large" },
+        { "value": "text-2xl", "label": "2X Large" }
+      ],
+      "default": "text-sm"
+    },
+    {
+      "type": "select",
+      "id": "product_description_font_size_desktop",
+      "label": "Product Description Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-xs", "label": "Extra Small" },
+        { "value": "lg:text-sm", "label": "Small" },
+        { "value": "lg:text-base", "label": "Base" },
+        { "value": "lg:text-lg", "label": "Large" },
+        { "value": "lg:text-xl", "label": "Extra Large" },
+        { "value": "lg:text-2xl", "label": "2X Large" }
+      ],
+      "default": "lg:text-base"
+    },
+    {
+      "type": "select",
+      "id": "product_description_font_weight",
+      "label": "Product Description Font Weight",
+      "options": [
+        { "value": "font-light", "label": "Light" },
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semi Bold" },
+        { "value": "font-bold", "label": "Bold" }
+      ],
+      "default": "font-normal"
+    },
+    {
+      "type": "select",
+      "id": "product_description_color",
+      "label": "Product Description Text Color",
+      "options": [
+        { "value": "text-white", "label": "White" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-primary", "label": "Primary" },
+        { "value": "text-secondary", "label": "Secondary" },
+        { "value": "text-tertiary", "label": "Tertiary" },
+        { "value": "text-quaternary", "label": "Quaternary" },
+        { "value": "text-success", "label": "Success" },
+        { "value": "text-warning", "label": "Warning" },
+        { "value": "text-error", "label": "Error" },
+        { "value": "text-info", "label": "Info" },
+        { "value": "text-neutral", "label": "Neutral" },
+        { "value": "text-neutral-light", "label": "Neutral Light" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "text-neutral-dark"
+    },
+    {
+      "type": "select",
+      "id": "product_price_font_family",
+      "label": "Product Price Font Family",
+      "options": [
+        { "value": "font-primary", "label": "Primary" },
+        { "value": "font-body", "label": "Body" },
+        { "value": "font-handwritten", "label": "Handwritten" },
+        { "value": "font-serif", "label": "Serif" }
+      ],
+      "default": "font-body"
+    },
+    {
+      "type": "select",
+      "id": "product_price_font_size",
+      "label": "Product Price Font Size (Mobile)",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" },
+        { "value": "text-xl", "label": "Extra Large" },
+        { "value": "text-2xl", "label": "2X Large" }
+      ],
+      "default": "text-base"
+    },
+    {
+      "type": "select",
+      "id": "product_price_font_size_desktop",
+      "label": "Product Price Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-xs", "label": "Extra Small" },
+        { "value": "lg:text-sm", "label": "Small" },
+        { "value": "lg:text-base", "label": "Base" },
+        { "value": "lg:text-lg", "label": "Large" },
+        { "value": "lg:text-xl", "label": "Extra Large" },
+        { "value": "lg:text-2xl", "label": "2X Large" }
+      ],
+      "default": "lg:text-lg"
+    },
+    {
+      "type": "select",
+      "id": "product_price_font_weight",
+      "label": "Product Price Font Weight",
+      "options": [
+        { "value": "font-light", "label": "Light" },
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semi Bold" },
+        { "value": "font-bold", "label": "Bold" }
+      ],
+      "default": "font-bold"
+    },
+    {
+      "type": "select",
+      "id": "product_price_color",
+      "label": "Product Price Text Color",
+      "options": [
+        { "value": "text-white", "label": "White" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-primary", "label": "Primary" },
+        { "value": "text-secondary", "label": "Secondary" },
+        { "value": "text-tertiary", "label": "Tertiary" },
+        { "value": "text-quaternary", "label": "Quaternary" },
+        { "value": "text-success", "label": "Success" },
+        { "value": "text-warning", "label": "Warning" },
+        { "value": "text-error", "label": "Error" },
+        { "value": "text-info", "label": "Info" },
+        { "value": "text-neutral", "label": "Neutral" },
+        { "value": "text-neutral-light", "label": "Neutral Light" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "text-neutral-dark"
+    },
+    {
+      "type": "header",
+      "content": "Stars Rating"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_stars",
+      "label": "Show Stars Rating",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "star_color_filled",
+      "label": "Filled Star Color",
+      "options": [
+        { "value": "text-white", "label": "White" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-primary", "label": "Primary" },
+        { "value": "text-secondary", "label": "Secondary" },
+        { "value": "text-tertiary", "label": "Tertiary" },
+        { "value": "text-quaternary", "label": "Quaternary" },
+        { "value": "text-success", "label": "Success" },
+        { "value": "text-warning", "label": "Warning" },
+        { "value": "text-error", "label": "Error" },
+        { "value": "text-info", "label": "Info" },
+        { "value": "text-neutral", "label": "Neutral" },
+        { "value": "text-neutral-light", "label": "Neutral Light" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "text-warning"
+    },
+    {
+      "type": "select",
+      "id": "star_color_empty",
+      "label": "Empty Star Color",
+      "options": [
+        { "value": "text-white", "label": "White" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-primary", "label": "Primary" },
+        { "value": "text-secondary", "label": "Secondary" },
+        { "value": "text-tertiary", "label": "Tertiary" },
+        { "value": "text-quaternary", "label": "Quaternary" },
+        { "value": "text-success", "label": "Success" },
+        { "value": "text-warning", "label": "Warning" },
+        { "value": "text-error", "label": "Error" },
+        { "value": "text-info", "label": "Info" },
+        { "value": "text-neutral", "label": "Neutral" },
+        { "value": "text-neutral-light", "label": "Neutral Light" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "text-neutral-light"
+    },
+    {
+      "type": "text",
+      "id": "star_character",
+      "label": "Star Character",
+      "default": "★",
+      "info": "Character to use for stars (e.g., ★, ⭐)"
+    },
+    {
+      "type": "select",
+      "id": "star_size",
+      "label": "Star Size",
+      "options": [
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "rating_text_font_family",
+      "label": "Rating Text Font Family",
+      "options": [
+        { "value": "font-primary", "label": "Primary" },
+        { "value": "font-body", "label": "Body" },
+        { "value": "font-handwritten", "label": "Handwritten" },
+        { "value": "font-serif", "label": "Serif" }
+      ],
+      "default": "font-body"
+    },
+    {
+      "type": "select",
+      "id": "rating_text_font_size",
+      "label": "Rating Text Font Size (Mobile)",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" },
+        { "value": "text-xl", "label": "Extra Large" }
+      ],
+      "default": "text-sm"
+    },
+    {
+      "type": "select",
+      "id": "rating_text_color",
+      "label": "Rating Text Color",
+      "options": [
+        { "value": "text-white", "label": "White" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-primary", "label": "Primary" },
+        { "value": "text-secondary", "label": "Secondary" },
+        { "value": "text-tertiary", "label": "Tertiary" },
+        { "value": "text-quaternary", "label": "Quaternary" },
+        { "value": "text-success", "label": "Success" },
+        { "value": "text-warning", "label": "Warning" },
+        { "value": "text-error", "label": "Error" },
+        { "value": "text-info", "label": "Info" },
+        { "value": "text-neutral", "label": "Neutral" },
+        { "value": "text-neutral-light", "label": "Neutral Light" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "text-neutral-dark"
+    },
+    {
+      "type": "header",
+      "content": "Navigation Controls"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_navigation_controls",
+      "label": "Show Navigation Controls",
+      "default": true,
+      "info": "Display the navigation controls area"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_progress_dots",
+      "label": "Show Progress Dots",
+      "default": false,
+      "info": "Display dot indicators for each product card"
+    },
+    {
+      "type": "select",
+      "id": "controls_layout",
+      "label": "Controls Layout",
+      "options": [
+        { "value": "arrows_left", "label": "Arrows Left, Dots Right" },
+        { "value": "dots_left", "label": "Dots Left, Arrows Right" }
+      ],
+      "default": "dots_left",
+      "info": "Position of navigation arrows and progress dots"
+    },
+    {
+      "type": "select",
+      "id": "nav_button_background",
+      "label": "Button Background Color",
+      "options": [
+        { "value": "bg-white", "label": "White" },
+        { "value": "bg-black", "label": "Black" },
+        { "value": "bg-primary", "label": "Primary" },
+        { "value": "bg-secondary", "label": "Secondary" },
+        { "value": "bg-tertiary", "label": "Tertiary" },
+        { "value": "bg-quaternary", "label": "Quaternary" },
+        { "value": "bg-success", "label": "Success" },
+        { "value": "bg-warning", "label": "Warning" },
+        { "value": "bg-error", "label": "Error" },
+        { "value": "bg-info", "label": "Info" },
+        { "value": "bg-neutral", "label": "Neutral" },
+        { "value": "bg-neutral-light", "label": "Neutral Light" },
+        { "value": "bg-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "bg-white"
+    },
+    {
+      "type": "select",
+      "id": "nav_button_color",
+      "label": "Button Icon Color",
+      "options": [
+        { "value": "text-white", "label": "White" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-primary", "label": "Primary" },
+        { "value": "text-secondary", "label": "Secondary" },
+        { "value": "text-tertiary", "label": "Tertiary" },
+        { "value": "text-quaternary", "label": "Quaternary" },
+        { "value": "text-success", "label": "Success" },
+        { "value": "text-warning", "label": "Warning" },
+        { "value": "text-error", "label": "Error" },
+        { "value": "text-info", "label": "Info" },
+        { "value": "text-neutral", "label": "Neutral" },
+        { "value": "text-neutral-light", "label": "Neutral Light" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "text-black"
+    },
+    {
+      "type": "header",
+      "content": "Section Background & Spacing"
+    },
+    {
+      "type": "select",
+      "id": "background_color",
+      "label": "Background Color",
+      "options": [
+        { "value": "bg-white", "label": "White" },
+        { "value": "bg-black", "label": "Black" },
+        { "value": "bg-primary", "label": "Primary" },
+        { "value": "bg-secondary", "label": "Secondary" },
+        { "value": "bg-tertiary", "label": "Tertiary" },
+        { "value": "bg-quaternary", "label": "Quaternary" },
+        { "value": "bg-success", "label": "Success" },
+        { "value": "bg-warning", "label": "Warning" },
+        { "value": "bg-error", "label": "Error" },
+        { "value": "bg-info", "label": "Info" },
+        { "value": "bg-neutral", "label": "Neutral" },
+        { "value": "bg-neutral-light", "label": "Neutral Light" },
+        { "value": "bg-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "bg-neutral"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Section Background Image"
+    },
+    {
+      "type": "select",
+      "id": "section_padding_y_mobile",
+      "label": "Section Vertical Padding (Mobile)",
+      "options": [
+        { "value": "py-xs", "label": "Extra Small" },
+        { "value": "py-sm", "label": "Small" },
+        { "value": "py-md", "label": "Medium" },
+        { "value": "py-lg", "label": "Large" },
+        { "value": "py-xl", "label": "Extra Large" },
+        { "value": "py-2xl", "label": "2X Large" },
+        { "value": "py-3xl", "label": "3X Large" }
+      ],
+      "default": "py-xl"
+    },
+    {
+      "type": "select",
+      "id": "section_padding_y_desktop",
+      "label": "Section Vertical Padding (Desktop)",
+      "options": [
+        { "value": "lg:py-xs", "label": "Extra Small" },
+        { "value": "lg:py-sm", "label": "Small" },
+        { "value": "lg:py-md", "label": "Medium" },
+        { "value": "lg:py-lg", "label": "Large" },
+        { "value": "lg:py-xl", "label": "Extra Large" },
+        { "value": "lg:py-2xl", "label": "2X Large" },
+        { "value": "lg:py-3xl", "label": "3X Large" }
+      ],
+      "default": "lg:py-3xl"
+    },
+    {
+      "type": "select",
+      "id": "section_border_radius",
+      "label": "Section Border Radius",
+      "options": [
+        { "value": "rounded-none", "label": "None" },
+        { "value": "rounded-sm", "label": "Small" },
+        { "value": "rounded", "label": "Base" },
+        { "value": "rounded-md", "label": "Medium" },
+        { "value": "rounded-lg", "label": "Large" },
+        { "value": "rounded-xl", "label": "Extra Large" },
+        { "value": "rounded-2xl", "label": "2X Large" },
+        { "value": "rounded-3xl", "label": "3X Large" }
+      ],
+      "default": "rounded-none"
+    },
+    {
+      "type": "header",
+      "content": "Container Settings"
+    },
+    {
+      "type": "select",
+      "id": "container_layout_width",
+      "label": "Container Width",
+      "options": [
+        { "value": "container", "label": "Container" },
+        { "value": "container-full", "label": "Full Width" }
+      ],
+      "default": "container",
+      "info": "Choose whether the container is constrained or full width"
+    },
+    {
+      "type": "select",
+      "id": "container_background_color",
+      "label": "Container Background Color",
+      "options": [
+        { "value": "", "label": "None (Transparent)" },
+        { "value": "bg-white", "label": "White" },
+        { "value": "bg-black", "label": "Black" },
+        { "value": "bg-primary", "label": "Primary" },
+        { "value": "bg-secondary", "label": "Secondary" },
+        { "value": "bg-tertiary", "label": "Tertiary" },
+        { "value": "bg-quaternary", "label": "Quaternary" },
+        { "value": "bg-success", "label": "Success" },
+        { "value": "bg-warning", "label": "Warning" },
+        { "value": "bg-error", "label": "Error" },
+        { "value": "bg-info", "label": "Info" },
+        { "value": "bg-neutral", "label": "Neutral" },
+        { "value": "bg-neutral-light", "label": "Neutral Light" },
+        { "value": "bg-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": ""
+    },
+    {
+      "type": "image_picker",
+      "id": "container_background_image",
+      "label": "Container Background Image"
+    },
+    {
+      "type": "select",
+      "id": "container_border_radius",
+      "label": "Container Border Radius",
+      "options": [
+        { "value": "rounded-none", "label": "None" },
+        { "value": "rounded-sm", "label": "Small" },
+        { "value": "rounded", "label": "Base" },
+        { "value": "rounded-md", "label": "Medium" },
+        { "value": "rounded-lg", "label": "Large" },
+        { "value": "rounded-xl", "label": "Extra Large" },
+        { "value": "rounded-2xl", "label": "2X Large" },
+        { "value": "rounded-3xl", "label": "3X Large" }
+      ],
+      "default": "rounded-none"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_y_mobile",
+      "label": "Container Padding Y (Mobile)",
+      "options": [
+        { "value": "py-xs", "label": "Extra Small" },
+        { "value": "py-sm", "label": "Small" },
+        { "value": "py-md", "label": "Medium" },
+        { "value": "py-lg", "label": "Large" },
+        { "value": "py-xl", "label": "Extra Large" },
+        { "value": "py-2xl", "label": "2X Large" },
+        { "value": "py-3xl", "label": "3X Large" }
+      ],
+      "default": "py-md"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_y_desktop",
+      "label": "Container Padding Y (Desktop)",
+      "options": [
+        { "value": "lg:py-xs", "label": "Extra Small" },
+        { "value": "lg:py-sm", "label": "Small" },
+        { "value": "lg:py-md", "label": "Medium" },
+        { "value": "lg:py-lg", "label": "Large" },
+        { "value": "lg:py-xl", "label": "Extra Large" },
+        { "value": "lg:py-2xl", "label": "2X Large" },
+        { "value": "lg:py-3xl", "label": "3X Large" }
+      ],
+      "default": "lg:py-lg"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_x_mobile",
+      "label": "Container Padding X (Mobile)",
+      "options": [
+        { "value": "px-0", "label": "None" },
+        { "value": "px-xs", "label": "Extra Small" },
+        { "value": "px-sm", "label": "Small" },
+        { "value": "px-md", "label": "Medium" },
+        { "value": "px-lg", "label": "Large" },
+        { "value": "px-xl", "label": "Extra Large" },
+        { "value": "px-2xl", "label": "2X Large" },
+        { "value": "px-3xl", "label": "3X Large" }
+      ],
+      "default": "px-0"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_x_desktop",
+      "label": "Container Padding X (Desktop)",
+      "options": [
+        { "value": "lg:px-0", "label": "None" },
+        { "value": "lg:px-xs", "label": "Extra Small" },
+        { "value": "lg:px-sm", "label": "Small" },
+        { "value": "lg:px-md", "label": "Medium" },
+        { "value": "lg:px-lg", "label": "Large" },
+        { "value": "lg:px-xl", "label": "Extra Large" },
+        { "value": "lg:px-2xl", "label": "2X Large" },
+        { "value": "lg:px-3xl", "label": "3X Large" }
+      ],
+      "default": "lg:px-0"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product_item",
+      "name": "Product",
+      "limit": 20,
+      "settings": [
+        {
+          "type": "header",
+          "content": "Product Content"
+        },
+        {
+          "type": "text",
+          "id": "product_slug",
+          "label": "Product Slug or ID",
+          "info": "Enter the product slug (e.g., 'transformation-kit') or product ID. The product will be automatically loaded from your catalog.",
+          "default": ""
+        },
+        {
+          "type": "textarea",
+          "id": "product_description",
+          "label": "Product Description Override",
+          "info": "Optional: Override the product's default description. Leave empty to use the product's description."
+        },
+        {
+          "type": "header",
+          "content": "Rating & Reviews"
+        },
+        {
+          "type": "range",
+          "id": "star_rating",
+          "label": "Star Rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5,
+          "info": "Number of stars to display (1 to 5)"
+        },
+        {
+          "type": "text",
+          "id": "review_count",
+          "label": "Review Count",
+          "default": "246",
+          "info": "Number of reviews (e.g., 246)"
+        },
+        {
+          "type": "select",
+          "id": "rating_position",
+          "label": "Rating Position",
+          "options": [
+            { "value": "top", "label": "Top" },
+            { "value": "above_price", "label": "Above Price" }
+          ],
+          "default": "top",
+          "info": "Position of the rating and reviews in the product card"
+        },
+        {
+          "type": "header",
+          "content": "Add to Cart Button"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_add_to_cart_button",
+          "label": "Show Add to Cart Button",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "add_to_cart_button_text",
+          "label": "Button Text",
+          "default": "Add to Cart"
+        },
+        {
+          "type": "url",
+          "id": "add_to_cart_button_url",
+          "label": "Button URL",
+          "info": "Optional: Leave empty to use a button element instead of a link"
+        },
+        {
+          "type": "select",
+          "id": "add_to_cart_button_style",
+          "label": "Button Style",
+          "options": [
+            { "value": "filled", "label": "Filled" },
+            { "value": "outline", "label": "Outline" },
+            { "value": "ghost", "label": "Ghost" }
+          ],
+          "default": "filled"
+        },
+        {
+          "type": "select",
+          "id": "add_to_cart_button_color",
+          "label": "Button Color",
+          "options": [
+            { "value": "primary", "label": "Primary" },
+            { "value": "secondary", "label": "Secondary" },
+            { "value": "tertiary", "label": "Tertiary" },
+            { "value": "quaternary", "label": "Quaternary" },
+            { "value": "success", "label": "Success" },
+            { "value": "warning", "label": "Warning" },
+            { "value": "error", "label": "Error" },
+            { "value": "info", "label": "Info" },
+            { "value": "black", "label": "Black" },
+            { "value": "white", "label": "White" }
+          ],
+          "default": "black"
+        },
+        {
+          "type": "select",
+          "id": "add_to_cart_button_size",
+          "label": "Button Size",
+          "options": [
+            { "value": "btn-sm", "label": "Small" },
+            { "value": "btn-md", "label": "Medium" },
+            { "value": "btn-lg", "label": "Large" }
+          ],
+          "default": "btn-md"
+        },
+        {
+          "type": "select",
+          "id": "add_to_cart_button_font_weight",
+          "label": "Button Font Weight",
+          "options": [
+            { "value": "font-light", "label": "Light" },
+            { "value": "font-normal", "label": "Normal" },
+            { "value": "font-medium", "label": "Medium" },
+            { "value": "font-semibold", "label": "Semi Bold" },
+            { "value": "font-bold", "label": "Bold" }
+          ],
+          "default": "font-medium"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Best Sellers Carousel",
+      "blocks": [
+        {
+          "type": "product_item",
+          "settings": {
+            "product_slug": "transformation-kit",
+            "star_rating": 5,
+            "review_count": "246",
+            "rating_position": "top",
+            "show_add_to_cart_button": true,
+            "add_to_cart_button_text": "Add to Cart",
+            "add_to_cart_button_style": "filled",
+            "add_to_cart_button_color": "black",
+            "add_to_cart_button_size": "btn-md",
+            "add_to_cart_button_font_weight": "font-medium"
+          }
+        },
+        {
+          "type": "product_item",
+          "settings": {
+            "product_slug": "omegas-plus",
+            "star_rating": 5,
+            "review_count": "246",
+            "rating_position": "top",
+            "show_add_to_cart_button": true,
+            "add_to_cart_button_text": "Add to Cart",
+            "add_to_cart_button_style": "filled",
+            "add_to_cart_button_color": "black",
+            "add_to_cart_button_size": "btn-md",
+            "add_to_cart_button_font_weight": "font-medium"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+

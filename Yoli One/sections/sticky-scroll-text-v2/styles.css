@@ -1,0 +1,124 @@
+/* ============================================
+   STICKY SCROLL TEXT V2 SECTION
+   ============================================ */
+
+.sticky-scroll-text-v2 {
+  position: relative;
+  z-index: var(--z-10);
+  isolation: isolate; /* Creates new stacking context */
+}
+
+/* Section Background Image - Edge to Edge */
+.sticky-scroll-text-v2[data-bg] {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+}
+
+/* Background Image Fit Options */
+.sticky-scroll-text-v2[data-bg-fit="fill"] {
+  background-size: cover;
+}
+
+.sticky-scroll-text-v2[data-bg-fit="fit"] {
+  background-size: contain;
+}
+
+/* When section has background image, override background color to show image */
+.sticky-scroll-text-v2[data-bg] {
+  background-color: transparent !important;
+}
+
+/* Ensure content doesn't block the background */
+.sticky-scroll-text-v2-content {
+  background-color: transparent;
+}
+
+/* Section-Scoped Background (Absolute positioning respects section boundaries) */
+.sticky-scroll-text-v2-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  background-size: cover;
+  background-position: center;
+  pointer-events: none; /* Prevents interaction issues */
+  will-change: transform;
+}
+
+/* Content Container */
+.sticky-scroll-text-v2-content {
+  position: relative;
+  z-index: 1;
+}
+
+.sticky-scroll-text-v2-inner {
+  position: relative;
+  width: 100%;
+  max-width: 770px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* Block wrapper - allows multiple blocks to stack */
+.sticky-scroll-text-v2-block {
+  position: relative;
+  width: 100%;
+}
+
+/* Sticky text wrapper - creates scroll space */
+.sticky-scroll-text-v2-wrapper {
+  position: relative;
+  width: 100%;
+  min-height: 100vh; /* Ensure visibility even before JS runs */
+}
+
+/* Content wrapper - sticky at vertical center */
+.sticky-scroll-text-v2-content-wrapper {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  max-width: 770px;
+  margin: 0 auto;
+  padding: 0 var(--space-md);
+  text-align: center;
+  z-index: 2;
+  background-color: inherit;
+  transition: opacity 0.3s ease-out;
+  opacity: 1;
+}
+
+/* Text element */
+.sticky-scroll-text-v2-text {
+  display: block;
+  width: 100%;
+}
+
+/* Responsive Styles */
+@media (min-width: 1024px) {
+  .sticky-scroll-text-v2-content-wrapper {
+    padding: 0 var(--space-xl);
+  }
+}
+
+/* Container Background Image Overlay */
+.sticky-scroll-text-v2-inner[data-bg]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+  z-index: -1;
+  background-color: rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+}
+
+.sticky-scroll-text-v2-inner[data-bg] {
+  background-size: cover;
+  background-position: center;
+}
+

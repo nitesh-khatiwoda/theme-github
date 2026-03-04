@@ -1,0 +1,312 @@
+/* UGC Media Carousel Section */
+
+.ugc-media-carousel {
+  overflow-x: clip;
+  overflow-y: visible;
+}
+
+.ugc-media-carousel .container {
+  overflow: visible;
+}
+
+.ugc-media-carousel .inner-container {
+  overflow: visible;
+}
+
+/* ============================================
+   HEADER ROW
+   ============================================ */
+
+.ugc-media-carousel__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  align-items: center;
+  text-align: center;
+  margin-bottom: var(--space-2xl);
+}
+
+.ugc-media-carousel__heading-wrapper h2 {
+  margin: 0;
+  line-height: 1.2;
+}
+
+.ugc-media-carousel__heading-wrapper h2 span {
+  display: inline;
+}
+
+.ugc-media-carousel__button-wrapper {
+  width: 100%;
+}
+
+.ugc-media-carousel__button-wrapper .btn {
+  width: 100%;
+  max-width: 300px;
+}
+
+/* Desktop header layout */
+@media (min-width: 1024px) {
+  .ugc-media-carousel__header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+    margin-bottom: var(--space-3xl);
+  }
+
+  .ugc-media-carousel__button-wrapper {
+    width: auto;
+    flex-shrink: 0;
+  }
+
+  .ugc-media-carousel__button-wrapper .btn {
+    width: auto;
+    white-space: nowrap;
+  }
+
+  .ugc-media-carousel__heading-wrapper {
+    flex: 1;
+    max-width: 960px;
+  }
+}
+
+/* ============================================
+   CAROUSEL WRAPPER
+   ============================================ */
+
+.ugc-media-carousel__wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: visible;
+}
+
+/* Navigation Wrapper - Below Cards, Right Aligned */
+.ugc-media-carousel__nav-wrapper {
+  display: flex;
+  gap: var(--space-md);
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: var(--space-xl);
+}
+
+/* Navigation Buttons */
+.ugc-media-carousel__nav {
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: var(--clr-neutral-light);
+  border: 2px solid var(--clr-neutral);
+  color: var(--clr-black);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ugc-media-carousel__nav:hover:not(:disabled) {
+  background-color: var(--clr-primary);
+  border-color: var(--clr-primary);
+  color: var(--clr-white);
+  transform: scale(1.05);
+}
+
+.ugc-media-carousel__nav:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.ugc-media-carousel__nav:focus {
+  outline: 2px solid var(--clr-primary);
+  outline-offset: 4px;
+}
+
+.ugc-media-carousel__nav:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Hide nav buttons on mobile (use swipe instead) */
+@media (max-width: 639px) {
+  .ugc-media-carousel__nav-wrapper {
+    display: none;
+  }
+}
+
+/* ============================================
+   CAROUSEL TRACK
+   ============================================ */
+
+.ugc-media-carousel__track-container {
+  flex: 1;
+  overflow: visible;
+  position: relative;
+  margin-left: 0;
+}
+
+@media (min-width: 640px) {
+  .ugc-media-carousel__track-container {
+    margin-right: calc(-1 * var(--space-3xl));
+  }
+}
+
+.ugc-media-carousel__track {
+  display: flex;
+  gap: var(--space-lg);
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  touch-action: pan-y pinch-zoom;
+  padding-right: var(--space-3xl);
+}
+
+/* ============================================
+   INDIVIDUAL CARD (Edge to Edge)
+   ============================================ */
+
+.ugc-media-carousel__card {
+  flex: 0 0 auto;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  min-height: 500px;
+  display: flex;
+}
+
+/* Media fills entire card background */
+.ugc-media-carousel__card-media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.ugc-media-carousel__card-media fluid-media-widget {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.ugc-media-carousel__card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ============================================
+   QUOTE OVERLAY (Matches UGC Carousel Exactly)
+   ============================================ */
+
+.ugc-media-carousel__quote-overlay {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  right: 22px;
+  z-index: 1;
+  padding: 24px 20px;
+  border-radius: var(--radius-md);
+  display: flex;
+  gap: 0;
+}
+
+.ugc-media-carousel__quote-mark {
+  font-size: 18px;
+  line-height: 1.42;
+  flex-shrink: 0;
+  font-weight: 400;
+  margin: 0;
+}
+
+.ugc-media-carousel__quote-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ugc-media-carousel__quote-text {
+  margin: 0;
+  line-height: 1.42;
+}
+
+.ugc-media-carousel__quote-author {
+  margin: 0;
+  line-height: 1.25;
+}
+
+/* ============================================
+   RESPONSIVE CARD WIDTHS
+   ============================================ */
+
+/* Mobile: 1 card visible */
+@media (max-width: 639px) {
+  .ugc-media-carousel__card {
+    width: calc(100% - var(--space-lg));
+  }
+}
+
+/* Tablet: 2 cards visible */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .ugc-media-carousel__card {
+    width: calc(50% - var(--space-lg));
+  }
+}
+
+/* Desktop: 4 cards visible */
+@media (min-width: 1024px) {
+  .ugc-media-carousel__card {
+    width: calc(25% - var(--space-lg));
+  }
+}
+
+/* ============================================
+   HOVER EFFECTS
+   ============================================ */
+
+.ugc-media-carousel__card {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ugc-media-carousel__card:hover {
+  transform: scale(1.02);
+}
+
+/* ============================================
+   BUTTON FOCUS STATES
+   ============================================ */
+
+.ugc-media-carousel__button-wrapper .btn:focus {
+  outline: 2px solid var(--clr-primary);
+  outline-offset: 4px;
+}
+
+.ugc-media-carousel__button-wrapper .btn:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ============================================
+   TOUCH/SWIPE OPTIMIZATION
+   ============================================ */
+
+@media (max-width: 639px) {
+  .ugc-media-carousel__track-container {
+    overflow-x: auto;
+    overflow-y: visible;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+    margin-right: calc(-1 * var(--space-lg));
+  }
+
+  .ugc-media-carousel__track-container::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+  }
+  
+  .ugc-media-carousel__track {
+    padding-right: var(--space-lg);
+  }
+}
+

@@ -1,0 +1,143 @@
+/* ============================================
+   CTA BANNER CENTERED SECTION
+   Centered text overlay on background image
+   ============================================ */
+
+.cta-banner-centered {
+  position: relative;
+  z-index: var(--z-10);
+}
+
+/* ============================================
+   CONTAINER
+   ============================================ */
+
+.cta-banner-centered__container {
+  padding-left: var(--space-xl);
+  padding-right: var(--space-xl);
+}
+
+@media (max-width: 990px) {
+  .cta-banner-centered__container {
+    padding-left: var(--space-md);
+    padding-right: var(--space-md);
+  }
+}
+
+/* ============================================
+   BANNER WRAPPER
+   ============================================ */
+
+.cta-banner-centered__wrapper {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 380px;
+}
+
+@media (min-width: 991px) {
+  .cta-banner-centered__wrapper {
+    height: 430px;
+  }
+}
+
+/* ============================================
+   BACKGROUND IMAGE
+   ============================================ */
+
+.cta-banner-centered__background {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Dark overlay for readability */
+.cta-banner-centered__background::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.cta-banner-centered__placeholder {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ============================================
+   CONTENT OVERLAY
+   ============================================ */
+
+.cta-banner-centered__content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-2xl);
+  z-index: 2;
+  gap: var(--space-md);
+}
+
+@media (max-width: 990px) {
+  .cta-banner-centered__content {
+    padding: var(--space-lg);
+  }
+}
+
+/* ============================================
+   EYEBROW TEXT
+   ============================================ */
+
+.cta-banner-centered__eyebrow {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.0625em;
+  line-height: 1.5;
+  text-align: center;
+}
+
+/* ============================================
+   HEADING
+   ============================================ */
+
+.cta-banner-centered__heading {
+  margin: 0;
+  line-height: 1.37;
+  letter-spacing: 0.011em;
+  text-align: center;
+  max-width: 900px;
+}
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================ */
+
+/* Mobile: Smaller banner, tighter spacing */
+@media (max-width: 767px) {
+  .cta-banner-centered__wrapper {
+    height: 320px;
+  }
+  
+  .cta-banner-centered__content {
+    gap: var(--space-sm);
+  }
+}
+
+/* Tablet: Medium banner height */
+@media (min-width: 768px) and (max-width: 990px) {
+  .cta-banner-centered__wrapper {
+    height: 380px;
+  }
+}
+
+

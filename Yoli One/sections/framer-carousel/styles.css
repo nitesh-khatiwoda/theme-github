@@ -1,0 +1,209 @@
+/* Framer Carousel Section */
+.framer-carousel {
+  position: relative;
+  width: 100%;
+}
+
+.framer-carousel-inner {
+  position: relative;
+}
+
+.framer-carousel-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+/* Carousel Container */
+.framer-carousel-container {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-lg, 13px);
+}
+
+/* Carousel Track */
+.framer-carousel-track {
+  display: flex;
+  width: 100%;
+  will-change: transform;
+}
+
+/* Carousel Item */
+.framer-carousel-item {
+  flex-shrink: 0;
+  width: 100%;
+  position: relative;
+}
+
+.framer-carousel-image {
+  width: 100%;
+  height: var(--carousel-height, 500px);
+  object-fit: cover;
+  display: block;
+  user-select: none;
+  pointer-events: none;
+  border-radius: var(--radius-lg, 13px);
+}
+
+/* Title */
+.framer-carousel-item-title {
+  position: absolute;
+  bottom: var(--space-lg, 24px);
+  left: var(--space-lg, 24px);
+  right: var(--space-lg, 24px);
+  text-align: center;
+  padding: var(--space-sm, 8px) var(--space-md, 16px);
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  border-radius: var(--radius-md, 6px);
+  line-height: 1.2;
+}
+
+/* Navigation Buttons */
+.framer-carousel-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full, 9999px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  z-index: 10;
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+.framer-carousel-nav-btn:hover:not(:disabled) {
+  transform: translateY(-50%) scale(1.1);
+  opacity: 1;
+}
+
+.framer-carousel-nav-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.framer-carousel-nav-btn:focus {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+.framer-carousel-prev {
+  left: var(--space-md, 16px);
+}
+
+.framer-carousel-next {
+  right: var(--space-md, 16px);
+}
+
+.framer-carousel-nav-btn svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* Progress Indicator */
+.framer-carousel-progress {
+  position: absolute;
+  bottom: var(--space-md, 16px);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: var(--space-sm, 8px);
+  padding: var(--space-sm, 8px);
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border-radius: var(--radius-xl, 20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  z-index: 10;
+}
+
+.framer-carousel-progress-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full, 9999px);
+  border: none;
+  background: rgba(255, 255, 255, 0.5);
+  transition: all 0.3s ease;
+  padding: 0;
+  cursor: pointer;
+}
+
+.framer-carousel-progress-dot:hover {
+  background: rgba(255, 255, 255, 0.7);
+  transform: scale(1.2);
+}
+
+.framer-carousel-progress-dot.is-active {
+  width: 32px;
+  background: rgba(255, 255, 255, 1);
+}
+
+.framer-carousel-progress-dot:focus {
+  outline: 2px solid rgba(255, 255, 255, 0.8);
+  outline-offset: 2px;
+}
+
+/* Responsive Design */
+@media (min-width: 640px) {
+  .framer-carousel-nav-btn {
+    width: 44px;
+    height: 44px;
+  }
+  
+  .framer-carousel-prev {
+    left: var(--space-lg, 24px);
+  }
+  
+  .framer-carousel-next {
+    right: var(--space-lg, 24px);
+  }
+}
+
+@media (min-width: 1024px) {
+  .framer-carousel-nav-btn {
+    width: 48px;
+    height: 48px;
+  }
+  
+  .framer-carousel-nav-btn svg {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .framer-carousel-progress {
+    bottom: var(--space-lg, 24px);
+  }
+}
+
+/* Background Image Support */
+.framer-carousel[data-bg] {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.framer-carousel-inner[data-bg] {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .framer-carousel-track {
+    transition: none;
+  }
+  
+  .framer-carousel-nav-btn {
+    transition: opacity 0.2s ease;
+  }
+  
+  .framer-carousel-nav-btn:hover:not(:disabled) {
+    transform: translateY(-50%);
+  }
+}
+

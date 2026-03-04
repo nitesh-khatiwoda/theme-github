@@ -1,0 +1,226 @@
+/* UGC Carousel Section Styles */
+
+.ugc-carousel {
+  position: relative;
+  overflow: hidden;
+}
+
+.ugc-inner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* Header */
+.ugc-carousel .ugc-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-xl);
+  margin-bottom: var(--space-2xl);
+}
+
+@media (max-width: 1023px) {
+  .ugc-carousel .ugc-header {
+    flex-direction: column;
+    gap: var(--space-lg);
+  }
+}
+
+.ugc-carousel .header-left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.ugc-carousel .ugc-heading h2 {
+  margin: 0;
+}
+
+.ugc-carousel .ugc-subheading p {
+  margin: 0;
+  line-height: 1.44;
+}
+
+.ugc-carousel .header-right {
+  flex-shrink: 0;
+}
+
+.ugc-carousel .header-right .btn {
+  border-radius: 999px;
+}
+
+/* Carousel Wrapper */
+.ugc-carousel .ugc-carousel-wrapper {
+  position: relative;
+  overflow: visible;
+  margin-bottom: 0;
+}
+
+/* Carousel Track */
+.ugc-carousel .ugc-carousel-track {
+  display: flex;
+  gap: 20px;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+  min-height: 590px;
+}
+
+/* UGC Card */
+.ugc-carousel .ugc-card {
+  flex-shrink: 0;
+  width: 437.33px;
+  min-height: 590px;
+}
+
+@media (max-width: 1023px) {
+  .ugc-carousel .ugc-card {
+    width: 350px;
+  }
+}
+
+@media (max-width: 767px) {
+  .ugc-carousel .ugc-card {
+    width: 300px;
+    min-height: 500px;
+  }
+}
+
+/* Card Image */
+.ugc-carousel .ugc-card-image {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 590px;
+  overflow: hidden;
+}
+
+@media (max-width: 767px) {
+  .ugc-carousel .ugc-card-image {
+    min-height: 500px;
+  }
+}
+
+.ugc-carousel .ugc-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Quote Overlay */
+.ugc-carousel .ugc-quote-overlay {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  right: 22px;
+  padding: 24px 20px;
+  display: flex;
+  gap: 0;
+}
+
+.ugc-carousel .quote-mark {
+  font-size: 18px;
+  line-height: 1.42;
+  flex-shrink: 0;
+  font-weight: 400;
+}
+
+.ugc-carousel .quote-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ugc-carousel .quote-content p {
+  margin: 0;
+  line-height: 1.42;
+}
+
+.ugc-carousel .quote-author {
+  line-height: 1.25;
+}
+
+/* Navigation */
+.ugc-carousel .carousel-nav {
+  display: flex;
+  gap: var(--space-md);
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: var(--space-xl);
+  position: relative;
+  z-index: 1;
+  clear: both;
+  width: 100%;
+}
+
+.ugc-carousel .nav-btn {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: var(--clr-neutral-light);
+  border: 2px solid var(--clr-neutral);
+  color: var(--clr-black);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ugc-carousel .nav-btn:hover:not(:disabled) {
+  background-color: var(--clr-primary);
+  border-color: var(--clr-primary);
+  color: var(--clr-white);
+  transform: scale(1.05);
+}
+
+.ugc-carousel .nav-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.ugc-carousel .nav-btn:focus {
+  outline: 2px solid var(--clr-primary);
+  outline-offset: 4px;
+}
+
+.ugc-carousel .nav-btn:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.ugc-carousel .nav-btn svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* Hide nav buttons on mobile (use swipe instead) */
+@media (max-width: 639px) {
+  .ugc-carousel .carousel-nav {
+    display: none;
+  }
+}
+
+/* Responsive - Show cards on mobile */
+@media (max-width: 1023px) {
+  .ugc-carousel .ugc-carousel-wrapper {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  
+  .ugc-carousel .ugc-carousel-wrapper::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .ugc-carousel .ugc-card {
+    scroll-snap-align: start;
+  }
+}
+

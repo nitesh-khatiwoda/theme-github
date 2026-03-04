@@ -1,0 +1,294 @@
+/* ============================================
+   MEDICATION CAROUSEL SECTION
+   Horizontal scrolling medication cards
+   ============================================ */
+
+.medication-carousel {
+  overflow-x: clip;
+  overflow-y: visible;
+}
+
+.medication-carousel .container {
+  overflow: visible;
+}
+
+.medication-carousel .inner-container {
+  overflow-x: clip;
+  overflow-y: visible;
+}
+
+/* ============================================
+   WRAPPER
+   ============================================ */
+
+.medication-carousel__wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow-x: clip;
+  overflow-y: visible;
+}
+
+/* ============================================
+   TRACK CONTAINER (Scrolling)
+   ============================================ */
+
+.medication-carousel__track-container {
+  flex: 1;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  position: relative;
+  margin-left: 0;
+  cursor: grab;
+}
+
+.medication-carousel__track-container::-webkit-scrollbar {
+  display: none;
+}
+
+.medication-carousel__track-container:active {
+  cursor: grabbing;
+}
+
+/* Bleed to viewport edge - extend past container padding */
+@media (min-width: 640px) {
+  .medication-carousel__track-container {
+    margin-right: calc(-1 * var(--space-md) - 5vw);
+  }
+}
+
+@media (min-width: 1024px) {
+  .medication-carousel__track-container {
+    margin-right: calc(-1 * var(--space-lg) - 10vw);
+  }
+}
+
+@media (min-width: 1400px) {
+  .medication-carousel__track-container {
+    margin-right: -200px;
+  }
+}
+
+.medication-carousel__track {
+  display: flex;
+  gap: var(--space-lg);
+  touch-action: pan-y pinch-zoom;
+}
+
+/* Add right padding to create space after last card when scrolled */
+@media (min-width: 640px) {
+  .medication-carousel__track {
+    padding-right: calc(var(--space-md) + 5vw);
+  }
+}
+
+@media (min-width: 1024px) {
+  .medication-carousel__track {
+    padding-right: calc(var(--space-lg) + 10vw);
+  }
+}
+
+@media (min-width: 1400px) {
+  .medication-carousel__track {
+    padding-right: 200px;
+  }
+}
+
+/* ============================================
+   CARD BASE STYLES
+   ============================================ */
+
+.medication-carousel__card {
+  flex: 0 0 auto;
+  width: 427px;
+  min-height: 569px;
+  overflow: hidden;
+  position: relative;
+}
+
+@media (max-width: 990px) {
+  .medication-carousel__card {
+    width: 340px;
+    min-height: 480px;
+  }
+}
+
+@media (max-width: 767px) {
+  .medication-carousel__card {
+    width: 300px;
+    min-height: 440px;
+  }
+}
+
+/* ============================================
+   FEATURED CARD (with background image)
+   ============================================ */
+
+.medication-carousel__card--featured {
+  position: relative;
+}
+
+.medication-carousel__featured-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Dark overlay for featured card */
+.medication-carousel__featured-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.6));
+  z-index: 1;
+  pointer-events: none;
+}
+
+.medication-carousel__featured-content {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: var(--space-lg);
+}
+
+/* Badge */
+.medication-carousel__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px var(--space-sm);
+  border-radius: 46px;
+  align-self: flex-start;
+  margin-bottom: var(--space-sm);
+}
+
+.medication-carousel__badge span {
+  line-height: 1;
+  letter-spacing: -0.004em;
+}
+
+/* Featured Title */
+.medication-carousel__featured-title {
+  margin: 0;
+  line-height: 1.12;
+  letter-spacing: -0.029em;
+}
+
+/* Featured Description */
+.medication-carousel__featured-description {
+  margin: 0;
+  margin-top: var(--space-md);
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+}
+
+/* Featured Button Wrapper */
+.medication-carousel__featured-button-wrapper {
+  margin-top: auto;
+  padding-top: var(--space-2xl);
+}
+
+.medication-carousel__featured-button-wrapper .btn {
+  width: 100%;
+}
+
+/* ============================================
+   PRODUCT CARD (solid background)
+   ============================================ */
+
+.medication-carousel__card--product {
+  opacity: 0.95;
+}
+
+.medication-carousel__product-content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  padding: var(--space-lg);
+}
+
+/* Product Title */
+.medication-carousel__product-title {
+  margin: 0;
+  line-height: 1.12;
+  letter-spacing: -0.029em;
+}
+
+/* Product Subtitle */
+.medication-carousel__product-subtitle {
+  margin: 0;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  opacity: 0.65;
+}
+
+/* Product Image */
+.medication-carousel__product-image-wrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  max-height: 450px;
+}
+
+.medication-carousel__product-image {
+  width: 100%;
+  max-width: 379px;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+/* ============================================
+   PRODUCT ACTIONS (Glassmorphism Buttons)
+   ============================================ */
+
+.medication-carousel__product-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  margin-top: auto;
+}
+
+/* Product card buttons use Gold Standard button system */
+.medication-carousel__product-actions .btn {
+  width: 100%;
+}
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================ */
+
+/* Mobile: Smaller cards and tighter spacing */
+@media (max-width: 767px) {
+  .medication-carousel__track {
+    gap: var(--space-md);
+  }
+  
+  .medication-carousel__featured-content,
+  .medication-carousel__product-content {
+    padding: var(--space-md);
+  }
+  
+  .medication-carousel__product-image-wrapper {
+    max-height: 350px;
+  }
+}
+
+/* Tablet: Medium sizing */
+@media (min-width: 768px) and (max-width: 990px) {
+  .medication-carousel__product-image-wrapper {
+    max-height: 380px;
+  }
+}
+
+

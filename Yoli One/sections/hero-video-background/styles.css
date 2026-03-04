@@ -1,0 +1,201 @@
+/* Hero Video Background Section */
+
+/* ============================================
+   DESKTOP LAYOUT (Video with Overlay)
+   ============================================ */
+
+.hero-video-background__desktop {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.hero-video-background__video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.hero-video-background__overlay {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  background: linear-gradient(
+    color-mix(in srgb, var(--clr-neutral-dark) 45%, transparent),
+    color-mix(in srgb, var(--clr-neutral-dark) 55%, transparent)
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-5xl) var(--space-lg);
+}
+
+.hero-video-background__content {
+  max-width: 720px;
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-lg);
+}
+
+.hero-video-background__meta {
+  margin: 0;
+}
+
+.hero-video-background__headline {
+  margin: 0;
+  line-height: 1.1;
+}
+
+.hero-video-background__subtext {
+  margin: 0;
+  line-height: 1.6;
+  opacity: 0.9;
+}
+
+.hero-video-background__actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+}
+
+.hero-video-background__guarantee {
+  margin: 0;
+  opacity: 0.85;
+}
+
+/* ============================================
+   MOBILE SPLIT LAYOUT
+   ============================================ */
+
+.hero-video-background__mobile {
+  display: none;
+}
+
+.hero-video-background__mobile-content {
+  text-align: center;
+}
+
+.hero-video-background__mobile-inner {
+  max-width: 680px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-lg);
+}
+
+.hero-video-background__actions--mobile {
+  flex-direction: column;
+  width: 100%;
+}
+
+.hero-video-background__actions--mobile .btn {
+  width: 100%;
+  max-width: 400px;
+}
+
+/* ============================================
+   RESPONSIVE BEHAVIOR
+   ============================================ */
+
+@media (max-width: 768px) {
+  /* Split layout on mobile */
+  
+  /* Video section: max 200px tall */
+  .hero-video-background__desktop {
+    min-height: 200px;
+    max-height: 200px;
+  }
+
+  /* Hide overlay text on mobile */
+  .hero-video-background__overlay {
+    display: none;
+    padding: var(--space-2xl) var(--space-md);
+  }
+
+  /* Show mobile content section */
+  .hero-video-background__mobile {
+    display: block;
+  }
+
+  /* Adjust content gap for mobile */
+  .hero-video-background__mobile-inner {
+    gap: var(--space-md);
+  }
+}
+
+@media (min-width: 769px) {
+  /* Desktop: Full screen video with centered content */
+  
+  .hero-video-background__overlay {
+    padding: var(--space-5xl) var(--space-xl);
+  }
+  
+  .hero-video-background__content {
+    gap: var(--space-xl);
+  }
+
+  .hero-video-background__actions {
+    gap: var(--space-lg);
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY & PERFORMANCE
+   ============================================ */
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  .hero-video-background__video {
+    animation: none;
+  }
+}
+
+/* Ensure content is readable */
+.hero-video-background__overlay * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Button hover states */
+.hero-video-background__actions .btn {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Focus states for accessibility */
+.hero-video-background__actions .btn:focus {
+  outline: 2px solid var(--clr-white);
+  outline-offset: 4px;
+}
+
+.hero-video-background__actions .btn:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ============================================
+   LOADING STATES
+   ============================================ */
+
+.hero-video-background__video {
+  background-color: var(--clr-black);
+}
+
+/* Ensure smooth video playback */
+.hero-video-background__video {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
+  -webkit-transform: translate3d(0, 0, 0);
+}
+

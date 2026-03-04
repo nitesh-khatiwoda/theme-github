@@ -1,0 +1,1148 @@
+<link rel="stylesheet" href="{{ 'lifestyle-info/styles.css' | asset_url }}">
+
+<!-- Lifestyle Info -->
+<section 
+  class="lifestyle-info {{ section.settings.background_color | default: 'bg-neutral-light' }} {{ section.settings.section_padding_y_mobile | default: 'py-xl' }} {{ section.settings.section_padding_y_desktop | default: 'lg:py-3xl' }} {{ section.settings.section_border_radius | default: 'rounded-none' }}" 
+  id="lifestyle-info-{{ section.id }}" 
+  {% if section.settings.background_image %}data-bg="{{ section.settings.background_image | image_url }}"{% endif %}>
+  
+  <div class="{{section.settings.container_layout_width | default : 'container'}}">
+    <div class="lifestyle-info-inner {{ section.settings.container_background_color }} {{ section.settings.container_border_radius | default: 'rounded-none' }} {{ section.settings.container_padding_y_mobile | default: 'py-lg' }} {{ section.settings.container_padding_y_desktop | default: 'lg:py-2xl' }} {{ section.settings.container_padding_x_mobile | default: 'px-md' }} {{ section.settings.container_padding_x_desktop | default: 'lg:px-xl' }}" 
+      {% if section.settings.container_background_image %}data-bg="{{ section.settings.container_background_image | image_url }}"{% endif %}>
+      
+      <div class="lifestyle-info-grid {% if section.settings.flip_layout %}lifestyle-info-grid--flipped{% endif %}">
+        
+        <!-- Left Column: Content -->
+        <div class="lifestyle-info-content-column">
+          
+          <!-- Heading -->
+          {% if section.settings.heading != blank %}
+          <div class="lifestyle-info-heading-wrapper {{ section.settings.heading_body_spacing_mobile | default: 'mb-lg' }} {{ section.settings.heading_body_spacing_desktop | default: 'lg:mb-lg' }}">
+            <h2 class="lifestyle-info-heading {{ section.settings.heading_font_family | default: 'font-handwritten' }} {{ section.settings.heading_font_size | default: 'text-4xl' }} {{ section.settings.heading_font_size_desktop | default: 'lg:text-5xl' }} {{ section.settings.heading_font_weight | default: 'font-normal' }} {{ section.settings.heading_color | default: 'text-neutral-dark' }}" style="line-height: 1;">
+              {{ section.settings.heading }}
+            </h2>
+          </div>
+          {% endif %}
+          
+          <!-- Body Text -->
+          {% if section.settings.body_text != blank %}
+          <div class="lifestyle-info-body-wrapper {{ section.settings.body_margin_bottom_mobile | default: 'mb-lg' }} {{ section.settings.body_margin_bottom_desktop | default: 'lg:mb-lg' }}">
+            <div class="lifestyle-info-body {{ section.settings.body_font_family | default: 'font-body' }} {{ section.settings.body_font_size | default: 'text-base' }} {{ section.settings.body_font_size_desktop | default: 'lg:text-lg' }} {{ section.settings.body_font_weight | default: 'font-normal' }} {{ section.settings.body_color | default: 'text-neutral-dark' }}" style="line-height: 1.5;">
+              {{ section.settings.body_text }}
+            </div>
+          </div>
+          {% endif %}
+          
+          <!-- Feature Blocks -->
+          {% unless section.settings.hide_all_blocks %}
+          {% if section.blocks.size > 0 %}
+          {% assign blocks_gap_mobile = section.settings.blocks_gap_mobile | default: 'lg' %}
+          {% assign blocks_gap_desktop = section.settings.blocks_gap_desktop | default: 'xl' %}
+          <div class="lifestyle-info-features lifestyle-info-features--gap-{{ blocks_gap_mobile }} lifestyle-info-features--gap-desktop-{{ blocks_gap_desktop }}{% if section.settings.show_row_dividers %} lifestyle-info-features--with-dividers{% endif %}">
+            {% for block in section.blocks %}
+              {% if block.type == 'feature_item' %}
+              {% assign image_text_gap_mobile = section.settings.image_text_gap_mobile | default: 'md' %}
+              {% assign image_text_gap_desktop = section.settings.image_text_gap_desktop | default: 'lg' %}
+              <div class="lifestyle-info-feature-item lifestyle-info-feature-item--gap-{{ image_text_gap_mobile }} lifestyle-info-feature-item--gap-desktop-{{ image_text_gap_desktop }} {% if block.settings.hide_icon %}lifestyle-info-feature-item--no-icon{% endif %}" {{ block.fluid_attributes }}>
+                
+                <!-- Icon -->
+                {% unless block.settings.hide_icon %}
+                {% assign block_icon_size_mobile = section.settings.icon_size_mobile | default: '32' %}
+                {% assign block_icon_size_desktop = section.settings.icon_size_desktop | default: block_icon_size_mobile %}
+                <div class="lifestyle-info-feature-icon" style="width: {{ block_icon_size_mobile }}px; height: {{ block_icon_size_mobile }}px; {% if section.settings.icon_size_desktop %}--icon-size-desktop: {{ block_icon_size_desktop }}px;{% endif %}">
+                  {% if block.settings.icon != blank %}
+                    <img src="{{ block.settings.icon | image_url: width: block_icon_size_desktop | default: block_icon_size_mobile }}" 
+                         alt="{{ block.settings.icon_alt | default: block.settings.title }}"
+                         loading="lazy"
+                         class="lifestyle-info-feature-icon-img"
+                         style="box-shadow: none !important; width: 100%; height: 100%; object-fit: contain;">
+                  {% else %}
+                    <div class="lifestyle-info-feature-icon-placeholder" style="width: 100%; height: 100%;">
+                      <svg width="{{ block_icon_size_mobile }}" height="{{ block_icon_size_mobile }}" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" class="{{ section.settings.icon_color | default: 'text-tertiary' }}" style="width: 100%; height: 100%;">
+                        <circle cx="16" cy="16" r="14" stroke="currentColor" stroke-width="2"/>
+                        <circle cx="16" cy="16" r="6" fill="currentColor"/>
+                      </svg>
+                    </div>
+                  {% endif %}
+                </div>
+                {% endunless %}
+                
+                <!-- Feature Content -->
+                <div class="lifestyle-info-feature-content">
+                  
+                  <!-- Feature Title -->
+                  {% if block.settings.title != blank %}
+                  <div class="lifestyle-info-feature-title {{ section.settings.feature_title_margin_bottom_mobile | default: 'mb-xs' }} {{ section.settings.feature_title_margin_bottom_desktop | default: 'lg:mb-xs' }}">
+                    <h3 class="{{ section.settings.feature_title_font_family | default: 'font-body' }} {{ section.settings.feature_title_font_size | default: 'text-base' }} {{ section.settings.feature_title_font_size_desktop | default: 'lg:text-base' }} {{ section.settings.feature_title_font_weight | default: 'font-bold' }} {{ section.settings.feature_title_color | default: 'text-neutral-dark' }}" style="line-height: 1.5;">
+                      {{ block.settings.title }}
+                    </h3>
+                  </div>
+                  {% endif %}
+                  
+                  <!-- Feature Description -->
+                  {% if block.settings.description != blank %}
+                  <div class="lifestyle-info-feature-description">
+                    <p class="{{ section.settings.feature_description_font_family | default: 'font-body' }} {{ section.settings.feature_description_font_size | default: 'text-sm' }} {{ section.settings.feature_description_font_size_desktop | default: 'lg:text-base' }} {{ section.settings.feature_description_font_weight | default: 'font-normal' }} {{ section.settings.feature_description_color | default: 'text-neutral-dark' }}" style="line-height: 1.5;">
+                      {{ block.settings.description }}
+                    </p>
+                  </div>
+                  {% endif %}
+                  
+                </div>
+                
+              </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+          {% endif %}
+          {% endunless %}
+          
+        </div>
+        
+        <!-- Right Column: Image -->
+        {% unless section.settings.hide_main_image %}
+        <div class="lifestyle-info-image-column">
+          {% assign image_fit_mode = section.settings.image_fit_mode | default: 'fill' %}
+          {% assign image_height = section.settings.image_height | default: 600 %}
+          {% assign img_radius_tl = section.settings.image_radius_top_left | default: '0' %}
+          {% assign img_radius_tr = section.settings.image_radius_top_right | default: '0' %}
+          {% assign img_radius_bl = section.settings.image_radius_bottom_left | default: '0' %}
+          {% assign img_radius_br = section.settings.image_radius_bottom_right | default: '0' %}
+          <div class="lifestyle-info-image-wrapper" 
+               style="height: {{ image_height }}px; overflow: hidden; border-radius: {{ img_radius_tl }} {{ img_radius_tr }} {{ img_radius_br }} {{ img_radius_bl }};">
+            {% if section.settings.main_image != blank %}
+              <img 
+                src="{{ section.settings.main_image | image_url: width: 800 }}" 
+                alt="{{ section.settings.image_alt | default: section.settings.heading }}"
+                loading="lazy"
+                class="lifestyle-info-image lifestyle-info-image--{{ image_fit_mode }}"
+                style="box-shadow: none !important; border-radius: {{ img_radius_tl }} {{ img_radius_tr }} {{ img_radius_br }} {{ img_radius_bl }};"
+              >
+            {% else %}
+              <img 
+                src="{{ 'placeholder-image.png' | asset_url }}" 
+                alt="Placeholder"
+                loading="lazy"
+                class="lifestyle-info-image lifestyle-info-image--{{ image_fit_mode }}"
+                style="box-shadow: none !important; border-radius: {{ img_radius_tl }} {{ img_radius_tr }} {{ img_radius_br }} {{ img_radius_bl }};"
+              >
+            {% endif %}
+          </div>
+        </div>
+        {% endunless %}
+        
+      </div>
+      
+    </div>
+  </div>
+  
+</section>
+
+{% schema %}
+{
+  "name": "Lifestyle Info",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout Width (Container)"
+    },
+    {
+      "type": "select",
+      "id": "container_layout_width",
+      "label": "Layout Width (Container)",
+      "options": [
+        { "value": "container", "label": "Container" },
+        { "value": "container-full", "label": "Full Width (Container Full)" }
+      ],
+      "default": "container",
+      "info": "Choose whether the container is constrained to the width of the page or full width"
+    },
+    {
+      "type": "header",
+      "content": "Main Image"
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_main_image",
+      "label": "Hide Main Image",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "main_image",
+      "label": "Main Image"
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Image Alt Text",
+      "default": "Lifestyle image"
+    },
+    {
+      "type": "select",
+      "id": "image_fit_mode",
+      "label": "Image Fit Mode",
+      "options": [
+        { "value": "fit", "label": "Fit (Show entire image)" },
+        { "value": "fill", "label": "Fill (Fill container, may crop)" }
+      ],
+      "default": "fill",
+      "info": "Fit: Shows entire image maintaining aspect ratio. Fill: Fills container, may crop image."
+    },
+    {
+      "type": "range",
+      "id": "image_height",
+      "label": "Image Height",
+      "min": 200,
+      "max": 1000,
+      "step": 50,
+      "unit": "px",
+      "default": 600
+    },
+    {
+      "type": "header",
+      "content": "Image Corner Radius"
+    },
+    {
+      "type": "select",
+      "id": "image_radius_top_left",
+      "label": "Top Left Corner",
+      "options": [
+        { "value": "0", "label": "None" },
+        { "value": "var(--radius-sm)", "label": "Small" },
+        { "value": "var(--radius-base)", "label": "Base" },
+        { "value": "var(--radius-md)", "label": "Medium" },
+        { "value": "var(--radius-lg)", "label": "Large" },
+        { "value": "var(--radius-xl)", "label": "Extra Large" },
+        { "value": "var(--radius-2xl)", "label": "2X Large" },
+        { "value": "var(--radius-3xl)", "label": "3X Large" },
+        { "value": "var(--radius-4xl)", "label": "4X Large" },
+        { "value": "9999px", "label": "Full (Circle)" }
+      ],
+      "default": "0"
+    },
+    {
+      "type": "select",
+      "id": "image_radius_top_right",
+      "label": "Top Right Corner",
+      "options": [
+        { "value": "0", "label": "None" },
+        { "value": "var(--radius-sm)", "label": "Small" },
+        { "value": "var(--radius-base)", "label": "Base" },
+        { "value": "var(--radius-md)", "label": "Medium" },
+        { "value": "var(--radius-lg)", "label": "Large" },
+        { "value": "var(--radius-xl)", "label": "Extra Large" },
+        { "value": "var(--radius-2xl)", "label": "2X Large" },
+        { "value": "var(--radius-3xl)", "label": "3X Large" },
+        { "value": "var(--radius-4xl)", "label": "4X Large" },
+        { "value": "9999px", "label": "Full (Circle)" }
+      ],
+      "default": "0"
+    },
+    {
+      "type": "select",
+      "id": "image_radius_bottom_left",
+      "label": "Bottom Left Corner",
+      "options": [
+        { "value": "0", "label": "None" },
+        { "value": "var(--radius-sm)", "label": "Small" },
+        { "value": "var(--radius-base)", "label": "Base" },
+        { "value": "var(--radius-md)", "label": "Medium" },
+        { "value": "var(--radius-lg)", "label": "Large" },
+        { "value": "var(--radius-xl)", "label": "Extra Large" },
+        { "value": "var(--radius-2xl)", "label": "2X Large" },
+        { "value": "var(--radius-3xl)", "label": "3X Large" },
+        { "value": "var(--radius-4xl)", "label": "4X Large" },
+        { "value": "9999px", "label": "Full (Circle)" }
+      ],
+      "default": "0"
+    },
+    {
+      "type": "select",
+      "id": "image_radius_bottom_right",
+      "label": "Bottom Right Corner",
+      "options": [
+        { "value": "0", "label": "None" },
+        { "value": "var(--radius-sm)", "label": "Small" },
+        { "value": "var(--radius-base)", "label": "Base" },
+        { "value": "var(--radius-md)", "label": "Medium" },
+        { "value": "var(--radius-lg)", "label": "Large" },
+        { "value": "var(--radius-xl)", "label": "Extra Large" },
+        { "value": "var(--radius-2xl)", "label": "2X Large" },
+        { "value": "var(--radius-3xl)", "label": "3X Large" },
+        { "value": "var(--radius-4xl)", "label": "4X Large" },
+        { "value": "9999px", "label": "Full (Circle)" }
+      ],
+      "default": "0"
+    },
+    {
+      "type": "header",
+      "content": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading Text",
+      "default": "The Lean Greens Plus Difference"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_family",
+      "label": "Heading Font Family",
+      "options": [
+        { "value": "font-primary", "label": "Primary" },
+        { "value": "font-body", "label": "Body" },
+        { "value": "font-handwritten", "label": "Handwritten" },
+        { "value": "font-serif", "label": "Serif" }
+      ],
+      "default": "font-handwritten"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_size",
+      "label": "Heading Font Size (Mobile)",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" },
+        { "value": "text-xl", "label": "Extra Large" },
+        { "value": "text-2xl", "label": "2X Large" },
+        { "value": "text-3xl", "label": "3X Large" },
+        { "value": "text-4xl", "label": "4X Large" },
+        { "value": "text-5xl", "label": "5X Large" },
+        { "value": "text-6xl", "label": "6X Large" },
+        { "value": "text-7xl", "label": "7X Large" },
+        { "value": "text-8xl", "label": "8X Large" },
+        { "value": "text-9xl", "label": "9X Large" }
+      ],
+      "default": "text-4xl"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_size_desktop",
+      "label": "Heading Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-xs", "label": "Extra Small" },
+        { "value": "lg:text-sm", "label": "Small" },
+        { "value": "lg:text-base", "label": "Base" },
+        { "value": "lg:text-lg", "label": "Large" },
+        { "value": "lg:text-xl", "label": "Extra Large" },
+        { "value": "lg:text-2xl", "label": "2X Large" },
+        { "value": "lg:text-3xl", "label": "3X Large" },
+        { "value": "lg:text-4xl", "label": "4X Large" },
+        { "value": "lg:text-5xl", "label": "5X Large" },
+        { "value": "lg:text-6xl", "label": "6X Large" },
+        { "value": "lg:text-7xl", "label": "7X Large" },
+        { "value": "lg:text-8xl", "label": "8X Large" },
+        { "value": "lg:text-9xl", "label": "9X Large" }
+      ],
+      "default": "lg:text-5xl"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_weight",
+      "label": "Heading Font Weight",
+      "options": [
+        { "value": "font-light", "label": "Light" },
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semi Bold" },
+        { "value": "font-bold", "label": "Bold" }
+      ],
+      "default": "font-normal"
+    },
+    {
+      "type": "select",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "options": [
+        { "value": "text-white", "label": "White" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-primary", "label": "Primary" },
+        { "value": "text-secondary", "label": "Secondary" },
+        { "value": "text-tertiary", "label": "Tertiary" },
+        { "value": "text-quaternary", "label": "Quaternary" },
+        { "value": "text-success", "label": "Success" },
+        { "value": "text-warning", "label": "Warning" },
+        { "value": "text-error", "label": "Error" },
+        { "value": "text-info", "label": "Info" },
+        { "value": "text-neutral", "label": "Neutral" },
+        { "value": "text-neutral-light", "label": "Neutral Light" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "text-neutral-dark"
+    },
+    {
+      "type": "header",
+      "content": "Body Text"
+    },
+    {
+      "type": "textarea",
+      "id": "body_text",
+      "label": "Body Text",
+      "default": "A synergistic blend of nature's most powerful ingredients, working together to elevate your wellness."
+    },
+    {
+      "type": "select",
+      "id": "body_font_family",
+      "label": "Body Font Family",
+      "options": [
+        { "value": "font-primary", "label": "Primary" },
+        { "value": "font-body", "label": "Body" },
+        { "value": "font-handwritten", "label": "Handwritten" },
+        { "value": "font-serif", "label": "Serif" }
+      ],
+      "default": "font-body"
+    },
+    {
+      "type": "select",
+      "id": "body_font_size",
+      "label": "Body Font Size (Mobile)",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" },
+        { "value": "text-xl", "label": "Extra Large" },
+        { "value": "text-2xl", "label": "2X Large" },
+        { "value": "text-3xl", "label": "3X Large" },
+        { "value": "text-4xl", "label": "4X Large" },
+        { "value": "text-5xl", "label": "5X Large" },
+        { "value": "text-6xl", "label": "6X Large" },
+        { "value": "text-7xl", "label": "7X Large" },
+        { "value": "text-8xl", "label": "8X Large" },
+        { "value": "text-9xl", "label": "9X Large" }
+      ],
+      "default": "text-base"
+    },
+    {
+      "type": "select",
+      "id": "body_font_size_desktop",
+      "label": "Body Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-xs", "label": "Extra Small" },
+        { "value": "lg:text-sm", "label": "Small" },
+        { "value": "lg:text-base", "label": "Base" },
+        { "value": "lg:text-lg", "label": "Large" },
+        { "value": "lg:text-xl", "label": "Extra Large" },
+        { "value": "lg:text-2xl", "label": "2X Large" },
+        { "value": "lg:text-3xl", "label": "3X Large" },
+        { "value": "lg:text-4xl", "label": "4X Large" },
+        { "value": "lg:text-5xl", "label": "5X Large" },
+        { "value": "lg:text-6xl", "label": "6X Large" },
+        { "value": "lg:text-7xl", "label": "7X Large" },
+        { "value": "lg:text-8xl", "label": "8X Large" },
+        { "value": "lg:text-9xl", "label": "9X Large" }
+      ],
+      "default": "lg:text-lg"
+    },
+    {
+      "type": "select",
+      "id": "body_font_weight",
+      "label": "Body Font Weight",
+      "options": [
+        { "value": "font-light", "label": "Light" },
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semi Bold" },
+        { "value": "font-bold", "label": "Bold" }
+      ],
+      "default": "font-normal"
+    },
+    {
+      "type": "select",
+      "id": "body_color",
+      "label": "Body Text Color",
+      "options": [
+        { "value": "text-white", "label": "White" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-primary", "label": "Primary" },
+        { "value": "text-secondary", "label": "Secondary" },
+        { "value": "text-tertiary", "label": "Tertiary" },
+        { "value": "text-quaternary", "label": "Quaternary" },
+        { "value": "text-success", "label": "Success" },
+        { "value": "text-warning", "label": "Warning" },
+        { "value": "text-error", "label": "Error" },
+        { "value": "text-info", "label": "Info" },
+        { "value": "text-neutral", "label": "Neutral" },
+        { "value": "text-neutral-light", "label": "Neutral Light" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "text-neutral-dark"
+    },
+    {
+      "type": "select",
+      "id": "body_margin_bottom_mobile",
+      "label": "Spacing Below Body Text (Mobile)",
+      "options": [
+        { "value": "mb-xs", "label": "Extra Small" },
+        { "value": "mb-sm", "label": "Small" },
+        { "value": "mb-md", "label": "Medium" },
+        { "value": "mb-lg", "label": "Large" },
+        { "value": "mb-xl", "label": "Extra Large" },
+        { "value": "mb-2xl", "label": "2X Large" },
+        { "value": "mb-3xl", "label": "3X Large" }
+      ],
+      "default": "mb-lg"
+    },
+    {
+      "type": "select",
+      "id": "body_margin_bottom_desktop",
+      "label": "Spacing Below Body Text (Desktop)",
+      "options": [
+        { "value": "lg:mb-xs", "label": "Extra Small" },
+        { "value": "lg:mb-sm", "label": "Small" },
+        { "value": "lg:mb-md", "label": "Medium" },
+        { "value": "lg:mb-lg", "label": "Large" },
+        { "value": "lg:mb-xl", "label": "Extra Large" },
+        { "value": "lg:mb-2xl", "label": "2X Large" },
+        { "value": "lg:mb-3xl", "label": "3X Large" }
+      ],
+      "default": "lg:mb-lg"
+    },
+    {
+      "type": "select",
+      "id": "heading_body_spacing_mobile",
+      "label": "Spacing Between Heading and Body Text (Mobile)",
+      "options": [
+        { "value": "mb-xs", "label": "Extra Small" },
+        { "value": "mb-sm", "label": "Small" },
+        { "value": "mb-md", "label": "Medium" },
+        { "value": "mb-lg", "label": "Large" },
+        { "value": "mb-xl", "label": "Extra Large" },
+        { "value": "mb-2xl", "label": "2X Large" },
+        { "value": "mb-3xl", "label": "3X Large" }
+      ],
+      "default": "mb-lg"
+    },
+    {
+      "type": "select",
+      "id": "heading_body_spacing_desktop",
+      "label": "Spacing Between Heading and Body Text (Desktop)",
+      "options": [
+        { "value": "lg:mb-xs", "label": "Extra Small" },
+        { "value": "lg:mb-sm", "label": "Small" },
+        { "value": "lg:mb-md", "label": "Medium" },
+        { "value": "lg:mb-lg", "label": "Large" },
+        { "value": "lg:mb-xl", "label": "Extra Large" },
+        { "value": "lg:mb-2xl", "label": "2X Large" },
+        { "value": "lg:mb-3xl", "label": "3X Large" }
+      ],
+      "default": "lg:mb-lg"
+    },
+    {
+      "type": "header",
+      "content": "Feature Items Styling"
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_all_blocks",
+      "label": "Hide All Feature Blocks",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_row_dividers",
+      "label": "Show Row Dividers on Desktop",
+      "default": false,
+      "info": "Dividers are shown on mobile by default. Enable this to also show them on desktop."
+    },
+    {
+      "type": "select",
+      "id": "blocks_gap_mobile",
+      "label": "Spacing Between Blocks (Mobile)",
+      "options": [
+        { "value": "xs", "label": "Extra Small" },
+        { "value": "sm", "label": "Small" },
+        { "value": "md", "label": "Medium" },
+        { "value": "lg", "label": "Large" },
+        { "value": "xl", "label": "Extra Large" },
+        { "value": "2xl", "label": "2X Large" },
+        { "value": "3xl", "label": "3X Large" }
+      ],
+      "default": "lg"
+    },
+    {
+      "type": "select",
+      "id": "blocks_gap_desktop",
+      "label": "Spacing Between Blocks (Desktop)",
+      "options": [
+        { "value": "xs", "label": "Extra Small" },
+        { "value": "sm", "label": "Small" },
+        { "value": "md", "label": "Medium" },
+        { "value": "lg", "label": "Large" },
+        { "value": "xl", "label": "Extra Large" },
+        { "value": "2xl", "label": "2X Large" },
+        { "value": "3xl", "label": "3X Large" }
+      ],
+      "default": "xl"
+    },
+    {
+      "type": "select",
+      "id": "image_text_gap_mobile",
+      "label": "Spacing Between Icon and Text (Mobile)",
+      "options": [
+        { "value": "xs", "label": "Extra Small" },
+        { "value": "sm", "label": "Small" },
+        { "value": "md", "label": "Medium" },
+        { "value": "lg", "label": "Large" },
+        { "value": "xl", "label": "Extra Large" },
+        { "value": "2xl", "label": "2X Large" },
+        { "value": "3xl", "label": "3X Large" }
+      ],
+      "default": "md"
+    },
+    {
+      "type": "select",
+      "id": "image_text_gap_desktop",
+      "label": "Spacing Between Icon and Text (Desktop)",
+      "options": [
+        { "value": "xs", "label": "Extra Small" },
+        { "value": "sm", "label": "Small" },
+        { "value": "md", "label": "Medium" },
+        { "value": "lg", "label": "Large" },
+        { "value": "xl", "label": "Extra Large" },
+        { "value": "2xl", "label": "2X Large" },
+        { "value": "3xl", "label": "3X Large" }
+      ],
+      "default": "lg"
+    },
+    {
+      "type": "header",
+      "content": "Icon Size"
+    },
+    {
+      "type": "select",
+      "id": "icon_size_mobile",
+      "label": "Icon Size (Mobile)",
+      "options": [
+        { "value": "16", "label": "Tiny (16px)" },
+        { "value": "24", "label": "Extra Small (24px)" },
+        { "value": "32", "label": "Small (32px)" },
+        { "value": "40", "label": "Medium Small (40px)" },
+        { "value": "48", "label": "Medium (48px)" },
+        { "value": "64", "label": "Large (64px)" },
+        { "value": "80", "label": "Extra Large (80px)" },
+        { "value": "96", "label": "2X Large (96px)" },
+        { "value": "128", "label": "3X Large (128px)" }
+      ],
+      "default": "32"
+    },
+    {
+      "type": "select",
+      "id": "icon_size_desktop",
+      "label": "Icon Size (Desktop)",
+      "options": [
+        { "value": "16", "label": "Tiny (16px)" },
+        { "value": "24", "label": "Extra Small (24px)" },
+        { "value": "32", "label": "Small (32px)" },
+        { "value": "40", "label": "Medium Small (40px)" },
+        { "value": "48", "label": "Medium (48px)" },
+        { "value": "64", "label": "Large (64px)" },
+        { "value": "80", "label": "Extra Large (80px)" },
+        { "value": "96", "label": "2X Large (96px)" },
+        { "value": "128", "label": "3X Large (128px)" }
+      ],
+      "default": "32"
+    },
+    {
+      "type": "select",
+      "id": "icon_color",
+      "label": "Icon Color (Placeholder)",
+      "options": [
+        { "value": "text-white", "label": "White" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-primary", "label": "Primary" },
+        { "value": "text-secondary", "label": "Secondary" },
+        { "value": "text-tertiary", "label": "Tertiary" },
+        { "value": "text-quaternary", "label": "Quaternary" },
+        { "value": "text-success", "label": "Success" },
+        { "value": "text-warning", "label": "Warning" },
+        { "value": "text-error", "label": "Error" },
+        { "value": "text-info", "label": "Info" },
+        { "value": "text-neutral", "label": "Neutral" },
+        { "value": "text-neutral-light", "label": "Neutral Light" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "text-tertiary"
+    },
+    {
+      "type": "select",
+      "id": "feature_title_font_family",
+      "label": "Feature Title Font Family",
+      "options": [
+        { "value": "font-primary", "label": "Primary" },
+        { "value": "font-body", "label": "Body" },
+        { "value": "font-handwritten", "label": "Handwritten" },
+        { "value": "font-serif", "label": "Serif" }
+      ],
+      "default": "font-body"
+    },
+    {
+      "type": "select",
+      "id": "feature_title_font_size",
+      "label": "Feature Title Font Size (Mobile)",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" },
+        { "value": "text-xl", "label": "Extra Large" },
+        { "value": "text-2xl", "label": "2X Large" },
+        { "value": "text-3xl", "label": "3X Large" },
+        { "value": "text-4xl", "label": "4X Large" },
+        { "value": "text-5xl", "label": "5X Large" },
+        { "value": "text-6xl", "label": "6X Large" },
+        { "value": "text-7xl", "label": "7X Large" },
+        { "value": "text-8xl", "label": "8X Large" },
+        { "value": "text-9xl", "label": "9X Large" }
+      ],
+      "default": "text-base"
+    },
+    {
+      "type": "select",
+      "id": "feature_title_font_size_desktop",
+      "label": "Feature Title Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-xs", "label": "Extra Small" },
+        { "value": "lg:text-sm", "label": "Small" },
+        { "value": "lg:text-base", "label": "Base" },
+        { "value": "lg:text-lg", "label": "Large" },
+        { "value": "lg:text-xl", "label": "Extra Large" },
+        { "value": "lg:text-2xl", "label": "2X Large" },
+        { "value": "lg:text-3xl", "label": "3X Large" },
+        { "value": "lg:text-4xl", "label": "4X Large" },
+        { "value": "lg:text-5xl", "label": "5X Large" },
+        { "value": "lg:text-6xl", "label": "6X Large" },
+        { "value": "lg:text-7xl", "label": "7X Large" },
+        { "value": "lg:text-8xl", "label": "8X Large" },
+        { "value": "lg:text-9xl", "label": "9X Large" }
+      ],
+      "default": "lg:text-base"
+    },
+    {
+      "type": "select",
+      "id": "feature_title_font_weight",
+      "label": "Feature Title Font Weight",
+      "options": [
+        { "value": "font-light", "label": "Light" },
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semi Bold" },
+        { "value": "font-bold", "label": "Bold" }
+      ],
+      "default": "font-bold"
+    },
+    {
+      "type": "select",
+      "id": "feature_title_color",
+      "label": "Feature Title Color",
+      "options": [
+        { "value": "text-white", "label": "White" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-primary", "label": "Primary" },
+        { "value": "text-secondary", "label": "Secondary" },
+        { "value": "text-tertiary", "label": "Tertiary" },
+        { "value": "text-quaternary", "label": "Quaternary" },
+        { "value": "text-success", "label": "Success" },
+        { "value": "text-warning", "label": "Warning" },
+        { "value": "text-error", "label": "Error" },
+        { "value": "text-info", "label": "Info" },
+        { "value": "text-neutral", "label": "Neutral" },
+        { "value": "text-neutral-light", "label": "Neutral Light" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "text-neutral-dark"
+    },
+    {
+      "type": "select",
+      "id": "feature_title_margin_bottom_mobile",
+      "label": "Spacing Between Title and Description (Mobile)",
+      "options": [
+        { "value": "mb-xs", "label": "Extra Small" },
+        { "value": "mb-sm", "label": "Small" },
+        { "value": "mb-md", "label": "Medium" },
+        { "value": "mb-lg", "label": "Large" },
+        { "value": "mb-xl", "label": "Extra Large" },
+        { "value": "mb-2xl", "label": "2X Large" },
+        { "value": "mb-3xl", "label": "3X Large" }
+      ],
+      "default": "mb-xs"
+    },
+    {
+      "type": "select",
+      "id": "feature_title_margin_bottom_desktop",
+      "label": "Spacing Between Title and Description (Desktop)",
+      "options": [
+        { "value": "lg:mb-xs", "label": "Extra Small" },
+        { "value": "lg:mb-sm", "label": "Small" },
+        { "value": "lg:mb-md", "label": "Medium" },
+        { "value": "lg:mb-lg", "label": "Large" },
+        { "value": "lg:mb-xl", "label": "Extra Large" },
+        { "value": "lg:mb-2xl", "label": "2X Large" },
+        { "value": "lg:mb-3xl", "label": "3X Large" }
+      ],
+      "default": "lg:mb-xs"
+    },
+    {
+      "type": "select",
+      "id": "feature_description_font_family",
+      "label": "Feature Description Font Family",
+      "options": [
+        { "value": "font-primary", "label": "Primary" },
+        { "value": "font-body", "label": "Body" },
+        { "value": "font-handwritten", "label": "Handwritten" },
+        { "value": "font-serif", "label": "Serif" }
+      ],
+      "default": "font-body"
+    },
+    {
+      "type": "select",
+      "id": "feature_description_font_size",
+      "label": "Feature Description Font Size (Mobile)",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" },
+        { "value": "text-xl", "label": "Extra Large" },
+        { "value": "text-2xl", "label": "2X Large" },
+        { "value": "text-3xl", "label": "3X Large" },
+        { "value": "text-4xl", "label": "4X Large" },
+        { "value": "text-5xl", "label": "5X Large" },
+        { "value": "text-6xl", "label": "6X Large" },
+        { "value": "text-7xl", "label": "7X Large" },
+        { "value": "text-8xl", "label": "8X Large" },
+        { "value": "text-9xl", "label": "9X Large" }
+      ],
+      "default": "text-sm"
+    },
+    {
+      "type": "select",
+      "id": "feature_description_font_size_desktop",
+      "label": "Feature Description Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-xs", "label": "Extra Small" },
+        { "value": "lg:text-sm", "label": "Small" },
+        { "value": "lg:text-base", "label": "Base" },
+        { "value": "lg:text-lg", "label": "Large" },
+        { "value": "lg:text-xl", "label": "Extra Large" },
+        { "value": "lg:text-2xl", "label": "2X Large" },
+        { "value": "lg:text-3xl", "label": "3X Large" },
+        { "value": "lg:text-4xl", "label": "4X Large" },
+        { "value": "lg:text-5xl", "label": "5X Large" },
+        { "value": "lg:text-6xl", "label": "6X Large" },
+        { "value": "lg:text-7xl", "label": "7X Large" },
+        { "value": "lg:text-8xl", "label": "8X Large" },
+        { "value": "lg:text-9xl", "label": "9X Large" }
+      ],
+      "default": "lg:text-base"
+    },
+    {
+      "type": "select",
+      "id": "feature_description_font_weight",
+      "label": "Feature Description Font Weight",
+      "options": [
+        { "value": "font-light", "label": "Light" },
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semi Bold" },
+        { "value": "font-bold", "label": "Bold" }
+      ],
+      "default": "font-normal"
+    },
+    {
+      "type": "select",
+      "id": "feature_description_color",
+      "label": "Feature Description Color",
+      "options": [
+        { "value": "text-white", "label": "White" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-primary", "label": "Primary" },
+        { "value": "text-secondary", "label": "Secondary" },
+        { "value": "text-tertiary", "label": "Tertiary" },
+        { "value": "text-quaternary", "label": "Quaternary" },
+        { "value": "text-success", "label": "Success" },
+        { "value": "text-warning", "label": "Warning" },
+        { "value": "text-error", "label": "Error" },
+        { "value": "text-info", "label": "Info" },
+        { "value": "text-neutral", "label": "Neutral" },
+        { "value": "text-neutral-light", "label": "Neutral Light" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "text-neutral-dark"
+    },
+    {
+      "type": "header",
+      "content": "Layout Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "flip_layout",
+      "label": "Flip Layout (Image Left / Content Right)",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "background_color",
+      "label": "Section Background Color",
+      "options": [
+        { "value": "bg-white", "label": "White" },
+        { "value": "bg-black", "label": "Black" },
+        { "value": "bg-primary", "label": "Primary" },
+        { "value": "bg-secondary", "label": "Secondary" },
+        { "value": "bg-tertiary", "label": "Tertiary" },
+        { "value": "bg-quaternary", "label": "Quaternary" },
+        { "value": "bg-success", "label": "Success" },
+        { "value": "bg-warning", "label": "Warning" },
+        { "value": "bg-error", "label": "Error" },
+        { "value": "bg-info", "label": "Info" },
+        { "value": "bg-neutral", "label": "Neutral" },
+        { "value": "bg-neutral-light", "label": "Neutral Light" },
+        { "value": "bg-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "bg-neutral-light"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Section Background Image"
+    },
+    {
+      "type": "select",
+      "id": "section_padding_y_mobile",
+      "label": "Section Vertical Padding (Mobile)",
+      "options": [
+        { "value": "py-xs", "label": "Extra Small" },
+        { "value": "py-sm", "label": "Small" },
+        { "value": "py-md", "label": "Medium" },
+        { "value": "py-lg", "label": "Large" },
+        { "value": "py-xl", "label": "Extra Large" },
+        { "value": "py-2xl", "label": "2X Large" },
+        { "value": "py-3xl", "label": "3X Large" }
+      ],
+      "default": "py-xl"
+    },
+    {
+      "type": "select",
+      "id": "section_padding_y_desktop",
+      "label": "Section Vertical Padding (Desktop)",
+      "options": [
+        { "value": "lg:py-xs", "label": "Extra Small" },
+        { "value": "lg:py-sm", "label": "Small" },
+        { "value": "lg:py-md", "label": "Medium" },
+        { "value": "lg:py-lg", "label": "Large" },
+        { "value": "lg:py-xl", "label": "Extra Large" },
+        { "value": "lg:py-2xl", "label": "2X Large" },
+        { "value": "lg:py-3xl", "label": "3X Large" }
+      ],
+      "default": "lg:py-3xl"
+    },
+    {
+      "type": "select",
+      "id": "section_border_radius",
+      "label": "Section Border Radius",
+      "options": [
+        { "value": "rounded-none", "label": "None" },
+        { "value": "rounded-sm", "label": "Small" },
+        { "value": "rounded", "label": "Base" },
+        { "value": "rounded-md", "label": "Medium" },
+        { "value": "rounded-lg", "label": "Large" },
+        { "value": "rounded-xl", "label": "Extra Large" },
+        { "value": "rounded-2xl", "label": "2X Large" },
+        { "value": "rounded-3xl", "label": "3X Large" }
+      ],
+      "default": "rounded-none"
+    },
+    {
+      "type": "header",
+      "content": "Container Settings"
+    },
+    {
+      "type": "select",
+      "id": "container_background_color",
+      "label": "Container Background Color",
+      "options": [
+        { "value": "", "label": "None (Transparent)" },
+        { "value": "bg-white", "label": "White" },
+        { "value": "bg-black", "label": "Black" },
+        { "value": "bg-primary", "label": "Primary" },
+        { "value": "bg-secondary", "label": "Secondary" },
+        { "value": "bg-tertiary", "label": "Tertiary" },
+        { "value": "bg-quaternary", "label": "Quaternary" },
+        { "value": "bg-success", "label": "Success" },
+        { "value": "bg-warning", "label": "Warning" },
+        { "value": "bg-error", "label": "Error" },
+        { "value": "bg-info", "label": "Info" },
+        { "value": "bg-neutral", "label": "Neutral" },
+        { "value": "bg-neutral-light", "label": "Neutral Light" },
+        { "value": "bg-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": ""
+    },
+    {
+      "type": "image_picker",
+      "id": "container_background_image",
+      "label": "Container Background Image"
+    },
+    {
+      "type": "select",
+      "id": "container_border_radius",
+      "label": "Container Border Radius",
+      "options": [
+        { "value": "rounded-none", "label": "None" },
+        { "value": "rounded-sm", "label": "Small" },
+        { "value": "rounded", "label": "Base" },
+        { "value": "rounded-md", "label": "Medium" },
+        { "value": "rounded-lg", "label": "Large" },
+        { "value": "rounded-xl", "label": "Extra Large" },
+        { "value": "rounded-2xl", "label": "2X Large" },
+        { "value": "rounded-3xl", "label": "3X Large" }
+      ],
+      "default": "rounded-none"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_y_mobile",
+      "label": "Container Padding Y (Mobile)",
+      "options": [
+        { "value": "py-xs", "label": "Extra Small" },
+        { "value": "py-sm", "label": "Small" },
+        { "value": "py-md", "label": "Medium" },
+        { "value": "py-lg", "label": "Large" },
+        { "value": "py-xl", "label": "Extra Large" },
+        { "value": "py-2xl", "label": "2X Large" },
+        { "value": "py-3xl", "label": "3X Large" }
+      ],
+      "default": "py-lg"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_y_desktop",
+      "label": "Container Padding Y (Desktop)",
+      "options": [
+        { "value": "lg:py-xs", "label": "Extra Small" },
+        { "value": "lg:py-sm", "label": "Small" },
+        { "value": "lg:py-md", "label": "Medium" },
+        { "value": "lg:py-lg", "label": "Large" },
+        { "value": "lg:py-xl", "label": "Extra Large" },
+        { "value": "lg:py-2xl", "label": "2X Large" },
+        { "value": "lg:py-3xl", "label": "3X Large" }
+      ],
+      "default": "lg:py-2xl"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_x_mobile",
+      "label": "Container Padding X (Mobile)",
+      "options": [
+        { "value": "px-0", "label": "None" },
+        { "value": "px-xs", "label": "Extra Small" },
+        { "value": "px-sm", "label": "Small" },
+        { "value": "px-md", "label": "Medium" },
+        { "value": "px-lg", "label": "Large" },
+        { "value": "px-xl", "label": "Extra Large" },
+        { "value": "px-2xl", "label": "2X Large" },
+        { "value": "px-3xl", "label": "3X Large" }
+      ],
+      "default": "px-0"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_x_desktop",
+      "label": "Container Padding X (Desktop)",
+      "options": [
+        { "value": "lg:px-0", "label": "None" },
+        { "value": "lg:px-xs", "label": "Extra Small" },
+        { "value": "lg:px-sm", "label": "Small" },
+        { "value": "lg:px-md", "label": "Medium" },
+        { "value": "lg:px-lg", "label": "Large" },
+        { "value": "lg:px-xl", "label": "Extra Large" },
+        { "value": "lg:px-2xl", "label": "2X Large" },
+        { "value": "lg:px-3xl", "label": "3X Large" }
+      ],
+      "default": "lg:px-0"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature_item",
+      "name": "Feature Item",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Feature Content"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
+          "type": "text",
+          "id": "icon_alt",
+          "label": "Icon Alt Text",
+          "default": "Feature icon"
+        },
+        {
+          "type": "checkbox",
+          "id": "hide_icon",
+          "label": "Hide Icon",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Feature Title"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Feature description text goes here."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Lifestyle Info",
+      "blocks": [
+        {
+          "type": "feature_item",
+          "settings": {
+            "title": "Packed with Nutrients",
+            "description": "Get your daily dose of fruits, vegetables, and superfoods in one scoop."
+          }
+        },
+        {
+          "type": "feature_item",
+          "settings": {
+            "title": "Immune System Support",
+            "description": "A powerful blend of antioxidants and vitamins to help you feel your best."
+          }
+        },
+        {
+          "type": "feature_item",
+          "settings": {
+            "title": "Promotes Gut Health",
+            "description": "Our unique formula supports a healthy gut microbiome for better overall wellness."
+          }
+        },
+        {
+          "type": "feature_item",
+          "settings": {
+            "title": "Alkalinity and Detox",
+            "description": "Helps to balance your body's pH levels and supports natural detoxification."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+

@@ -1,0 +1,104 @@
+/* Content Image Split Carousel Section */
+
+.split-layout {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+  align-items: center;
+}
+
+@media (min-width: 1024px) {
+  .split-layout {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--space-2xl);
+  }
+  
+  .split-layout--flipped {
+    flex-direction: row-reverse;
+  }
+}
+
+.content-column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  width: 100%;
+  text-align: center;
+}
+
+@media (min-width: 1024px) {
+  .content-column {
+    flex: 1;
+    text-align: left;
+  }
+}
+
+.heading-wrapper {
+  width: 100%;
+}
+
+.heading {
+  line-height: 1;
+}
+
+@media (min-width: 1024px) {
+  .heading {
+    line-height: 1.1;
+  }
+}
+
+.body-wrapper {
+  width: 100%;
+}
+
+.body-text {
+  line-height: 1.5;
+}
+
+.button-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+@media (min-width: 1024px) {
+  .button-wrapper {
+    justify-content: flex-start;
+  }
+}
+
+.carousel-column {
+  width: 100%;
+  overflow: hidden;
+}
+
+@media (min-width: 1024px) {
+  .carousel-column {
+    flex: 1;
+  }
+}
+
+.image-carousel {
+  display: flex;
+  gap: var(--space-md);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.carousel-item {
+  flex-shrink: 0;
+  scroll-snap-align: start;
+  width: 100%;
+  max-width: 416px;
+}
+
+.carousel-item img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: var(--radius-base);
+  display: block;
+}
+

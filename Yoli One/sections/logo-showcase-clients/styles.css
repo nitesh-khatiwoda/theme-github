@@ -1,0 +1,212 @@
+/* Logo Showcase Clients Section Styles */
+.logo-showcase-clients {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Header Section */
+.logo-showcase-clients-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.logo-showcase-clients-subtitle {
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.05em;
+}
+
+.logo-showcase-clients-title {
+  margin-bottom: 1rem;
+}
+
+.logo-showcase-clients-description {
+  max-width: 600px;
+  margin: 0 auto;
+  margin-bottom: 1.5rem;
+}
+
+/* Separator Line */
+.logo-showcase-clients-separator {
+  width: 60px;
+  height: 1px;
+  background-color: rgba(0, 0, 0, 0.1);
+  margin: 1rem auto 0;
+}
+
+/* Logo Grid */
+.logo-showcase-clients-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Mobile: 3 columns */
+.logo-showcase-clients-grid[data-columns-mobile="3"] {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+/* Mobile: 4 columns */
+.logo-showcase-clients-grid[data-columns-mobile="4"] {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+/* Logo Item */
+.logo-showcase-clients-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-showcase-clients-link {
+  display: block;
+  width: 100%;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+.logo-showcase-clients-link:hover {
+  transform: translateY(-2px);
+}
+
+/* Logo Box Container */
+.logo-showcase-clients-box {
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 120px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.logo-showcase-clients-link:hover .logo-showcase-clients-box {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Logo Image */
+.logo-showcase-clients-logo {
+  max-width: 100%;
+  max-height: 60px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  opacity: 0.8;
+  transition: opacity 0.2s ease-in-out, filter 0.2s ease-in-out;
+}
+
+.logo-showcase-clients-link:hover .logo-showcase-clients-logo {
+  opacity: 1;
+}
+
+.logo-showcase-clients-logo.placeholder {
+  opacity: 0.3;
+}
+
+/* Tablet Adjustments */
+@media (min-width: 768px) {
+  .logo-showcase-clients-grid {
+    gap: 2rem;
+  }
+  
+  /* Tablet: 3 columns */
+  .logo-showcase-clients-grid[data-columns-tablet="3"] {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  /* Tablet: 4 columns */
+  .logo-showcase-clients-grid[data-columns-tablet="4"] {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  
+  .logo-showcase-clients-box {
+    min-height: 140px;
+    padding: 2rem;
+  }
+  
+  .logo-showcase-clients-logo {
+    max-height: 70px;
+  }
+}
+
+/* Desktop Adjustments */
+@media (min-width: 1024px) {
+  .logo-showcase-clients-grid {
+    gap: 2rem;
+  }
+  
+  /* Desktop: 3 columns */
+  .logo-showcase-clients-grid[data-columns-desktop="3"] {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  /* Desktop: 4 columns */
+  .logo-showcase-clients-grid[data-columns-desktop="4"] {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  
+  /* Desktop: 5 columns */
+  .logo-showcase-clients-grid[data-columns-desktop="5"] {
+    grid-template-columns: repeat(5, 1fr);
+  }
+  
+  /* Desktop: 6 columns */
+  .logo-showcase-clients-grid[data-columns-desktop="6"] {
+    grid-template-columns: repeat(6, 1fr);
+  }
+  
+  .logo-showcase-clients-header {
+    margin-bottom: 4rem;
+  }
+  
+  .logo-showcase-clients-box {
+    min-height: 160px;
+    padding: 2.5rem;
+  }
+  
+  .logo-showcase-clients-logo {
+    max-height: 80px;
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .logo-showcase-clients-box {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+  }
+  
+  .logo-showcase-clients-logo {
+    filter: contrast(1.2);
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .logo-showcase-clients-link,
+  .logo-showcase-clients-box,
+  .logo-showcase-clients-logo {
+    transition: none;
+  }
+}
+
+/* Focus States for Accessibility */
+.logo-showcase-clients-link:focus {
+  outline: 2px solid var(--clr-primary, #0066cc);
+  outline-offset: 4px;
+  border-radius: 8px;
+}
+
+.logo-showcase-clients-link:focus:not(:focus-visible) {
+  outline: none;
+}
+
+

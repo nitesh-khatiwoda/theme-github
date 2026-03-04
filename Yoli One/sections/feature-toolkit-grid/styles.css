@@ -1,0 +1,147 @@
+/* Feature Toolkit Grid Section */
+
+/* ============================================
+   HEADER ROW
+   ============================================ */
+
+.feature-toolkit-grid__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  align-items: center;
+  text-align: center;
+  margin-bottom: var(--space-2xl);
+}
+
+.feature-toolkit-grid__heading-wrapper h2 {
+  margin: 0;
+  line-height: 1.2;
+}
+
+.feature-toolkit-grid__heading-wrapper h2 span {
+  display: inline;
+}
+
+.feature-toolkit-grid__button-wrapper {
+  width: 100%;
+}
+
+.feature-toolkit-grid__button-wrapper .btn {
+  width: 100%;
+  max-width: 300px;
+}
+
+/* Desktop header layout */
+@media (min-width: 1024px) {
+  .feature-toolkit-grid__header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+    margin-bottom: var(--space-3xl);
+  }
+
+  .feature-toolkit-grid__button-wrapper {
+    width: auto;
+    flex-shrink: 0;
+  }
+
+  .feature-toolkit-grid__button-wrapper .btn {
+    width: auto;
+    white-space: nowrap;
+  }
+
+  .feature-toolkit-grid__heading-wrapper {
+    flex: 1;
+    max-width: 960px;
+  }
+}
+
+/* ============================================
+   CARDS GRID
+   ============================================ */
+
+.feature-toolkit-grid__cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-lg);
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .feature-toolkit-grid__cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .feature-toolkit-grid__cards {
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-lg);
+  }
+}
+
+/* ============================================
+   INDIVIDUAL CARD
+   ============================================ */
+
+.feature-toolkit-grid__card {
+  display: flex;
+  flex-direction: column;
+  border-radius: 24px;
+  overflow: hidden;
+  height: 100%;
+}
+
+.feature-toolkit-grid__card-title {
+  padding: var(--space-xl) var(--space-lg) 0;
+  flex-shrink: 0;
+}
+
+.feature-toolkit-grid__card-title h3 {
+  margin: 0;
+  line-height: 1.33;
+}
+
+.feature-toolkit-grid__card-image {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-top: var(--space-lg);
+  width: 100%;
+}
+
+.feature-toolkit-grid__card-image img {
+  width: 100%;
+  max-width: 323px;
+  height: auto;
+  object-fit: cover;
+  display: block;
+}
+
+/* ============================================
+   HOVER EFFECTS
+   ============================================ */
+
+.feature-toolkit-grid__card {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.feature-toolkit-grid__card:hover {
+  transform: translateY(-4px);
+}
+
+/* ============================================
+   BUTTON FOCUS STATES
+   ============================================ */
+
+.feature-toolkit-grid__button-wrapper .btn:focus {
+  outline: 2px solid var(--clr-primary);
+  outline-offset: 4px;
+}
+
+.feature-toolkit-grid__button-wrapper .btn:focus:not(:focus-visible) {
+  outline: none;
+}
+

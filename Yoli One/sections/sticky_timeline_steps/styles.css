@@ -1,0 +1,376 @@
+/* Sticky Timeline Steps Section */
+.sticky-timeline-steps {
+  position: relative;
+  overflow: visible;
+}
+
+/* Override global overlays - only apply when background image exists */
+.sticky-timeline-steps::after {
+  display: none !important;
+}
+
+/* Section background image overlay */
+.sticky-timeline-steps[data-bg]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+  z-index: var(--z-0);
+  background-color: rgba(0, 0, 0, 0.6);
+  pointer-events: none;
+  display: block !important;
+}
+
+/* Inner container */
+.sticky-timeline-steps .inner-container {
+  position: relative;
+  
+}
+
+/* Container background image overlay */
+.sticky-timeline-steps .inner-container[data-bg]:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+  z-index: var(--z-0);
+  background-color: rgba(0, 0, 0, 0.6);
+  pointer-events: none;
+}
+
+/* Ensure content stays above overlays */
+.sticky-timeline-steps .inner-container > * {
+  position: relative;
+  z-index: var(--z-10);
+}
+.sticky-timeline-steps .inner-container, .sticky-timeline-steps{
+  z-index: 0;
+}
+
+/* Timeline Wrapper - Mobile: Stack, Desktop: Side by Side */
+.sticky-timeline-steps .timeline-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xl);
+  width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .sticky-timeline-steps .timeline-wrapper {
+    flex-direction: row;
+    gap: var(--space-3xl);
+    align-items: flex-start;
+  }
+}
+
+/* Left Column - Sticky on Desktop */
+.sticky-timeline-steps .left-column-sticky {
+  width: 100%;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+@media (min-width: 1024px) {
+  .sticky-timeline-steps .left-column-sticky {
+    position: sticky;
+    top: 120px;
+    width: 45%;
+    max-width: 555px;
+    align-self: flex-start;
+    padding-top: var(--space-3xl);
+  }
+}
+
+@media (max-width: 1023px) {
+  .sticky-timeline-steps .left-column-sticky {
+    position: relative;
+    top: 0;
+  }
+}
+
+/* Left Column Typography */
+.sticky-timeline-steps .left-column-sticky h1 {
+  line-height: 1;
+  margin-bottom: var(--space-sm);
+}
+
+@media (min-width: 1024px) {
+  .sticky-timeline-steps .left-column-sticky h1 {
+    line-height: 1.15;
+  }
+}
+
+.sticky-timeline-steps .supporting-text {
+  line-height: 1.5;
+}
+
+/* Right Column - Scrollable Timeline */
+.sticky-timeline-steps .right-column-timeline {
+  width: 100%;
+  position: relative;
+  flex-grow: 1;
+}
+
+@media (min-width: 1024px) {
+  .sticky-timeline-steps .right-column-timeline {
+    width: 55%;
+    max-width: 576px;
+  }
+}
+
+/* Timeline Main Heading */
+.sticky-timeline-steps .timeline-main-heading {
+  line-height: 1.2;
+  margin-bottom: var(--space-xl);
+}
+
+@media (min-width: 1024px) {
+  .sticky-timeline-steps .timeline-main-heading {
+    margin-bottom: var(--space-2xl);
+  }
+}
+
+/* Timeline Line Container */
+.sticky-timeline-steps .timeline-line-container {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 3px;
+  height: 100%;
+  z-index: 0;
+  /* Gradient mask to fade in from top and bottom */
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 10%,
+    black 90%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 10%,
+    black 90%,
+    transparent 100%
+  );
+}
+
+@media (min-width: 1024px) {
+  .sticky-timeline-steps .timeline-line-container {
+    left: -40px;
+  }
+}
+
+/* Timeline Background Line */
+.sticky-timeline-steps .timeline-line-bg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--clr-neutral);
+  opacity: 0.3;
+}
+
+/* Timeline Fill Line - Animates on Scroll */
+.sticky-timeline-steps .timeline-line-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 0%;
+  background-color: var(--clr-primary);
+  transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: top;
+}
+
+/* Steps Container */
+.sticky-timeline-steps .steps-container {
+  display: flex;
+  flex-direction: column;
+  /* gap: calc(var(--space-3xl) * 3); */
+  gap: var(--space-4xl);
+  position: relative;
+  padding-left: var(--space-xl);
+}
+
+@media (min-width: 1024px) {
+  .sticky-timeline-steps .steps-container {
+    /* gap: calc(var(--space-3xl) * 5); */
+     gap: var(--space-4xl);
+    padding-left: 0;
+  }
+}
+
+/* Individual Step Item */
+.sticky-timeline-steps .step-item {
+  display: flex;
+  gap: var(--space-lg);
+  position: relative;
+  width: 100%;
+  opacity: 0.8;
+  transform: translateY(20px);
+  transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sticky-timeline-steps .step-item.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Step Marker (Circle) */
+.sticky-timeline-steps .step-marker {
+  position: absolute;
+  left: -28px;
+  top: 4px;
+  z-index: 10;
+  flex-shrink: 0;
+}
+
+@media (min-width: 1024px) {
+  .sticky-timeline-steps .step-marker {
+    left: -52px;
+  }
+}
+
+/* Marker Circle */
+.sticky-timeline-steps .marker-circle {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: var(--clr-neutral);
+  border: 3px solid var(--clr-neutral-light);
+  /* Remove opacity from transition to prevent fade-in */
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: scale(0.4);
+  opacity: 1;
+  position: relative;
+  z-index: 11;
+}
+
+.sticky-timeline-steps .step-item.active .marker-circle {
+  background-color: var(--clr-primary);
+  border-color: var(--clr-primary);
+  transform: scale(1.2);
+  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.1);
+}
+
+@media (min-width: 1024px) {
+  .sticky-timeline-steps .marker-circle {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+/* Step Content */
+.sticky-timeline-steps .step-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  flex-grow: 1;
+  width: 100%;
+}
+
+/* Step Title */
+.sticky-timeline-steps .step-content h3 {
+  line-height: 1.2;
+  margin: 0;
+}
+
+/* Step Description */
+.sticky-timeline-steps .step-content > div {
+  line-height: 1.5;
+}
+
+/* Mobile Adjustments */
+@media (max-width: 1023px) {
+  /* Ensure left column appears above timeline (not to the left) */
+  .sticky-timeline-steps .left-column-sticky {
+    position: relative !important;
+    top: 0 !important;
+    transform: none !important;
+    margin-bottom: var(--space-xl);
+    width: 100%;
+  }
+  
+  /* Show timeline line and position it left-aligned */
+  .sticky-timeline-steps .timeline-line-container {
+    display: block;
+    left: 0;
+    width: 3px;
+  }
+  
+  /* Adjust steps container to accommodate left-aligned timeline */
+  .sticky-timeline-steps .steps-container {
+    padding-left: calc(var(--space-xl) + var(--space-md));
+  }
+  
+  /* Position step markers left-aligned with timeline line */
+  /* Account for steps-container padding-left */
+  .sticky-timeline-steps .step-marker {
+    position: absolute;
+    /* Line is at left: 0 relative to right-column-timeline */
+    /* Steps-container has padding-left, so circles need to account for that */
+    /* Line center: 0 + 1.5px (half of 3px) = 1.5px */
+    /* Circle is 16px wide, center on line: 1.5px - 8px = -6.5px */
+    /* But steps-container padding pushes content right, so subtract padding */
+    /* Move a bit more left for better overlap */
+    left: calc(-1 * var(--space-xl, 32px) - 1 * var(--space-md, 16px) - 9px);
+    top: 4px;
+  }
+  
+  /* Push timeline heading to the right to match step content spacing */
+  .sticky-timeline-steps .timeline-main-heading {
+    text-align: left;
+    padding-left: calc(var(--space-xl) + var(--space-md));
+  }
+  
+  /* Left justify all text on mobile */
+  .sticky-timeline-steps .step-content {
+    text-align: left;
+  }
+  
+  .sticky-timeline-steps .step-content h3 {
+    text-align: left;
+  }
+  
+  .sticky-timeline-steps .step-content > div {
+    text-align: left;
+  }
+  
+  .sticky-timeline-steps .step-item {
+    flex-direction: row;
+    gap: var(--space-lg);
+    padding-left: 0;
+  }
+}
+
+/* Smooth Transitions */
+.sticky-timeline-steps * {
+  transition-property: opacity, transform, background-color, border-color;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Exclude step markers from opacity transitions - must come after global rule */
+.sticky-timeline-steps .step-marker,
+.sticky-timeline-steps .step-marker *,
+.sticky-timeline-steps .marker-circle {
+  transition-property: transform, background-color, border-color, box-shadow !important;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 1 !important;
+}
+
+/* Focus States for Accessibility */
+.sticky-timeline-steps .step-item:focus {
+  outline: 2px solid var(--clr-primary);
+  outline-offset: 4px;
+}
+
+.sticky-timeline-steps .step-item:focus:not(:focus-visible) {
+  outline: none;
+}
+

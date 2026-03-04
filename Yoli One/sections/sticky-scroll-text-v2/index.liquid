@@ -1,0 +1,707 @@
+<link rel="stylesheet" href="{{ 'sticky-scroll-text-v2/styles.css' | asset_url }}">
+
+<!-- Sticky Scroll Text V2 Section -->
+{% if section.settings.background_image != blank %}
+  {% assign bg_image_url = section.settings.background_image | image_url %}
+  {% assign bg_image_fit = section.settings.background_image_fit | default: 'fill' %}
+  {% if bg_image_fit == 'fit' %}
+    {% assign bg_size = 'contain' %}
+  {% else %}
+    {% assign bg_size = 'cover' %}
+  {% endif %}
+{% endif %}
+<section class="section sticky-scroll-text-v2 {% if section.settings.background_image == blank %}{{ section.settings.background_color | default: 'bg-white' }}{% endif %} {{ section.settings.section_padding_y_mobile | default: 'py-xl' }} {{ section.settings.section_padding_y_desktop | default: 'lg:py-3xl' }} {{ section.settings.section_border_radius | default: 'rounded-none' }}" id="sticky-scroll-text-v2-{% if section.id %}{{ section.id }}{% else %}default{% endif %}" {% if section.settings.background_image != blank %}data-bg="{{ bg_image_url }}" data-bg-fit="{{ bg_image_fit }}" style="background-image: url('{{ bg_image_url }}'); background-size: {{ bg_size }};"{% endif %} data-scroll-spacing="{{ section.settings.scroll_spacing | default: 0.2 }}" data-block-mode="{{ section.settings.block_mode | default: 'pushing' }}" data-block-gap="{{ section.settings.block_gap | default: 100 }}">
+  
+  <!-- Fixed Background Layer -->
+  <div class="sticky-scroll-text-v2-background"></div>
+  
+  <!-- Content Container -->
+  <div class="sticky-scroll-text-v2-content">
+    <div class="{{section.settings.container_layout_width | default : 'container'}}">
+      <div class="sticky-scroll-text-v2-inner {{ section.settings.container_background_color }} {{ section.settings.container_border_radius | default: 'rounded-none' }} {{ section.settings.container_padding_y_mobile | default: 'py-lg' }} {{ section.settings.container_padding_y_desktop | default: 'lg:py-2xl' }} {{ section.settings.container_padding_x_mobile | default: 'px-md' }} {{ section.settings.container_padding_x_desktop | default: 'lg:px-xl' }}" {% if section.settings.container_background_image != blank %}data-bg="{{ section.settings.container_background_image | image_url }}" style="background-image: url('{{ section.settings.container_background_image | image_url }}');"{% endif %}>
+        
+        <!-- Loop through blocks -->
+        {% if section.blocks.size > 0 %}
+          {% for block in section.blocks %}
+            {% if block.type == 'sticky_text_block' %}
+            <div class="sticky-scroll-text-v2-block" {{ block.fluid_attributes }}>
+              <!-- Simple sticky text wrapper -->
+              <div class="sticky-scroll-text-v2-wrapper" 
+                   data-block-id="{{ block.id }}"
+                   data-sticky-duration="{{ block.settings.sticky_duration | default: section.settings.sticky_duration | default: 500 }}">
+                <div class="sticky-scroll-text-v2-content-wrapper" {% if block.settings.container_width %}style="max-width: {{ block.settings.container_width }}px;"{% endif %} data-block-gap="{{ section.settings.block_gap | default: 100 }}" data-block-mode="{{ section.settings.block_mode | default: 'pushing' }}">
+                  {% assign font_family = block.settings.text_font_family | default: 'font-primary' %}
+                  {% assign font_size_mobile = block.settings.text_font_size_mobile | default: 'text-3xl' %}
+                  {% assign font_size_desktop = block.settings.text_font_size_desktop | default: 'lg:text-4xl' %}
+                  {% assign text_color = block.settings.text_color | default: 'text-white' %}
+                  <h1 class="sticky-scroll-text-v2-text {{ font_family }} {{ font_size_mobile }} {{ font_size_desktop }} {{ text_color }}" style="line-height: 1;">
+                    {{ block.settings.text | default: 'Your text here' }}
+                  </h1>
+                </div>
+              </div>
+            </div>
+            {% endif %}
+          {% endfor %}
+        {% else %}
+          <!-- Fallback: Render default preset blocks so section is functional -->
+          <div class="sticky-scroll-text-v2-block">
+            <div class="sticky-scroll-text-v2-wrapper" data-sticky-duration="{{ section.settings.sticky_duration | default: 350 }}">
+              <div class="sticky-scroll-text-v2-content-wrapper">
+                <h1 class="sticky-scroll-text-v2-text font-primary text-3xl lg:text-4xl text-white" style="line-height: 1;">
+                  Welcome to our <strong>amazing</strong> experience
+                </h1>
+              </div>
+            </div>
+          </div>
+          <div class="sticky-scroll-text-v2-block">
+            <div class="sticky-scroll-text-v2-wrapper" data-sticky-duration="{{ section.settings.sticky_duration | default: 350 }}">
+              <div class="sticky-scroll-text-v2-content-wrapper">
+                <h1 class="sticky-scroll-text-v2-text font-primary text-3xl lg:text-4xl text-white" style="line-height: 1;">
+                  Discover something <strong>truly special</strong> today
+                </h1>
+              </div>
+            </div>
+          </div>
+          <div class="sticky-scroll-text-v2-block">
+            <div class="sticky-scroll-text-v2-wrapper" data-sticky-duration="{{ section.settings.sticky_duration | default: 350 }}">
+              <div class="sticky-scroll-text-v2-content-wrapper">
+                <h1 class="sticky-scroll-text-v2-text font-primary text-3xl lg:text-4xl text-white" style="line-height: 1;">
+                  Join us on this <strong>incredible journey</strong>
+                </h1>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+        
+      </div>
+    </div>
+  </div>
+  
+</section>
+
+
+<script>
+(function() {
+  'use strict';
+  
+  // Initialize sticky scroll text v2 when DOM is ready
+  document.addEventListener('DOMContentLoaded', function() {
+    try {
+      const section = document.getElementById('sticky-scroll-text-v2-{% if section.id %}{{ section.id }}{% else %}default{% endif %}');
+      if (!section) return;
+    
+    // Set background image
+    const bgImage = section.getAttribute('data-bg');
+    const bgFit = section.getAttribute('data-bg-fit') || 'fill';
+    if (bgImage) {
+      const bgElement = section.querySelector('.sticky-scroll-text-v2-background');
+      if (bgElement) {
+        bgElement.style.backgroundImage = `url(${bgImage})`;
+        bgElement.style.backgroundSize = bgFit === 'fit' ? 'contain' : 'cover';
+      }
+    }
+    
+    // Set container background image
+    const container = section.querySelector('.sticky-scroll-text-v2-inner[data-bg]');
+    if (container) {
+      const containerBg = container.getAttribute('data-bg');
+      if (containerBg) {
+        container.style.backgroundImage = `url(${containerBg})`;
+      }
+    }
+    
+    // Initialize all sticky text blocks
+    const wrappers = section.querySelectorAll('.sticky-scroll-text-v2-wrapper');
+    const viewportHeight = window.innerHeight;
+    
+    // Get scroll spacing multiplier from section setting (default 0.2 = middle option)
+    const scrollSpacing = parseFloat(section.getAttribute('data-scroll-spacing') || '0.2');
+    
+    // Helper function to convert sticky duration to pixels
+    function getStickyDurationPixels(value) {
+      const durationMap = {
+        '200': 200,
+        '350': 350,
+        '500': 500
+      };
+      return durationMap[value] || 350; // Default to 350 (medium) if not found
+    }
+    
+    function initializeBlock(wrapper) {
+      const contentWrapper = wrapper.querySelector('.sticky-scroll-text-v2-content-wrapper');
+      if (!contentWrapper) return;
+      
+      const stickyDurationValue = wrapper.getAttribute('data-sticky-duration') || '350';
+      const stickyDuration = getStickyDurationPixels(stickyDurationValue);
+      
+      // Calculate wrapper height to ensure sticky works properly
+      // For each block, we need enough space for the sticky effect
+      // Scroll spacing controls how close blocks are together
+      const wrapperHeight = (viewportHeight * scrollSpacing) + stickyDuration + (viewportHeight * scrollSpacing);
+      wrapper.style.height = `${wrapperHeight}px`;
+    }
+    
+    function updateAllWrapperHeights() {
+      const newViewportHeight = window.innerHeight;
+      const newScrollSpacing = parseFloat(section.getAttribute('data-scroll-spacing') || '0.2');
+      wrappers.forEach(function(wrapper) {
+        const contentWrapper = wrapper.querySelector('.sticky-scroll-text-v2-content-wrapper');
+        if (!contentWrapper) return;
+        
+        const stickyDurationValue = wrapper.getAttribute('data-sticky-duration') || '350';
+        const stickyDuration = getStickyDurationPixels(stickyDurationValue);
+        const newWrapperHeight = (newViewportHeight * newScrollSpacing) + stickyDuration + (newViewportHeight * newScrollSpacing);
+        wrapper.style.height = `${newWrapperHeight}px`;
+      });
+    }
+    
+    // Initialize all blocks
+    wrappers.forEach(initializeBlock);
+    
+    // Apply block gap padding in pushing mode
+    function applyBlockGap() {
+      const blockMode = section.getAttribute('data-block-mode') || 'pushing';
+      const blockGap = parseInt(section.getAttribute('data-block-gap') || '100', 10);
+      const isPushing = blockMode === 'pushing';
+      
+      wrappers.forEach(function(wrapper, index) {
+        const contentWrapper = wrapper.querySelector('.sticky-scroll-text-v2-content-wrapper');
+        if (!contentWrapper) return;
+        
+        if (isPushing && blockGap > 0) {
+          // Apply padding top and bottom for pushing mode
+          // Horizontal padding from CSS is preserved
+          contentWrapper.style.paddingTop = `${blockGap}px`;
+          contentWrapper.style.paddingBottom = `${blockGap}px`;
+        } else {
+          // Remove vertical padding in stacking mode
+          contentWrapper.style.paddingTop = '';
+          contentWrapper.style.paddingBottom = '';
+        }
+      });
+    }
+    
+    // Apply block gap on load
+    applyBlockGap();
+    
+    // Function to update block opacity based on distance from center
+    function updateBlockOpacity() {
+      const scrollY = window.pageYOffset || window.scrollY;
+      const blockMode = section.getAttribute('data-block-mode') || 'pushing';
+      const isStacking = blockMode === 'stacking';
+      
+      // Find which block is currently centered (for stacking mode)
+      let centeredBlockIndex = -1;
+      if (isStacking) {
+        wrappers.forEach(function(wrapper, index) {
+          const contentWrapper = wrapper.querySelector('.sticky-scroll-text-v2-content-wrapper');
+          if (!contentWrapper) return;
+          
+          const rect = contentWrapper.getBoundingClientRect();
+          const contentCenter = rect.top + (rect.height / 2);
+          const distanceFromCenter = Math.abs(contentCenter - (viewportHeight / 2));
+          
+          // If this block is close to center, it's the centered one
+          if (distanceFromCenter < viewportHeight * 0.2) {
+            centeredBlockIndex = index;
+          }
+        });
+      }
+      
+      wrappers.forEach(function(wrapper, index) {
+        const contentWrapper = wrapper.querySelector('.sticky-scroll-text-v2-content-wrapper');
+        if (!contentWrapper) return;
+        
+        // Get the position of the content wrapper relative to viewport
+        const rect = contentWrapper.getBoundingClientRect();
+        const contentCenter = rect.top + (rect.height / 2);
+        
+        // Calculate distance from viewport center
+        const distanceFromCenter = Math.abs(contentCenter - (viewportHeight / 2));
+        
+        let opacity = 1;
+        
+        if (isStacking) {
+          // Stacking mode: only show blocks at or above the centered one
+          if (centeredBlockIndex === -1) {
+            // No block centered yet, show all
+            opacity = 1;
+          } else if (index <= centeredBlockIndex) {
+            // This block is at or above the centered one - show it
+            // If very close to center (within threshold), keep at full opacity
+            const centerThreshold = 50; // pixels - if within 50px of center, stay at 100% opacity
+            if (distanceFromCenter <= centerThreshold) {
+              opacity = 1;
+            } else {
+              // Start fading after threshold
+              const fadeRange = viewportHeight * 0.3;
+              const adjustedDistance = distanceFromCenter - centerThreshold;
+              opacity = Math.max(0, Math.min(1, 1 - (adjustedDistance / fadeRange)));
+            }
+          } else {
+            // This block is below the centered one - hide it completely
+            opacity = 0;
+          }
+        } else {
+          // Pushing mode: fade based on distance from center
+          // If very close to center (within threshold), keep at full opacity
+          const centerThreshold = 50; // pixels - if within 50px of center, stay at 100% opacity
+          if (distanceFromCenter <= centerThreshold) {
+            opacity = 1;
+          } else {
+            // Start fading after threshold
+            const fadeRange = viewportHeight * 0.3;
+            const adjustedDistance = distanceFromCenter - centerThreshold;
+            opacity = Math.max(0, Math.min(1, 1 - (adjustedDistance / fadeRange)));
+          }
+        }
+        
+        // Apply opacity with smooth transition
+        contentWrapper.style.opacity = opacity;
+      });
+    }
+    
+    // Update opacity on scroll
+    let scrollTicking = false;
+    function onScroll() {
+      if (!scrollTicking) {
+        window.requestAnimationFrame(function() {
+          updateBlockOpacity();
+          scrollTicking = false;
+        });
+        scrollTicking = true;
+      }
+    }
+    
+    window.addEventListener('scroll', onScroll, { passive: true });
+    
+    // Handle window resize
+    window.addEventListener('resize', function() {
+      updateAllWrapperHeights();
+      applyBlockGap();
+      updateBlockOpacity();
+    });
+    
+    // Initial opacity update
+    updateBlockOpacity();
+    } catch (error) {
+      console.error('Sticky Scroll Text V2 initialization error:', error);
+    }
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Sticky Scroll Text V2",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout Width (Container)"
+    },
+    {
+      "type": "select",
+      "id": "container_layout_width",
+      "label": "Layout Width (Container)",
+      "options": [
+        { "value": "container", "label": "Container" },
+        { "value": "container-full", "label": "Full Width (Container Full)" }
+      ],
+      "default": "container",
+      "info": "Choose whether the container is constrained to the width of the page or full width"
+    },
+    {
+      "type": "header",
+      "content": "Sticky Settings"
+    },
+    {
+      "type": "range",
+      "id": "scroll_spacing",
+      "label": "Scroll Spacing Between Blocks",
+      "info": "Controls how much scrolling is needed between blocks. Lower = blocks closer together, Higher = more scroll distance.",
+      "min": 0.1,
+      "max": 0.5,
+      "step": 0.05,
+      "default": 0.2,
+      "unit": "x"
+    },
+    {
+      "type": "select",
+      "id": "block_mode",
+      "label": "Block Behavior",
+      "info": "Pushing: Blocks push each other up as you scroll. Stacking: Blocks stack on top, only the top one is visible.",
+      "options": [
+        { "value": "pushing", "label": "Pushing (Default)" },
+        { "value": "stacking", "label": "Stacking" }
+      ],
+      "default": "pushing"
+    },
+    {
+      "type": "range",
+      "id": "block_gap",
+      "label": "Block Gap (Pushing Mode Only)",
+      "info": "Extra vertical padding between blocks in pushing mode. Creates more space so text doesn't get too close.",
+      "min": 0,
+      "max": 300,
+      "step": 10,
+      "default": 100,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "sticky_duration",
+      "label": "Default Sticky Duration",
+      "info": "Default duration for all blocks. Can be overridden per block.",
+      "options": [
+        { "value": "200", "label": "Short" },
+        { "value": "350", "label": "Medium" },
+        { "value": "500", "label": "Tall" }
+      ],
+      "default": "350"
+    },
+    {
+      "type": "header",
+      "content": "Layout Settings"
+    },
+    {
+      "type": "select",
+      "id": "background_color",
+      "label": "Section Background Color",
+      "options": [
+        { "value": "bg-white", "label": "White" },
+        { "value": "bg-black", "label": "Black" },
+        { "value": "bg-primary", "label": "Primary" },
+        { "value": "bg-secondary", "label": "Secondary" },
+        { "value": "bg-tertiary", "label": "Tertiary" },
+        { "value": "bg-quaternary", "label": "Quaternary" },
+        { "value": "bg-success", "label": "Success" },
+        { "value": "bg-warning", "label": "Warning" },
+        { "value": "bg-error", "label": "Error" },
+        { "value": "bg-info", "label": "Info" },
+        { "value": "bg-neutral", "label": "Neutral" },
+        { "value": "bg-neutral-light", "label": "Neutral Light" },
+        { "value": "bg-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "bg-white"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Section Background Image",
+      "info": "Replaces background color when set"
+    },
+    {
+      "type": "select",
+      "id": "background_image_fit",
+      "label": "Background Image Fit",
+      "info": "Only applies when background image is set",
+      "options": [
+        { "value": "fill", "label": "Fill (Cover)" },
+        { "value": "fit", "label": "Fit (Contain)" }
+      ],
+      "default": "fill"
+    },
+    {
+      "type": "select",
+      "id": "section_padding_y_mobile",
+      "label": "Section Vertical Padding (Mobile)",
+      "options": [
+        { "value": "py-xs", "label": "Extra Small" },
+        { "value": "py-sm", "label": "Small" },
+        { "value": "py-md", "label": "Medium" },
+        { "value": "py-lg", "label": "Large" },
+        { "value": "py-xl", "label": "Extra Large" },
+        { "value": "py-2xl", "label": "2X Large" },
+        { "value": "py-3xl", "label": "3X Large" }
+      ],
+      "default": "py-xl"
+    },
+    {
+      "type": "select",
+      "id": "section_padding_y_desktop",
+      "label": "Section Vertical Padding (Desktop)",
+      "options": [
+        { "value": "lg:py-xs", "label": "Extra Small" },
+        { "value": "lg:py-sm", "label": "Small" },
+        { "value": "lg:py-md", "label": "Medium" },
+        { "value": "lg:py-lg", "label": "Large" },
+        { "value": "lg:py-xl", "label": "Extra Large" },
+        { "value": "lg:py-2xl", "label": "2X Large" },
+        { "value": "lg:py-3xl", "label": "3X Large" }
+      ],
+      "default": "lg:py-3xl"
+    },
+    {
+      "type": "select",
+      "id": "section_border_radius",
+      "label": "Section Border Radius",
+      "options": [
+        { "value": "rounded-none", "label": "None" },
+        { "value": "rounded-sm", "label": "Small" },
+        { "value": "rounded", "label": "Base" },
+        { "value": "rounded-md", "label": "Medium" },
+        { "value": "rounded-lg", "label": "Large" },
+        { "value": "rounded-xl", "label": "Extra Large" },
+        { "value": "rounded-2xl", "label": "2X Large" },
+        { "value": "rounded-3xl", "label": "3X Large" }
+      ],
+      "default": "rounded-none"
+    },
+    {
+      "type": "header",
+      "content": "Container Settings"
+    },
+    {
+      "type": "select",
+      "id": "container_background_color",
+      "label": "Container Background Color",
+      "options": [
+        { "value": "", "label": "None (Transparent)" },
+        { "value": "bg-white", "label": "White" },
+        { "value": "bg-black", "label": "Black" },
+        { "value": "bg-primary", "label": "Primary" },
+        { "value": "bg-secondary", "label": "Secondary" },
+        { "value": "bg-tertiary", "label": "Tertiary" },
+        { "value": "bg-quaternary", "label": "Quaternary" },
+        { "value": "bg-success", "label": "Success" },
+        { "value": "bg-warning", "label": "Warning" },
+        { "value": "bg-error", "label": "Error" },
+        { "value": "bg-info", "label": "Info" },
+        { "value": "bg-neutral", "label": "Neutral" },
+        { "value": "bg-neutral-light", "label": "Neutral Light" },
+        { "value": "bg-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": ""
+    },
+    {
+      "type": "image_picker",
+      "id": "container_background_image",
+      "label": "Container Background Image"
+    },
+    {
+      "type": "select",
+      "id": "container_border_radius",
+      "label": "Container Border Radius",
+      "options": [
+        { "value": "rounded-none", "label": "None" },
+        { "value": "rounded-sm", "label": "Small" },
+        { "value": "rounded", "label": "Base" },
+        { "value": "rounded-md", "label": "Medium" },
+        { "value": "rounded-lg", "label": "Large" },
+        { "value": "rounded-xl", "label": "Extra Large" },
+        { "value": "rounded-2xl", "label": "2X Large" },
+        { "value": "rounded-3xl", "label": "3X Large" }
+      ],
+      "default": "rounded-none"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_y_mobile",
+      "label": "Container Padding Y (Mobile)",
+      "options": [
+        { "value": "py-xs", "label": "Extra Small" },
+        { "value": "py-sm", "label": "Small" },
+        { "value": "py-md", "label": "Medium" },
+        { "value": "py-lg", "label": "Large" },
+        { "value": "py-xl", "label": "Extra Large" },
+        { "value": "py-2xl", "label": "2X Large" },
+        { "value": "py-3xl", "label": "3X Large" }
+      ],
+      "default": "py-lg"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_y_desktop",
+      "label": "Container Padding Y (Desktop)",
+      "options": [
+        { "value": "lg:py-xs", "label": "Extra Small" },
+        { "value": "lg:py-sm", "label": "Small" },
+        { "value": "lg:py-md", "label": "Medium" },
+        { "value": "lg:py-lg", "label": "Large" },
+        { "value": "lg:py-xl", "label": "Extra Large" },
+        { "value": "lg:py-2xl", "label": "2X Large" },
+        { "value": "lg:py-3xl", "label": "3X Large" }
+      ],
+      "default": "lg:py-2xl"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_x_mobile",
+      "label": "Container Padding X (Mobile)",
+      "options": [
+        { "value": "px-0", "label": "None" },
+        { "value": "px-xs", "label": "Extra Small" },
+        { "value": "px-sm", "label": "Small" },
+        { "value": "px-md", "label": "Medium" },
+        { "value": "px-lg", "label": "Large" },
+        { "value": "px-xl", "label": "Extra Large" },
+        { "value": "px-2xl", "label": "2X Large" },
+        { "value": "px-3xl", "label": "3X Large" }
+      ],
+      "default": "px-0"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_x_desktop",
+      "label": "Container Padding X (Desktop)",
+      "options": [
+        { "value": "lg:px-0", "label": "None" },
+        { "value": "lg:px-xs", "label": "Extra Small" },
+        { "value": "lg:px-sm", "label": "Small" },
+        { "value": "lg:px-md", "label": "Medium" },
+        { "value": "lg:px-lg", "label": "Large" },
+        { "value": "lg:px-xl", "label": "Extra Large" },
+        { "value": "lg:px-2xl", "label": "2X Large" },
+        { "value": "lg:px-3xl", "label": "3X Large" }
+      ],
+      "default": "lg:px-0"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "sticky_text_block",
+      "name": "Sticky Text Block",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Your text here</p>"
+        },
+        {
+          "type": "select",
+          "id": "text_font_family",
+          "label": "Font Family",
+          "options": [
+            { "value": "font-primary", "label": "Primary" },
+            { "value": "font-body", "label": "Body" },
+            { "value": "font-handwritten", "label": "Handwritten" },
+            { "value": "font-serif", "label": "Serif" }
+          ],
+          "default": "font-primary"
+        },
+        {
+          "type": "select",
+          "id": "text_font_size_mobile",
+          "label": "Font Size (Mobile)",
+          "options": [
+            { "value": "text-xs", "label": "Extra Small" },
+            { "value": "text-sm", "label": "Small" },
+            { "value": "text-base", "label": "Base" },
+            { "value": "text-lg", "label": "Large" },
+            { "value": "text-xl", "label": "Extra Large" },
+            { "value": "text-2xl", "label": "2X Large" },
+            { "value": "text-3xl", "label": "3X Large" },
+            { "value": "text-4xl", "label": "4X Large" },
+            { "value": "text-5xl", "label": "5X Large" },
+            { "value": "text-6xl", "label": "6X Large" },
+            { "value": "text-7xl", "label": "7X Large" },
+            { "value": "text-8xl", "label": "8X Large" },
+            { "value": "text-9xl", "label": "9X Large" }
+          ],
+          "default": "text-3xl"
+        },
+        {
+          "type": "select",
+          "id": "text_font_size_desktop",
+          "label": "Font Size (Desktop)",
+          "options": [
+            { "value": "lg:text-xs", "label": "Extra Small" },
+            { "value": "lg:text-sm", "label": "Small" },
+            { "value": "lg:text-base", "label": "Base" },
+            { "value": "lg:text-lg", "label": "Large" },
+            { "value": "lg:text-xl", "label": "Extra Large" },
+            { "value": "lg:text-2xl", "label": "2X Large" },
+            { "value": "lg:text-3xl", "label": "3X Large" },
+            { "value": "lg:text-4xl", "label": "4X Large" },
+            { "value": "lg:text-5xl", "label": "5X Large" },
+            { "value": "lg:text-6xl", "label": "6X Large" },
+            { "value": "lg:text-7xl", "label": "7X Large" },
+            { "value": "lg:text-8xl", "label": "8X Large" },
+            { "value": "lg:text-9xl", "label": "9X Large" }
+          ],
+          "default": "lg:text-4xl"
+        },
+        {
+          "type": "select",
+          "id": "text_color",
+          "label": "Text Color",
+          "options": [
+            { "value": "text-white", "label": "White" },
+            { "value": "text-black", "label": "Black" },
+            { "value": "text-primary", "label": "Primary" },
+            { "value": "text-secondary", "label": "Secondary" },
+            { "value": "text-tertiary", "label": "Tertiary" },
+            { "value": "text-quaternary", "label": "Quaternary" },
+            { "value": "text-success", "label": "Success" },
+            { "value": "text-warning", "label": "Warning" },
+            { "value": "text-error", "label": "Error" },
+            { "value": "text-info", "label": "Info" },
+            { "value": "text-neutral", "label": "Neutral" },
+            { "value": "text-neutral-light", "label": "Neutral Light" },
+            { "value": "text-neutral-dark", "label": "Neutral Dark" }
+          ],
+          "default": "text-white"
+        },
+        {
+          "type": "range",
+          "id": "container_width",
+          "label": "Container Width (px)",
+          "info": "Maximum width of the text container. Controls when text wraps.",
+          "min": 300,
+          "max": 1200,
+          "step": 50,
+          "default": 770,
+          "unit": "px"
+        },
+        {
+          "type": "select",
+          "id": "sticky_duration",
+          "label": "Sticky Duration",
+          "info": "How long this block stays sticky. Leave empty to use section default.",
+          "options": [
+            { "value": "", "label": "Use Section Default" },
+            { "value": "200", "label": "Short" },
+            { "value": "350", "label": "Medium" },
+            { "value": "500", "label": "Tall" }
+          ]
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Sticky Scroll Text V2",
+      "settings": {
+        "background_color": "bg-black"
+      },
+      "blocks": [
+        {
+          "type": "sticky_text_block",
+          "settings": {
+            "text": "<p>Welcome to our <strong>amazing</strong> experience</p>",
+            "text_color": "text-white"
+          }
+        },
+        {
+          "type": "sticky_text_block",
+          "settings": {
+            "text": "<p>Discover something <strong>truly special</strong> today</p>",
+            "text_color": "text-white"
+          }
+        },
+        {
+          "type": "sticky_text_block",
+          "settings": {
+            "text": "<p>Join us on this <strong>incredible journey</strong></p>",
+            "text_color": "text-white"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+

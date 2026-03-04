@@ -1,0 +1,127 @@
+/* ============================================
+   STATEMENT HEADLINE SECTION
+   Bold, centered text statement section
+   Inspired by elegant editorial typography
+   ============================================ */
+
+.statement-headline {
+  position: relative;
+  z-index: var(--z-10);
+  width: 100%;
+}
+
+/* ============================================
+   CONTAINER
+   ============================================ */
+
+.statement-headline__container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100%;
+}
+
+/* ============================================
+   CONTENT
+   ============================================ */
+
+.statement-headline__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: var(--space-lg);
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* ============================================
+   HEADING
+   ============================================ */
+
+.statement-headline__heading {
+  margin: 0;
+  /* Mobile: tight line-height for better vertical rhythm */
+  line-height: 1.1;
+  /* Elegant letter-spacing for large display text */
+  letter-spacing: -0.02em;
+  text-align: center;
+  /* Preserve line breaks in content */
+  white-space: pre-line;
+}
+
+/* Desktop: slightly more relaxed line-height */
+@media (min-width: 991px) {
+  .statement-headline__heading {
+    line-height: 1.15;
+  }
+}
+
+/* ============================================
+   SUBHEADING
+   ============================================ */
+
+.statement-headline__subheading {
+  margin: 0;
+  line-height: 1.6;
+  letter-spacing: 0;
+  text-align: center;
+  max-width: 650px;
+}
+
+/* ============================================
+   BUTTON
+   ============================================ */
+
+.statement-headline__button {
+  margin-top: var(--space-sm);
+  cursor: pointer;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.statement-headline__button:hover {
+  transform: translateY(-2px);
+}
+
+/* Focus states for accessibility */
+.statement-headline__button:focus {
+  outline: 2px solid var(--clr-neutral-light);
+  outline-offset: 4px;
+}
+
+.statement-headline__button:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================ */
+
+/* Mobile: Tighter gaps */
+@media (max-width: 767px) {
+  .statement-headline__content {
+    gap: var(--space-md);
+  }
+  
+  .statement-headline__heading {
+    /* Tighter line-height on mobile for headlines */
+    line-height: 1;
+  }
+}
+
+/* Tablet */
+@media (min-width: 768px) and (max-width: 990px) {
+  .statement-headline__content {
+    gap: var(--space-lg);
+  }
+  
+  .statement-headline__heading {
+    line-height: 1.1;
+  }
+}
+

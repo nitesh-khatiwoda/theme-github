@@ -1,0 +1,294 @@
+/* ============================================
+   COLLECTION CAROUSEL 2 SECTION
+   Horizontal scrolling collection cards
+   ============================================ */
+
+.collection-carousel-2 {
+  overflow-x: clip;
+  overflow-y: visible;
+}
+
+.collection-carousel-2 .container {
+  overflow: visible;
+}
+
+.collection-carousel-2 .inner-container {
+  overflow-x: clip;
+  overflow-y: visible;
+}
+
+/* ============================================
+   WRAPPER
+   ============================================ */
+
+.collection-carousel-2__wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow-x: clip;
+  overflow-y: visible;
+}
+
+/* ============================================
+   TRACK CONTAINER (Scrolling)
+   ============================================ */
+
+.collection-carousel-2__track-container {
+  flex: 1;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  position: relative;
+  margin-left: 0;
+  cursor: grab;
+}
+
+.collection-carousel-2__track-container::-webkit-scrollbar {
+  display: none;
+}
+
+.collection-carousel-2__track-container:active {
+  cursor: grabbing;
+}
+
+/* Bleed to viewport edge - extend past container padding */
+@media (min-width: 640px) {
+  .collection-carousel-2__track-container {
+    margin-right: calc(-1 * var(--space-md) - 5vw);
+  }
+}
+
+@media (min-width: 1024px) {
+  .collection-carousel-2__track-container {
+    margin-right: calc(-1 * var(--space-lg) - 10vw);
+  }
+}
+
+@media (min-width: 1400px) {
+  .collection-carousel-2__track-container {
+    margin-right: -200px;
+  }
+}
+
+.collection-carousel-2__track {
+  display: flex;
+  gap: var(--space-lg);
+  touch-action: pan-y pinch-zoom;
+}
+
+/* Add right padding to create space after last card when scrolled */
+@media (min-width: 640px) {
+  .collection-carousel-2__track {
+    padding-right: calc(var(--space-md) + 5vw);
+  }
+}
+
+@media (min-width: 1024px) {
+  .collection-carousel-2__track {
+    padding-right: calc(var(--space-lg) + 10vw);
+  }
+}
+
+@media (min-width: 1400px) {
+  .collection-carousel-2__track {
+    padding-right: 200px;
+  }
+}
+
+/* ============================================
+   CARD BASE STYLES
+   ============================================ */
+
+.collection-carousel-2__card {
+  flex: 0 0 auto;
+  width: 427px;
+  min-height: 569px;
+  overflow: hidden;
+  position: relative;
+}
+
+@media (max-width: 990px) {
+  .collection-carousel-2__card {
+    width: 340px;
+    min-height: 480px;
+  }
+}
+
+@media (max-width: 767px) {
+  .collection-carousel-2__card {
+    width: 300px;
+    min-height: 440px;
+  }
+}
+
+/* ============================================
+   FEATURED CARD (with background image)
+   ============================================ */
+
+.collection-carousel-2__card--featured {
+  position: relative;
+}
+
+.collection-carousel-2__featured-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Dark overlay for featured card */
+.collection-carousel-2__featured-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.6));
+  z-index: 1;
+  pointer-events: none;
+}
+
+.collection-carousel-2__featured-content {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: var(--space-lg);
+}
+
+/* Badge */
+.collection-carousel-2__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px var(--space-sm);
+  border-radius: 46px;
+  align-self: flex-start;
+  margin-bottom: var(--space-sm);
+}
+
+.collection-carousel-2__badge span {
+  line-height: 1;
+  letter-spacing: -0.004em;
+}
+
+/* Featured Title */
+.collection-carousel-2__featured-title {
+  margin: 0;
+  line-height: 1.12;
+  letter-spacing: -0.029em;
+}
+
+/* Featured Description */
+.collection-carousel-2__featured-description {
+  margin: 0;
+  margin-top: var(--space-md);
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+}
+
+/* Featured Button Wrapper */
+.collection-carousel-2__featured-button-wrapper {
+  margin-top: auto;
+  padding-top: var(--space-2xl);
+}
+
+.collection-carousel-2__featured-button-wrapper .btn {
+  width: 100%;
+}
+
+/* ============================================
+   PRODUCT CARD (solid background)
+   ============================================ */
+
+.collection-carousel-2__card--product {
+  opacity: 0.95;
+}
+
+.collection-carousel-2__product-content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  padding: var(--space-lg);
+}
+
+/* Product Title */
+.collection-carousel-2__product-title {
+  margin: 0;
+  line-height: 1.12;
+  letter-spacing: -0.029em;
+}
+
+/* Product Subtitle */
+.collection-carousel-2__product-subtitle {
+  margin: 0;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  opacity: 0.65;
+}
+
+/* Product Image */
+.collection-carousel-2__product-image-wrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  max-height: 450px;
+}
+
+.collection-carousel-2__product-image {
+  width: 100%;
+  max-width: 379px;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+/* ============================================
+   PRODUCT ACTIONS (Glassmorphism Buttons)
+   ============================================ */
+
+.collection-carousel-2__product-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  margin-top: auto;
+}
+
+/* Product card buttons use Gold Standard button system */
+.collection-carousel-2__product-actions .btn {
+  width: 100%;
+}
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================ */
+
+/* Mobile: Smaller cards and tighter spacing */
+@media (max-width: 767px) {
+  .collection-carousel-2__track {
+    gap: var(--space-md);
+  }
+  
+  .collection-carousel-2__featured-content,
+  .collection-carousel-2__product-content {
+    padding: var(--space-md);
+  }
+  
+  .collection-carousel-2__product-image-wrapper {
+    max-height: 350px;
+  }
+}
+
+/* Tablet: Medium sizing */
+@media (min-width: 768px) and (max-width: 990px) {
+  .collection-carousel-2__product-image-wrapper {
+    max-height: 380px;
+  }
+}
+
+

@@ -1,0 +1,140 @@
+/* Hero Split Content Section Styles */
+
+.hero-split-content {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-split-inner {
+  position: relative;
+}
+
+/* Split Grid */
+.hero-split-content .hero-split-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  align-items: stretch;
+}
+
+@media (min-width: 1024px) {
+  .hero-split-content .hero-split-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  /* Flipped layout: Image on left, content on right */
+  .hero-split-content .hero-split-grid--flipped {
+    direction: rtl;
+  }
+
+  .hero-split-content .hero-split-grid--flipped > * {
+    direction: ltr;
+  }
+}
+
+/* Content Column */
+.hero-split-content .content-column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xl);
+  padding: 32px 40px;
+  border-radius: 24px;
+  min-height: 600px;
+  justify-content: center;
+}
+
+@media (min-width: 1024px) {
+  .hero-split-content .content-column {
+    padding: 32px 56px;
+    min-height: 720px;
+  }
+}
+
+@media (max-width: 767px) {
+  .hero-split-content .content-column {
+    padding: var(--space-xl) var(--space-lg);
+    min-height: auto;
+    gap: var(--space-xl);
+  }
+}
+
+/* Heading */
+.hero-split-content .split-heading h1 {
+  margin: 0;
+  line-height: 1.2;
+}
+
+/* Bullet List */
+.hero-split-content .bullet-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-left: 16px;
+}
+
+.hero-split-content .bullet-item {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.hero-split-content .bullet-dot {
+  font-size: 18px;
+  line-height: 1.44;
+  flex-shrink: 0;
+}
+
+.hero-split-content .bullet-item p {
+  margin: 0;
+  line-height: 1.4;
+}
+
+.hero-split-content .bullet-item strong {
+  font-weight: 600;
+}
+
+/* Button */
+.hero-split-content .split-cta .btn {
+  border-radius: 999px;
+}
+
+/* Disclaimer */
+.hero-split-content .disclaimer p {
+  margin: 0;
+  line-height: 1.25;
+}
+
+/* Image Column */
+.hero-split-content .image-column {
+  border-radius: 24px;
+  overflow: hidden;
+  min-height: 500px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+@media (min-width: 1024px) {
+  .hero-split-content .image-column {
+    min-height: 720px;
+  }
+}
+
+.hero-split-content .image-column img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Responsive */
+@media (max-width: 1023px) {
+  .hero-split-content .hero-split-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .hero-split-content .image-column {
+    order: -1; /* Image on top on mobile */
+    min-height: 400px;
+  }
+}
+

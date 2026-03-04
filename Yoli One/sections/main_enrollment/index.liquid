@@ -1,0 +1,1150 @@
+<main class="enrollment-page-section enrollment-pack-section-{{ section.id }} py-6 lg:py-8">
+    {% if section.settings.show_breadcrumb %}
+    <div class="breadcrumb {{ section.settings.breadcrumb_font_size | default: 'text-lg' }}">
+        <div class="container">
+          <ul class="flex flex-wrap align-center gap-2 leading-none">
+            <li class="flex gap-2 align-center">
+              <a href="{{ company.join_page_url }}" class="{{ section.settings.breadcrumb_color | default: 'text-black' }}">{{ 'enrollment_pack.all_products' | t }}</a>
+                <span class="seperator">
+                    <svg width="9" height="16" viewBox="0 0 9 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M8.56641 7.70703C8.88281 8.05859 8.88281 8.58594 8.56641 8.90234L1.81641 15.6523C1.46484 16.0039 0.9375 16.0039 0.621094 15.6523C0.269531 15.3359 0.269531 14.8086 0.621094 14.4922L6.77344 8.33984L0.621094 2.15234C0.269531 1.83594 0.269531 1.30859 0.621094 0.992188C0.9375 0.640625 1.46484 0.640625 1.78125 0.992188L8.56641 7.70703Z" fill="currentColor"/>
+                    </svg>
+                </span>
+            </li>
+            <li>
+              <a href="#" class="active font-semibold {{ section.settings.breadcrumb_active_color | default: 'text-black' }}">{{ enrollment_pack.title }}</a>
+            </li>
+          </ul>
+        </div>
+    </div>
+    {% endif %}
+    {% assign images_array = images_array | default: enrollment_pack.images_array %}
+    <section class="product-details-section enrollment-pack-{{ section.id }}">
+        <div class="container">
+            <div class="grid {{ section.settings.grid_layout | default: 'grid-cols-1 lg:grid-cols-2' }}" style="gap: {{ section.settings.grid_gap_x | default: 32 }}px {{ section.settings.grid_gap_y | default: 32 }}px;">
+                
+                <!-- Left Column: Media Gallery -->
+                <div class="media-column">
+                  
+                  <!-- Hero Media (Video or Image) -->
+                  <div class="hero-media">
+                    {% if section.settings.hero_video != blank %}
+                      <video autoplay loop muted playsinline>
+                        <source src="{{ section.settings.hero_video }}" type="video/mp4">
+                      </video>
+                    {% elsif section.settings.hero_image != blank %}
+                      <img id="hero-image-{{ section.id }}" src="{{ section.settings.hero_image | image_url: width: 1000 }}" alt="{{ section.settings.hero_image_alt | default: 'Product hero' }}" loading="eager">
+                    {% elsif images_array.size > 0 %}
+                      <img id="hero-image-{{ section.id }}" src="{{ images_array.first }}" alt="{{ enrollment_pack.title }}" loading="eager">
+                    {% else %}
+                      <img id="hero-image-{{ section.id }}" src="{{ 'placeholder-image.png' | asset_url }}" alt="Placeholder">
+                    {% endif %}
+                  </div>
+                
+                  {% if images_array.size > 0 %}
+                    <div class="gallery-grid">
+                    {% for image in images_array %}
+                      {% if section.settings.hero_image != blank or section.settings.hero_video != blank %}
+                        <div class="gallery-item" data-image-src="{{ image }}" data-section-id="{{ section.id }}">
+                          <img src="{{ image }}" loading="lazy" alt="{{ enrollment_pack.title }}">
+                        </div>
+                      {% elsif forloop.index0 > 0 %}
+                        <div class="gallery-item" data-image-src="{{ image }}" data-section-id="{{ section.id }}">
+                          <img src="{{ image }}" loading="lazy" alt="{{ enrollment_pack.title }}">
+                        </div>
+                      {% endif %}
+                    {% endfor %}
+                    </div>
+                  {% endif %}
+                  
+                </div>
+                {% assign membership_product = membership_products.first %}
+                <div class="product-details">
+                    <div class="flex flex-col gap-y-3">
+                        <div class="product-title {{ section.settings.product_title_font_family | default: 'font-primary' }} {{ section.settings.product_title_font_size | default: 'text-2xl' }} {{ section.settings.product_title_font_size_desktop | default: 'lg:text-3xl' }} font-{{ section.settings.product_title_font_weight | default: 'bold' }} {{ section.settings.product_title_color | default: 'text-black' }}">{{ membership_product.title }}</div>
+                        <div class="product-price pt-2 {{ section.settings.product_price_font_family | default: 'font-primary' }} {{ section.settings.product_price_font_size | default: 'text-lg' }} {{ section.settings.product_price_font_size_desktop | default: 'lg:text-xl' }} font-{{ section.settings.product_price_font_weight | default: 'medium' }} {{ section.settings.product_price_color | default: 'text-black' }}">{{ membership_product.price }}</div>
+  
+                        {% if section.settings.show_rating %}
+                        <div class="rating">
+                            <svg width="101" height="21" viewBox="0 0 101 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M11.0207 2.88369C10.6997 2.11169 9.60575 2.11169 9.28475 2.88369L7.45475 7.28469L2.70175 7.66569C1.86875 7.73269 1.53075 8.77269 2.16575 9.31669L5.78575 12.4187L4.67975 17.0557C4.48575 17.8687 5.37075 18.5117 6.08475 18.0757L10.1527 15.5907L14.2217 18.0757C14.9347 18.5117 15.8197 17.8687 15.6257 17.0557L14.5197 12.4187L18.1397 9.31669C18.7747 8.77269 18.4367 7.73269 17.6037 7.66669L12.8517 7.28469L11.0207 2.88369Z" fill="#FFAE00"/>
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M31.0207 2.88369C30.6997 2.11169 29.6057 2.11169 29.2847 2.88369L27.4547 7.28469L22.7017 7.66569C21.8687 7.73269 21.5307 8.77269 22.1657 9.31669L25.7857 12.4187L24.6797 17.0557C24.4857 17.8687 25.3707 18.5117 26.0847 18.0757L30.1527 15.5907L34.2217 18.0757C34.9347 18.5117 35.8197 17.8687 35.6257 17.0557L34.5197 12.4187L38.1397 9.31669C38.7747 8.77269 38.4367 7.73269 37.6037 7.66669L32.8517 7.28469L31.0207 2.88369Z" fill="#FFAE00"/>
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M51.0207 2.88369C50.6997 2.11169 49.6057 2.11169 49.2847 2.88369L47.4547 7.28469L42.7017 7.66569C41.8687 7.73269 41.5307 8.77269 42.1657 9.31669L45.7857 12.4187L44.6797 17.0557C44.4857 17.8687 45.3707 18.5117 46.0847 18.0757L50.1527 15.5907L54.2217 18.0757C54.9347 18.5117 55.8197 17.8687 55.6257 17.0557L54.5197 12.4187L58.1397 9.31669C58.7747 8.77269 58.4367 7.73269 57.6037 7.66669L52.8517 7.28469L51.0207 2.88369Z" fill="#FFAE00"/>
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M71.0207 2.88369C70.6997 2.11169 69.6057 2.11169 69.2847 2.88369L67.4547 7.28469L62.7017 7.66569C61.8687 7.73269 61.5307 8.77269 62.1657 9.31669L65.7857 12.4187L64.6797 17.0557C64.4857 17.8687 65.3707 18.5117 66.0847 18.0757L70.1527 15.5907L74.2217 18.0757C74.9347 18.5117 75.8197 17.8687 75.6257 17.0557L74.5197 12.4187L78.1397 9.31669C78.7747 8.77269 78.4367 7.73269 77.6037 7.66669L72.8517 7.28469L71.0207 2.88369Z" fill="#FFAE00"/>
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M91.0207 2.88369C90.6997 2.11169 89.6057 2.11169 89.2847 2.88369L87.4547 7.28469L82.7017 7.66569C81.8687 7.73269 81.5307 8.77269 82.1657 9.31669L85.7857 12.4187L84.6797 17.0557C84.4857 17.8687 85.3707 18.5117 86.0847 18.0757L90.1527 15.5907L94.2217 18.0757C94.9347 18.5117 95.8197 17.8687 95.6257 17.0557L94.5197 12.4187L98.1397 9.31669C98.7747 8.77269 98.4367 7.73269 97.6037 7.66669L92.8517 7.28469L91.0207 2.88369Z" fill="#D0D5DD"/>
+                            </svg>
+                        </div>
+                        {% endif %}
+                        {% if section.settings.show_todays_purchase_text %}
+                        <p class="text-secondary">{{ 'enrollment_pack.todays_purchase' | t }}</p>
+                        {% endif %}
+                    </div>
+  
+                    <div class="details flex flex-col gap-y-6 pt-6">
+                        <p>{{ description | raw }}</p>
+  
+                        {% for product in subscription_products %}
+                        <div class="enrollment-pack lg:flex flex-wrap align-center gap-xl {{ section.settings.enrollment_pack_background_color | default: 'bg-white' }} {{ section.settings.enrollment_pack_border_color | default: 'border-neutral-light' }} {{ section.settings.enrollment_pack_border_width | default: 'border' }} {{ section.settings.enrollment_pack_border_radius | default: 'rounded' }} {{ section.settings.enrollment_pack_padding | default: 'p-lg' }}">
+                            <div class="image-section md-tab-order-2">
+                                <div class="wrapper">
+                                <img src="{{ product.image }}" alt="enrollment pack" class="image-cover rounded">
+                                </div>
+                            </div>
+  
+                            <div class="desc md-tab-order-1 mt-6 md-tab-m-0">
+                                <div class="pr-3">
+                                    <div class="product-title subscription-product-title leading-8 {{ section.settings.subscription_product_title_font_family | default: 'font-primary' }} {{ section.settings.subscription_product_title_font_size | default: 'text-lg' }} {{ section.settings.subscription_product_title_font_size_desktop | default: 'lg:text-xl' }} font-{{ section.settings.subscription_product_title_font_weight | default: 'bold' }} {{ section.settings.subscription_product_title_color | default: 'text-black' }}">{{ product.title }}</div>
+                                    <div class="price pt-2 subscription-product-price leading-8 {{ section.settings.subscription_product_price_font_family | default: 'font-primary' }} {{ section.settings.subscription_product_price_font_size | default: 'text-lg' }} {{ section.settings.subscription_product_price_font_size_desktop | default: 'lg:text-xl' }} font-{{ section.settings.subscription_product_price_font_weight | default: 'medium' }} {{ section.settings.subscription_product_price_color | default: 'text-black' }}">{{ product.price }}</div>
+                                    <ul class="info flex flex-col gap-y-2 pt-3 {{ section.settings.subscription_info_text_font_size | default: 'text-sm' }} {{ section.settings.subscription_info_text_color | default: 'text-neutral' }}">
+                                        <li>{{ 'enrollment_pack.monthly_subscription' | t }}</li>
+                                        <li>{{ 'enrollment_pack.first_payment' | t: date: first_payment_date }}</li>
+                                    </ul>
+                                </div>
+                                <!-- TODO: Remove class md-tab-text-right if size is not available-->
+                                <div class="learn-more-section pt-8 md-tab-text-left">
+                                    <a href="{{ product.learn_more_path }}" class="{{ section.settings.subscription_learn_more_font_size | default: 'text-base' }} {{ section.settings.subscription_learn_more_color | default: 'text-info' }}">{{ 'enrollment_pack.learn_more' | t }}</a>
+                                </div>
+                            </div>
+                        </div><!-- .enrollment-pack -->
+                        {% endfor %}
+  
+                        <div class="btn-section">
+                            <div
+                                class="w-full"
+                                data-fluid-checkout-group
+                                data-enrollment-pack='{{ enrollment_pack.id }}'
+                            >
+                                <button
+                                    type="button"
+                                    class='w-full checkout-button {{ section.settings.button_font_family | default: 'font-primary' }} {{ section.settings.button_font_size | default: 'text-base' }} font-{{ section.settings.button_font_weight | default: 'medium' }} {{ section.settings.button_background_color | default: 'bg-black' }} {{ section.settings.button_text_color | default: 'text-white' }} {{ section.settings.button_style | default: 'filled' }} {{ section.settings.button_size | default: 'btn-md' }} {{ section.settings.button_border_radius | default: 'rounded' }}'
+                                    data-fluid-add-enrollment-pack="{{ enrollment_pack.id }}"
+                                >
+                                    {{ 'enrollment_pack.checkout' | t }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+  
+                </div><!-- .product-details -->
+            </div>
+            <!-- .grid -->
+        </div><!-- .container -->
+    </section>
+  </main>
+  
+  {% schema %}
+  {
+    "name": "Enrollment Pack",
+    "tag": "section",
+    "class": "enrollment-pack-section",
+    "enabled_on": {
+      "templates": ["enrollment_pack"]
+    },
+    "settings": [
+      {
+        "type": "header",
+        "content": "Layout Settings"
+      },
+      {
+        "type": "select",
+        "id": "section_padding_y_mobile",
+        "label": "Section Vertical Padding (Mobile)",
+        "options": [
+          { "value": "py-xs", "label": "Extra Small" },
+          { "value": "py-sm", "label": "Small" },
+          { "value": "py-md", "label": "Medium" },
+          { "value": "py-lg", "label": "Large" },
+          { "value": "py-xl", "label": "Extra Large" },
+          { "value": "py-2xl", "label": "2X Large" },
+          { "value": "py-3xl", "label": "3X Large" }
+        ],
+        "default": "py-xl"
+      },
+      {
+        "type": "select",
+        "id": "section_padding_y_desktop",
+        "label": "Section Vertical Padding (Desktop)",
+        "options": [
+          { "value": "lg:py-xs", "label": "Extra Small" },
+          { "value": "lg:py-sm", "label": "Small" },
+          { "value": "lg:py-md", "label": "Medium" },
+          { "value": "lg:py-lg", "label": "Large" },
+          { "value": "lg:py-xl", "label": "Extra Large" },
+          { "value": "lg:py-2xl", "label": "2X Large" },
+          { "value": "lg:py-3xl", "label": "3X Large" }
+        ],
+        "default": "lg:py-3xl"
+      },
+      {
+        "type": "select",
+        "id": "section_background_color",
+        "label": "Section Background Color",
+        "options": [
+          { "value": "", "label": "None (Transparent)" },
+          { "value": "bg-white", "label": "White" },
+          { "value": "bg-black", "label": "Black" },
+          { "value": "bg-primary", "label": "Primary" },
+          { "value": "bg-secondary", "label": "Secondary" },
+          { "value": "bg-tertiary", "label": "Tertiary" },
+          { "value": "bg-quaternary", "label": "Quaternary" },
+          { "value": "bg-success", "label": "Success" },
+          { "value": "bg-warning", "label": "Warning" },
+          { "value": "bg-error", "label": "Error" },
+          { "value": "bg-info", "label": "Info" },
+          { "value": "bg-neutral", "label": "Neutral" },
+          { "value": "bg-neutral-light", "label": "Neutral Light" },
+          { "value": "bg-neutral-dark", "label": "Neutral Dark" }
+        ],
+        "default": "bg-white"
+      },
+      {
+        "type": "select",
+        "id": "section_border_radius",
+        "label": "Section Border Radius",
+        "options": [
+          { "value": "rounded-none", "label": "None" },
+          { "value": "rounded-sm", "label": "Small" },
+          { "value": "rounded", "label": "Base" },
+          { "value": "rounded-md", "label": "Medium" },
+          { "value": "rounded-lg", "label": "Large" },
+          { "value": "rounded-xl", "label": "Extra Large" },
+          { "value": "rounded-2xl", "label": "2X Large" },
+          { "value": "rounded-3xl", "label": "3X Large" }
+        ],
+        "default": "rounded-none"
+      },
+      {
+        "type": "header",
+        "content": "Hero Media"
+      },
+      {
+        "type": "image_picker",
+        "id": "hero_image",
+        "label": "Hero Image"
+      },
+      {
+        "type": "text",
+        "id": "hero_image_alt",
+        "label": "Hero Image Alt Text",
+        "default": "Product hero"
+      },
+      {
+        "type": "text",
+        "id": "hero_video",
+        "label": "Hero Video URL (MP4)",
+        "info": "If set, video will be used instead of image"
+      },
+      {
+        "type": "header",
+        "content": "Main Product Typography"
+      },
+      {
+        "type": "select",
+        "id": "product_title_font_family",
+        "label": "Font Family",
+        "options": [
+          { "value": "font-primary", "label": "Primary" },
+          { "value": "font-body", "label": "Body" },
+          { "value": "font-handwritten", "label": "Handwritten" },
+          { "value": "font-serif", "label": "Serif" }
+        ],
+        "default": "font-primary"
+      },
+      {
+        "type": "select",
+        "id": "product_title_font_size",
+        "label": "Product Title Font Size (Mobile)",
+        "options": [
+          { "value": "text-xs", "label": "Extra Small" },
+          { "value": "text-sm", "label": "Small" },
+          { "value": "text-base", "label": "Base" },
+          { "value": "text-lg", "label": "Large" },
+          { "value": "text-xl", "label": "Extra Large" },
+          { "value": "text-2xl", "label": "2X Large" },
+          { "value": "text-3xl", "label": "3X Large" },
+          { "value": "text-4xl", "label": "4X Large" },
+          { "value": "text-5xl", "label": "5X Large" },
+          { "value": "text-6xl", "label": "6X Large" },
+          { "value": "text-7xl", "label": "7X Large" },
+          { "value": "text-8xl", "label": "8X Large" },
+          { "value": "text-9xl", "label": "9X Large" }
+        ],
+        "default": "text-2xl"
+      },
+      {
+        "type": "select",
+        "id": "product_title_font_size_desktop",
+        "label": "Product Title Font Size (Desktop)",
+        "options": [
+          { "value": "lg:text-xs", "label": "Extra Small" },
+          { "value": "lg:text-sm", "label": "Small" },
+          { "value": "lg:text-base", "label": "Base" },
+          { "value": "lg:text-lg", "label": "Large" },
+          { "value": "lg:text-xl", "label": "Extra Large" },
+          { "value": "lg:text-2xl", "label": "2X Large" },
+          { "value": "lg:text-3xl", "label": "3X Large" },
+          { "value": "lg:text-4xl", "label": "4X Large" },
+          { "value": "lg:text-5xl", "label": "5X Large" },
+          { "value": "lg:text-6xl", "label": "6X Large" },
+          { "value": "lg:text-7xl", "label": "7X Large" },
+          { "value": "lg:text-8xl", "label": "8X Large" },
+          { "value": "lg:text-9xl", "label": "9X Large" }
+        ],
+        "default": "lg:text-3xl"
+      },
+      {
+        "type": "select",
+        "id": "product_title_font_weight",
+        "label": "Product Title Font Weight",
+        "options": [
+          { "value": "light", "label": "Light" },
+          { "value": "normal", "label": "Normal" },
+          { "value": "medium", "label": "Medium" },
+          { "value": "semibold", "label": "Semi Bold" },
+          { "value": "bold", "label": "Bold" }
+        ],
+        "default": "bold"
+      },
+      {
+        "type": "select",
+        "id": "product_title_color",
+        "label": "Product Title Color",
+        "options": [
+          { "value": "text-white", "label": "White" },
+          { "value": "text-black", "label": "Black" },
+          { "value": "text-primary", "label": "Primary" },
+          { "value": "text-secondary", "label": "Secondary" },
+          { "value": "text-tertiary", "label": "Tertiary" },
+          { "value": "text-quaternary", "label": "Quaternary" },
+          { "value": "text-success", "label": "Success" },
+          { "value": "text-warning", "label": "Warning" },
+          { "value": "text-error", "label": "Error" },
+          { "value": "text-info", "label": "Info" },
+          { "value": "text-neutral", "label": "Neutral" },
+          { "value": "text-neutral-light", "label": "Neutral Light" },
+          { "value": "text-neutral-dark", "label": "Neutral Dark" }
+        ],
+        "default": "text-black"
+      },
+      {
+        "type": "select",
+        "id": "product_price_font_family",
+        "label": "Font Family",
+        "options": [
+          { "value": "font-primary", "label": "Primary" },
+          { "value": "font-body", "label": "Body" },
+          { "value": "font-handwritten", "label": "Handwritten" },
+          { "value": "font-serif", "label": "Serif" }
+        ],
+        "default": "font-primary"
+      },
+      {
+        "type": "select",
+        "id": "product_price_font_size",
+        "label": "Product Price Font Size (Mobile)",
+        "options": [
+          { "value": "text-xs", "label": "Extra Small" },
+          { "value": "text-sm", "label": "Small" },
+          { "value": "text-base", "label": "Base" },
+          { "value": "text-lg", "label": "Large" },
+          { "value": "text-xl", "label": "Extra Large" },
+          { "value": "text-2xl", "label": "2X Large" },
+          { "value": "text-3xl", "label": "3X Large" },
+          { "value": "text-4xl", "label": "4X Large" },
+          { "value": "text-5xl", "label": "5X Large" },
+          { "value": "text-6xl", "label": "6X Large" },
+          { "value": "text-7xl", "label": "7X Large" },
+          { "value": "text-8xl", "label": "8X Large" },
+          { "value": "text-9xl", "label": "9X Large" }
+        ],
+        "default": "text-lg"
+      },
+      {
+        "type": "select",
+        "id": "product_price_font_size_desktop",
+        "label": "Product Price Font Size (Desktop)",
+        "options": [
+          { "value": "lg:text-xs", "label": "Extra Small" },
+          { "value": "lg:text-sm", "label": "Small" },
+          { "value": "lg:text-base", "label": "Base" },
+          { "value": "lg:text-lg", "label": "Large" },
+          { "value": "lg:text-xl", "label": "Extra Large" },
+          { "value": "lg:text-2xl", "label": "2X Large" },
+          { "value": "lg:text-3xl", "label": "3X Large" },
+          { "value": "lg:text-4xl", "label": "4X Large" },
+          { "value": "lg:text-5xl", "label": "5X Large" },
+          { "value": "lg:text-6xl", "label": "6X Large" },
+          { "value": "lg:text-7xl", "label": "7X Large" },
+          { "value": "lg:text-8xl", "label": "8X Large" },
+          { "value": "lg:text-9xl", "label": "9X Large" }
+        ],
+        "default": "lg:text-xl"
+      },
+      {
+        "type": "select",
+        "id": "product_price_font_weight",
+        "label": "Product Price Font Weight",
+        "options": [
+          { "value": "light", "label": "Light" },
+          { "value": "normal", "label": "Normal" },
+          { "value": "medium", "label": "Medium" },
+          { "value": "semibold", "label": "Semi Bold" },
+          { "value": "bold", "label": "Bold" }
+        ],
+        "default": "medium"
+      },
+      {
+        "type": "select",
+        "id": "product_price_color",
+        "label": "Product Price Color",
+        "options": [
+          { "value": "text-white", "label": "White" },
+          { "value": "text-black", "label": "Black" },
+          { "value": "text-primary", "label": "Primary" },
+          { "value": "text-secondary", "label": "Secondary" },
+          { "value": "text-tertiary", "label": "Tertiary" },
+          { "value": "text-quaternary", "label": "Quaternary" },
+          { "value": "text-success", "label": "Success" },
+          { "value": "text-warning", "label": "Warning" },
+          { "value": "text-error", "label": "Error" },
+          { "value": "text-info", "label": "Info" },
+          { "value": "text-neutral", "label": "Neutral" },
+          { "value": "text-neutral-light", "label": "Neutral Light" },
+          { "value": "text-neutral-dark", "label": "Neutral Dark" }
+        ],
+        "default": "text-black"
+      },
+      {
+        "type": "header",
+        "content": "Visual Elements"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_rating",
+        "label": "Show Rating Stars",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_todays_purchase_text",
+        "label": "Show 'Today's Purchase' Text",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Checkout Button"
+      },
+      {
+        "type": "select",
+        "id": "button_font_family",
+        "label": "Font Family",
+        "options": [
+          { "value": "font-primary", "label": "Primary" },
+          { "value": "font-body", "label": "Body" },
+          { "value": "font-handwritten", "label": "Handwritten" },
+          { "value": "font-serif", "label": "Serif" }
+        ],
+        "default": "font-primary"
+      },
+      {
+        "type": "select",
+        "id": "button_font_size",
+        "label": "Checkout Button Font Size",
+        "options": [
+          { "value": "text-xs", "label": "Extra Small" },
+          { "value": "text-sm", "label": "Small" },
+          { "value": "text-base", "label": "Base" },
+          { "value": "text-lg", "label": "Large" },
+          { "value": "text-xl", "label": "Extra Large" },
+          { "value": "text-2xl", "label": "2X Large" },
+          { "value": "text-3xl", "label": "3X Large" },
+          { "value": "text-4xl", "label": "4X Large" },
+          { "value": "text-5xl", "label": "5X Large" },
+          { "value": "text-6xl", "label": "6X Large" },
+          { "value": "text-7xl", "label": "7X Large" },
+          { "value": "text-8xl", "label": "8X Large" },
+          { "value": "text-9xl", "label": "9X Large" }
+        ],
+        "default": "text-base"
+      },
+      {
+        "type": "select",
+        "id": "button_font_weight",
+        "label": "Checkout Button Font Weight",
+        "options": [
+          { "value": "light", "label": "Light" },
+          { "value": "normal", "label": "Normal" },
+          { "value": "medium", "label": "Medium" },
+          { "value": "semibold", "label": "Semi Bold" },
+          { "value": "bold", "label": "Bold" }
+        ],
+        "default": "medium"
+      },
+      {
+        "type": "select",
+        "id": "button_background_color",
+        "label": "Checkout Button Background Color",
+        "options": [
+          { "value": "bg-white", "label": "White" },
+          { "value": "bg-black", "label": "Black" },
+          { "value": "bg-primary", "label": "Primary" },
+          { "value": "bg-secondary", "label": "Secondary" },
+          { "value": "bg-tertiary", "label": "Tertiary" },
+          { "value": "bg-quaternary", "label": "Quaternary" },
+          { "value": "bg-success", "label": "Success" },
+          { "value": "bg-warning", "label": "Warning" },
+          { "value": "bg-error", "label": "Error" },
+          { "value": "bg-info", "label": "Info" },
+          { "value": "bg-neutral", "label": "Neutral" },
+          { "value": "bg-neutral-light", "label": "Neutral Light" },
+          { "value": "bg-neutral-dark", "label": "Neutral Dark" }
+        ],
+        "default": "bg-black"
+      },
+      {
+        "type": "select",
+        "id": "button_text_color",
+        "label": "Checkout Button Text Color",
+        "options": [
+          { "value": "text-white", "label": "White" },
+          { "value": "text-black", "label": "Black" },
+          { "value": "text-primary", "label": "Primary" },
+          { "value": "text-secondary", "label": "Secondary" },
+          { "value": "text-tertiary", "label": "Tertiary" },
+          { "value": "text-quaternary", "label": "Quaternary" },
+          { "value": "text-success", "label": "Success" },
+          { "value": "text-warning", "label": "Warning" },
+          { "value": "text-error", "label": "Error" },
+          { "value": "text-info", "label": "Info" },
+          { "value": "text-neutral", "label": "Neutral" },
+          { "value": "text-neutral-light", "label": "Neutral Light" },
+          { "value": "text-neutral-dark", "label": "Neutral Dark" }
+        ],
+        "default": "text-white"
+      },
+      {
+        "type": "select",
+        "id": "button_style",
+        "label": "Button Style",
+        "options": [
+          { "value": "filled", "label": "Filled" },
+          { "value": "outline", "label": "Outline" },
+          { "value": "ghost", "label": "Ghost" }
+        ],
+        "default": "filled"
+      },
+      {
+        "type": "select",
+        "id": "button_size",
+        "label": "Button Size",
+        "options": [
+          { "value": "btn-xs", "label": "Extra Small" },
+          { "value": "btn-sm", "label": "Small" },
+          { "value": "btn-md", "label": "Medium" },
+          { "value": "btn-lg", "label": "Large" },
+          { "value": "btn-xl", "label": "Extra Large" }
+        ],
+        "default": "btn-md"
+      },
+      {
+        "type": "range",
+        "id": "button_padding_y",
+        "min": 8,
+        "max": 32,
+        "step": 4,
+        "unit": "px",
+        "label": "Checkout Button Vertical Padding",
+        "default": 16
+      },
+      {
+        "type": "range",
+        "id": "button_padding_x",
+        "min": 16,
+        "max": 64,
+        "step": 4,
+        "unit": "px",
+        "label": "Checkout Button Horizontal Padding",
+        "default": 32
+      },
+      {
+        "type": "select",
+        "id": "button_border_radius",
+        "label": "Checkout Button Border Radius",
+        "options": [
+          { "value": "rounded-none", "label": "None" },
+          { "value": "rounded-sm", "label": "Small" },
+          { "value": "rounded", "label": "Base" },
+          { "value": "rounded-md", "label": "Medium" },
+          { "value": "rounded-lg", "label": "Large" },
+          { "value": "rounded-xl", "label": "Extra Large" },
+          { "value": "rounded-2xl", "label": "2X Large" },
+          { "value": "rounded-3xl", "label": "3X Large" }
+        ],
+        "default": "rounded"
+      },
+      {
+        "type": "header",
+        "content": "Breadcrumb Navigation"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_breadcrumb",
+        "label": "Show Breadcrumb Navigation",
+        "default": true
+      },
+      {
+          "type": "select",
+          "id": "breadcrumb_font_size",
+          "label": "Breadcrumb Font Size",
+          "options": [
+            { "value": "text-xs", "label": "Extra Small" },
+            { "value": "text-sm", "label": "Small" },
+            { "value": "text-base", "label": "Base" },
+            { "value": "text-lg", "label": "Large" },
+            { "value": "text-xl", "label": "Extra Large" },
+            { "value": "text-2xl", "label": "2X Large" }
+          ],
+          "default": "text-sm"
+        },
+        {
+          "type": "select",
+          "id": "breadcrumb_color",
+          "label": "Breadcrumb Text Color",
+          "options": [
+            { "value": "text-white", "label": "White" },
+            { "value": "text-black", "label": "Black" },
+            { "value": "text-primary", "label": "Primary" },
+            { "value": "text-secondary", "label": "Secondary" },
+            { "value": "text-tertiary", "label": "Tertiary" },
+            { "value": "text-quaternary", "label": "Quaternary" },
+            { "value": "text-success", "label": "Success" },
+            { "value": "text-warning", "label": "Warning" },
+            { "value": "text-error", "label": "Error" },
+            { "value": "text-info", "label": "Info" },
+            { "value": "text-neutral", "label": "Neutral" },
+            { "value": "text-neutral-light", "label": "Neutral Light" },
+            { "value": "text-neutral-dark", "label": "Neutral Dark" }
+          ],
+          "default": "text-black"
+        },
+        {
+          "type": "select",
+          "id": "breadcrumb_active_color",
+          "label": "Breadcrumb Active Color",
+          "options": [
+            { "value": "text-white", "label": "White" },
+            { "value": "text-black", "label": "Black" },
+            { "value": "text-primary", "label": "Primary" },
+            { "value": "text-secondary", "label": "Secondary" },
+            { "value": "text-tertiary", "label": "Tertiary" },
+            { "value": "text-quaternary", "label": "Quaternary" },
+            { "value": "text-success", "label": "Success" },
+            { "value": "text-warning", "label": "Warning" },
+            { "value": "text-error", "label": "Error" },
+            { "value": "text-info", "label": "Info" },
+            { "value": "text-neutral", "label": "Neutral" },
+            { "value": "text-neutral-light", "label": "Neutral Light" },
+            { "value": "text-neutral-dark", "label": "Neutral Dark" }
+          ],
+          "default": "text-black"
+        },
+      {
+        "type": "header",
+        "content": "Subscription Product Typography"
+      },
+      {
+        "type": "select",
+        "id": "subscription_product_title_font_family",
+        "label": "Font Family",
+        "options": [
+          { "value": "font-primary", "label": "Primary" },
+          { "value": "font-body", "label": "Body" },
+          { "value": "font-handwritten", "label": "Handwritten" },
+          { "value": "font-serif", "label": "Serif" }
+        ],
+        "default": "font-primary"
+      },
+      {
+        "type": "select",
+        "id": "subscription_product_title_font_size",
+        "label": "Subscription Product Title Font Size (Mobile)",
+        "options": [
+          { "value": "text-xs", "label": "Extra Small" },
+          { "value": "text-sm", "label": "Small" },
+          { "value": "text-base", "label": "Base" },
+          { "value": "text-lg", "label": "Large" },
+          { "value": "text-xl", "label": "Extra Large" },
+          { "value": "text-2xl", "label": "2X Large" },
+          { "value": "text-3xl", "label": "3X Large" },
+          { "value": "text-4xl", "label": "4X Large" },
+          { "value": "text-5xl", "label": "5X Large" },
+          { "value": "text-6xl", "label": "6X Large" },
+          { "value": "text-7xl", "label": "7X Large" },
+          { "value": "text-8xl", "label": "8X Large" },
+          { "value": "text-9xl", "label": "9X Large" }
+        ],
+        "default": "text-lg"
+      },
+      {
+        "type": "select",
+        "id": "subscription_product_title_font_size_desktop",
+        "label": "Subscription Product Title Font Size (Desktop)",
+        "options": [
+          { "value": "lg:text-xs", "label": "Extra Small" },
+          { "value": "lg:text-sm", "label": "Small" },
+          { "value": "lg:text-base", "label": "Base" },
+          { "value": "lg:text-lg", "label": "Large" },
+          { "value": "lg:text-xl", "label": "Extra Large" },
+          { "value": "lg:text-2xl", "label": "2X Large" },
+          { "value": "lg:text-3xl", "label": "3X Large" },
+          { "value": "lg:text-4xl", "label": "4X Large" },
+          { "value": "lg:text-5xl", "label": "5X Large" },
+          { "value": "lg:text-6xl", "label": "6X Large" },
+          { "value": "lg:text-7xl", "label": "7X Large" },
+          { "value": "lg:text-8xl", "label": "8X Large" },
+          { "value": "lg:text-9xl", "label": "9X Large" }
+        ],
+        "default": "lg:text-xl"
+      },
+      {
+        "type": "select",
+        "id": "subscription_product_title_font_weight",
+        "label": "Subscription Product Title Font Weight",
+        "options": [
+          { "value": "light", "label": "Light" },
+          { "value": "normal", "label": "Normal" },
+          { "value": "medium", "label": "Medium" },
+          { "value": "semibold", "label": "Semi Bold" },
+          { "value": "bold", "label": "Bold" }
+        ],
+        "default": "bold"
+      },
+      {
+        "type": "select",
+        "id": "subscription_product_title_color",
+        "label": "Subscription Product Title Color",
+        "options": [
+          { "value": "text-white", "label": "White" },
+          { "value": "text-black", "label": "Black" },
+          { "value": "text-primary", "label": "Primary" },
+          { "value": "text-secondary", "label": "Secondary" },
+          { "value": "text-tertiary", "label": "Tertiary" },
+          { "value": "text-quaternary", "label": "Quaternary" },
+          { "value": "text-success", "label": "Success" },
+          { "value": "text-warning", "label": "Warning" },
+          { "value": "text-error", "label": "Error" },
+          { "value": "text-info", "label": "Info" },
+          { "value": "text-neutral", "label": "Neutral" },
+          { "value": "text-neutral-light", "label": "Neutral Light" },
+          { "value": "text-neutral-dark", "label": "Neutral Dark" }
+        ],
+        "default": "text-black"
+      },
+      {
+        "type": "select",
+        "id": "subscription_product_price_font_family",
+        "label": "Font Family",
+        "options": [
+          { "value": "font-primary", "label": "Primary" },
+          { "value": "font-body", "label": "Body" },
+          { "value": "font-handwritten", "label": "Handwritten" },
+          { "value": "font-serif", "label": "Serif" }
+        ],
+        "default": "font-primary"
+      },
+      {
+        "type": "select",
+        "id": "subscription_product_price_font_size",
+        "label": "Subscription Product Price Font Size (Mobile)",
+        "options": [
+          { "value": "text-xs", "label": "Extra Small" },
+          { "value": "text-sm", "label": "Small" },
+          { "value": "text-base", "label": "Base" },
+          { "value": "text-lg", "label": "Large" },
+          { "value": "text-xl", "label": "Extra Large" },
+          { "value": "text-2xl", "label": "2X Large" },
+          { "value": "text-3xl", "label": "3X Large" },
+          { "value": "text-4xl", "label": "4X Large" },
+          { "value": "text-5xl", "label": "5X Large" },
+          { "value": "text-6xl", "label": "6X Large" },
+          { "value": "text-7xl", "label": "7X Large" },
+          { "value": "text-8xl", "label": "8X Large" },
+          { "value": "text-9xl", "label": "9X Large" }
+        ],
+        "default": "text-lg"
+      },
+      {
+        "type": "select",
+        "id": "subscription_product_price_font_size_desktop",
+        "label": "Subscription Product Price Font Size (Desktop)",
+        "options": [
+          { "value": "lg:text-xs", "label": "Extra Small" },
+          { "value": "lg:text-sm", "label": "Small" },
+          { "value": "lg:text-base", "label": "Base" },
+          { "value": "lg:text-lg", "label": "Large" },
+          { "value": "lg:text-xl", "label": "Extra Large" },
+          { "value": "lg:text-2xl", "label": "2X Large" },
+          { "value": "lg:text-3xl", "label": "3X Large" },
+          { "value": "lg:text-4xl", "label": "4X Large" },
+          { "value": "lg:text-5xl", "label": "5X Large" },
+          { "value": "lg:text-6xl", "label": "6X Large" },
+          { "value": "lg:text-7xl", "label": "7X Large" },
+          { "value": "lg:text-8xl", "label": "8X Large" },
+          { "value": "lg:text-9xl", "label": "9X Large" }
+        ],
+        "default": "lg:text-xl"
+      },
+      {
+        "type": "select",
+        "id": "subscription_product_price_font_weight",
+        "label": "Subscription Product Price Font Weight",
+        "options": [
+          { "value": "light", "label": "Light" },
+          { "value": "normal", "label": "Normal" },
+          { "value": "medium", "label": "Medium" },
+          { "value": "semibold", "label": "Semi Bold" },
+          { "value": "bold", "label": "Bold" }
+        ],
+        "default": "medium"
+      },
+      {
+        "type": "select",
+        "id": "subscription_product_price_color",
+        "label": "Subscription Product Price Color",
+        "options": [
+          { "value": "text-white", "label": "White" },
+          { "value": "text-black", "label": "Black" },
+          { "value": "text-primary", "label": "Primary" },
+          { "value": "text-secondary", "label": "Secondary" },
+          { "value": "text-tertiary", "label": "Tertiary" },
+          { "value": "text-quaternary", "label": "Quaternary" },
+          { "value": "text-success", "label": "Success" },
+          { "value": "text-warning", "label": "Warning" },
+          { "value": "text-error", "label": "Error" },
+          { "value": "text-info", "label": "Info" },
+          { "value": "text-neutral", "label": "Neutral" },
+          { "value": "text-neutral-light", "label": "Neutral Light" },
+          { "value": "text-neutral-dark", "label": "Neutral Dark" }
+        ],
+        "default": "text-black"
+      },
+      {
+          "type": "select",
+          "id": "subscription_info_text_font_size",
+          "label": "Subscription Info Text Font Size",
+          "options": [
+            { "value": "text-xs", "label": "Extra Small" },
+            { "value": "text-sm", "label": "Small" },
+            { "value": "text-base", "label": "Base" },
+            { "value": "text-lg", "label": "Large" },
+            { "value": "text-xl", "label": "Extra Large" },
+            { "value": "text-2xl", "label": "2X Large" },
+            { "value": "text-3xl", "label": "3X Large" }
+          ],
+          "default": "text-sm"
+      },
+      {
+          "type": "select",
+          "id": "subscription_learn_more_font_size",
+          "label": "Subscription Learn More Font Size",
+          "options": [
+            { "value": "text-xs", "label": "Extra Small" },
+            { "value": "text-sm", "label": "Small" },
+            { "value": "text-base", "label": "Base" },
+            { "value": "text-lg", "label": "Large" },
+            { "value": "text-xl", "label": "Extra Large" },
+            { "value": "text-2xl", "label": "2X Large" },
+            { "value": "text-3xl", "label": "3X Large" }
+          ],
+          "default": "text-base"
+      },
+      {
+          "type": "header",
+          "content": "Subscription Information"
+      },
+      {
+          "type": "select",
+          "id": "subscription_info_text_color",
+          "label": "Subscription Info Text Color",
+          "options": [
+            { "value": "text-white", "label": "White" },
+            { "value": "text-black", "label": "Black" },
+            { "value": "text-primary", "label": "Primary" },
+            { "value": "text-secondary", "label": "Secondary" },
+            { "value": "text-tertiary", "label": "Tertiary" },
+            { "value": "text-quaternary", "label": "Quaternary" },
+            { "value": "text-success", "label": "Success" },
+            { "value": "text-warning", "label": "Warning" },
+            { "value": "text-error", "label": "Error" },
+            { "value": "text-info", "label": "Info" },
+            { "value": "text-neutral", "label": "Neutral" },
+            { "value": "text-neutral-light", "label": "Neutral Light" },
+            { "value": "text-neutral-dark", "label": "Neutral Dark" }
+          ],
+          "default": "text-neutral"
+      },
+      {
+          "type": "select",
+          "id": "subscription_learn_more_color",
+          "label": "Subscription Learn More Color",
+          "options": [
+            { "value": "text-white", "label": "White" },
+            { "value": "text-black", "label": "Black" },
+            { "value": "text-primary", "label": "Primary" },
+            { "value": "text-secondary", "label": "Secondary" },
+            { "value": "text-tertiary", "label": "Tertiary" },
+            { "value": "text-quaternary", "label": "Quaternary" },
+            { "value": "text-success", "label": "Success" },
+            { "value": "text-warning", "label": "Warning" },
+            { "value": "text-error", "label": "Error" },
+            { "value": "text-info", "label": "Info" },
+            { "value": "text-neutral", "label": "Neutral" },
+            { "value": "text-neutral-light", "label": "Neutral Light" },
+            { "value": "text-neutral-dark", "label": "Neutral Dark" }
+          ],
+          "default": "text-info"
+      },
+      {
+          "type": "header",
+          "content": "Enrollment Pack Styling"
+      },
+      {
+          "type": "select",
+          "id": "enrollment_pack_background_color",
+          "label": "Enrollment Pack Background Color",
+          "options": [
+            { "value": "bg-white", "label": "White" },
+            { "value": "bg-black", "label": "Black" },
+            { "value": "bg-primary", "label": "Primary" },
+            { "value": "bg-secondary", "label": "Secondary" },
+            { "value": "bg-tertiary", "label": "Tertiary" },
+            { "value": "bg-quaternary", "label": "Quaternary" },
+            { "value": "bg-success", "label": "Success" },
+            { "value": "bg-warning", "label": "Warning" },
+            { "value": "bg-error", "label": "Error" },
+            { "value": "bg-info", "label": "Info" },
+            { "value": "bg-neutral", "label": "Neutral" },
+            { "value": "bg-neutral-light", "label": "Neutral Light" },
+            { "value": "bg-neutral-dark", "label": "Neutral Dark" }
+          ],
+          "default": "bg-neutral-light"
+      },
+      {
+          "type": "select",
+          "id": "enrollment_pack_border_color",
+          "label": "Enrollment Pack Border Color",
+          "options": [
+            { "value": "border-white", "label": "White" },
+            { "value": "border-black", "label": "Black" },
+            { "value": "border-primary", "label": "Primary" },
+            { "value": "border-secondary", "label": "Secondary" },
+            { "value": "border-tertiary", "label": "Tertiary" },
+            { "value": "border-quaternary", "label": "Quaternary" },
+            { "value": "border-success", "label": "Success" },
+            { "value": "border-warning", "label": "Warning" },
+            { "value": "border-error", "label": "Error" },
+            { "value": "border-info", "label": "Info" },
+            { "value": "border-neutral", "label": "Neutral" },
+            { "value": "border-neutral-light", "label": "Neutral Light" },
+            { "value": "border-neutral-dark", "label": "Neutral Dark" }
+          ],
+          "default": "border-neutral-light"
+      },
+      {
+          "type": "select",
+          "id": "enrollment_pack_border_width",
+          "label": "Enrollment Pack Border Width",
+          "options": [
+            { "value": "border-0", "label": "None" },
+            { "value": "border", "label": "1px" },
+            { "value": "border-2", "label": "2px" },
+            { "value": "border-4", "label": "4px" },
+            { "value": "border-8", "label": "8px" }
+          ],
+          "default": "border"
+      },
+      {
+          "type": "select",
+          "id": "enrollment_pack_border_radius",
+          "label": "Enrollment Pack Border Radius",
+          "options": [
+            { "value": "rounded-none", "label": "None" },
+            { "value": "rounded-sm", "label": "Small" },
+            { "value": "rounded", "label": "Base" },
+            { "value": "rounded-md", "label": "Medium" },
+            { "value": "rounded-lg", "label": "Large" },
+            { "value": "rounded-xl", "label": "Extra Large" },
+            { "value": "rounded-2xl", "label": "2X Large" },
+            { "value": "rounded-3xl", "label": "3X Large" }
+          ],
+          "default": "rounded"
+      },
+      {
+          "type": "select",
+          "id": "enrollment_pack_padding",
+          "label": "Enrollment Pack Padding",
+          "options": [
+            { "value": "p-0", "label": "None" },
+            { "value": "p-sm", "label": "Small" },
+            { "value": "p-md", "label": "Medium" },
+            { "value": "p-lg", "label": "Large" },
+            { "value": "p-xl", "label": "Extra Large" },
+            { "value": "p-2xl", "label": "2X Large" },
+            { "value": "p-3xl", "label": "3X Large" }
+          ],
+          "default": "p-lg"
+      },
+      {
+        "type": "header",
+        "content": "Grid Layout Settings"
+      },
+      {
+        "type": "select",
+        "id": "grid_layout",
+        "label": "Grid Layout",
+        "options": [
+          { "value": "grid-cols-1 lg:grid-cols-2", "label": "1 Column Mobile, 2 Columns Desktop" },
+          { "value": "grid-cols-1 lg:grid-cols-2", "label": "1 Column Mobile, 2 Columns Large Desktop" },
+          { "value": "grid-cols-1 md:grid-cols-2", "label": "1 Column Mobile, 2 Columns Medium Desktop" }
+        ],
+        "default": "grid-cols-1 lg:grid-cols-2"
+      },
+      {
+        "type": "range",
+        "id": "grid_gap_x",
+        "min": 0,
+        "max": 64,
+        "step": 4,
+        "unit": "px",
+        "label": "Grid Gap X",
+        "default": 32
+      },
+      {
+        "type": "range",
+        "id": "grid_gap_y",
+        "min": 0,
+        "max": 64,
+        "step": 4,
+        "unit": "px",
+        "label": "Grid Gap Y",
+        "default": 32
+      }
+    ],
+    "blocks": [
+      {
+        "type": "gallery_image",
+        "name": "Gallery Image",
+        "limit": 4,
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+          {
+            "type": "text",
+            "id": "image_alt",
+            "label": "Image Alt Text",
+            "default": "Product detail"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Enrollment Pack",
+        "settings": {
+          "section_title": "Enrollment Pack",
+          "section_padding_y_mobile": "py-xl",
+          "section_padding_y_desktop": "lg:py-3xl",
+          "section_background_color": "bg-white",
+          "section_border_radius": "rounded-none",
+          "product_title_font_family": "font-primary",
+          "product_title_font_size": "text-2xl",
+          "product_title_font_size_desktop": "lg:text-3xl",
+          "product_title_font_weight": "bold",
+          "product_title_color": "text-black",
+          "product_price_font_family": "font-primary",
+          "product_price_font_size": "text-lg",
+          "product_price_font_size_desktop": "lg:text-xl",
+          "product_price_font_weight": "medium",
+          "product_price_color": "text-black",
+          "subscription_product_title_font_family": "font-primary",
+          "subscription_product_title_font_size": "text-lg",
+          "subscription_product_title_font_size_desktop": "lg:text-xl",
+          "subscription_product_title_font_weight": "bold",
+          "subscription_product_title_color": "text-black",
+          "subscription_product_price_font_family": "font-primary",
+          "subscription_product_price_font_size": "text-lg",
+          "subscription_product_price_font_size_desktop": "lg:text-xl",
+          "subscription_product_price_font_weight": "medium",
+          "subscription_product_price_color": "text-black",
+          "subscription_info_text_font_size": "text-sm",
+          "subscription_learn_more_font_size": "text-base",
+          "subscription_info_text_color": "text-neutral",
+          "subscription_learn_more_color": "text-info",
+          "enrollment_pack_background_color": "bg-white",
+          "enrollment_pack_border_color": "border-neutral-light",
+          "enrollment_pack_border_width": "border",
+          "enrollment_pack_border_radius": "rounded",
+          "enrollment_pack_padding": "p-lg",
+          "show_rating": true,
+          "show_todays_purchase_text": true,
+          "button_font_family": "font-primary",
+          "button_font_size": "text-base",
+          "button_font_weight": "medium",
+          "button_background_color": "bg-black",
+          "button_text_color": "text-white",
+          "button_style": "filled",
+          "button_size": "btn-md",
+          "button_border_radius": "rounded",
+          "show_breadcrumb": true,
+          "breadcrumb_font_size": "text-sm",
+          "breadcrumb_color": "text-black",
+          "breadcrumb_active_color": "text-black",
+          "grid_layout": "grid-cols-1 lg:grid-cols-2",
+          "grid_gap_x": 32,
+          "grid_gap_y": 32
+        },
+        "blocks": [
+          {
+            "type": "gallery_image"
+          },
+          {
+            "type": "gallery_image"
+          },
+          {
+            "type": "gallery_image"
+          },
+          {
+            "type": "gallery_image"
+          }
+        ]
+      }
+    ]
+  }
+  {% endschema %}
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const sectionId = '{{ section.id }}';
+      const heroImage = document.getElementById('hero-image-' + sectionId);
+      const galleryItems = document.querySelectorAll('.product-details-section.enrollment-pack-' + sectionId + ' .gallery-item[data-section-id="' + sectionId + '"]');
+      
+      if (!heroImage) return;
+      
+      galleryItems.forEach(function(item) {
+        item.addEventListener('click', function() {
+          const imageSrc = this.getAttribute('data-image-src');
+          if (imageSrc) {
+            heroImage.src = imageSrc;
+            // Add a smooth transition effect
+            heroImage.style.opacity = '0';
+            setTimeout(function() {
+              heroImage.style.opacity = '1';
+            }, 150);
+          }
+        });
+      });
+    });
+  </script>

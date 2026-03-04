@@ -1,0 +1,134 @@
+/* CTA with Logos Section Styles */
+
+.cta-with-logos {
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-logos-inner {
+  position: relative;
+}
+
+/* Content Wrapper */
+.cta-with-logos .cta-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-lg);
+  text-align: center;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* Heading */
+.cta-with-logos .cta-heading {
+  max-width: 720px;
+}
+
+.cta-with-logos .cta-heading h2 {
+  margin: 0;
+}
+
+/* Description */
+.cta-with-logos .cta-description {
+  max-width: 968px;
+}
+
+.cta-with-logos .cta-description p {
+  margin: 0;
+  line-height: 1.625;
+}
+
+/* Button */
+.cta-with-logos .cta-button-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.cta-with-logos .cta-button-wrapper .btn {
+  border-radius: 999px;
+}
+
+/* Logos Section */
+.cta-with-logos .logos-section {
+  margin-top: var(--space-3xl);
+  padding-top: var(--space-lg);
+  border-top: 1px solid rgba(50, 45, 160, 0.2);
+}
+
+@media (max-width: 767px) {
+  .cta-with-logos .logos-section {
+    margin-top: var(--space-2xl);
+  }
+}
+
+/* Logos Wrapper */
+.cta-with-logos .logos-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2xl);
+  flex-wrap: wrap;
+}
+
+@media (max-width: 1023px) {
+  .cta-with-logos .logos-wrapper {
+    gap: var(--space-xl);
+  }
+}
+
+@media (max-width: 767px) {
+  .cta-with-logos .logos-wrapper {
+    gap: var(--space-lg);
+  }
+}
+
+/* Logo Items */
+.cta-with-logos .logo-item {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 200px;
+}
+
+.cta-with-logos .logo-item img {
+  width: auto;
+  height: auto;
+  max-height: 80px;
+  max-width: 100%;
+  object-fit: contain;
+  mix-blend-mode: luminosity;
+  opacity: 0.53;
+  transition: opacity 0.3s ease;
+}
+
+.cta-with-logos .logo-item:hover img {
+  opacity: 0.8;
+}
+
+@media (max-width: 767px) {
+  .cta-with-logos .logo-item {
+    max-width: 120px;
+  }
+  
+  .cta-with-logos .logo-item img {
+    max-height: 60px;
+  }
+}
+
+/* Responsive Content */
+@media (max-width: 767px) {
+  .cta-with-logos .cta-content-wrapper {
+    gap: var(--space-md);
+  }
+  
+  .cta-with-logos .cta-heading {
+    max-width: 100%;
+  }
+  
+  .cta-with-logos .cta-description {
+    max-width: 100%;
+  }
+}
+

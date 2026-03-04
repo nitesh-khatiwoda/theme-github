@@ -1,0 +1,242 @@
+/* Video Grid Section Styles */
+
+.video-grid {
+  position: relative;
+}
+
+.video-grid-inner {
+  position: relative;
+}
+
+/* Section Heading */
+.video-grid .section-heading {
+  text-align: center;
+  margin-bottom: var(--space-xl);
+}
+
+.video-grid .section-heading h2 {
+  margin: 0;
+  line-height: 1;
+}
+
+@media (min-width: 1024px) {
+  .video-grid .section-heading {
+    margin-bottom: var(--space-2xl);
+  }
+  
+  .video-grid .section-heading h2 {
+    line-height: 1.2;
+  }
+}
+
+/* Videos Grid */
+.video-grid .videos-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-xs);
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .video-grid .videos-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-md);
+  }
+}
+
+@media (min-width: 1024px) {
+  .video-grid .videos-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-lg);
+  }
+}
+
+/* Video Card */
+.video-grid .video-card {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-md);
+  position: relative;
+  align-items: stretch;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+/* Hover effect */
+.video-grid .video-card.animate-in:hover {
+  transform: translateY(-4px);
+}
+
+/* Animated state - applied via JavaScript when section is in view */
+.video-grid .video-card.animate-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.video-grid .video-card:hover {
+  transform: translateY(-4px);
+}
+
+/* Video Thumbnail */
+.video-grid .video-thumbnail-wrapper {
+  width: 100%;
+  margin-bottom: var(--space-md);
+  position: relative;
+}
+
+.video-grid .video-thumbnail {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  aspect-ratio: 373.25 / 211.7;
+}
+
+/* Create concentric corners: thumbnail border radius is smaller than card */
+/* This works by reading the card's border-radius and subtracting spacing */
+.video-grid .video-card.rounded-none .video-thumbnail {
+  border-radius: 0;
+}
+
+.video-grid .video-card.rounded-sm .video-thumbnail {
+  border-radius: calc(var(--radius-sm) - var(--space-xs));
+}
+
+.video-grid .video-card.rounded .video-thumbnail {
+  border-radius: calc(var(--radius-base) - var(--space-xs));
+}
+
+.video-grid .video-card.rounded-md .video-thumbnail {
+  border-radius: calc(var(--radius-md) - var(--space-xs));
+}
+
+.video-grid .video-card.rounded-lg .video-thumbnail {
+  border-radius: calc(var(--radius-lg) - var(--space-xs));
+}
+
+.video-grid .video-card.rounded-xl .video-thumbnail {
+  border-radius: calc(var(--radius-xl) - var(--space-xs));
+}
+
+.video-grid .video-card.rounded-2xl .video-thumbnail {
+  border-radius: calc(var(--radius-2xl) - var(--space-xs));
+}
+
+.video-grid .video-card.rounded-3xl .video-thumbnail {
+  border-radius: calc(var(--radius-3xl) - var(--space-xs));
+}
+
+.video-grid .video-thumbnail .thumbnail-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Video Element - needs absolute positioning to fill the aspect-ratio container */
+.video-grid .video-thumbnail .video-element {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* Video Content */
+.video-grid .video-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  flex-grow: 1;
+}
+
+/* Speaker Name */
+.video-grid .speaker-name {
+  margin: 0;
+}
+
+.video-grid .speaker-name h3 {
+  margin: 0;
+  line-height: 1.3;
+}
+
+/* Video Title */
+.video-grid .video-title {
+  margin: 0;
+}
+
+.video-grid .video-title p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Video Date */
+.video-grid .video-date {
+  margin: 0;
+}
+
+.video-grid .video-date p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Responsive adjustments */
+@media (max-width: 639px) {
+  .video-grid .video-card {
+    padding: var(--space-sm);
+  }
+  
+  .video-grid .video-thumbnail-wrapper {
+    margin-bottom: var(--space-sm);
+  }
+}
+
+/* Pagination */
+.video-pagination, 
+.video-pagination .pages{
+   display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.video-pagination {
+  justify-content: center;
+  margin-top: 32px;
+}
+
+.video-pagination .page-nav-btn {
+  border: 1px solid #ccc;
+  background: #fff;
+  height: 36px;
+  line-height: 34px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  text-align: center;
+  padding: 0 16px;
+  
+}
+
+.video-pagination .page-btn {
+  height: 36px;
+  width: 36px;
+  border: 1px solid #ccc;
+}
+.video-pagination .page-btn.active, 
+.video-pagination.page-nav-btn:hover {
+  border-color: #000;
+  background-color: #000;
+  color: #fff;
+}
+
+.video-pagination .page-nav-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  border-color: #ccc;
+  background-color: #ccc;
+  color: #000;
+}

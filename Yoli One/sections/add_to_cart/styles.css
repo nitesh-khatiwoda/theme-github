@@ -1,0 +1,328 @@
+/* Add to Cart Section Styles */
+.product-header1_add-to-cart button:disabled {
+  color: #827d7d !important;
+  background-color: #c3c1c1 !important;
+  border: 1px solid #827d7d !important;
+  cursor: not-allowed !important;
+  transition: .3s ease-in;
+}
+
+.add-to-cart-section .payment-icon {
+  height: 35px;
+}
+
+.add-to-cart-section .form12_block {
+  margin-bottom: 0;
+}
+
+.add-to-cart-section .form12_radio-2 {
+  border: 2px solid #7f8283;
+  border-radius: 8px;
+  cursor: pointer;
+  flex-direction: column;
+  margin-bottom: 0;
+  padding: 0 4rem 0 2rem;
+  font-weight: 400;
+  display: flex;
+  position: relative;
+  padding-bottom: 2rem;
+  color: #7f8283;
+}
+
+.add-to-cart-section .form12_radio-2.buy-once {
+  border-color: #7f8283;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.add-to-cart-section .form12_radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.add-to-cart-section .form12_radio-label {
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  display: flex;
+  font-size: 1.2rem;
+}
+
+.add-to-cart-section .form12_radio-label.notselected {
+  color: var(--_primitives---colors--neutral);
+}
+
+.add-to-cart-section .form12_radio-label-span {
+  font-weight: 700;
+}
+
+.add-to-cart-section .div-block-2 {
+  background-color: #EEA81A;
+  text-align: start;
+  border-radius: 6px 6px 0 0;
+  margin-bottom: .5rem;
+  margin-left: -2rem;
+  margin-right: -4rem;
+  padding: .5rem 2rem;
+  font-weight: 600;
+  font-size: 1.2rem;
+  border-bottom: solid;
+  color: #49473D;
+}
+
+.add-to-cart-section .list {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 24px;
+}
+
+.add-to-cart-section .w-form {
+  position: relative;
+}
+
+.add-to-cart-section .product-header1_add-to-cart {
+  margin-bottom: 0;
+  inset: auto 0% 0%;
+  cursor: pointer;
+}
+
+.add-to-cart-section .flex-block {
+  grid-column-gap: 6px;
+  grid-row-gap: 6px;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.add-to-cart-section .form_input-2 {
+  color: #012169;
+  background-color: #fff;
+  border: 1px solid #012169;
+  border-radius: 0;
+  height: auto;
+  min-height: 2.75rem;
+  margin-bottom: 0;
+  padding: .5rem .75rem;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.add-to-cart-section .form_input-2:focus {
+  border-color: #000;
+}
+
+.add-to-cart-section .form_input-2::placeholder {
+  color: #0009;
+}
+
+.add-to-cart-section .form_input-2.is-quantity-input {
+  border-radius: 12px;
+  width: 5rem;
+  height: 48px !important;
+  min-height: auto;
+}
+
+.add-to-cart-section .form_input-2.is-quantity-input::placeholder {
+  color: #012169;
+}
+
+.add-to-cart-section .button-2 {
+  color: #fff;
+  text-align: center;
+  background-color: #012169;
+  border-radius: 500rem;
+  padding: .75rem 1.5rem;
+  text-decoration: none;
+}
+
+.add-to-cart-section .button-2.is-add-to-cart-button {
+  border-radius: 12px;
+  background-color: #EEA81A;
+  width: 100%;
+  font-weight: 600;
+  padding: 1rem;
+  font-size: 1.2rem;
+  color: #48463c;
+}
+
+.add-to-cart-section .free-shipping {
+  width: auto;
+  height: 3.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.18rem;
+  font-weight: 800;
+}
+
+/* Font size utilities (do not define text-md to preserve defaults) */
+.add-to-cart-section .text-xs { font-size: 0.9rem !important; }
+.add-to-cart-section .text-sm { font-size: 1rem !important; }
+.add-to-cart-section .text-lg { font-size: 1.4rem !important; }
+
+/* Font weight utilities */
+.add-to-cart-section .text-fw-light { font-weight: 300 !important; }
+.add-to-cart-section .text-fw-normal { font-weight: 400 !important; }
+.add-to-cart-section .text-fw-medium { font-weight: 500 !important; }
+.add-to-cart-section .text-fw-semibold { font-weight: 600 !important; }
+.add-to-cart-section .text-fw-bold { font-weight: 700 !important; }
+
+/* Text color utilities derived from existing palette */
+.add-to-cart-section .text-blue { color: #012169; }
+.add-to-cart-section .text-gray { color: #7f8283; }
+.add-to-cart-section .text-neutral-dark { color: #49473D; }
+.add-to-cart-section .text-brown-2 { color: #484333; }
+.add-to-cart-section .text-gold { color: #EEA81A; }
+.add-to-cart-section .text-black { color: #000; }
+.add-to-cart-section .text-white { color: #fff; }
+
+.add-to-cart-section .card-bg-blue { background-color: #012169 !important; }
+.add-to-cart-section .card-bg-gray { background-color: #7f8283 !important; }
+.add-to-cart-section .card-bg-brown { background-color: #48463c !important; }
+.add-to-cart-section .card-bg-brown-2 { background-color: #484333 !important; }
+.add-to-cart-section .card-bg-gold { background-color: #EEA81A !important; }
+.add-to-cart-section .card-bg-black { background-color: #000 !important; }
+.add-to-cart-section .card-bg-white { background-color: #fff !important; }
+
+.add-to-cart-section .radio-input {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  background-color: #f8f5eb;
+  cursor: pointer;
+  position: relative;
+  margin: 0;
+}
+
+.add-to-cart-section .radio-input:checked {
+  border-color: #090909; 
+}
+
+.add-to-cart-section .radio-input:checked::after {
+  content: '';
+  width: 12px;
+  height: 12px;
+  background-color: #49473D;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.add-to-cart-section .credit-cards {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+}
+
+/* Payment method card sizes */
+.add-to-cart-section .payment-card.card-sm { padding: 0.25rem 0.375rem; border-radius: 0.375rem; }
+.add-to-cart-section .payment-card.card-md { padding: 0.375rem 0.5rem; border-radius: 0.5rem; }
+.add-to-cart-section .payment-card.card-lg { padding: 0.625rem 0.75rem; border-radius: 0.625rem; }
+
+/* Ensure icon scales with card comfortably if needed */
+.add-to-cart-section .payment-card.card-sm .payment-icon { height: 1.75rem; }
+.add-to-cart-section .payment-card.card-md .payment-icon { height: 2.1875rem; }
+.add-to-cart-section .payment-card.card-lg .payment-icon { height: 2.625rem; }
+
+.add-to-cart-section .price-input {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+/* Additional utilities */
+.add-to-cart-section li {
+  margin-left: 3rem !important;
+  padding-left: 1rem !important;
+  list-style: disc !important;
+}
+
+.add-to-cart-section .total-description-text {
+  font-size: .7rem;
+}
+
+/* Mobile Responsive */
+@media (max-width: 991px) {
+.add-to-cart-section li {
+    margin-left: 1rem !important;
+    padding-left: 1rem !important;
+  }
+
+.add-to-cart-section .form12_radio-label {
+    font-size: 1rem;
+    padding: 0.2rem 0;
+  }
+}
+
+@media (max-width: 991px) and (min-width: 769px) {
+.add-to-cart-section .list {
+    font-size: .8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .add-to-cart-section .button-2.is-add-to-cart-button {
+    font-size: 1rem;
+    padding: 0.7rem;
+    border-radius: 8px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    width: 100%;
+  }
+
+  .add-to-cart-section .free-shipping {
+    font-size: 1rem;
+    height: 2.2rem;
+    margin-bottom: 8px;
+  }
+
+  .add-to-cart-section .credit-cards {
+    gap: 0.3rem;
+    margin-bottom: 8px;
+  }
+
+  .add-to-cart-section .product-header1_add-to-cart {
+    margin-bottom: 0.5rem;
+  }
+
+  .add-to-cart-section .form12_radio-2 {
+    padding: 0 1rem 0 1rem;
+    font-size: 1rem;
+    border-radius: 8px;
+  }
+
+  .add-to-cart-section .form12_radio-label-span {
+    font-size: 1rem;
+  }
+
+  .add-to-cart-section .div-block-2 {
+    font-size: 1rem;
+    padding: 0.3rem 1rem;
+    margin-left: -1rem;
+    margin-right: -1rem;
+    margin-bottom: 0.3rem;
+    border-radius: 4px;
+  }
+
+  .add-to-cart-section .list {
+    font-size: 0.9rem;
+    margin-left: 0.5rem !important;
+    padding-left: 0.5rem !important;
+  }
+}
+
+@media (min-width: 991px) and (max-width: 1260px) {
+  .add-to-cart-section .credit-cards {
+    margin-bottom: 2rem;
+  }
+}

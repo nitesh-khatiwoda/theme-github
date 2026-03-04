@@ -1,0 +1,273 @@
+<div class="product-banner-section">
+  <div class="banner" id="product-banner-{{ section.id }}">
+    <div class="pack-section-container">
+      {% if section.settings.show_title %}
+        <h2 class="pack-section-title {{ section.settings.title_font_size }} {{ section.settings.title_font_size_mobile }} {{ section.settings.title_font_weight }}">
+          {{ section.settings.title }}
+        </h2>
+      {% endif %}
+      {% if section.settings.show_subtitle %}
+        <p class="pack-section-subtitle {{ section.settings.subtitle_font_size }} {{ section.settings.subtitle_font_size_mobile }} {{ section.settings.subtitle_font_weight }}">
+          {{ section.settings.subtitle }}
+        </p>
+      {% endif %}
+      {% if section.settings.show_packs %}
+        <div class="packs-grid">
+          {% for block in section.blocks %}
+            {% if block.type == 'pack' %}
+              <div class="pack-item" {{ block.fluid_attributes }}>
+                {% if block.settings.image %}
+                  <img src="{{ block.settings.image | image_url }}" alt="{{ block.settings.title }}" class="pack-image {{ block.settings.pack_image_border_radius }}">
+                {% else %}
+                  <img src="{{ 'placeholder-image.png' | asset_url }}" alt="{{ block.settings.title }}" class="pack-image {{ block.settings.pack_image_border_radius }}">
+                {% endif %}
+                <div class="pack-title {{ block.settings.pack_title_font_size }} {{ block.settings.pack_title_font_size_mobile }} {{ block.settings.pack_title_font_weight }} {{ block.settings.pack_title_color }}">
+                  {{ block.settings.title | default: "Pack Title" }}
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Product Banner",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_packs",
+      "label": "Show packs",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Title"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_title",
+      "label": "Show title",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Looking for a Different Vibe?"
+    },
+    {
+      "type": "select",
+      "id": "title_font_size",
+      "label": "Title Font Size",
+      "options": [
+        { "value": "title-xs", "label": "Extra Small" },
+        { "value": "title-sm", "label": "Small" },
+        { "value": "title-md", "label": "Medium" },
+        { "value": "title-lg", "label": "Large" }
+      ],
+      "default": "title-md"
+    },
+    {
+      "type": "select",
+      "id": "title_font_size_mobile",
+      "label": "Title Font Size (Mobile)",
+      "options": [
+        { "value": "title-m-xs", "label": "Extra Small" },
+        { "value": "title-m-sm", "label": "Small" },
+        { "value": "title-m-md", "label": "Medium" },
+        { "value": "title-m-lg", "label": "Large" }
+      ],
+      "default": "title-m-sm"
+    },
+    {
+      "type": "select",
+      "id": "title_font_weight",
+      "label": "Title Font Weight",
+      "options": [
+        { "value": "title-fw-light", "label": "Light" },
+        { "value": "title-fw-normal", "label": "Normal" },
+        { "value": "title-fw-medium", "label": "Medium" },
+        { "value": "title-fw-semibold", "label": "Semi Bold" },
+        { "value": "title-fw-bold", "label": "Bold" }
+      ],
+      "default": "title-fw-bold"
+    },
+    {
+      "type": "header",
+      "content": "Subtitle"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_subtitle",
+      "label": "Show subtitle",
+      "default": true
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "No problem. We've got more curated packs to help you find the perfect fit for your wellness goals."
+    },
+    {
+      "type": "select",
+      "id": "subtitle_font_size",
+      "label": "Subtitle Font Size",
+      "options": [
+        { "value": "subtitle-xs", "label": "Extra Small" },
+        { "value": "subtitle-sm", "label": "Small" },
+        { "value": "subtitle-md", "label": "Medium" },
+        { "value": "subtitle-lg", "label": "Large" }
+      ],
+      "default": "subtitle-md"
+    },
+    {
+      "type": "select",
+      "id": "subtitle_font_size_mobile",
+      "label": "Subtitle Font Size (Mobile)",
+      "options": [
+        { "value": "subtitle-m-xs", "label": "Extra Small" },
+        { "value": "subtitle-m-sm", "label": "Small" },
+        { "value": "subtitle-m-md", "label": "Medium" },
+        { "value": "subtitle-m-lg", "label": "Large" }
+      ],
+      "default": "subtitle-m-sm"
+    },
+    {
+      "type": "select",
+      "id": "subtitle_font_weight",
+      "label": "Subtitle Font Weight",
+      "options": [
+        { "value": "subtitle-fw-light", "label": "Light" },
+        { "value": "subtitle-fw-normal", "label": "Normal" },
+        { "value": "subtitle-fw-medium", "label": "Medium" },
+        { "value": "subtitle-fw-semibold", "label": "Semi Bold" },
+        { "value": "subtitle-fw-bold", "label": "Bold" }
+      ],
+      "default": "subtitle-fw-bold"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "pack",
+      "name": "Pack",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Pack Title",
+          "default": "Pack Name"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Pack Image"
+        },
+        {
+          "type": "select",
+          "id": "pack_image_border_radius",
+          "label": "Image Border Radius",
+          "options": [
+            { "value": "rounded-none", "label": "None" },
+            { "value": "rounded-sm", "label": "Small" },
+            { "value": "rounded", "label": "Base" },
+            { "value": "rounded-md", "label": "Medium" },
+            { "value": "rounded-lg", "label": "Large" },
+            { "value": "rounded-xl", "label": "Extra Large" },
+            { "value": "rounded-2xl", "label": "2X Large" }
+          ],
+          "default": "rounded-lg"
+        },
+        {
+          "type": "select",
+          "id": "pack_title_font_size",
+          "label": "Title Font Size",
+          "options": [
+            { "value": "pt-text-xs", "label": "Extra Small" },
+            { "value": "pt-text-sm", "label": "Small" },
+            { "value": "pt-text-md", "label": "Medium" },
+            { "value": "pt-text-lg", "label": "Large" }
+          ],
+          "default": "pt-text-md"
+        },
+        {
+          "type": "select",
+          "id": "pack_title_font_size_mobile",
+          "label": "Title Font Size (Mobile)",
+          "options": [
+            { "value": "pt-m-text-xs", "label": "Extra Small" },
+            { "value": "pt-m-text-sm", "label": "Small" },
+            { "value": "pt-m-text-md", "label": "Medium" },
+            { "value": "pt-m-text-lg", "label": "Large" }
+          ],
+          "default": "pt-m-text-sm"
+        },
+        {
+          "type": "select",
+          "id": "pack_title_font_weight",
+          "label": "Title Font Weight",
+          "options": [
+            { "value": "pt-fw-light", "label": "Light" },
+            { "value": "pt-fw-normal", "label": "Normal" },
+            { "value": "pt-fw-medium", "label": "Medium" },
+            { "value": "pt-fw-semibold", "label": "Semi Bold" },
+            { "value": "pt-fw-bold", "label": "Bold" }
+          ],
+          "default": "pt-fw-bold"
+        },
+        {
+              "type": "select",
+              "id": "pack_title_color",
+              "label": "Title Color",
+              "options": [
+                { "value": "text-blue", "label": "Blue" },
+                { "value": "text-gray", "label": "Gray" },
+                { "value": "text-neutral-dark", "label": "Brown" },
+                { "value": "text-brown-2", "label": "Brown 2" },
+                { "value": "text-gold", "label": "Gold" },
+                { "value": "text-black", "label": "Black" },
+                { "value": "text-white", "label": "White" },
+                { "value": "text-dark", "label": "Dark" }
+              ],
+              "default": "text-dark"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Banner",
+      "settings": {
+        "title": "Looking for a Different Vibe?",
+        "subtitle": "No problem. We've got more curated packs to help you find the perfect fit for your wellness goals."
+      },
+      "blocks": [
+        {
+          "type": "pack",
+          "settings": {
+            "title": "Intro Pack",
+            "image": "https://ik.imagekit.io/fluid/filestack-migration/filestack_e5glXzylRR2zQbLQnEL8_w7RhMkWcf"
+          }
+        },
+        {
+          "type": "pack",
+          "settings": {
+            "title": "Favorites",
+            "image": "https://ik.imagekit.io/fluid/filestack-migration/filestack_ZFNu7AwKQZmAGweRfdaQ_3uWnSiuJ8"
+          }
+        },
+        {
+          "type": "pack",
+          "settings": {
+            "title": "Omegas+ Kit",
+            "image": "https://ik.imagekit.io/fluid/filestack-migration/filestack_61dm8xcaTxSo3r0DtT3Z_ub2_LC7KMn"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

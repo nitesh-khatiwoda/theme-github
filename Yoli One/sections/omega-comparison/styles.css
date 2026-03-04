@@ -1,0 +1,820 @@
+
+.omega-comparison {
+  position: relative;
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: visible;
+}
+
+.omega-comparison .container {
+  overflow: visible;
+}
+
+.omega-comparison-inner {
+  position: relative;
+  width: 100%;
+  overflow: visible;
+}
+
+/* Header Section */
+.omega-comparison-header {
+  width: 100%;
+}
+
+.omega-comparison-heading h1 {
+  line-height: 1;
+}
+
+@media (min-width: 1024px) {
+  .omega-comparison-heading h1 {
+    line-height: 1.1;
+  }
+}
+
+.omega-comparison-description {
+  width: 100%;
+}
+
+.omega-comparison-description p {
+  line-height: 1.5;
+}
+
+/* Comparison Wrapper */
+.omega-comparison-wrapper {
+  width: 100%;
+  overflow: visible;
+  position: relative;
+}
+
+/* Comparison Box (White Container with Border) */
+.comparison-box {
+  background-color: white;
+  border: 1px solid #e2e2e2;
+  border-radius: 20px;
+  padding: var(--space-lg) var(--space-md);
+  position: relative;
+  overflow: hidden;
+}
+
+@media (min-width: 1024px) {
+  .comparison-box {
+    padding: var(--space-xl) var(--space-lg);
+  }
+}
+
+/* Comparison Header */
+.comparison-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: var(--space-xs) var(--space-xs);
+  margin-bottom: var(--space-lg);
+}
+
+.comparison-header-left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.comparison-icon {
+  width: 54px;
+  height: 54px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.comparison-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.comparison-navigation {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.comparison-nav-btn {
+  width: 43px;
+  height: 43px;
+  border: 1px solid rgba(228, 228, 228, 1);
+  border-radius: 93px;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.comparison-nav-btn:hover {
+  opacity: 0.8;
+}
+
+.comparison-nav-btn:active {
+  cursor: pointer;
+  transform: scale(0.95);
+}
+
+.comparison-nav-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.comparison-nav-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Sticky Navigation in Sidebar */
+.comparison-navigation--sticky {
+  justify-content: flex-start;
+  width: 100%;
+}
+
+/* Sticky Navigation at Top Right */
+.comparison-navigation--sticky-top {
+  position: absolute;
+  top: var(--space-md);
+  right: var(--space-md);
+  z-index: 10;
+  justify-content: flex-end;
+  width: auto;
+}
+
+@media (min-width: 768px) {
+  .comparison-navigation--sticky-top {
+    top: var(--space-md);
+    right: var(--space-md);
+  }
+}
+
+@media (min-width: 1024px) {
+  .comparison-navigation--sticky-top {
+    top: var(--space-lg);
+    right: var(--space-lg);
+  }
+}
+
+/* Controls Container (arrows + dots) */
+.comparison-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md, 16px);
+}
+
+/* Reversed layout: Dots left, Arrows right */
+.comparison-controls.controls-layout-reversed {
+  flex-direction: row-reverse;
+}
+
+.comparison-controls.controls-layout-reversed .comparison-progress {
+  justify-content: flex-start;
+}
+
+/* Sticky Controls at Top Right */
+.comparison-controls--sticky-top {
+  position: absolute;
+  top: var(--space-md);
+  right: var(--space-md);
+  z-index: 10;
+}
+
+@media (min-width: 1024px) {
+  .comparison-controls--sticky-top {
+    top: var(--space-lg);
+    right: var(--space-lg);
+  }
+}
+
+/* Progress Indicator */
+.comparison-progress {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: var(--space-sm, 8px);
+}
+
+.comparison-progress-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full, 9999px);
+  border: none;
+  background: rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  padding: 0;
+  cursor: pointer;
+}
+
+.comparison-progress-dot:hover {
+  background: rgba(0, 0, 0, 0.5);
+  transform: scale(1.2);
+}
+
+.comparison-progress-dot.is-active {
+  width: 32px;
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.comparison-progress-dot:focus {
+  outline: 2px solid rgba(0, 0, 0, 0.5);
+  outline-offset: 2px;
+}
+
+/* Comparison Cards Container */
+.comparison-cards-container {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  position: relative;
+  cursor: grab;
+  padding-left: 0;
+}
+
+.comparison-cards-container:active {
+  cursor: grabbing;
+}
+
+.comparison-cards-container::-webkit-scrollbar {
+  display: none;
+}
+
+.comparison-cards-track {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-md);
+  width: max-content;
+  padding-bottom: 0;
+  touch-action: pan-y pinch-zoom;
+  padding-left: 0;
+  padding-right: var(--space-xs);
+}
+
+/* Minimal padding to allow cards to scroll fully into view */
+@media (min-width: 640px) {
+  .comparison-cards-track {
+    padding-right: var(--space-sm);
+  }
+}
+
+@media (min-width: 1024px) {
+  .comparison-cards-track {
+    padding-right: var(--space-md);
+  }
+}
+
+/* Comparison Card */
+.comparison-card {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding-top: var(--space-lg);
+  padding-bottom: 0;
+  background-color: #efede3;
+  position: relative;
+  height: auto;
+  min-height: fit-content;
+}
+
+.comparison-card--highlighted {
+  background-color: #e5ad40;
+}
+
+.comparison-card-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 0;
+  gap: var(--space-sm);
+  flex-shrink: 0;
+  align-self: flex-start;
+}
+
+.comparison-card-header h3 {
+  text-align: center;
+  line-height: 1.4;
+  white-space: nowrap;
+  min-height: 1.4em;
+}
+
+.comparison-card-image {
+  width: 100%;
+  max-width: var(--image-width-mobile, 180px);
+  height: var(--image-height-mobile, 142px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.comparison-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+@media (min-width: 1024px) {
+  .comparison-card-image {
+    height: var(--image-height-desktop, 153px);
+    max-width: var(--image-width-desktop, 157px);
+  }
+}
+
+/* Card Specifications */
+.comparison-card-specs {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+  max-width: 246px;
+  margin: 0 auto;
+  margin-top: var(--space-sm);
+  flex-grow: 0;
+  flex-shrink: 0;
+  align-self: flex-start;
+}
+
+.comparison-spec-row {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: var(--spec-row-padding-y, 10px);
+  padding-bottom: var(--spec-row-padding-y, 10px);
+  padding-left: var(--space-md);
+  padding-right: var(--space-md);
+  border-bottom: 1px solid rgba(73, 72, 74, 0.1);
+  min-height: 3.7px;
+  box-sizing: border-box;
+}
+
+.comparison-spec-row:last-child {
+  border-bottom: none;
+}
+
+.spec-label {
+  text-align: center;
+  line-height: 1;
+  white-space: nowrap;
+  margin-bottom: var(--label-value-gap, 0px);
+  padding-bottom: 0;
+  font-size: 11.5px;
+  font-weight: 600;
+}
+
+.spec-value {
+  text-align: center;
+  line-height: 1.4;
+  /* white-space: pre-line; */
+  word-wrap: break-word;
+  margin-top: 0;
+  padding-top: 0;
+  margin-bottom: 0;
+}
+
+@media (min-width: 1024px) {
+  .spec-label {
+    font-size: 12px;
+  }
+}
+
+/* Footer Notes */
+.comparison-footer-notes {
+  width: 100%;
+  margin-top: var(--space-lg);
+}
+
+.comparison-footer-notes p {
+  line-height: 1.5;
+  /* white-space: pre-line; */
+  margin-bottom: 0;
+}
+
+.comparison-footer-notes p:not(:last-child) {
+  margin-bottom: 0;
+}
+
+/* Responsive Design */
+@media (min-width: 768px) {
+  .comparison-cards-track {
+    gap: var(--space-lg);
+  }
+}
+
+@media (min-width: 1024px) {
+  .comparison-cards-track {
+    gap: var(--space-xl);
+  }
+}
+
+/* Background Image Handling */
+.omega-comparison[data-bg] {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.omega-comparison-inner[data-bg] {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Sticky Labels Layout Styles */
+.comparison-box--sticky-layout {
+  padding: 0;
+  overflow: visible;
+}
+
+.comparison-sticky-layout {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 0;
+  position: relative;
+}
+
+@media (min-width: 768px) {
+  .comparison-sticky-layout {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+}
+
+/* Left Sidebar */
+.comparison-sticky-sidebar {
+  flex-shrink: 0;
+  width: 100%;
+  padding: var(--space-md) var(--space-md);
+  border-right: none;
+  border-bottom: 1px solid rgba(73, 72, 74, 0.1);
+}
+
+@media (min-width: 768px) {
+  .comparison-sticky-sidebar {
+    width: auto;
+    min-width: 180px;
+    max-width: 220px;
+    padding: var(--space-md) var(--space-md);
+    border-right: none;
+    border-bottom: none;
+    position: sticky;
+    top: 0;
+    align-self: flex-start;
+    height: fit-content;
+    transition: border-right 0.2s ease;
+  }
+  
+  .comparison-sticky-sidebar.has-cards-underneath {
+    border-right: none;
+  }
+}
+
+@media (min-width: 1024px) {
+  .comparison-sticky-sidebar {
+    min-width: 200px;
+    max-width: 250px;
+    padding: var(--space-lg) var(--space-lg);
+  }
+}
+
+/* Sticky Header */
+.comparison-sticky-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  margin-bottom: 0;
+}
+
+.comparison-icon--sticky {
+  width: var(--sticky-icon-width-mobile, 80px);
+  height: auto;
+  max-width: var(--sticky-icon-width-mobile, 80px);
+  flex-shrink: 0;
+}
+
+.comparison-icon--sticky img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+@media (min-width: 768px) {
+  .comparison-icon--sticky {
+    width: var(--sticky-icon-width-tablet, 120px);
+    max-width: var(--sticky-icon-width-tablet, 120px);
+  }
+}
+
+@media (min-width: 1024px) {
+  .comparison-icon--sticky {
+    width: var(--sticky-icon-width-desktop, 160px);
+    max-width: var(--sticky-icon-width-desktop, 160px);
+  }
+}
+
+.comparison-sticky-title {
+  line-height: 1.2;
+  margin: 0;
+}
+
+/* Spacer to match card header height */
+.comparison-sticky-header-spacer {
+  height: 0;
+  min-height: 0;
+  margin-bottom: 0;
+  /* Height will be set dynamically by JavaScript to match card header */
+}
+
+/* Sticky Labels Column */
+.comparison-sticky-labels {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: flex-start;
+}
+
+.comparison-sticky-label-row {
+  width: 100%;
+  padding-top: var(--spec-row-padding-y, 10px);
+  padding-bottom: var(--spec-row-padding-y, 10px);
+  padding-left: 0;
+  padding-right: var(--space-md);
+  border-bottom: 1px solid rgba(73, 72, 74, 0.1);
+  min-height: 3.7px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  margin: 0;
+  height: auto;
+}
+
+.comparison-sticky-label-row:last-child {
+  border-bottom: none;
+}
+
+.spec-label-sticky {
+  text-align: left;
+  line-height: 1.4;
+  white-space: normal;
+  word-wrap: break-word;
+  font-size: 11.5px;
+  font-weight: 600;
+  width: 100%;
+  padding-top: 0;
+  margin: 0;
+}
+
+@media (min-width: 768px) {
+  .spec-label-sticky {
+    font-size: 11.5px;
+  }
+  
+  .comparison-sticky-label-row {
+    padding-right: var(--space-md);
+  }
+}
+
+@media (min-width: 1024px) {
+  .spec-label-sticky {
+    font-size: 12px;
+  }
+  
+  .comparison-sticky-label-row {
+    padding-right: var(--space-lg);
+  }
+}
+
+/* Right Content Area */
+.comparison-sticky-content {
+  flex: 1;
+  min-width: 0;
+  padding: var(--space-lg) 0 var(--space-lg) 0;
+  overflow-x: auto;
+  padding-top: calc(var(--space-lg) + 60px);
+}
+
+@media (min-width: 768px) {
+  .comparison-sticky-content {
+    padding: var(--space-md) 0 var(--space-md) 0;
+    padding-top: calc(var(--space-md) + 60px);
+  }
+}
+
+@media (min-width: 1024px) {
+  .comparison-sticky-content {
+    padding: var(--space-xl) 0 var(--space-xl) 0;
+    padding-top: calc(var(--space-xl) + 60px);
+  }
+}
+
+.comparison-header--sticky {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: var(--space-lg);
+  padding: 0;
+}
+
+/* Sticky Layout Card Specs */
+.comparison-card-specs--sticky {
+  align-items: center;
+  margin-top: 0;
+  padding: 0;
+}
+
+.comparison-spec-row--sticky {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  padding-top: var(--spec-row-padding-y, 10px);
+  padding-bottom: var(--spec-row-padding-y, 10px);
+  padding-left: var(--space-md);
+  padding-right: var(--space-md);
+  margin: 0;
+  min-height: 3.7px;
+  box-sizing: border-box;
+  border-bottom: 1px solid rgba(73, 72, 74, 0.1);
+  width: 100%;
+  height: auto;
+  flex-shrink: 0;
+}
+
+.comparison-spec-row--sticky:last-child {
+  border-bottom: none;
+}
+
+.comparison-spec-row--sticky .spec-value {
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  align-self: center;
+  line-height: 1.4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+/* Ensure labels are hidden on cards in sticky layout */
+.comparison-card-specs--sticky .spec-label {
+  display: none;
+}
+
+/* Alignment: Match sticky label row heights with card spec rows */
+@media (min-width: 768px) {
+  .comparison-sticky-label-row,
+  .comparison-spec-row--sticky {
+    min-height: 70px;
+  }
+}
+
+/* Latest table responsive */
+.omega-table-wrapper{
+  display:grid;
+  grid-template-columns: 160px 1fr;
+  align-items: stretch;
+}
+.comparison-sticky-header {
+  padding-top:146px;
+}
+.comparison-sticky-label-row{
+    padding:0;
+}
+@media (min-width: 768px) {
+  .comparison-sticky-header {
+    padding-top:104px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .comparison-sticky-header {
+    padding-top:60px;
+  }
+  .omega-table-wrapper{
+    grid-template-columns: 220px 1fr;
+  }
+}
+
+.comparison-sticky-content {
+  flex: 1;
+  min-width: 0;
+  padding: var(--space-lg) 0 var(--space-lg) 0;
+  padding-top: calc(var(--space-lg) + 60px);
+  position: relative;
+  overflow: visible;
+}
+.comparison-cards-track {
+  /* Safari-specific fixes */
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+}
+/* Allow horizontal panning for sticky layout on mobile */
+@media (max-width: 1024px) {
+  
+  .comparison-sticky-layout .comparison-cards-track {
+    touch-action: pan-x pan-y pinch-zoom;
+    touch-action: pan-x pan-y pinch-zoom;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+}
+.comparison-cards-container {
+     /* Safari-specific fixes */
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    will-change: scroll-position;
+    display: block;
+    /* Force hardware acceleration for Safari */
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    /* Ensure Safari respects overflow */
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+  }
+/* Safari-specific: Ensure smooth scrolling on all Safari versions */
+@supports (-webkit-touch-callout: none) {
+  .comparison-cards-container {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    overscroll-behavior-y: none;
+  }
+  
+  .comparison-sticky-content .comparison-cards-container {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    overscroll-behavior-y: none;
+  }
+}
+
+/* Safari desktop: Ensure mouse drag scrolling works */
+@media (pointer: fine) {
+  .comparison-cards-container {
+    cursor: grab;
+  }
+  
+  .comparison-cards-container:active {
+    cursor: grabbing;
+  }
+  
+  /* Safari desktop: allow mouse drag */
+  .comparison-cards-container {
+    scroll-behavior: smooth;
+  }
+}
+.comparision-card{
+  /* Safari: Prevent cards from interfering with scroll */
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* Mobile: Ensure proper scrolling behavior */
+@media (max-width: 1024px) {
+  .comparison-sticky-content {
+    width: 100%;
+    overflow: visible;
+  }
+  
+  .comparison-sticky-content .comparison-cards-container {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    touch-action: pan-x;
+    cursor: grab;
+  }
+  
+  .comparison-sticky-content .comparison-cards-container:active {
+    cursor: grabbing;
+  }
+  
+  .comparison-sticky-content .comparison-cards-container::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+

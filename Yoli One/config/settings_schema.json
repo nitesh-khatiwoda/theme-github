@@ -1,0 +1,837 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "SLAPP Theme",
+    "theme_version": "1.0.0",
+    "theme_author": "SLAPP"
+  },
+  {
+    "name": "colors",
+    "settings": [
+      {
+        "type": "header",
+        "content": "🎨 Core Brand Colors"
+      },
+      {
+        "type": "color",
+        "id": "color_primary",
+        "label": "Primary (Brand Blue)",
+        "default": "#49473e",
+        "info": "Main brand color - buttons, links, accents"
+      },
+      {
+        "type": "color",
+        "id": "color_primary_hover",
+        "label": "Primary Hover",
+        "default": "#2917CC"
+      },
+      {
+        "type": "color",
+        "id": "color_primary_active",
+        "label": "Primary Active",
+        "default": "#12096B"
+      },
+      {
+        "type": "color",
+        "id": "color_secondary",
+        "label": "Secondary (Purple)",
+        "default": "#4C2EFF"
+      },
+      {
+        "type": "color",
+        "id": "color_secondary_light",
+        "label": "Secondary Light",
+        "default": "#E6EEFF"
+      },
+      {
+        "type": "color",
+        "id": "color_secondary_lighter",
+        "label": "Secondary Lighter",
+        "default": "#F9F9FF"
+      },
+      {
+        "type": "color",
+        "id": "color_tertiary",
+        "label": "Tertiary (Orange)",
+        "default": "#F86F38",
+        "info": "Third brand color"
+      },
+      {
+        "type": "color",
+        "id": "color_quaternary",
+        "label": "Quaternary (Coral)",
+        "default": "#FF8255",
+        "info": "Fourth brand color"
+      },
+      {
+        "type": "header",
+        "content": "✨ Accent Colors"
+      },
+      {
+        "type": "color",
+        "id": "color_accent_1",
+        "label": "Accent Color 1",
+        "default": "#E5FF65",
+        "info": "First accent color"
+      },
+      {
+        "type": "color",
+        "id": "color_accent_2",
+        "label": "Accent Color 2",
+        "default": "#FEE5F7"
+      },
+      {
+        "type": "color",
+        "id": "color_accent_3",
+        "label": "Accent Color 3",
+        "default": "#F86F38"
+      },
+      {
+        "type": "color",
+        "id": "color_accent_4",
+        "label": "Accent Color 4",
+        "default": "#FF8255"
+      },
+      {
+        "type": "color",
+        "id": "color_accent_5",
+        "label": "Accent Color 5",
+        "default": "#008A5B"
+      },
+      {
+        "type": "color",
+        "id": "color_accent_6",
+        "label": "Accent Color 6",
+        "default": "#29A69A"
+      },
+      {
+        "type": "color",
+        "id": "color_accent_7",
+        "label": "Accent Color 7",
+        "default": "#A68FFF"
+      },
+      {
+        "type": "header",
+        "content": "🌈 Extended Brand Hues"
+      },
+      {
+        "type": "color",
+        "id": "color_brand_dark",
+        "label": "Brand Dark",
+        "default": "#083B29"
+      },
+      {
+        "type": "color",
+        "id": "color_brand_light",
+        "label": "Brand Light",
+        "default": "#EAE7FA"
+      },
+      {
+        "type": "color",
+        "id": "color_brand_accent",
+        "label": "Brand Accent",
+        "default": "#F7FFAF"
+      },
+      {
+        "type": "color",
+        "id": "color_brand_alt",
+        "label": "Brand Alt",
+        "default": "#1C0F8A"
+      },
+      {
+        "type": "header",
+        "content": "⚫ Neutrals"
+      },
+      {
+        "type": "color",
+        "id": "color_neutral_dark",
+        "label": "Neutral Dark",
+        "default": "#49473e",
+        "info": "Primary text color"
+      },
+      {
+        "type": "color",
+        "id": "color_neutral",
+        "label": "Neutral",
+        "default": "#3B302A",
+        "info": "Secondary text color"
+      },
+      {
+        "type": "color",
+        "id": "color_neutral_medium",
+        "label": "Neutral Medium",
+        "default": "#80766D"
+      },
+      {
+        "type": "color",
+        "id": "color_neutral_light",
+        "label": "Neutral Light",
+        "default": "#FAF3EC",
+        "info": "Card backgrounds, subtle fills"
+      },
+      {
+        "type": "color",
+        "id": "color_neutral_lighter",
+        "label": "Neutral Lighter",
+        "default": "#FDF9F5"
+      },
+      {
+        "type": "header",
+        "content": "📄 Background Colors"
+      },
+      {
+        "type": "color",
+        "id": "color_background_page",
+        "label": "Page Background",
+        "default": "#FFFFFF",
+        "info": "Main page background"
+      },
+      {
+        "type": "color",
+        "id": "color_background_surface",
+        "label": "Surface Background",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "color_bg_card_primary",
+        "label": "Card Background Primary",
+        "default": "#FAF3EC"
+      },
+      {
+        "type": "color",
+        "id": "color_bg_card_secondary",
+        "label": "Card Background Secondary",
+        "default": "#FEE5F7"
+      },
+      {
+        "type": "color",
+        "id": "color_bg_banner",
+        "label": "Banner Background",
+        "default": "#E5FF65"
+      },
+      {
+        "type": "color",
+        "id": "color_bg_accent_warm",
+        "label": "Accent Background Warm",
+        "default": "#FF8255"
+      },
+      {
+        "type": "color",
+        "id": "color_bg_accent_dark",
+        "label": "Accent Background Dark",
+        "default": "#083B29"
+      },
+      {
+        "type": "color",
+        "id": "color_bg_footer",
+        "label": "Footer Background",
+        "default": "#1C0F8A"
+      },
+      {
+        "type": "color",
+        "id": "color_bg_accent_soft",
+        "label": "Accent Background Soft",
+        "default": "#F5F3FF"
+      },
+      {
+        "type": "header",
+        "content": "📝 Text Colors"
+      },
+      {
+        "type": "color",
+        "id": "color_text_primary",
+        "label": "Primary Text",
+        "default": "#49473e",
+        "info": "Main body text color"
+      },
+      {
+        "type": "color",
+        "id": "color_text_secondary",
+        "label": "Secondary Text",
+        "default": "#3B302A"
+      },
+      {
+        "type": "color",
+        "id": "color_text_inverse",
+        "label": "Inverse Text",
+        "default": "#FFFFFF",
+        "info": "For dark backgrounds"
+      },
+      {
+        "type": "color",
+        "id": "color_text_muted",
+        "label": "Muted Text",
+        "default": "#7A7067"
+      },
+      {
+        "type": "color",
+        "id": "color_text_accent",
+        "label": "Accent Text",
+        "default": "#1C0F8A"
+      },
+      {
+        "type": "header",
+        "content": "🔲 Borders"
+      },
+      {
+        "type": "color",
+        "id": "color_border_light",
+        "label": "Border Light",
+        "default": "#F0E8E2"
+      },
+      {
+        "type": "color",
+        "id": "color_border_dark",
+        "label": "Border Dark",
+        "default": "#DAD0C9"
+      },
+      {
+        "type": "color",
+        "id": "color_border_strong",
+        "label": "Border Strong",
+        "default": "#1C0F8A"
+      },
+      {
+        "type": "header",
+        "content": "🔘 Button Colors"
+      },
+      {
+        "type": "color",
+        "id": "color_button_primary",
+        "label": "Button Primary Background",
+        "default": "#49473e"
+      },
+      {
+        "type": "color",
+        "id": "color_button_primary_hover",
+        "label": "Button Primary Hover",
+        "default": "#2714B8"
+      },
+      {
+        "type": "color",
+        "id": "color_button_primary_active",
+        "label": "Button Primary Active",
+        "default": "#15096A"
+      },
+      {
+        "type": "color",
+        "id": "color_button_primary_text",
+        "label": "Button Primary Text",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "color_button_secondary",
+        "label": "Button Secondary Background",
+        "default": "#FAF3EC"
+      },
+      {
+        "type": "color",
+        "id": "color_button_secondary_hover",
+        "label": "Button Secondary Hover",
+        "default": "#F1E6DA"
+      },
+      {
+        "type": "color",
+        "id": "color_button_secondary_text",
+        "label": "Button Secondary Text",
+        "default": "#1A1716"
+      },
+      {
+        "type": "color",
+        "id": "color_button_highlight",
+        "label": "Button Highlight",
+        "default": "#E5FF65"
+      },
+      {
+        "type": "color",
+        "id": "color_button_highlight_text",
+        "label": "Button Highlight Text",
+        "default": "#1A1716"
+      },
+      {
+        "type": "color",
+        "id": "color_button_inverse",
+        "label": "Button Inverse",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "color_button_inverse_hover",
+        "label": "Button Inverse Hover",
+        "default": "#F6F6F6"
+      },
+      {
+        "type": "color",
+        "id": "color_button_inverse_text",
+        "label": "Button Inverse Text",
+        "default": "#1A1716"
+      },
+      {
+        "type": "header",
+        "content": "🎨 Gradient Presets"
+      },
+      {
+        "type": "text",
+        "id": "color_gradient_primary",
+        "label": "Gradient Primary",
+        "default": "linear-gradient(90deg, #1C0F8A 0%, #4C2EFF 100%)",
+        "info": "CSS gradient - copy/paste for use"
+      },
+      {
+        "type": "text",
+        "id": "color_gradient_lavender",
+        "label": "Gradient Lavender",
+        "default": "linear-gradient(90deg, #EAE7FA 0%, #F9F9FF 100%)"
+      },
+      {
+        "type": "text",
+        "id": "color_gradient_banner",
+        "label": "Gradient Banner",
+        "default": "linear-gradient(90deg, #E5FF65 0%, #F9F9FF 100%)"
+      },
+      {
+        "type": "header",
+        "content": "⚠️ System Colors"
+      },
+      {
+        "type": "color",
+        "id": "color_success",
+        "label": "Success (Green)",
+        "default": "#18a558"
+      },
+      {
+        "type": "color",
+        "id": "color_warning",
+        "label": "Warning (Amber)",
+        "default": "#F59E0B"
+      },
+      {
+        "type": "color",
+        "id": "color_error",
+        "label": "Error (Red)",
+        "default": "#EF4444"
+      },
+      {
+        "type": "color",
+        "id": "color_info",
+        "label": "Info (Blue)",
+        "default": "#3B82F6"
+      },
+      {
+        "type": "color",
+        "id": "color_white",
+        "label": "White",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "color_black",
+        "label": "Black",
+        "default": "#000000"
+      }
+    ]
+  },
+  {
+    "name": "typography",
+    "settings": [
+      {
+        "type": "header",
+        "content": "🔤 Yoli Custom Fonts"
+      },
+      {
+        "type": "select",
+        "id": "font_primary",
+        "label": "Primary Font (Headings)",
+        "options": [
+          { "value": "Basis-Grotesque", "label": "Basis Grotesque" },
+          { "value": "RecklessNeue", "label": "Reckless Neue" },
+          { "value": "Louize", "label": "Louize" }
+        ],
+        "default": "Basis-Grotesque"
+      },
+      {
+        "type": "select",
+        "id": "font_body",
+        "label": "Body Font (Paragraphs)",
+        "options": [
+          { "value": "Basis-Grotesque", "label": "Basis Grotesque" },
+          { "value": "RecklessNeue", "label": "Reckless Neue" },
+          { "value": "Louize", "label": "Louize" }
+        ],
+        "default": "Basis-Grotesque"
+      },
+      {
+        "type": "select",
+        "id": "font_serif",
+        "label": "Serif Font",
+        "options": [
+          { "value": "RecklessNeue", "label": "Reckless Neue" },
+          { "value": "Basis-Grotesque", "label": "Basis Grotesque" },
+          { "value": "Louize", "label": "Louize" }
+        ],
+        "default": "RecklessNeue"
+      },
+      {
+        "type": "select",
+        "id": "font_handwritten",
+        "label": "Handwritten/Script Font",
+        "options": [
+          { "value": "Louize", "label": "Louize" },
+          { "value": "RecklessNeue", "label": "Reckless Neue" },
+          { "value": "Basis-Grotesque", "label": "Basis Grotesque" }
+        ],
+        "default": "Louize"
+      },
+      {
+        "type": "header",
+        "content": "Font Sizes"
+      },
+      {
+        "type": "range",
+        "id": "font_size_xs",
+        "label": "Extra Small",
+        "min": 10,
+        "max": 16,
+        "step": 0.5,
+        "unit": "px",
+        "default": 12
+      },
+      {
+        "type": "range",
+        "id": "font_size_sm",
+        "label": "Small",
+        "min": 12,
+        "max": 18,
+        "step": 0.5,
+        "unit": "px",
+        "default": 14
+      },
+      {
+        "type": "range",
+        "id": "font_size_base",
+        "label": "Base",
+        "min": 14,
+        "max": 20,
+        "step": 0.5,
+        "unit": "px",
+        "default": 16
+      },
+      {
+        "type": "range",
+        "id": "font_size_lg",
+        "label": "Large",
+        "min": 16,
+        "max": 24,
+        "step": 0.5,
+        "unit": "px",
+        "default": 18
+      },
+      {
+        "type": "range",
+        "id": "font_size_xl",
+        "label": "Extra Large",
+        "min": 18,
+        "max": 28,
+        "step": 0.5,
+        "unit": "px",
+        "default": 20
+      },
+      {
+        "type": "range",
+        "id": "font_size_2xl",
+        "label": "2X Large",
+        "min": 20,
+        "max": 32,
+        "step": 1,
+        "unit": "px",
+        "default": 24
+      },
+      {
+        "type": "range",
+        "id": "font_size_3xl",
+        "label": "3X Large",
+        "min": 24,
+        "max": 40,
+        "step": 1,
+        "unit": "px",
+        "default": 30
+      },
+      {
+        "type": "range",
+        "id": "font_size_4xl",
+        "label": "4X Large",
+        "min": 28,
+        "max": 48,
+        "step": 2,
+        "unit": "px",
+        "default": 36
+      },
+      {
+        "type": "range",
+        "id": "font_size_5xl",
+        "label": "5X Large",
+        "min": 36,
+        "max": 60,
+        "step": 2,
+        "unit": "px",
+        "default": 48
+      },
+      {
+        "type": "range",
+        "id": "font_size_6xl",
+        "label": "6X Large",
+        "min": 48,
+        "max": 72,
+        "step": 2,
+        "unit": "px",
+        "default": 60
+      },
+      {
+        "type": "range",
+        "id": "font_size_7xl",
+        "label": "7X Large",
+        "min": 60,
+        "max": 96,
+        "step": 4,
+        "unit": "px",
+        "default": 72
+      },
+      {
+        "type": "range",
+        "id": "font_size_8xl",
+        "label": "8X Large",
+        "min": 72,
+        "max": 120,
+        "step": 4,
+        "unit": "px",
+        "default": 96
+      },
+      {
+        "type": "range",
+        "id": "font_size_9xl",
+        "label": "9X Large",
+        "min": 96,
+        "max": 144,
+        "step": 8,
+        "unit": "px",
+        "default": 128
+      }
+    ]
+  },
+  {
+    "name": "spacing",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Spacing Scale"
+      },
+      {
+        "type": "range",
+        "id": "space_xs",
+        "label": "Extra Small",
+        "min": 2,
+        "max": 8,
+        "step": 1,
+        "unit": "px",
+        "default": 4
+      },
+      {
+        "type": "range",
+        "id": "space_sm",
+        "label": "Small",
+        "min": 4,
+        "max": 12,
+        "step": 1,
+        "unit": "px",
+        "default": 8
+      },
+      {
+        "type": "range",
+        "id": "space_md",
+        "label": "Medium",
+        "min": 8,
+        "max": 24,
+        "step": 2,
+        "unit": "px",
+        "default": 16
+      },
+      {
+        "type": "range",
+        "id": "space_lg",
+        "label": "Large",
+        "min": 16,
+        "max": 32,
+        "step": 2,
+        "unit": "px",
+        "default": 24
+      },
+      {
+        "type": "range",
+        "id": "space_xl",
+        "label": "Extra Large",
+        "min": 24,
+        "max": 48,
+        "step": 4,
+        "unit": "px",
+        "default": 32
+      },
+      {
+        "type": "range",
+        "id": "space_2xl",
+        "label": "2X Large",
+        "min": 32,
+        "max": 64,
+        "step": 4,
+        "unit": "px",
+        "default": 48
+      },
+      {
+        "type": "range",
+        "id": "space_3xl",
+        "label": "3X Large",
+        "min": 48,
+        "max": 96,
+        "step": 8,
+        "unit": "px",
+        "default": 64
+      },
+      {
+        "type": "range",
+        "id": "space_4xl",
+        "label": "4X Large",
+        "min": 64,
+        "max": 120,
+        "step": 8,
+        "unit": "px",
+        "default": 80
+      },
+      {
+        "type": "range",
+        "id": "space_5xl",
+        "label": "5X Large",
+        "min": 80,
+        "max": 144,
+        "step": 8,
+        "unit": "px",
+        "default": 96
+      }
+    ]
+  },
+  {
+    "name": "border_radius",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Border Radius"
+      },
+      {
+        "type": "range",
+        "id": "border_radius_sm",
+        "label": "Small",
+        "min": 0,
+        "max": 8,
+        "step": 1,
+        "unit": "px",
+        "default": 2
+      },
+      {
+        "type": "range",
+        "id": "border_radius_base",
+        "label": "Base",
+        "min": 2,
+        "max": 12,
+        "step": 1,
+        "unit": "px",
+        "default": 4
+      },
+      {
+        "type": "range",
+        "id": "border_radius_md",
+        "label": "Medium",
+        "min": 4,
+        "max": 16,
+        "step": 2,
+        "unit": "px",
+        "default": 6
+      },
+      {
+        "type": "range",
+        "id": "border_radius_lg",
+        "label": "Large (Buttons)",
+        "min": 6,
+        "max": 20,
+        "step": 1,
+        "unit": "px",
+        "default": 13,
+        "info": "Used for CTA buttons"
+      },
+      {
+        "type": "range",
+        "id": "border_radius_xl",
+        "label": "Extra Large (Badges)",
+        "min": 16,
+        "max": 24,
+        "step": 1,
+        "unit": "px",
+        "default": 20,
+        "info": "Used for benefit badges"
+      },
+      {
+        "type": "range",
+        "id": "border_radius_2xl",
+        "label": "2X Large",
+        "min": 24,
+        "max": 40,
+        "step": 2,
+        "unit": "px",
+        "default": 32
+      },
+      {
+        "type": "range",
+        "id": "border_radius_3xl",
+        "label": "3X Large (Pills)",
+        "min": 40,
+        "max": 60,
+        "step": 2,
+        "unit": "px",
+        "default": 50,
+        "info": "Used for pill-shaped elements"
+      },
+      {
+        "type": "range",
+        "id": "border_radius_4xl",
+        "label": "4X Large",
+        "min": 60,
+        "max": 250,
+        "step": 5,
+        "unit": "px",
+        "default": 100,
+        "info": "Large rounded corners, between 3X Large and Full Circle"
+      },
+      {
+        "type": "header",
+        "content": "Button Styling"
+      },
+      {
+        "type": "select",
+        "id": "button_border_radius",
+        "label": "Default Button Border Radius",
+        "options": [
+          { "value": "rounded-none", "label": "None" },
+          { "value": "rounded-sm", "label": "Small" },
+          { "value": "rounded", "label": "Base" },
+          { "value": "rounded-md", "label": "Medium (Default)" },
+          { "value": "rounded-lg", "label": "Large" },
+          { "value": "rounded-xl", "label": "Extra Large" },
+          { "value": "rounded-2xl", "label": "2X Large" },
+          { "value": "rounded-3xl", "label": "3X Large" },
+          { "value": "rounded-full", "label": "Full (Pills)" }
+        ],
+        "default": "rounded-md"
+      }
+    ]
+  }
+]
+

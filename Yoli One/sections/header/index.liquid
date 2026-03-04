@@ -1,0 +1,257 @@
+<!-- Header Section -->
+<header class="site-header {{ section.settings.background_color | default: 'bg-white' }} {{ section.settings.padding_y | default: 'py-md' }}" id="header-{{ section.id }}">
+  <div class="container">
+    <div class="header-wrapper flex items-center justify-between">
+      
+      <!-- Mobile Menu Button -->
+      <button 
+        class="mobile-menu-toggle md:hidden {{ section.settings.text_color | default: 'text-black' }}" 
+        aria-label="Open menu"
+        aria-expanded="false"
+        data-mobile-menu-toggle>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3 12H21M3 6H21M3 18H21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+      
+      <!-- Logo -->
+      <div class="header-logo">
+        <a href="{{ routes.root_url }}" class="logo-link">
+          {% if section.settings.logo != blank %}
+            <img 
+              src="{{ section.settings.logo | image_url: width: 200 }}" 
+              alt="{{ shop.name }}"
+              class="logo-image"
+              width="{{ section.settings.logo_width | default: 80 }}"
+              height="auto"
+              loading="eager">
+          {% else %}
+            <span class="{{ section.settings.logo_font_size | default: 'text-2xl' }} {{ section.settings.logo_font_weight | default: 'font-bold' }} {{ section.settings.text_color | default: 'text-black' }}">
+              {{ shop.name | default: 'Lorem' }}
+            </span>
+          {% endif %}
+        </a>
+      </div>
+      
+      <!-- Desktop Navigation -->
+      {% if section.settings.show_navigation %}
+      <nav class="header-nav hidden md:flex" aria-label="Main navigation">
+        <ul class="nav-list flex items-center gap-lg">
+          {% for link in linklists[section.settings.menu].links %}
+            <li class="nav-item">
+              <a href="{{ link.url }}" class="nav-link {{ section.settings.nav_font_size | default: 'text-base' }} {{ section.settings.nav_font_weight | default: 'font-medium' }} {{ section.settings.text_color | default: 'text-black' }}">
+                {{ link.title }}
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </nav>
+      {% endif %}
+      
+      <!-- Header Actions -->
+      <div class="header-actions flex items-center gap-md">
+        {% if section.settings.show_search %}
+        <button class="header-action search-toggle {{ section.settings.text_color | default: 'text-black' }}" aria-label="Search">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M21 21L16.65 16.65M19 11C19 15.4183 15.4183 19 11 19C6.58172 19 3 15.4183 3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+        {% endif %}
+        
+        {% if section.settings.show_account %}
+        <a href="{{ routes.account_url }}" class="header-action account-link {{ section.settings.text_color | default: 'text-black' }}" aria-label="Account">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 21V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+        {% endif %}
+        
+        {% if section.settings.show_cart %}
+        <a href="{{ routes.cart_url }}" class="header-action cart-link {{ section.settings.text_color | default: 'text-black' }} relative" aria-label="Cart">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 2L7.17 4M15 2L16.83 4M16.83 4H7.17M16.83 4L19 8H5L7.17 4M5 8V20C5 20.5304 5.21071 21.0391 5.58579 21.4142C5.96086 21.7893 6.46957 22 7 22H17C17.5304 22 18.0391 21.7893 18.4142 21.4142C18.7893 21.0391 19 20.5304 19 20V8H5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span class="cart-count absolute -top-2 -right-2 bg-primary text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center" data-cart-count>
+            {{ cart.item_count }}
+          </span>
+        </a>
+        {% endif %}
+      </div>
+      
+    </div>
+  </div>
+  
+  <!-- Mobile Navigation -->
+  {% if section.settings.show_navigation %}
+  <div class="mobile-nav md:hidden" data-mobile-menu>
+    <nav aria-label="Mobile navigation">
+      <ul class="mobile-nav-list">
+        {% for link in linklists[section.settings.menu].links %}
+          <li class="mobile-nav-item">
+            <a href="{{ link.url }}" class="mobile-nav-link">
+              {{ link.title }}
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    </nav>
+  </div>
+  {% endif %}
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "tag": "header",
+  "class": "header-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Logo"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo Image"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "label": "Logo Width",
+      "min": 60,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "select",
+      "id": "logo_font_size",
+      "label": "Text Logo Size (if no image)",
+      "options": [
+        { "value": "text-lg", "label": "Large" },
+        { "value": "text-xl", "label": "Extra Large" },
+        { "value": "text-2xl", "label": "2X Large" },
+        { "value": "text-3xl", "label": "3X Large" }
+      ],
+      "default": "text-2xl"
+    },
+    {
+      "type": "select",
+      "id": "logo_font_weight",
+      "label": "Text Logo Weight",
+      "options": [
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semibold" }
+      ],
+      "default": "font-semibold"
+    },
+    {
+      "type": "header",
+      "content": "Navigation"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_navigation",
+      "label": "Show Navigation",
+      "default": true
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "select",
+      "id": "nav_font_size",
+      "label": "Navigation Font Size",
+      "options": [
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" }
+      ],
+      "default": "text-base"
+    },
+    {
+      "type": "select",
+      "id": "nav_font_weight",
+      "label": "Navigation Font Weight",
+      "options": [
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semibold" }
+      ],
+      "default": "font-medium"
+    },
+    {
+      "type": "header",
+      "content": "Header Actions"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_search",
+      "label": "Show Search",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_account",
+      "label": "Show Account",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_cart",
+      "label": "Show Cart",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Styling"
+    },
+    {
+      "type": "select",
+      "id": "background_color",
+      "label": "Background Color",
+      "options": [
+        { "value": "bg-white", "label": "White" },
+        { "value": "bg-black", "label": "Black" },
+        { "value": "bg-primary", "label": "Primary Text" },
+        { "value": "bg-neutral", "label": "Neutral" },
+        { "value": "bg-neutral-light", "label": "Neutral Light" }
+      ],
+      "default": "bg-page"
+    },
+    {
+      "type": "select",
+      "id": "text_color",
+      "label": "Text Color",
+      "options": [
+        { "value": "text-white", "label": "White" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-primary", "label": "Primary Text" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "text-primary"
+    },
+    {
+      "type": "select",
+      "id": "padding_y",
+      "label": "Vertical Padding",
+      "options": [
+        { "value": "py-sm", "label": "Small" },
+        { "value": "py-md", "label": "Medium" },
+        { "value": "py-lg", "label": "Large" }
+      ],
+      "default": "py-md"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Header"
+    }
+  ]
+}
+{% endschema %}
+

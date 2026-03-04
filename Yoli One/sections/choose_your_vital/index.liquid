@@ -1,0 +1,593 @@
+<div class="choose-your-pack-section">
+  {% if section.settings.show_title %}
+  <h2 class="section-title {{ section.settings.title_font_family }} {{ section.settings.title_font_size }} {{ section.settings.title_font_size_mobile }} {{ section.settings.title_font_weight }} {{ section.settings.title_text_color }}">{{ section.settings.title | default: "Style Your Pack Your Way" }}</h2>
+  {% endif %}
+  {% if section.settings.show_subtitle %}
+  <h4 class="section-subtitle {{ section.settings.subtitle_font_family }} {{ section.settings.subtitle_font_size }} {{ section.settings.subtitle_font_size_mobile }} {{ section.settings.subtitle_font_weight }} {{ section.settings.subtitle_text_color }}">{{ section.settings.subtitle | default: "Choose Vital Omegas+ or Vital Balance or mix and match with our 2 and 4 pack options." }}</h4>
+  {% endif %}
+  <div class="button-content eina-1-font">
+    {% if section.settings.show_buttons %}
+      <a href="/{{ share_guid }}/enrollments/3BJtX1Dn6UeiPWddbzPFqreS" class="button-pack {{ section.settings.launch_button_bg_color }} {{ section.settings.launch_button_text_color }}" id="launch-pack">
+        <h4>1</h4>
+        <h6 class="btn-label {{ section.settings.launch_button_font_family }} {{ section.settings.launch_button_font_size }} {{ section.settings.launch_button_font_size_mobile }} {{ section.settings.launch_button_font_weight }}">{{ section.settings.launch_button_text | default: 'Launch Pack' }}</h6>
+      </a>
+      <a href="/{{ share_guid }}/enrollments/dga2t3w9PKQ38zcrCDXpX7gb" class="button-pack {{ section.settings.builder_button_bg_color }} {{ section.settings.builder_button_text_color }}" id="builder-pack">
+        <h4>2</h4>
+        <h6 class="btn-label {{ section.settings.builder_button_font_family }} {{ section.settings.builder_button_font_size }} {{ section.settings.builder_button_font_size_mobile }} {{ section.settings.builder_button_font_weight }}">{{ section.settings.builder_button_text | default: 'Builder Pack' }}</h6>
+      </a>
+      <a href="/{{ share_guid }}/enrollments/mJMmCQspobm6z9jQYQNvpG6o" class="button-pack {{ section.settings.pro_button_bg_color }} {{ section.settings.pro_button_text_color }}" id="pro-builder-pack">
+        <h4>3</h4>
+        <h6 class="btn-label {{ section.settings.pro_button_font_family }} {{ section.settings.pro_button_font_size }} {{ section.settings.pro_button_font_size_mobile }} {{ section.settings.pro_button_font_weight }}">{{ section.settings.pro_button_text | default: 'ProBuilder Pack' }}</h6>
+      </a>
+    {% endif %}
+  </div>
+
+  <!-- Selector Groups -->
+  <div class="selector-group">
+    <!-- Dynamic Product List based on tags or variants -->
+    <div class="product-list" id="vital-selector">
+      <div class="product-include">
+        <div class="total-box">
+          <div class="total-row">
+            <span class="section-total" id="vital-total" style="margin-left:8px; font-weight:700; font-size: 20px; color:#A40000">
+              <strong></strong>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-list" id="omegas">
+        {% for product in enrollment_pack.membership_products[0].product_bundles %}
+          {% if product.title == 'Vital Omegas Launch Pack' %}
+            <div class="product-item" data-variant-id="{{ product.bundled_variant_id }}">
+              <div class="product-description-content">
+                <img src="{{ product.image_url }}" alt="{{ product.title }}" class="yoli-icon">
+                <div class="product-content-info">
+                  <p class="product-title non-uppercase">{{ product.title }}</p>
+                  <button class="product-button" onclick="toggleCustomize('omegas')">
+                    <span class="dropdown-title">What's included</span>
+                    <svg class="dropdown-icon" id="omegas-dropdown-icon" width="12" height="8" viewBox="0 0 12 8" fill="none">
+                      <path d="M6 8L0 0H12L6 8Z" fill="currentColor"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <div class="quantity-controls">
+                <button class="qty-btn minus" onclick="changeQuantity(this, -1)">−</button>
+                <span class="qty-number">0</span>
+                <button class="qty-btn plus" onclick="changeQuantity(this, 1)">+</button>
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+        <div class="pack-list" id="omegas-products" style="display: none;">
+          <div class="pack">
+            <img src="https://ik.imagekit.io/fluid/980191045/images/UEU7JC/2d4174eb03ab953ad6e634af0912226b03f0faa8_elMvQc9oW.png" alt="" class="pack-image">
+            <div class="pack-content">
+              <h3 class="pack-title">Favorites Pack (x2)</h3>
+              <div class="pack-description-content">
+                <div class="pack-description">
+                  <p>Vital Omegas+ </p> <p id="favorites-omegas-quantity">x9 (total) </p>
+                </div>
+                <div class="pack-description">
+                  <p>Passion Sample Pack</p> <p id="passion-sample-pack-quantity">x3 (total)</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="pack">
+            <img src="https://ik.imagekit.io/fluid/980191045/images/M6W4MX/b5434ef253576534bd2579188811458491ccbaeb_zkWg_32qQ.png" alt="" class="pack-image">
+            <div class="pack-content">
+              <h3 class="pack-title">Vital Omegas+ Starter Pack (x3)</h3>
+              <div class="pack-description-content">
+                <div class="pack-description">
+                  <p>Vital Omegas+ </p> <p id="starter-omegas-quantity">x2 (total) </p>
+                </div>
+                <div class="pack-description">
+                  <p>Alkalete</p> <p id="starter-alkalete-quantity">x2 (total)</p>
+                </div>
+                <div class="pack-description">
+                  <p>Pure</p> <p id="starter-pure-quantity">x2 (total)</p>
+                </div>
+                <div class="pack-description">
+                  <p>Passion Sample Pack</p> <p id="starter-passion-sample-pack-quantity">x2 (total)</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-list" id="vital-balance">
+        {% for product in enrollment_pack.membership_products[0].product_bundles %}
+          {% if product.title == 'Vital Balance Launch Pack' %}
+            <div class="product-item" data-variant-id="{{ product.bundled_variant_id }}">
+              <div class="product-description-content">
+                <img src="{{ product.image_url }}" alt="{{ product.title }}" class="yoli-icon">
+                <div class="product-content-info">
+                  <p class="product-title non-uppercase">{{ product.title }}</p>
+                  <button class="product-button" onclick="toggleCustomize('vital-balance')">
+                    <span class="dropdown-title">What's included</span>
+                    <svg class="dropdown-icon" id="vital-balance-dropdown-icon" width="12" height="8" viewBox="0 0 12 8" fill="none">
+                      <path d="M6 8L0 0H12L6 8Z" fill="currentColor"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <div class="quantity-controls">
+                <button class="qty-btn minus" onclick="changeQuantity(this, -1)">−</button>
+                <span class="qty-number">0</span>
+                <button class="qty-btn plus" onclick="changeQuantity(this, 1)">+</button>
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+        <div class="pack-list" id="vital-balance-products" style="display: none;">
+          <div class="pack">
+            <img src="https://ik.imagekit.io/fluid/980191045/images/K4K65Y/a329794a47f7b6f041ba94861451bfcc1b2c604b_u8wRJWeqh.png" alt="" class="pack-image">
+            <div class="pack-content">
+              <h3 class="pack-title">Vital Balance Pack (x2)</h3>
+              <div class="pack-description-content">
+                <div class="pack-description">
+                  <p>Vital Balance </p> <p id="balance-vital-balance-quantity">x6 (total) </p>
+                </div>
+                <div class="pack-description">
+                  <p>Passion Sample Pack</p> <p id="balance-passion-sample-pack-quantity">x2 (total)</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="pack">
+            <img src="https://ik.imagekit.io/fluid/980191045/images/M6W4MX/b5434ef253576534bd2579188811458491ccbaeb_zkWg_32qQ.png" alt="" class="pack-image">
+            <div class="pack-content">
+              <h3 class="pack-title">Favorites Pack (x2)</h3>
+              <div class="pack-description-content">
+                <div class="pack-description">
+                  <p>Vital Omegas+ </p> <p id="favorites-omegas-quantity">x2 (total) </p>
+                </div>
+                <div class="pack-description">
+                  <p>Alkalete</p> <p id="favorites-alkalete-quantity">x2 (total)</p>
+                </div>
+                <div class="pack-description">
+                  <p>Pure</p> <p id="favorites-pure-quantity">x2 (total)</p>
+                </div>
+                <div class="pack-description">
+                  <p>Passion Sample Pack</p> <p id="favorites-passion-sample-pack-quantity">x2 (total)</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>    
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Choose Your Vital",
+    "settings": [
+      { "type": "header", "content": "Header" },
+      { "type": "checkbox", "id": "show_title", "label": "Show title", "default": true },
+      { "type": "text", "id": "title", "label": "Title", "default": "Style Your Pack Your Way" },
+      { "type": "select", "id": "title_font_family", "label": "Title Font Family", "options": [
+        { "value": "font-eina01-light", "label": "Eina 01 Light" },
+        { "value": "font-eina01-regular", "label": "Eina 01 Regular" },
+        { "value": "font-eina01-semibold", "label": "Eina 01 SemiBold" },
+        { "value": "font-eina01-bold", "label": "Eina 01 Bold" },
+        { "value": "font-eina-light", "label": "Eina 02 Light" },
+        { "value": "font-eina-regular", "label": "Eina 02 Regular" },
+        { "value": "font-eina-semibold", "label": "Eina 02 SemiBold" },
+        { "value": "font-reckless", "label": "Reckless Neue" },
+        { "value": "font-agrandir-bold", "label": "Agrandir Bold" }
+      ], "default": "font-eina01-bold" },
+      { "type": "select", "id": "title_font_size", "label": "Title Font Size", "options": [
+        { "value": "title-xs", "label": "Extra Small" },
+        { "value": "title-sm", "label": "Small" },
+        { "value": "title-md", "label": "Medium" },
+        { "value": "title-lg", "label": "Large" }
+      ], "default": "title-md" },
+      { "type": "select", "id": "title_font_size_mobile", "label": "Title Font Size (Mobile)", "options": [
+        { "value": "title-m-xs", "label": "Extra Small" },
+        { "value": "title-m-sm", "label": "Small" },
+        { "value": "title-m-md", "label": "Medium" },
+        { "value": "title-m-lg", "label": "Large" }
+      ], "default": "title-m-sm" },
+      { "type": "select", "id": "title_font_weight", "label": "Title Font Weight", "options": [
+        { "value": "title-fw-light", "label": "Light" },
+        { "value": "title-fw-normal", "label": "Normal" },
+        { "value": "title-fw-medium", "label": "Medium" },
+        { "value": "title-fw-semibold", "label": "Semi Bold" },
+        { "value": "title-fw-bold", "label": "Bold" }
+      ], "default": "title-fw-bold" },
+      { "type": "select", "id": "title_text_color", "label": "Title text color", "options": [
+        { "value": "text-blue", "label": "Blue" },
+        { "value": "text-gray", "label": "Gray" },
+        { "value": "text-neutral-dark", "label": "Brown" },
+        { "value": "text-brown-2", "label": "Brown 2" },
+        { "value": "text-gold", "label": "Gold" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-white", "label": "White" }
+      ], "default": "text-neutral-dark" },
+      { "type": "checkbox", "id": "show_subtitle", "label": "Show subtitle", "default": true },
+      { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Choose Vital Omegas+ or Vital Balance or mix and match with our 2 and 4 pack options." },
+      { "type": "select", "id": "subtitle_font_family", "label": "Subtitle Font Family", "options": [
+        { "value": "font-eina01-light", "label": "Eina 01 Light" },
+        { "value": "font-eina01-regular", "label": "Eina 01 Regular" },
+        { "value": "font-eina01-semibold", "label": "Eina 01 SemiBold" },
+        { "value": "font-eina01-bold", "label": "Eina 01 Bold" },
+        { "value": "font-eina-light", "label": "Eina 02 Light" },
+        { "value": "font-eina-regular", "label": "Eina 02 Regular" },
+        { "value": "font-eina-semibold", "label": "Eina 02 SemiBold" },
+        { "value": "font-reckless", "label": "Reckless Neue" },
+        { "value": "font-agrandir-bold", "label": "Agrandir Bold" }
+      ], "default": "font-eina01-regular" },
+      { "type": "select", "id": "subtitle_font_size", "label": "Subtitle Font Size", "options": [
+        { "value": "subtitle-xs", "label": "Extra Small" },
+        { "value": "subtitle-sm", "label": "Small" },
+        { "value": "subtitle-md", "label": "Medium" },
+        { "value": "subtitle-lg", "label": "Large" }
+      ], "default": "subtitle-md" },
+      { "type": "select", "id": "subtitle_font_size_mobile", "label": "Subtitle Font Size (Mobile)", "options": [
+        { "value": "subtitle-m-xs", "label": "Extra Small" },
+        { "value": "subtitle-m-sm", "label": "Small" },
+        { "value": "subtitle-m-md", "label": "Medium" },
+        { "value": "subtitle-m-lg", "label": "Large" }
+      ], "default": "subtitle-m-sm" },
+      { "type": "select", "id": "subtitle_font_weight", "label": "Subtitle Font Weight", "options": [
+        { "value": "subtitle-fw-light", "label": "Light" },
+        { "value": "subtitle-fw-normal", "label": "Normal" },
+        { "value": "subtitle-fw-medium", "label": "Medium" },
+        { "value": "subtitle-fw-semibold", "label": "Semi Bold" },
+        { "value": "subtitle-fw-bold", "label": "Bold" }
+      ], "default": "subtitle-fw-semibold" },
+
+      { "type": "header", "content": "Buttons" },
+      { "type": "checkbox", "id": "show_buttons", "label": "Show buttons", "default": true },
+      { "type": "text", "id": "launch_button_text", "label": "Launch button text", "default": "Launch Pack" },
+      { "type": "select", "id": "launch_button_font_family", "label": "Launch font family", "options": [
+        { "value": "font-eina01-light", "label": "Eina 01 Light" },
+        { "value": "font-eina01-regular", "label": "Eina 01 Regular" },
+        { "value": "font-eina01-semibold", "label": "Eina 01 SemiBold" },
+        { "value": "font-eina01-bold", "label": "Eina 01 Bold" },
+        { "value": "font-eina-light", "label": "Eina 02 Light" },
+        { "value": "font-eina-regular", "label": "Eina 02 Regular" },
+        { "value": "font-eina-semibold", "label": "Eina 02 SemiBold" },
+        { "value": "font-reckless", "label": "Reckless Neue" },
+        { "value": "font-agrandir-bold", "label": "Agrandir Bold" }
+      ], "default": "font-eina01-regular" },
+      { "type": "select", "id": "launch_button_font_size", "label": "Launch font size", "options": [
+        { "value": "btn-text-xs", "label": "Extra Small" },
+        { "value": "btn-text-sm", "label": "Small" },
+        { "value": "btn-text-md", "label": "Medium" },
+        { "value": "btn-text-lg", "label": "Large" }
+      ], "default": "btn-text-sm" },
+      { "type": "select", "id": "launch_button_font_size_mobile", "label": "Launch font size (Mobile)", "options": [
+        { "value": "btn-m-text-xs", "label": "Extra Small" },
+        { "value": "btn-m-text-sm", "label": "Small" },
+        { "value": "btn-m-text-md", "label": "Medium" },
+        { "value": "btn-m-text-lg", "label": "Large" }
+      ], "default": "btn-m-text-sm" },
+      { "type": "select", "id": "launch_button_font_weight", "label": "Launch font weight", "options": [
+        { "value": "btn-fw-light", "label": "Light" },
+        { "value": "btn-fw-normal", "label": "Normal" },
+        { "value": "btn-fw-medium", "label": "Medium" },
+        { "value": "btn-fw-semibold", "label": "Semi Bold" },
+        { "value": "btn-fw-bold", "label": "Bold" }
+      ], "default": "btn-fw-normal" },
+      { "type": "select", "id": "launch_button_bg_color", "label": "Launch button background", "options": [
+        { "value": "btn-bg-cream", "label": "Cream" },
+        { "value": "btn-bg-white", "label": "White" }
+      ], "default": "btn-bg-cream" },
+      { "type": "select", "id": "launch_button_text_color", "label": "Launch button text color", "options": [
+        { "value": "btn-text-dark", "label": "Dark" },
+        { "value": "btn-text-blue", "label": "Blue" },
+        { "value": "btn-text-white", "label": "White" }
+      ], "default": "btn-text-dark" },
+
+      { "type": "text", "id": "builder_button_text", "label": "Builder button text", "default": "Builder Pack" },
+      { "type": "select", "id": "builder_button_font_family", "label": "Builder font family", "options": [
+        { "value": "font-eina01-light", "label": "Eina 01 Light" },
+        { "value": "font-eina01-regular", "label": "Eina 01 Regular" },
+        { "value": "font-eina01-semibold", "label": "Eina 01 SemiBold" },
+        { "value": "font-eina01-bold", "label": "Eina 01 Bold" },
+        { "value": "font-eina-light", "label": "Eina 02 Light" },
+        { "value": "font-eina-regular", "label": "Eina 02 Regular" },
+        { "value": "font-eina-semibold", "label": "Eina 02 SemiBold" },
+        { "value": "font-reckless", "label": "Reckless Neue" },
+        { "value": "font-agrandir-bold", "label": "Agrandir Bold" }
+      ], "default": "font-eina01-regular" },
+      { "type": "select", "id": "builder_button_font_size", "label": "Builder font size", "options": [
+        { "value": "btn-text-xs", "label": "Extra Small" },
+        { "value": "btn-text-sm", "label": "Small" },
+        { "value": "btn-text-md", "label": "Medium" },
+        { "value": "btn-text-lg", "label": "Large" }
+      ], "default": "btn-text-sm" },
+      { "type": "select", "id": "builder_button_font_size_mobile", "label": "Builder font size (Mobile)", "options": [
+        { "value": "btn-m-text-xs", "label": "Extra Small" },
+        { "value": "btn-m-text-sm", "label": "Small" },
+        { "value": "btn-m-text-md", "label": "Medium" },
+        { "value": "btn-m-text-lg", "label": "Large" }
+      ], "default": "btn-m-text-sm" },
+      { "type": "select", "id": "builder_button_font_weight", "label": "Builder font weight", "options": [
+        { "value": "btn-fw-light", "label": "Light" },
+        { "value": "btn-fw-normal", "label": "Normal" },
+        { "value": "btn-fw-medium", "label": "Medium" },
+        { "value": "btn-fw-semibold", "label": "Semi Bold" },
+        { "value": "btn-fw-bold", "label": "Bold" }
+      ], "default": "btn-fw-normal" },
+      { "type": "select", "id": "builder_button_bg_color", "label": "Builder button background", "options": [
+        { "value": "btn-bg-cream", "label": "Cream" },
+        { "value": "btn-bg-white", "label": "White" }
+      ], "default": "btn-bg-cream" },
+      { "type": "select", "id": "builder_button_text_color", "label": "Builder button text color", "options": [
+        { "value": "btn-text-dark", "label": "Dark" },
+        { "value": "btn-text-blue", "label": "Blue" },
+        { "value": "btn-text-white", "label": "White" }
+      ], "default": "btn-text-dark" },
+
+      { "type": "text", "id": "pro_button_text", "label": "ProBuilder button text", "default": "ProBuilder Pack" },
+      { "type": "select", "id": "pro_button_font_family", "label": "Pro font family", "options": [
+        { "value": "font-eina01-light", "label": "Eina 01 Light" },
+        { "value": "font-eina01-regular", "label": "Eina 01 Regular" },
+        { "value": "font-eina01-semibold", "label": "Eina 01 SemiBold" },
+        { "value": "font-eina01-bold", "label": "Eina 01 Bold" },
+        { "value": "font-eina-light", "label": "Eina 02 Light" },
+        { "value": "font-eina-regular", "label": "Eina 02 Regular" },
+        { "value": "font-eina-semibold", "label": "Eina 02 SemiBold" },
+        { "value": "font-reckless", "label": "Reckless Neue" },
+        { "value": "font-agrandir-bold", "label": "Agrandir Bold" }
+      ], "default": "font-eina01-regular" },
+      { "type": "select", "id": "pro_button_font_size", "label": "Pro font size", "options": [
+        { "value": "btn-text-xs", "label": "Extra Small" },
+        { "value": "btn-text-sm", "label": "Small" },
+        { "value": "btn-text-md", "label": "Medium" },
+        { "value": "btn-text-lg", "label": "Large" }
+      ], "default": "btn-text-sm" },
+      { "type": "select", "id": "pro_button_font_size_mobile", "label": "Pro font size (Mobile)", "options": [
+        { "value": "btn-m-text-xs", "label": "Extra Small" },
+        { "value": "btn-m-text-sm", "label": "Small" },
+        { "value": "btn-m-text-md", "label": "Medium" },
+        { "value": "btn-m-text-lg", "label": "Large" }
+      ], "default": "btn-m-text-sm" },
+      { "type": "select", "id": "pro_button_font_weight", "label": "Pro font weight", "options": [
+        { "value": "btn-fw-light", "label": "Light" },
+        { "value": "btn-fw-normal", "label": "Normal" },
+        { "value": "btn-fw-medium", "label": "Medium" },
+        { "value": "btn-fw-semibold", "label": "Semi Bold" },
+        { "value": "btn-fw-bold", "label": "Bold" }
+      ], "default": "btn-fw-normal" },
+      { "type": "select", "id": "pro_button_bg_color", "label": "Pro button background", "options": [
+        { "value": "btn-bg-cream", "label": "Cream" },
+        { "value": "btn-bg-white", "label": "White" }
+      ], "default": "btn-bg-cream" },
+      { "type": "select", "id": "pro_button_text_color", "label": "Pro button text color", "options": [
+        { "value": "btn-text-dark", "label": "Dark" },
+        { "value": "btn-text-blue", "label": "Blue" },
+        { "value": "btn-text-white", "label": "White" }
+      ], "default": "btn-text-dark" }
+    ]
+  }
+{% endschema %}
+
+<script>
+  const PACK_MAPPING = {
+    '3BJtX1Dn6UeiPWddbzPFqreS': 'launch-pack',
+    'dga2t3w9PKQ38zcrCDXpX7gb': 'builder-pack',
+    'mJMmCQspobm6z9jQYQNvpG6o': 'pro-builder-pack'
+  };
+
+  const PACK_LIMITS = {
+    'launch-pack': 1,
+    'builder-pack': 2,
+    'pro-builder-pack': 4
+  };
+
+  const PACK_BASE_QUANTITIES = {
+    favorites: { omegas: 9, passion: 3 },
+    starter: { omegas: 2, alkalete: 2, pure: 2, passion: 2 },
+    balance: { vitalBalance: 6, passion: 2 },
+    favoritesInBalance: { omegas: 2, alkalete: 2, pure: 2, passion: 2 }
+  };
+
+  const state = {
+    currentPackId: null,
+    vitalOmegasQuantity: 0,
+    vitalBalanceQuantity: 0
+  };
+
+  document.addEventListener('DOMContentLoaded', function () {
+    const currentPack = window.location.pathname.split('/').pop();
+    state.currentPackId = PACK_MAPPING[currentPack];
+
+    if (state.currentPackId) {
+      const button = document.getElementById(state.currentPackId);
+      if (button) {
+        document.querySelectorAll('.button-pack').forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+      }
+    }
+
+    updateSectionTotals();
+    updatePackDetails();
+  });
+
+  window.selectedProductsCart = {};
+
+  function initializeAllProducts() {
+    document.querySelectorAll('.product-item[data-variant-id]').forEach(item => {
+      const variantId = item.getAttribute('data-variant-id');
+      const quantity = parseInt(item.querySelector('.qty-number').textContent) || 0;
+      
+      window.selectedProductsCart[variantId] = {
+        variant_id: variantId,
+        quantity: quantity
+      };
+    });
+    
+    localStorage.setItem('selectedProductsCart', JSON.stringify(window.selectedProductsCart));
+  }
+
+  function saveProductToCart(variantId, quantity) {
+    (quantity > 0) ? (window.selectedProductsCart[variantId] = { variant_id: variantId, quantity: quantity}) : delete window.selectedProductsCart[variantId];
+    
+    localStorage.setItem('selectedProductsCart', JSON.stringify(window.selectedProductsCart));
+  }
+
+  function toggleCustomize(type) {
+    const productsDiv = document.querySelector(`#${type}-products`);
+    const dropdownIcon = document.querySelector(`#${type}-dropdown-icon`);
+
+    if (!productsDiv) return;
+
+    const isHidden = productsDiv.style.display === 'none';
+    productsDiv.style.display = isHidden ? 'block' : 'none';
+
+    if (dropdownIcon) {
+      dropdownIcon.classList.toggle('rotated', isHidden);
+    }
+  }
+
+  function getTotalInSection(section) {
+    return Array.from(section.querySelectorAll('.qty-number'))
+      .reduce((total, el) => total + parseInt(el.textContent), 0);
+  }
+
+  function updateTotalColor(total) {
+    const sectionTotal = document.getElementById('vital-total');
+    if (sectionTotal) {
+      sectionTotal.style.color = total > 0 ? '#0047A4' : '#A40000';
+    }
+  }
+
+  function updateProductQuantity(productSection, newQty) {
+    if (!productSection) return;
+
+    if (productSection.id === 'omegas') {
+      state.vitalOmegasQuantity = newQty;
+    } else if (productSection.id === 'vital-balance') {
+      state.vitalBalanceQuantity = newQty;
+    }
+  }
+
+  function canChangeQuantity(change, currentQty, parentSection) {
+    const limits = PACK_LIMITS[state.currentPackId];
+    const totalInParent = getTotalInSection(parentSection);
+
+    if (change > 0) return totalInParent < limits;
+    if (change < 0) return currentQty > 0;
+
+    return true;
+  }
+
+  function changeQuantity(button, change) {
+    const container = button.parentElement;
+    const qtyElement = container.querySelector('.qty-number');
+    const parentSection = button.closest('#vital-selector');
+    const productSection = button.closest('.product-list[id]');
+
+    if (!parentSection) return;
+
+    const currentQty = parseInt(qtyElement.textContent);
+
+    if (!canChangeQuantity(change, currentQty, parentSection)) return;
+
+    const newQty = Math.max(0, currentQty + change);
+
+    if (newQty !== currentQty) {
+      qtyElement.textContent = newQty;
+      updateProductQuantity(productSection, newQty);
+      updateTotalColor(getTotalInSection(parentSection));
+      updateSectionTotals();
+      updatePackDetails();
+
+      const productItem = button.closest('.product-item');
+      const variantId = productItem.getAttribute('data-variant-id');
+
+      if (variantId) {
+        saveProductToCart(variantId, newQty);
+      }
+    }
+  }
+
+  function updateSectionTotals() {
+    const vitalSection = document.getElementById('vital-selector');
+    if (!vitalSection) return;
+
+    const limits = PACK_LIMITS[state.currentPackId];
+    const totalSelected = getTotalInSection(vitalSection);
+
+    updateTotalDisplay(totalSelected, limits);
+    updateButtonStates(vitalSection, totalSelected, limits);
+    const isComplete = totalSelected === limits;
+    localStorage.setItem('packSelectionsComplete', JSON.stringify(isComplete));
+    window.dispatchEvent(new CustomEvent('pack-selections-updated', { detail: { isComplete } }));
+  }
+
+  function updateTotalDisplay(totalSelected, limits) {
+    const vitalTotalElement = document.getElementById('vital-total');
+    if (vitalTotalElement) {
+      vitalTotalElement.innerHTML = `<strong>${totalSelected} of ${limits} selected</strong>`;
+    }
+  }
+
+  function updateButtonStates(vitalSection, totalSelected, limits) {
+    vitalSection.querySelectorAll('.qty-btn.plus').forEach(btn => {
+      btn.disabled = totalSelected >= limits;
+      btn.classList.toggle('disabled', btn.disabled);
+    });
+
+    vitalSection.querySelectorAll('.qty-btn.minus').forEach(btn => {
+      const qtyElement = btn.parentElement.querySelector('.qty-number');
+      btn.disabled = parseInt(qtyElement.textContent) === 0;
+      btn.classList.toggle('disabled', btn.disabled);
+    });
+  }
+
+  function setElementText(elementId, text) {
+    const element = document.getElementById(elementId);
+    if (element) element.textContent = text;
+  }
+
+  function updateQuantityText(elementId, baseQuantity, multiplier = 1) {
+    setElementText(elementId, `x${baseQuantity * multiplier} (total)`);
+  }
+
+  function updateOmegasQuantities() {
+    const multiplier = state.vitalOmegasQuantity || 1;
+    const quantities = PACK_BASE_QUANTITIES;
+
+    updateQuantityText('favorites-omegas-quantity', quantities.favorites.omegas, multiplier);
+    updateQuantityText('passion-sample-pack-quantity', quantities.favorites.passion, multiplier);
+    updateQuantityText('starter-omegas-quantity', quantities.starter.omegas, multiplier);
+    updateQuantityText('starter-alkalete-quantity', quantities.starter.alkalete, multiplier);
+    updateQuantityText('starter-pure-quantity', quantities.starter.pure, multiplier);
+    updateQuantityText('starter-passion-sample-pack-quantity', quantities.starter.passion, multiplier);
+  }
+
+  function updateBalanceQuantities() {
+    const multiplier = state.vitalBalanceQuantity || 1;
+    const quantities = PACK_BASE_QUANTITIES;
+
+    updateQuantityText('balance-vital-balance-quantity', quantities.balance.vitalBalance, multiplier);
+    updateQuantityText('balance-passion-sample-pack-quantity', quantities.balance.passion, multiplier);
+
+    const balanceFavoritesOmegasQty = document.querySelector('#vital-balance-products #favorites-omegas-quantity');
+    if (balanceFavoritesOmegasQty) {
+      balanceFavoritesOmegasQty.textContent = `x${quantities.favoritesInBalance.omegas * multiplier} (total)`;
+    }
+
+    updateQuantityText('favorites-alkalete-quantity', quantities.favoritesInBalance.alkalete, multiplier);
+    updateQuantityText('favorites-pure-quantity', quantities.favoritesInBalance.pure, multiplier);
+    updateQuantityText('favorites-passion-sample-pack-quantity', quantities.favoritesInBalance.passion, multiplier);
+  }
+
+  function updatePackDetails() {
+    updateOmegasQuantities();
+    updateBalanceQuantities();
+  }
+
+  function getPackLimits() {
+    return PACK_LIMITS[state.currentPackId] || 0;
+  }
+</script>

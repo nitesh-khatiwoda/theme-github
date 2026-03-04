@@ -1,0 +1,974 @@
+<link rel="stylesheet" href="{{ 'milestone-timeline.css' | asset_url }}">
+
+<!-- Milestone Timeline Section -->
+<section 
+  class="milestone-timeline {{ section.settings.background_color | default: 'bg-white' }} {{ section.settings.padding_top_mobile | default: 'pt-xl' }} {{ section.settings.padding_bottom_mobile | default: 'pb-3xl' }} {{ section.settings.padding_x_mobile | default: 'px-md' }} {% if section.settings.padding_top_desktop != blank %}{{ section.settings.padding_top_desktop }}{% else %}lg:pt-2xl{% endif %} {% if section.settings.padding_bottom_desktop != blank %}{{ section.settings.padding_bottom_desktop }}{% else %}lg:pb-4xl{% endif %} {% if section.settings.padding_x_desktop != blank %}{{ section.settings.padding_x_desktop }}{% else %}lg:px-xl{% endif %}"
+  id="section-{{ section.id }}">
+  
+  <div class="{{section.settings.container_layout_width | default: 'container'}}">
+    <div class="milestone-timeline-inner">
+      
+      <!-- Heading Area -->
+      <div class="milestone-timeline-header">
+        {% if section.settings.title != blank %}
+        <h2 class="milestone-timeline-title {{ section.settings.title_font_family | default: 'font-primary' }} {{ section.settings.title_font_size | default: 'text-3xl' }} {{ section.settings.title_font_size_desktop | default: 'lg:text-4xl' }} {{ section.settings.title_font_weight | default: 'font-semibold' }} {{ section.settings.title_color | default: 'text-black' }}">
+          {{ section.settings.title }}
+        </h2>
+        {% endif %}
+        
+        {% if section.settings.subtext != blank %}
+        <p class="milestone-timeline-subtext {{ section.settings.subtext_font_family | default: 'font-body' }} {{ section.settings.subtext_font_size | default: 'text-base' }} {{ section.settings.subtext_font_size_desktop | default: 'lg:text-lg' }} {{ section.settings.subtext_font_weight | default: 'font-normal' }} {{ section.settings.subtext_color | default: 'text-neutral-dark' }}">
+          {{ section.settings.subtext }}
+        </p>
+        {% endif %}
+        
+        <!-- Optional Button - Above Timeline -->
+        {% assign button_pos = section.settings.button_position | default: 'below_timeline' %}
+        {% if section.settings.button_text != blank and section.settings.button_url != blank and button_pos == 'above_timeline' %}
+        <div class="milestone-timeline-button-above">
+          <a href="{{ section.settings.button_url }}" target="_blank" class="milestone-button btn btn-{{ section.settings.button_style | default: 'filled' }}-{{ section.settings.button_color | default: 'primary' }} {{ section.settings.button_size | default: 'btn-md' }} {{ settings.button_border_radius | default: 'rounded-md' }}">
+            {{ section.settings.button_text }}
+          </a>
+        </div>
+        {% endif %}
+      </div>
+      
+      <!-- Timeline Steps -->
+      {% if section.blocks.size > 0 %}
+      <div class="milestone-timeline-steps" data-section-id="{{ section.id }}">
+        {% for block in section.blocks %}
+          {% assign block_column = block.settings.column | default: '1' %}
+          {% assign block_order = block.settings.order | default: forloop.index0 %}
+          <div class="milestone-step" 
+               data-column="{{ block_column }}" 
+               data-order="{{ block_order }}"
+               {{ block.fluid_attributes }}>
+            
+            <!-- Mirrored Content (Above Marker Row) -->
+            <div class="milestone-step-content milestone-step-content-mirrored">
+              {% if block.settings.title != blank %}
+              <h3 class="milestone-step-title {{ block.settings.title_font_family | default: section.settings.step_title_font_family | default: 'font-primary' }} {{ block.settings.title_font_size | default: section.settings.step_title_font_size | default: 'text-lg' }} {{ block.settings.title_font_size_desktop | default: section.settings.step_title_font_size_desktop | default: 'lg:text-xl' }} {{ block.settings.title_font_weight | default: section.settings.step_title_font_weight | default: 'font-semibold' }} {{ block.settings.title_color | default: section.settings.step_title_color | default: 'text-black' }}">
+                {{ block.settings.title }}
+              </h3>
+              {% endif %}
+              
+              {% if block.settings.text != blank and section.settings.show_step_text %}
+              <p class="milestone-step-text {{ block.settings.text_font_family | default: section.settings.step_text_font_family | default: 'font-body' }} {{ block.settings.text_font_size | default: section.settings.step_text_font_size | default: 'text-sm' }} {{ block.settings.text_font_size_desktop | default: section.settings.step_text_font_size_desktop | default: 'lg:text-base' }} {{ block.settings.text_font_weight | default: section.settings.step_text_font_weight | default: 'font-normal' }} {{ block.settings.text_color | default: section.settings.step_text_color | default: 'text-neutral-dark' }}">
+                {{ block.settings.text }}
+              </p>
+              {% endif %}
+            </div>
+            
+            <!-- Dot and Connector Row -->
+            <div class="milestone-step-marker-row">
+              <!-- Dot -->
+              <div class="milestone-dot"></div>
+              
+              <!-- Connector Line (hidden on last item) -->
+              {% unless forloop.last %}
+              <div class="milestone-connector {{ section.settings.connector_color | default: 'bg-neutral' }}"></div>
+              {% endunless %}
+            </div>
+            
+            <!-- Content -->
+            <div class="milestone-step-content">
+              {% if block.settings.title != blank %}
+              <h3 class="milestone-step-title {{ block.settings.title_font_family | default: section.settings.step_title_font_family | default: 'font-primary' }} {{ block.settings.title_font_size | default: section.settings.step_title_font_size | default: 'text-lg' }} {{ block.settings.title_font_size_desktop | default: section.settings.step_title_font_size_desktop | default: 'lg:text-xl' }} {{ block.settings.title_font_weight | default: section.settings.step_title_font_weight | default: 'font-semibold' }} {{ block.settings.title_color | default: section.settings.step_title_color | default: 'text-black' }}">
+                {{ block.settings.title }}
+              </h3>
+              {% endif %}
+              
+              {% if block.settings.text != blank and section.settings.show_step_text %}
+              <p class="milestone-step-text {{ block.settings.text_font_family | default: section.settings.step_text_font_family | default: 'font-body' }} {{ block.settings.text_font_size | default: section.settings.step_text_font_size | default: 'text-sm' }} {{ block.settings.text_font_size_desktop | default: section.settings.step_text_font_size_desktop | default: 'lg:text-base' }} {{ block.settings.text_font_weight | default: section.settings.step_text_font_weight | default: 'font-normal' }} {{ block.settings.text_color | default: section.settings.step_text_color | default: 'text-neutral-dark' }}">
+                {{ block.settings.text }}
+              </p>
+              {% endif %}
+            </div>
+            
+          </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+      
+      <script>
+      (function() {
+        function sortMilestoneBlocks() {
+          const sectionId = 'section-{{ section.id }}';
+          const section = document.getElementById(sectionId);
+          if (!section) return;
+          
+          const stepsContainer = section.querySelector('.milestone-timeline-steps');
+          if (!stepsContainer) return;
+          
+          const blocks = Array.from(stepsContainer.querySelectorAll('.milestone-step'));
+          if (blocks.length === 0) return;
+          
+          // Sort blocks by column, then by order
+          blocks.sort((a, b) => {
+            const aColumn = parseInt(a.dataset.column || '1');
+            const bColumn = parseInt(b.dataset.column || '1');
+            const aOrder = parseInt(a.dataset.order || '0');
+            const bOrder = parseInt(b.dataset.order || '0');
+            
+            if (aColumn !== bColumn) {
+              return aColumn - bColumn;
+            }
+            return aOrder - bOrder;
+          });
+          
+          // Re-append blocks in sorted order
+          blocks.forEach(block => stepsContainer.appendChild(block));
+        }
+        
+        // Run on load
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', sortMilestoneBlocks);
+        } else {
+          sortMilestoneBlocks();
+        }
+        
+        // Also run when theme editor updates
+        if (typeof Shopify !== 'undefined' && Shopify.designMode) {
+          document.addEventListener('shopify:section:load', sortMilestoneBlocks);
+          document.addEventListener('shopify:section:reorder', sortMilestoneBlocks);
+        }
+      })();
+      
+      // Fade-in animation on scroll
+      (function() {
+        const sectionId = 'section-{{ section.id }}';
+        const section = document.getElementById(sectionId);
+        if (!section) return;
+        
+        const stepsContainer = section.querySelector('.milestone-timeline-steps');
+        if (!stepsContainer) return;
+        
+        const steps = Array.from(stepsContainer.querySelectorAll('.milestone-step'));
+        if (steps.length === 0) return;
+        
+        let hasAnimated = false;
+        
+        function animateSteps() {
+          if (hasAnimated) return;
+          
+          // Stagger animation: each step fades in 100ms after the previous one
+          steps.forEach((step, index) => {
+            setTimeout(() => {
+              step.classList.add('animate-in');
+            }, index * 100);
+          });
+          
+          hasAnimated = true;
+        }
+        
+        // Use Intersection Observer to detect when section is near viewport
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting && !hasAnimated) {
+              // Trigger animation when section is 60% visible (later trigger)
+              if (entry.intersectionRatio >= 0.6) {
+                animateSteps();
+              }
+            }
+          });
+        }, {
+          threshold: [0, 0.6],
+          rootMargin: '0px 0px -10% 0px'
+        });
+        
+        observer.observe(section);
+        
+        // Also check on load in case section is already in view
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', () => {
+            const rect = section.getBoundingClientRect();
+            // Require section to be more scrolled into view (60% of viewport)
+            if (rect.top < window.innerHeight * 0.4) {
+              animateSteps();
+            }
+          });
+        } else {
+          const rect = section.getBoundingClientRect();
+          // Require section to be more scrolled into view (60% of viewport)
+          if (rect.top < window.innerHeight * 0.4) {
+            animateSteps();
+          }
+        }
+      })();
+      </script>
+      
+      <!-- Optional Button - Below Timeline -->
+      {% assign button_pos = section.settings.button_position | default: 'below_timeline' %}
+      {% if section.settings.button_text != blank and section.settings.button_url != blank and button_pos != 'above_timeline' %}
+      <div class="milestone-timeline-footer">
+        <a href="{{ section.settings.button_url }}" target="_blank" class="milestone-button btn btn-{{ section.settings.button_style | default: 'filled' }}-{{ section.settings.button_color | default: 'primary' }} {{ section.settings.button_size | default: 'btn-md' }} {{ settings.button_border_radius | default: 'rounded-md' }}">
+          {{ section.settings.button_text }}
+        </a>
+      </div>
+      {% endif %}
+      
+    </div>
+    <!-- Button -->
+    {% if block.settings.show_button %}
+      {% assign button_border_setting = block.settings.button_border | default: 'auto' %}
+      {% assign button_color_setting = block.settings.button_color | default: 'white' %}
+      {% assign border_color = 'currentColor' %}
+      {% if button_color_setting == 'primary' %}
+        {% assign border_color = 'var(--clr-primary)' %}
+      {% elsif button_color_setting == 'secondary' %}
+        {% assign border_color = 'var(--clr-secondary)' %}
+      {% elsif button_color_setting == 'tertiary' %}
+        {% assign border_color = 'var(--clr-tertiary)' %}
+      {% elsif button_color_setting == 'quaternary' %}
+        {% assign border_color = 'var(--clr-quaternary)' %}
+      {% elsif button_color_setting == 'success' %}
+        {% assign border_color = 'var(--clr-success)' %}
+      {% elsif button_color_setting == 'warning' %}
+        {% assign border_color = 'var(--clr-warning)' %}
+      {% elsif button_color_setting == 'error' %}
+        {% assign border_color = 'var(--clr-error)' %}
+      {% elsif button_color_setting == 'info' %}
+        {% assign border_color = 'var(--clr-info)' %}
+      {% elsif button_color_setting == 'black' %}
+        {% assign border_color = 'var(--clr-black)' %}
+      {% elsif button_color_setting == 'white' %}
+        {% assign border_color = 'var(--clr-white)' %}
+      {% endif %}
+      <div class="journey-hero__button-wrapper">
+        <a href="{{ block.settings.button_url | default: '#' }}" target="_blank"
+           class="btn btn-{{ block.settings.button_style | default: 'filled' }}-{{ button_color_setting }} {{ block.settings.button_size | default: 'btn-md' }} {{ block.settings.button_font_weight | default: 'font-normal' }} font-body {{ settings.button_border_radius | default: 'rounded-full' }}"
+           {% if button_border_setting == 'hide' %}style="border: none !important;"{% elsif button_border_setting == 'show' %}style="border: 2px solid {{ border_color }} !important;"{% endif %}>
+          {{ block.settings.button_text | default: 'Find your Transformation kit' }}
+        </a>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Milestone Timeline",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout Width (Container)"
+    },
+    {
+      "type": "select",
+      "id": "container_layout_width",
+      "label": "Layout Width (Container)",
+      "options": [
+        { "value": "container", "label": "Container" },
+        { "value": "container-full", "label": "Full Width (Container Full)" }
+      ],
+      "default": "container",
+      "info": "Choose whether the container is constrained to the width of the page or full width"
+    },
+    {
+      "type": "header",
+      "content": "Section Settings"
+    },
+    {
+      "type": "select",
+      "id": "background_color",
+      "label": "Background Color",
+      "options": [
+        { "value": "bg-white", "label": "White" },
+        { "value": "bg-neutral-light", "label": "Neutral Light" },
+        { "value": "bg-neutral-lighter", "label": "Neutral Lighter" },
+        { "value": "bg-primary", "label": "Primary" },
+        { "value": "bg-secondary", "label": "Secondary" }
+      ],
+      "default": "bg-white"
+    },
+    {
+      "type": "select",
+      "id": "padding_top_mobile",
+      "label": "Padding Top (Mobile)",
+      "options": [
+        { "value": "pt-xs", "label": "XS" },
+        { "value": "pt-sm", "label": "SM" },
+        { "value": "pt-md", "label": "MD" },
+        { "value": "pt-lg", "label": "LG" },
+        { "value": "pt-xl", "label": "XL" },
+        { "value": "pt-2xl", "label": "2XL" }
+      ],
+      "default": "pt-xl"
+    },
+    {
+      "type": "select",
+      "id": "padding_bottom_mobile",
+      "label": "Padding Bottom (Mobile)",
+      "options": [
+        { "value": "pb-xs", "label": "XS" },
+        { "value": "pb-sm", "label": "SM" },
+        { "value": "pb-md", "label": "MD" },
+        { "value": "pb-lg", "label": "LG" },
+        { "value": "pb-xl", "label": "XL" },
+        { "value": "pb-2xl", "label": "2XL" },
+        { "value": "pb-3xl", "label": "3XL" }
+      ],
+      "default": "pb-3xl"
+    },
+    {
+      "type": "select",
+      "id": "padding_x_mobile",
+      "label": "Padding X (Mobile)",
+      "options": [
+        { "value": "px-xs", "label": "XS" },
+        { "value": "px-sm", "label": "SM" },
+        { "value": "px-md", "label": "MD" },
+        { "value": "px-lg", "label": "LG" },
+        { "value": "px-xl", "label": "XL" }
+      ],
+      "default": "px-0"
+    },
+    {
+      "type": "select",
+      "id": "padding_top_desktop",
+      "label": "Padding Top (Desktop)",
+      "options": [
+        { "value": "lg:pt-xs", "label": "XS" },
+        { "value": "lg:pt-sm", "label": "SM" },
+        { "value": "lg:pt-md", "label": "MD" },
+        { "value": "lg:pt-lg", "label": "LG" },
+        { "value": "lg:pt-xl", "label": "XL" },
+        { "value": "lg:pt-2xl", "label": "2XL" },
+        { "value": "lg:pt-3xl", "label": "3XL" }
+      ],
+      "default": "lg:pt-2xl"
+    },
+    {
+      "type": "select",
+      "id": "padding_bottom_desktop",
+      "label": "Padding Bottom (Desktop)",
+      "options": [
+        { "value": "lg:pb-xs", "label": "XS" },
+        { "value": "lg:pb-sm", "label": "SM" },
+        { "value": "lg:pb-md", "label": "MD" },
+        { "value": "lg:pb-lg", "label": "LG" },
+        { "value": "lg:pb-xl", "label": "XL" },
+        { "value": "lg:pb-2xl", "label": "2XL" },
+        { "value": "lg:pb-3xl", "label": "3XL" },
+        { "value": "lg:pb-4xl", "label": "4XL" },
+        { "value": "lg:pb-5xl", "label": "5XL" }
+      ],
+      "default": "lg:pb-4xl"
+    },
+    {
+      "type": "select",
+      "id": "padding_x_desktop",
+      "label": "Padding X (Desktop)",
+      "options": [
+        { "value": "lg:px-xs", "label": "XS" },
+        { "value": "lg:px-sm", "label": "SM" },
+        { "value": "lg:px-md", "label": "MD" },
+        { "value": "lg:px-lg", "label": "LG" },
+        { "value": "lg:px-xl", "label": "XL" },
+        { "value": "lg:px-2xl", "label": "2XL" }
+      ],
+      "default": "lg:px-0"
+    },
+    {
+      "type": "header",
+      "content": "Heading Settings"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Your Journey Starts Here"
+    },
+    {
+      "type": "select",
+      "id": "title_font_family",
+      "label": "Title Font Family",
+      "options": [
+        { "value": "font-primary", "label": "Primary" },
+        { "value": "font-body", "label": "Body" },
+        { "value": "font-serif", "label": "Serif" },
+        { "value": "font-handwritten", "label": "Handwritten" }
+      ],
+      "default": "font-primary"
+    },
+    {
+      "type": "select",
+      "id": "title_font_size",
+      "label": "Title Font Size (Mobile)",
+      "options": [
+        { "value": "text-2xl", "label": "2XL" },
+        { "value": "text-3xl", "label": "3XL" },
+        { "value": "text-4xl", "label": "4XL" }
+      ],
+      "default": "text-3xl"
+    },
+    {
+      "type": "select",
+      "id": "title_font_size_desktop",
+      "label": "Title Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-3xl", "label": "3XL" },
+        { "value": "lg:text-4xl", "label": "4XL" },
+        { "value": "lg:text-5xl", "label": "5XL" }
+      ],
+      "default": "lg:text-4xl"
+    },
+    {
+      "type": "select",
+      "id": "title_font_weight",
+      "label": "Title Font Weight",
+      "options": [
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semibold" }
+      ],
+      "default": "font-semibold"
+    },
+    {
+      "type": "select",
+      "id": "title_color",
+      "label": "Title Color",
+      "options": [
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-primary", "label": "Primary" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "text-black"
+    },
+    {
+      "type": "textarea",
+      "id": "subtext",
+      "label": "Subtext",
+      "default": "Follow these simple steps to get started"
+    },
+    {
+      "type": "select",
+      "id": "subtext_font_family",
+      "label": "Subtext Font Family",
+      "options": [
+        { "value": "font-primary", "label": "Primary" },
+        { "value": "font-body", "label": "Body" },
+        { "value": "font-serif", "label": "Serif" }
+      ],
+      "default": "font-body"
+    },
+    {
+      "type": "select",
+      "id": "subtext_font_size",
+      "label": "Subtext Font Size (Mobile)",
+      "options": [
+        { "value": "text-sm", "label": "SM" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "LG" }
+      ],
+      "default": "text-base"
+    },
+    {
+      "type": "select",
+      "id": "subtext_font_size_desktop",
+      "label": "Subtext Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-base", "label": "Base" },
+        { "value": "lg:text-lg", "label": "LG" },
+        { "value": "lg:text-xl", "label": "XL" }
+      ],
+      "default": "lg:text-lg"
+    },
+    {
+      "type": "select",
+      "id": "subtext_font_weight",
+      "label": "Subtext Font Weight",
+      "options": [
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" }
+      ],
+      "default": "font-normal"
+    },
+    {
+      "type": "select",
+      "id": "subtext_color",
+      "label": "Subtext Color",
+      "options": [
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" },
+        { "value": "text-neutral-medium", "label": "Neutral Medium" }
+      ],
+      "default": "text-neutral-dark"
+    },
+    {
+      "type": "header",
+      "content": "Timeline Visual Settings"
+    },
+    {
+      "type": "select",
+      "id": "dot_color",
+      "label": "Dot Color",
+      "options": [
+        { "value": "bg-primary", "label": "Primary" },
+        { "value": "bg-secondary", "label": "Secondary" },
+        { "value": "bg-neutral-dark", "label": "Neutral Dark" },
+        { "value": "bg-black", "label": "Black" }
+      ],
+      "default": "bg-primary"
+    },
+    {
+      "type": "select",
+      "id": "dot_border_color",
+      "label": "Dot Border Color",
+      "options": [
+        { "value": "border-primary", "label": "Primary" },
+        { "value": "border-secondary", "label": "Secondary" },
+        { "value": "border-neutral-dark", "label": "Neutral Dark" },
+        { "value": "border-black", "label": "Black" }
+      ],
+      "default": "border-primary"
+    },
+    {
+      "type": "select",
+      "id": "connector_color",
+      "label": "Connector Line Color",
+      "options": [
+        { "value": "bg-neutral", "label": "Neutral" },
+        { "value": "bg-neutral-light", "label": "Neutral Light" },
+        { "value": "bg-primary", "label": "Primary" },
+        { "value": "bg-secondary", "label": "Secondary" }
+      ],
+      "default": "bg-neutral"
+    },
+    {
+      "type": "header",
+      "content": "Step Content Defaults"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_step_text",
+      "label": "Show Step Descriptions",
+      "default": true,
+      "info": "Toggle off to hide all step description text"
+    },
+    {
+      "type": "select",
+      "id": "step_title_font_family",
+      "label": "Step Title Font Family",
+      "options": [
+        { "value": "font-primary", "label": "Primary" },
+        { "value": "font-body", "label": "Body" },
+        { "value": "font-serif", "label": "Serif" }
+      ],
+      "default": "font-primary"
+    },
+    {
+      "type": "select",
+      "id": "step_title_font_size",
+      "label": "Step Title Font Size (Mobile)",
+      "options": [
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "LG" },
+        { "value": "text-xl", "label": "XL" }
+      ],
+      "default": "text-lg"
+    },
+    {
+      "type": "select",
+      "id": "step_title_font_size_desktop",
+      "label": "Step Title Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-lg", "label": "LG" },
+        { "value": "lg:text-xl", "label": "XL" },
+        { "value": "lg:text-2xl", "label": "2XL" }
+      ],
+      "default": "lg:text-xl"
+    },
+    {
+      "type": "select",
+      "id": "step_title_font_weight",
+      "label": "Step Title Font Weight",
+      "options": [
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semibold" }
+      ],
+      "default": "font-semibold"
+    },
+    {
+      "type": "select",
+      "id": "step_title_color",
+      "label": "Step Title Color",
+      "options": [
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-primary", "label": "Primary" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "text-black"
+    },
+    {
+      "type": "select",
+      "id": "step_text_font_family",
+      "label": "Step Text Font Family",
+      "options": [
+        { "value": "font-primary", "label": "Primary" },
+        { "value": "font-body", "label": "Body" }
+      ],
+      "default": "font-body"
+    },
+    {
+      "type": "select",
+      "id": "step_text_font_size",
+      "label": "Step Text Font Size (Mobile)",
+      "options": [
+        { "value": "text-xs", "label": "XS" },
+        { "value": "text-sm", "label": "SM" },
+        { "value": "text-base", "label": "Base" }
+      ],
+      "default": "text-sm"
+    },
+    {
+      "type": "select",
+      "id": "step_text_font_size_desktop",
+      "label": "Step Text Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-sm", "label": "SM" },
+        { "value": "lg:text-base", "label": "Base" },
+        { "value": "lg:text-lg", "label": "LG" }
+      ],
+      "default": "lg:text-base"
+    },
+    {
+      "type": "select",
+      "id": "step_text_font_weight",
+      "label": "Step Text Font Weight",
+      "options": [
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" }
+      ],
+      "default": "font-normal"
+    },
+    {
+      "type": "select",
+      "id": "step_text_color",
+      "label": "Step Text Color",
+      "options": [
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" },
+        { "value": "text-neutral-medium", "label": "Neutral Medium" }
+      ],
+      "default": "text-neutral-dark"
+    },
+    
+    {
+      "type": "header",
+      "content": "Button Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_button",
+      "label": "Show Button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Terms and Conditions"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button URL",
+      "default" : "https://cdn.prod.website-files.com/67b62afe81ad0018e0a40aa2/68dc0ecdd41b00492ba56ff4_BBR%2BSummer%2BChallenge%2B2025.pdf"
+    },
+    {
+      "type": "select",
+      "id": "button_style",
+      "label": "Button Style",
+      "options": [
+        { "value": "filled", "label": "Filled" },
+        { "value": "outline", "label": "Outline" },
+        { "value": "ghost", "label": "Ghost" }
+      ],
+      "default": "filled"
+    },
+    {
+      "type": "select",
+      "id": "button_border",
+      "label": "Button Border",
+      "options": [
+        { "value": "show", "label": "Show Border" },
+        { "value": "hide", "label": "Hide Border" },
+        { "value": "auto", "label": "Auto (Based on Button Style)" }
+      ],
+      "default": "auto",
+      "info": "Choose whether to show or hide the button border. Auto will use the default border for the selected button style."
+    },
+    {
+      "type": "select",
+      "id": "button_color",
+      "label": "Button Color",
+      "options": [
+        { "value": "primary", "label": "Primary" },
+        { "value": "secondary", "label": "Secondary" },
+        { "value": "tertiary", "label": "Tertiary" },
+        { "value": "quaternary", "label": "Quaternary" },
+        { "value": "success", "label": "Success" },
+        { "value": "warning", "label": "Warning" },
+        { "value": "error", "label": "Error" },
+        { "value": "info", "label": "Info" },
+        { "value": "black", "label": "Black" },
+        { "value": "white", "label": "White" }
+      ],
+      "default": "white"
+    },
+    {
+      "type": "select",
+      "id": "button_size",
+      "label": "Button Size",
+      "options": [
+        { "value": "btn-xs", "label": "Extra Small" },
+        { "value": "btn-sm", "label": "Small" },
+        { "value": "btn-md", "label": "Medium" },
+        { "value": "btn-lg", "label": "Large" },
+        { "value": "btn-xl", "label": "Extra Large" }
+      ],
+      "default": "btn-md"
+    },
+    {
+      "type": "select",
+      "id": "button_font_weight",
+      "label": "Button Font Weight",
+      "options": [
+        { "value": "font-light", "label": "Light" },
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semi Bold" },
+        { "value": "font-bold", "label": "Bold" }
+      ],
+      "default": "font-normal"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Timeline Step",
+      "limit": 20,
+      "settings": [
+        {
+          "type": "header",
+          "content": "Position Settings"
+        },
+        {
+          "type": "select",
+          "id": "column",
+          "label": "Column",
+          "options": [
+            { "value": "1", "label": "Column 1" },
+            { "value": "2", "label": "Column 2" },
+            { "value": "3", "label": "Column 3" },
+            { "value": "4", "label": "Column 4" }
+          ],
+          "default": "1",
+          "info": "Select which column this block should appear in"
+        },
+        {
+          "type": "select",
+          "id": "order",
+          "label": "Order in Column",
+          "options": [
+            { "value": "0", "label": "1st" },
+            { "value": "1", "label": "2nd" },
+            { "value": "2", "label": "3rd" },
+            { "value": "3", "label": "4th" },
+            { "value": "4", "label": "5th" },
+            { "value": "5", "label": "6th" },
+            { "value": "6", "label": "7th" },
+            { "value": "7", "label": "8th" },
+            { "value": "8", "label": "9th" },
+            { "value": "9", "label": "10th" },
+            { "value": "10", "label": "11th" },
+            { "value": "11", "label": "12th" },
+            { "value": "12", "label": "13th" },
+            { "value": "13", "label": "14th" },
+            { "value": "14", "label": "15th" },
+            { "value": "15", "label": "16th" },
+            { "value": "16", "label": "17th" },
+            { "value": "17", "label": "18th" },
+            { "value": "18", "label": "19th" },
+            { "value": "19", "label": "20th" }
+          ],
+          "default": "0",
+          "info": "Select the position of this block within its column"
+        },
+        {
+          "type": "header",
+          "content": "Content Settings"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Step Title",
+          "default": "Step Title"
+        },
+        {
+          "type": "select",
+          "id": "title_font_family",
+          "label": "Title Font Family",
+          "options": [
+            { "value": "", "label": "Use Default" },
+            { "value": "font-primary", "label": "Primary" },
+            { "value": "font-body", "label": "Body" },
+            { "value": "font-serif", "label": "Serif" }
+          ],
+          "default": ""
+        },
+        {
+          "type": "select",
+          "id": "title_font_size",
+          "label": "Title Font Size (Mobile)",
+          "options": [
+            { "value": "", "label": "Use Default" },
+            { "value": "text-base", "label": "Base" },
+            { "value": "text-lg", "label": "LG" },
+            { "value": "text-xl", "label": "XL" }
+          ],
+          "default": ""
+        },
+        {
+          "type": "select",
+          "id": "title_font_size_desktop",
+          "label": "Title Font Size (Desktop)",
+          "options": [
+            { "value": "", "label": "Use Default" },
+            { "value": "lg:text-lg", "label": "LG" },
+            { "value": "lg:text-xl", "label": "XL" },
+            { "value": "lg:text-2xl", "label": "2XL" }
+          ],
+          "default": ""
+        },
+        {
+          "type": "select",
+          "id": "title_font_weight",
+          "label": "Title Font Weight",
+          "options": [
+            { "value": "", "label": "Use Default" },
+            { "value": "font-normal", "label": "Normal" },
+            { "value": "font-medium", "label": "Medium" },
+            { "value": "font-semibold", "label": "Semibold" }
+          ],
+          "default": ""
+        },
+        {
+          "type": "select",
+          "id": "title_color",
+          "label": "Title Color",
+          "options": [
+            { "value": "", "label": "Use Default" },
+            { "value": "text-black", "label": "Black" },
+            { "value": "text-primary", "label": "Primary" },
+            { "value": "text-neutral-dark", "label": "Neutral Dark" }
+          ],
+          "default": ""
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Step Description",
+          "default": "Step description text goes here"
+        },
+        {
+          "type": "select",
+          "id": "text_font_family",
+          "label": "Text Font Family",
+          "options": [
+            { "value": "", "label": "Use Default" },
+            { "value": "font-primary", "label": "Primary" },
+            { "value": "font-body", "label": "Body" }
+          ],
+          "default": ""
+        },
+        {
+          "type": "select",
+          "id": "text_font_size",
+          "label": "Text Font Size (Mobile)",
+          "options": [
+            { "value": "", "label": "Use Default" },
+            { "value": "text-xs", "label": "XS" },
+            { "value": "text-sm", "label": "SM" },
+            { "value": "text-base", "label": "Base" }
+          ],
+          "default": ""
+        },
+        {
+          "type": "select",
+          "id": "text_font_size_desktop",
+          "label": "Text Font Size (Desktop)",
+          "options": [
+            { "value": "", "label": "Use Default" },
+            { "value": "lg:text-sm", "label": "SM" },
+            { "value": "lg:text-base", "label": "Base" },
+            { "value": "lg:text-lg", "label": "LG" }
+          ],
+          "default": ""
+        },
+        {
+          "type": "select",
+          "id": "text_font_weight",
+          "label": "Text Font Weight",
+          "options": [
+            { "value": "", "label": "Use Default" },
+            { "value": "font-normal", "label": "Normal" },
+            { "value": "font-medium", "label": "Medium" }
+          ],
+          "default": ""
+        },
+        {
+          "type": "select",
+          "id": "text_color",
+          "label": "Text Color",
+          "options": [
+            { "value": "", "label": "Use Default" },
+            { "value": "text-black", "label": "Black" },
+            { "value": "text-neutral-dark", "label": "Neutral Dark" },
+            { "value": "text-neutral-medium", "label": "Neutral Medium" }
+          ],
+          "default": ""
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Milestone Timeline",
+      "blocks": [
+        {
+          "type": "step",
+          "settings": {
+            "title": "Step 1",
+            "text": "First milestone description"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "Step 2",
+            "text": "Second milestone description"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "Step 3",
+            "text": "Third milestone description"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "Step 4",
+            "text": "Fourth milestone description"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+

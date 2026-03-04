@@ -1,0 +1,197 @@
+/* Shop by Category Section Styles */
+
+.shop-by-category {
+  position: relative;
+  overflow: hidden;
+}
+
+.shop-by-category-header {
+  max-width: 48rem;
+  margin: auto;
+}
+
+/* Carousel Wrapper - Swiper */
+.shop-by-category-carousel-wrapper.swiper {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  cursor: grab;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  max-width: 100%;
+}
+
+.shop-by-category-carousel-wrapper.swiper:active {
+  cursor: grabbing;
+}
+
+/* Swiper Wrapper */
+.shop-by-category-carousel-wrapper .swiper-wrapper {
+  display: flex;
+  flex-direction: row;
+  width: fit-content;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Swiper Slide */
+.shop-by-category-carousel-wrapper .swiper-slide {
+  width: auto;
+  height: auto;
+  flex-shrink: 0;
+}
+
+/* Category Card */
+.shop-by-category-card {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  will-change: transform;
+}
+
+.shop-by-category-card:hover {
+  transform: scale(1.02);
+  z-index: 10;
+}
+
+.shop-by-category-card:focus {
+  outline: 2px solid var(--clr-primary, #000);
+  outline-offset: 4px;
+}
+
+.shop-by-category-card:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Background Image */
+.shop-by-category-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.shop-by-category-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transition: transform 0.3s ease;
+}
+
+.shop-by-category-card:hover .shop-by-category-bg img {
+  transform: scale(1.05);
+}
+
+/* Overlay */
+.shop-by-category-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  transition: background-color 0.3s ease;
+}
+
+.shop-by-category-card:hover .shop-by-category-overlay {
+  background-color: rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Content - Bottom Left Aligned */
+.shop-by-category-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100%;
+  text-align: center;
+}
+
+.shop-by-category-title-wrapper {
+  width: 100%;
+}
+
+.shop-by-category-title-wrapper h3 {
+  margin: 0;
+  padding: 0;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  line-height: 1.2;
+}
+
+/* Header Styles */
+.shop-by-category-header {
+  margin-bottom: 2rem;
+}
+
+.shop-by-category-header h2 {
+  margin-bottom: 1rem;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 639px) {
+  .shop-by-category-content {
+    padding: 1rem;
+  }
+  
+  .shop-by-category-title-wrapper h3 {
+    font-size: 1.125rem;
+  }
+}
+
+@media (min-width: 640px) and (max-width: 1023px) {
+  .shop-by-category-content {
+    padding: 1.25rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .shop-by-category-content {
+    padding: 1.5rem;
+  }
+}
+
+/* Loading states */
+.shop-by-category-bg img[loading="lazy"] {
+  background-color: var(--clr-neutral-light, #f5f5f5);
+}
+
+/* Smooth scrolling animation */
+@keyframes smoothScroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Ensure cards remain clickable during scroll */
+.shop-by-category-card {
+  pointer-events: auto;
+}
+
+/* Prevent text selection during scroll */
+.shop-by-category-carousel-wrapper .swiper-wrapper {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+/* Accessibility - ensure text is always readable */
+.shop-by-category-title-wrapper h3 {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+  

@@ -1,0 +1,200 @@
+/* ============================================
+   PRODUCT SELECTOR CARDS SECTION
+   Background image with overlaid product cards
+   ============================================ */
+
+.product-selector-cards {
+  position: relative;
+  z-index: var(--z-10);
+  overflow: hidden;
+}
+
+/* Section background image styling */
+.product-selector-cards[data-bg] {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* ============================================
+   CONTAINER
+   ============================================ */
+
+.product-selector-cards__inner {
+  position: relative;
+  z-index: var(--z-10);
+}
+
+/* ============================================
+   HEADING SECTION
+   ============================================ */
+
+.product-selector-cards__heading-wrapper {
+  padding: var(--space-lg) var(--space-md);
+}
+
+@media (min-width: 991px) {
+  .product-selector-cards__heading-wrapper {
+    padding: var(--space-xl) var(--space-md);
+  }
+}
+
+.product-selector-cards__heading {
+  margin: 0;
+  text-align: center;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+}
+
+/* ============================================
+   CARDS GRID
+   ============================================ */
+
+.product-selector-cards__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+
+@media (min-width: 768px) {
+  .product-selector-cards__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 991px) {
+  .product-selector-cards__grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* ============================================
+   INDIVIDUAL CARD
+   ============================================ */
+
+.product-selector-cards__card {
+  position: relative;
+  display: block;
+  text-decoration: none;
+  border: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ============================================
+   CARD INNER CONTENT
+   ============================================ */
+
+.product-selector-cards__card-inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: var(--space-lg);
+  min-height: 500px;
+}
+
+@media (min-width: 991px) {
+  .product-selector-cards__card-inner {
+    min-height: 560px;
+    padding: var(--space-xl);
+  }
+}
+
+/* ============================================
+   TEXT SECTION (Top)
+   ============================================ */
+
+.product-selector-cards__text-section {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: var(--space-lg);
+}
+
+.product-selector-cards__product-title {
+  margin: 0;
+  line-height: 1.43;
+  letter-spacing: -0.011em;
+}
+
+.product-selector-cards__product-description {
+  margin: 0;
+  line-height: 1.32;
+  letter-spacing: -0.01em;
+  max-width: 200px;
+}
+
+/* ============================================
+   IMAGE SECTION (Middle)
+   ============================================ */
+
+.product-selector-cards__image-wrapper {
+  flex: 1;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: background-image 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-bottom: var(--space-2xl);
+  min-height: 280px;
+  max-height: 280px;
+}
+
+@media (min-width: 991px) {
+  .product-selector-cards__image-wrapper {
+    min-height: 320px;
+    max-height: 320px;
+  }
+}
+
+/* ============================================
+   BUTTON SECTION (Bottom)
+   ============================================ */
+
+.product-selector-cards__button-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  position: relative;
+  z-index: 10;
+  margin-top: auto;
+}
+
+.product-selector-cards__button-wrapper .btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================ */
+
+/* Mobile: Smaller cards, full width buttons */
+@media (max-width: 767px) {
+  .product-selector-cards__card-inner {
+    min-height: 420px;
+    padding: var(--space-md);
+  }
+  
+  .product-selector-cards__image-wrapper {
+    min-height: 240px;
+    max-height: 240px;
+    margin-bottom: var(--space-xl);
+  }
+}
+
+/* Tablet: Medium sized cards */
+@media (min-width: 768px) and (max-width: 990px) {
+  .product-selector-cards__card-inner {
+    min-height: 480px;
+  }
+  
+  .product-selector-cards__image-wrapper {
+    min-height: 280px;
+    max-height: 280px;
+  }
+}
+
+

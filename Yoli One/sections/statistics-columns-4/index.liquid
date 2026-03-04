@@ -1,0 +1,2063 @@
+
+<link rel="stylesheet" href="{{ 'statistics-columns-4/styles.css' | asset_url }}">
+
+<!-- Statistics Columns Section -->
+{% assign overlay_opacity = section.settings.card_overlay_opacity | default: 80 | divided_by: 100.0 %}
+{% assign text_opacity = section.settings.card_text_opacity | default: 80 | divided_by: 100.0 %}
+{% assign card_height_mobile = section.settings.card_height_mobile | default: '338' %}
+{% assign card_height_desktop = section.settings.card_height_desktop | default: '700' %}
+
+<section class="statistics-columns-4 {{ section.settings.background_color | default: 'bg-neutral' }} {{section.settings.padding_top_mobile}} {{section.settings.padding_bottom_mobile}} {{section.settings.padding_x_mobile}}  lg:{{section.settings.padding_top_desktop}} lg:{{section.settings.padding_bottom_desktop}} lg:{{section.settings.padding_x_desktop}}  {{ section.settings.section_border_radius | default: 'rounded-none' }}" id="statistics-columns-4-{{ section.id }}" style="--overlay-opacity: {{ overlay_opacity }}; --text-opacity: {{ text_opacity }}; --card-height-mobile: {{ card_height_mobile }}px; --card-height-desktop: {{ card_height_desktop }}px;" {% if section.settings.background_image %}data-bg="{{ section.settings.background_image | image_url }}"{% endif %}>
+  
+  {% assign layout_width = section.settings.layout_width | default: 'inline' %}
+  {% if layout_width == 'full_width' %}
+    <div class="statistics-columns-4-inner {{ section.settings.container_background_color }} {{ section.settings.container_border_radius | default: 'rounded-none' }} {{ section.settings.container_padding_y_mobile | default: 'py-lg' }} {{ section.settings.container_padding_y_desktop | default: 'lg:py-2xl' }} {{ section.settings.container_padding_x_mobile | default: 'px-md' }} {{ section.settings.container_padding_x_desktop | default: 'lg:px-xl' }} layout-full-width" {% if section.settings.container_background_image %}data-bg="{{ section.settings.container_background_image | image_url }}"{% endif %}>
+  {% elsif layout_width == 'wide' %}
+    <div class="statistics-columns-4-inner {{ section.settings.container_background_color }} {{ section.settings.container_border_radius | default: 'rounded-none' }} {{ section.settings.container_padding_y_mobile | default: 'py-lg' }} {{ section.settings.container_padding_y_desktop | default: 'lg:py-2xl' }} {{ section.settings.container_padding_x_mobile | default: 'px-md' }} {{ section.settings.container_padding_x_desktop | default: 'lg:px-xl' }} layout-wide" {% if section.settings.container_background_image %}data-bg="{{ section.settings.container_background_image | image_url }}"{% endif %}>
+  {% else %}
+  <div class="container">
+    <div class="statistics-columns-4-inner {{ section.settings.container_background_color }} {{ section.settings.container_border_radius | default: 'rounded-none' }} {{ section.settings.container_padding_y_mobile | default: 'py-lg' }} {{ section.settings.container_padding_y_desktop | default: 'lg:py-2xl' }} {{ section.settings.container_padding_x_mobile | default: 'px-md' }} {{ section.settings.container_padding_x_desktop | default: 'lg:px-xl' }}" {% if section.settings.container_background_image %}data-bg="{{ section.settings.container_background_image | image_url }}"{% endif %}>
+  {% endif %}
+      
+      <!-- Section Heading -->
+      {% if section.settings.heading != blank %}
+      <div class="section-heading section-heading--side-by-side text-{{ section.settings.heading_alignment | default: 'center' }} mb-xl lg:mb-2xl">
+        <div class="section-heading__title">
+          <h2 class="{{ section.settings.heading_font_family | default: 'font-primary' }} {{ section.settings.heading_font_size | default: 'text-3xl' }} {{ section.settings.heading_font_size_desktop | default: 'lg:text-5xl' }} {{ section.settings.heading_font_weight | default: 'font-bold' }} {{ section.settings.heading_color | default: 'text-primary' }}">
+            {{ section.settings.heading }}
+          </h2>
+        </div>
+        {% if section.settings.description != blank %}
+        <div class="section-heading__description section-description">
+          <p class="{{ section.settings.description_font_family | default: 'font-body' }} {{ section.settings.description_font_size | default: 'text-base' }} {{ section.settings.description_font_size_desktop | default: 'lg:text-lg' }} {{ section.settings.description_font_weight | default: 'font-normal' }} {{ section.settings.description_color | default: 'text-neutral-dark' }}">
+            {{ section.settings.description }}
+          </p>
+        </div>
+        {% endif %}
+      </div>
+      {% endif %}
+      
+      <!-- Grid -->
+      {% if section.blocks.size > 0 %}
+      {% assign column_gap = section.settings.column_gap | default: 'xl' %}
+      {% case column_gap %}
+        {% when 'xs' %}{% assign gap_value = 'var(--space-xs)' %}
+        {% when 'sm' %}{% assign gap_value = 'var(--space-sm)' %}
+        {% when 'md' %}{% assign gap_value = 'var(--space-md)' %}
+        {% when 'lg' %}{% assign gap_value = 'var(--space-lg)' %}
+        {% when 'xl' %}{% assign gap_value = 'var(--space-xl)' %}
+        {% when '2xl' %}{% assign gap_value = 'var(--space-2xl)' %}
+        {% when '3xl' %}{% assign gap_value = 'var(--space-3xl)' %}
+        {% else %}{% assign gap_value = 'var(--space-xl)' %}
+      {% endcase %}
+      <div class="cards-grid layout-columns {% if section.settings.content_based_height %}content-based-height{% endif %}" data-section-id="{{ section.id }}" style="--column-gap: {{ gap_value }}; gap: var(--column-gap);">
+        {% for block in section.blocks reversed %}
+          {% case block.type %}
+            {% when 'featured_card' %}
+              <!-- Featured Card -->
+              {% assign border_radius = block.settings.border_radius | default: 'rounded-md' %}
+              {% assign background_color = block.settings.background_color | default: 'bg-neutral-light' %}
+              {% assign bg_image = '' %}
+              {% if block.settings.background_image != blank %}
+                {% assign bg_image = block.settings.background_image | image_url %}
+              {% endif %}
+              <div class="featured-card card-height-700 {{ background_color }} {{ border_radius }}" 
+                   data-column="1" 
+                   data-order="0"
+                   {{ block.fluid_attributes }}>
+                {% if bg_image != blank %}
+                <div class="featured-card-background" style="background-image: url('{{ bg_image }}');"></div>
+                {% endif %}
+                {% if block.settings.show_overlay %}
+                <div class="featured-card-overlay"></div>
+                {% endif %}
+                {% if block.settings.show_overline and block.settings.overline_text != blank %}
+                <div class="featured-card-overline">
+                  <span class="{{ section.settings.card_overline_font_family | default: 'font-body' }} {{ section.settings.card_overline_font_size | default: 'text-base' }} {{ section.settings.card_overline_font_size_desktop | default: 'lg:text-lg' }} {{ section.settings.card_overline_font_weight | default: 'font-medium' }} {{ section.settings.card_overline_color | default: 'text-neutral-dark' }}">{{ block.settings.overline_text }}</span>
+                </div>
+                {% endif %}
+                <div class="featured-card-content p-lg">
+                {% if block.settings.show_icon and block.settings.icon_image != blank %}
+                {% assign icon_size = block.settings.icon_size | default: 'md' %}
+                  <div class="featured-card-icon icon-size-{{ icon_size }}">
+                  <img src="{{ block.settings.icon_image | image_url }}" alt="{{ block.settings.icon_image.alt | default: 'Icon' }}" class="icon-image">
+                </div>
+                {% endif %}
+                  <!-- Animated Statistic Number -->
+                  <div class="featured-card-statistic" data-count-to="{{ block.settings.statistic_number | default: '0' }}" data-count-duration="{{ block.settings.statistic_duration | default: 2 }}">
+                    {% if block.settings.statistic_prefix != blank %}<span class="statistic-prefix {{ section.settings.card_title_font_family | default: 'font-serif' }} {{ section.settings.card_title_font_size | default: 'text-5xl' }} {{ section.settings.card_title_font_size_desktop | default: 'lg:text-7xl' }} {{ section.settings.card_title_font_weight | default: 'font-bold' }} {{ section.settings.card_title_color | default: 'text-neutral-dark' }}">{{ block.settings.statistic_prefix }}</span>{% endif %}<span class="statistic-number {{ section.settings.card_title_font_family | default: 'font-serif' }} {{ section.settings.card_title_font_size | default: 'text-5xl' }} {{ section.settings.card_title_font_size_desktop | default: 'lg:text-7xl' }} {{ section.settings.card_title_font_weight | default: 'font-bold' }} {{ section.settings.card_title_color | default: 'text-neutral-dark' }}">0</span>{% if block.settings.statistic_suffix != blank %}<span class="statistic-suffix {{ section.settings.card_title_font_family | default: 'font-serif' }} {{ section.settings.card_title_font_size | default: 'text-5xl' }} {{ section.settings.card_title_font_size_desktop | default: 'lg:text-7xl' }} {{ section.settings.card_title_font_weight | default: 'font-bold' }} {{ section.settings.card_title_color | default: 'text-neutral-dark' }}">{{ block.settings.statistic_suffix }}</span>{% endif %}
+                  </div>
+                  
+                  {% if block.settings.show_text and block.settings.text != blank %}
+                  {% if section.settings.show_card_divider %}
+                  <hr class="featured-card-divider">
+                  {% endif %}
+                  <div class="featured-card-text {{ section.settings.card_text_font_family | default: 'font-body' }} {{ section.settings.card_text_font_size | default: 'text-base' }} {{ section.settings.card_text_font_size_desktop | default: 'lg:text-lg' }} {{ section.settings.card_text_font_weight | default: 'font-normal' }} {{ section.settings.card_text_color | default: 'text-neutral-dark' }}">
+                    {{ block.settings.text }}
+                </div>
+                {% endif %}
+                </div>
+              </div>
+            {% when 'split_card' %}
+              <!-- Split Card -->
+              {% assign border_radius = block.settings.border_radius | default: 'rounded-md' %}
+              {% assign background_color = block.settings.background_color | default: 'bg-neutral-light' %}
+              {% assign gap_size = block.settings.gap_size | default: '24' %}
+              {% assign total_height = section.settings.card_height_desktop | default: 700 | plus: 0 %}
+              {% assign card_height = total_height | minus: gap_size | divided_by: 2 %}
+              {% assign top_bg_image = '' %}
+              {% assign bottom_bg_image = '' %}
+              {% if block.settings.top_card_background_image != blank %}
+                {% assign top_bg_image = block.settings.top_card_background_image | image_url %}
+              {% endif %}
+              {% if block.settings.bottom_card_background_image != blank %}
+                {% assign bottom_bg_image = block.settings.bottom_card_background_image | image_url %}
+              {% endif %}
+              <div class="split-card card-height-700" 
+                   data-column="1" 
+                   data-order="0"
+                   style="--split-gap: {{ gap_size }}px;"
+                   {{ block.fluid_attributes }}>
+                <div class="split-card-top {{ background_color }} {{ border_radius }}">
+                  {% if top_bg_image != blank %}
+                  <div class="split-card-background" style="background-image: url('{{ top_bg_image }}');"></div>
+                  {% endif %}
+                  {% if block.settings.show_top_overlay %}
+                  <div class="split-card-overlay"></div>
+                  {% endif %}
+                  {% if block.settings.show_top_overline and block.settings.top_overline_text != blank %}
+                  <div class="split-card-overline">
+                    <span class="{{ section.settings.card_overline_font_family | default: 'font-body' }} {{ section.settings.card_overline_font_size | default: 'text-base' }} {{ section.settings.card_overline_font_size_desktop | default: 'lg:text-lg' }} {{ section.settings.card_overline_font_weight | default: 'font-medium' }} {{ section.settings.card_overline_color | default: 'text-neutral-dark' }}">{{ block.settings.top_overline_text }}</span>
+                  </div>
+                  {% endif %}
+                  <div class="split-card-content p-lg">
+                    {% if block.settings.show_top_icon and block.settings.top_card_icon_image != blank %}
+                    {% assign top_icon_size = block.settings.top_card_icon_size | default: 'md' %}
+                    <div class="split-card-icon icon-size-{{ top_icon_size }}">
+                      <img src="{{ block.settings.top_card_icon_image | image_url }}" alt="{{ block.settings.top_card_icon_image.alt | default: 'Icon' }}" class="icon-image">
+                    </div>
+                    {% endif %}
+                    {% assign show_st_title = block.settings.show_split_top_title %}
+                    {% if show_st_title == nil %}{% assign show_st_title = true %}{% endif %}
+                    {% if show_st_title %}
+                      {% assign split_top_mode = block.settings.split_top_title_mode | default: '1' %}
+                      {% assign st_title_1 = block.settings.split_top_text_1 | default: 'Top Card Title' %}
+                      {% assign st_title_2 = block.settings.split_top_text_2 %}
+                      {% assign st_title_3 = block.settings.split_top_text_3 %}
+                      {% assign st_title_4 = block.settings.split_top_text_4 %}
+                      {% assign st_title_5 = block.settings.split_top_text_5 %}
+                      {% assign st_title_6 = block.settings.split_top_text_6 %}
+                      
+                      {% if split_top_mode == 'cycle' %}
+                        <!-- Cycling Mode -->
+                        <div class="split-card-title-cycle-container" data-cycle-duration="{{ block.settings.split_top_title_duration | default: 3 }}">
+                          {% if st_title_1 != blank %}
+                          <h2 class="split-card-title-cycle-item active {{ section.settings.card_title_font_family | default: 'font-serif' }} {{ section.settings.card_title_font_size | default: 'text-5xl' }} {{ section.settings.card_title_font_size_desktop | default: 'lg:text-7xl' }} {{ section.settings.card_title_font_weight | default: 'font-bold' }} {{ section.settings.card_title_color | default: 'text-neutral-dark' }}">
+                            {{ st_title_1 }}
+                          </h2>
+                          {% endif %}
+                          {% if st_title_2 != blank %}
+                          <h2 class="split-card-title-cycle-item {{ section.settings.card_title_font_family | default: 'font-serif' }} {{ section.settings.card_title_font_size | default: 'text-5xl' }} {{ section.settings.card_title_font_size_desktop | default: 'lg:text-7xl' }} {{ section.settings.card_title_font_weight | default: 'font-bold' }} {{ section.settings.card_title_color | default: 'text-neutral-dark' }}">
+                            {{ st_title_2 }}
+                          </h2>
+                          {% endif %}
+                          {% if st_title_3 != blank %}
+                          <h2 class="split-card-title-cycle-item {{ section.settings.card_title_font_family | default: 'font-serif' }} {{ section.settings.card_title_font_size | default: 'text-5xl' }} {{ section.settings.card_title_font_size_desktop | default: 'lg:text-7xl' }} {{ section.settings.card_title_font_weight | default: 'font-bold' }} {{ section.settings.card_title_color | default: 'text-neutral-dark' }}">
+                            {{ st_title_3 }}
+                          </h2>
+                          {% endif %}
+                          {% if st_title_4 != blank %}
+                          <h2 class="split-card-title-cycle-item {{ section.settings.card_title_font_family | default: 'font-serif' }} {{ section.settings.card_title_font_size | default: 'text-5xl' }} {{ section.settings.card_title_font_size_desktop | default: 'lg:text-7xl' }} {{ section.settings.card_title_font_weight | default: 'font-bold' }} {{ section.settings.card_title_color | default: 'text-neutral-dark' }}">
+                            {{ st_title_4 }}
+                          </h2>
+                          {% endif %}
+                          {% if st_title_5 != blank %}
+                          <h2 class="split-card-title-cycle-item {{ section.settings.card_title_font_family | default: 'font-serif' }} {{ section.settings.card_title_font_size | default: 'text-5xl' }} {{ section.settings.card_title_font_size_desktop | default: 'lg:text-7xl' }} {{ section.settings.card_title_font_weight | default: 'font-bold' }} {{ section.settings.card_title_color | default: 'text-neutral-dark' }}">
+                            {{ st_title_5 }}
+                          </h2>
+                          {% endif %}
+                          {% if st_title_6 != blank %}
+                          <h2 class="split-card-title-cycle-item {{ section.settings.card_title_font_family | default: 'font-serif' }} {{ section.settings.card_title_font_size | default: 'text-5xl' }} {{ section.settings.card_title_font_size_desktop | default: 'lg:text-7xl' }} {{ section.settings.card_title_font_weight | default: 'font-bold' }} {{ section.settings.card_title_color | default: 'text-neutral-dark' }}">
+                            {{ st_title_6 }}
+                          </h2>
+                          {% endif %}
+                        </div>
+                      {% else %}
+                        <!-- Single Title Mode -->
+                        {% case split_top_mode %}
+                          {% when '1' %}
+                            {% assign split_top_selected = st_title_1 %}
+                          {% when '2' %}
+                            {% assign split_top_selected = st_title_2 %}
+                          {% when '3' %}
+                            {% assign split_top_selected = st_title_3 %}
+                          {% when '4' %}
+                            {% assign split_top_selected = st_title_4 %}
+                          {% when '5' %}
+                            {% assign split_top_selected = st_title_5 %}
+                          {% when '6' %}
+                            {% assign split_top_selected = st_title_6 %}
+                        {% endcase %}
+                        {% if split_top_selected == blank %}{% assign split_top_selected = st_title_1 %}{% endif %}
+                        <h2 class="split-card-title {{ section.settings.card_title_font_family | default: 'font-serif' }} {{ section.settings.card_title_font_size | default: 'text-5xl' }} {{ section.settings.card_title_font_size_desktop | default: 'lg:text-7xl' }} {{ section.settings.card_title_font_weight | default: 'font-bold' }} {{ section.settings.card_title_color | default: 'text-neutral-dark' }}">
+                          {{ split_top_selected }}
+                        </h2>
+                      {% endif %}
+                    {% endif %}
+                    {% if block.settings.show_top_text and block.settings.top_card_text != blank %}
+                    {% if section.settings.show_card_divider %}
+                    <hr class="split-card-divider">
+                    {% endif %}
+                    <div class="split-card-text {{ section.settings.card_text_font_family | default: 'font-body' }} {{ section.settings.card_text_font_size | default: 'text-base' }} {{ section.settings.card_text_font_size_desktop | default: 'lg:text-lg' }} {{ section.settings.card_text_font_weight | default: 'font-normal' }} {{ section.settings.card_text_color | default: 'text-neutral-dark' }}">
+                      {{ block.settings.top_card_text }}
+                    </div>
+                    {% endif %}
+                  </div>
+                </div>
+                <div class="split-card-gap" style="height: {{ gap_size }}px;"></div>
+                <div class="split-card-bottom {{ background_color }} {{ border_radius }}">
+                  {% if bottom_bg_image != blank %}
+                  <div class="split-card-background" style="background-image: url('{{ bottom_bg_image }}');"></div>
+                  {% endif %}
+                  {% if block.settings.show_bottom_overlay %}
+                  <div class="split-card-overlay"></div>
+                  {% endif %}
+                  {% if block.settings.show_bottom_overline and block.settings.bottom_overline_text != blank %}
+                  <div class="split-card-overline">
+                    <span class="{{ section.settings.card_overline_font_family | default: 'font-body' }} {{ section.settings.card_overline_font_size | default: 'text-base' }} {{ section.settings.card_overline_font_size_desktop | default: 'lg:text-lg' }} {{ section.settings.card_overline_font_weight | default: 'font-medium' }} {{ section.settings.card_overline_color | default: 'text-neutral-dark' }}">{{ block.settings.bottom_overline_text }}</span>
+                  </div>
+                  {% endif %}
+                  <div class="split-card-content p-lg">
+                    {% if block.settings.show_bottom_icon and block.settings.bottom_card_icon_image != blank %}
+                    {% assign bottom_icon_size = block.settings.bottom_card_icon_size | default: 'md' %}
+                    <div class="split-card-icon icon-size-{{ bottom_icon_size }}">
+                      <img src="{{ block.settings.bottom_card_icon_image | image_url }}" alt="{{ block.settings.bottom_card_icon_image.alt | default: 'Icon' }}" class="icon-image">
+                    </div>
+                    {% endif %}
+                    {% assign show_sb_title = block.settings.show_split_bottom_title %}
+                    {% if show_sb_title == nil %}{% assign show_sb_title = true %}{% endif %}
+                    {% if show_sb_title %}
+                      {% assign split_bottom_mode = block.settings.split_bottom_title_mode | default: '1' %}
+                      {% assign sb_title_1 = block.settings.split_bottom_text_1 | default: 'Bottom Card Title' %}
+                      {% assign sb_title_2 = block.settings.split_bottom_text_2 %}
+                      {% assign sb_title_3 = block.settings.split_bottom_text_3 %}
+                      {% assign sb_title_4 = block.settings.split_bottom_text_4 %}
+                      {% assign sb_title_5 = block.settings.split_bottom_text_5 %}
+                      {% assign sb_title_6 = block.settings.split_bottom_text_6 %}
+                      
+                      {% if split_bottom_mode == 'cycle' %}
+                        <!-- Cycling Mode -->
+                        <div class="split-card-title-cycle-container" data-cycle-duration="{{ block.settings.split_bottom_title_duration | default: 3 }}">
+                          {% if sb_title_1 != blank %}
+                          <h2 class="split-card-title-cycle-item active {{ section.settings.card_title_font_family | default: 'font-serif' }} {{ section.settings.card_title_font_size | default: 'text-5xl' }} {{ section.settings.card_title_font_size_desktop | default: 'lg:text-7xl' }} {{ section.settings.card_title_font_weight | default: 'font-bold' }} {{ section.settings.card_title_color | default: 'text-neutral-dark' }}">
+                            {{ sb_title_1 }}
+                          </h2>
+                          {% endif %}
+                          {% if sb_title_2 != blank %}
+                          <h2 class="split-card-title-cycle-item {{ section.settings.card_title_font_family | default: 'font-serif' }} {{ section.settings.card_title_font_size | default: 'text-5xl' }} {{ section.settings.card_title_font_size_desktop | default: 'lg:text-7xl' }} {{ section.settings.card_title_font_weight | default: 'font-bold' }} {{ section.settings.card_title_color | default: 'text-neutral-dark' }}">
+                            {{ sb_title_2 }}
+                          </h2>
+                          {% endif %}
+                          {% if sb_title_3 != blank %}
+                          <h2 class="split-card-title-cycle-item {{ section.settings.card_title_font_family | default: 'font-serif' }} {{ section.settings.card_title_font_size | default: 'text-5xl' }} {{ section.settings.card_title_font_size_desktop | default: 'lg:text-7xl' }} {{ section.settings.card_title_font_weight | default: 'font-bold' }} {{ section.settings.card_title_color | default: 'text-neutral-dark' }}">
+                            {{ sb_title_3 }}
+                          </h2>
+                          {% endif %}
+                          {% if sb_title_4 != blank %}
+                          <h2 class="split-card-title-cycle-item {{ section.settings.card_title_font_family | default: 'font-serif' }} {{ section.settings.card_title_font_size | default: 'text-5xl' }} {{ section.settings.card_title_font_size_desktop | default: 'lg:text-7xl' }} {{ section.settings.card_title_font_weight | default: 'font-bold' }} {{ section.settings.card_title_color | default: 'text-neutral-dark' }}">
+                            {{ sb_title_4 }}
+                          </h2>
+                          {% endif %}
+                          {% if sb_title_5 != blank %}
+                          <h2 class="split-card-title-cycle-item {{ section.settings.card_title_font_family | default: 'font-serif' }} {{ section.settings.card_title_font_size | default: 'text-5xl' }} {{ section.settings.card_title_font_size_desktop | default: 'lg:text-7xl' }} {{ section.settings.card_title_font_weight | default: 'font-bold' }} {{ section.settings.card_title_color | default: 'text-neutral-dark' }}">
+                            {{ sb_title_5 }}
+                          </h2>
+                          {% endif %}
+                          {% if sb_title_6 != blank %}
+                          <h2 class="split-card-title-cycle-item {{ section.settings.card_title_font_family | default: 'font-serif' }} {{ section.settings.card_title_font_size | default: 'text-5xl' }} {{ section.settings.card_title_font_size_desktop | default: 'lg:text-7xl' }} {{ section.settings.card_title_font_weight | default: 'font-bold' }} {{ section.settings.card_title_color | default: 'text-neutral-dark' }}">
+                            {{ sb_title_6 }}
+                          </h2>
+                          {% endif %}
+                        </div>
+                      {% else %}
+                        <!-- Single Title Mode -->
+                        {% case split_bottom_mode %}
+                          {% when '1' %}
+                            {% assign split_bottom_selected = sb_title_1 %}
+                          {% when '2' %}
+                            {% assign split_bottom_selected = sb_title_2 %}
+                          {% when '3' %}
+                            {% assign split_bottom_selected = sb_title_3 %}
+                          {% when '4' %}
+                            {% assign split_bottom_selected = sb_title_4 %}
+                          {% when '5' %}
+                            {% assign split_bottom_selected = sb_title_5 %}
+                          {% when '6' %}
+                            {% assign split_bottom_selected = sb_title_6 %}
+                        {% endcase %}
+                        {% if split_bottom_selected == blank %}{% assign split_bottom_selected = sb_title_1 %}{% endif %}
+                        <h2 class="split-card-title {{ section.settings.card_title_font_family | default: 'font-serif' }} {{ section.settings.card_title_font_size | default: 'text-5xl' }} {{ section.settings.card_title_font_size_desktop | default: 'lg:text-7xl' }} {{ section.settings.card_title_font_weight | default: 'font-bold' }} {{ section.settings.card_title_color | default: 'text-neutral-dark' }}">
+                          {{ split_bottom_selected }}
+                        </h2>
+                      {% endif %}
+                    {% endif %}
+                    {% if block.settings.show_bottom_text and block.settings.bottom_card_text != blank %}
+                    {% if section.settings.show_card_divider %}
+                    <hr class="split-card-divider">
+                    {% endif %}
+                    <div class="split-card-text {{ section.settings.card_text_font_family | default: 'font-body' }} {{ section.settings.card_text_font_size | default: 'text-base' }} {{ section.settings.card_text_font_size_desktop | default: 'lg:text-lg' }} {{ section.settings.card_text_font_weight | default: 'font-normal' }} {{ section.settings.card_text_color | default: 'text-neutral-dark' }}">
+                      {{ block.settings.bottom_card_text }}
+                    </div>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+          {% endcase %}
+        {% endfor %}
+      </div>
+      {% endif %}
+      
+      {% if layout_width == 'full_width' or layout_width == 'wide' %}
+    </div>
+  {% else %}
+  </div>
+  </div>
+  {% endif %}
+  
+</section>
+
+<!-- Title Cycle Effect for Featured Cards and Split Cards -->
+<script>
+(function() {
+  // Handle both featured card and split card title cycling
+  const containers = document.querySelectorAll('.featured-card-title-cycle-container, .split-card-title-cycle-container');
+  
+  containers.forEach((container, index) => {
+    const items = container.querySelectorAll('.featured-card-title-cycle-item, .split-card-title-cycle-item');
+    if (items.length <= 1) return;
+    
+    const duration = parseInt(container.dataset.cycleDuration) * 1000 || 3000;
+    const fadeTime = 600;
+    let currentIndex = 0;
+    
+    function cycleTitles() {
+      items[currentIndex].classList.remove('active');
+      
+      setTimeout(() => {
+        currentIndex = (currentIndex + 1) % items.length;
+        items[currentIndex].classList.add('active');
+      }, fadeTime);
+    }
+    
+    // Offset timing for each container (stagger by 800ms per container)
+    const offsetDelay = index * 800;
+    
+    setTimeout(() => {
+      setInterval(cycleTitles, duration + fadeTime);
+    }, offsetDelay);
+  });
+})();
+</script>
+
+<!-- Count-Up Animation for Statistic Numbers -->
+<script>
+(function() {
+  function initStatisticAnimation() {
+    const sectionId = 'statistics-columns-4-{{ section.id }}';
+    const section = document.getElementById(sectionId);
+    if (!section) return;
+    
+    // Find all statistic elements
+    const statistics = section.querySelectorAll('.featured-card-statistic');
+    if (statistics.length === 0) return;
+    
+    // Use IntersectionObserver to trigger animation when visible
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !entry.target.dataset.animated) {
+          entry.target.dataset.animated = 'true';
+          animateStatistic(entry.target);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.3 });
+    
+    statistics.forEach(stat => observer.observe(stat));
+  }
+  
+  // Helper function to parse numbers that may have commas or other formatting
+  function parseFormattedNumber(str) {
+    if (!str || str === '') return 0;
+    // Remove commas and other non-numeric characters except decimal point and minus sign
+    const cleaned = String(str).replace(/[^0-9.-]/g, '');
+    const parsed = parseFloat(cleaned);
+    return isNaN(parsed) ? 0 : parsed;
+  }
+  
+  function animateStatistic(container) {
+    const numberElement = container.querySelector('.statistic-number');
+    if (!numberElement) return;
+    
+    const targetNumber = parseFormattedNumber(container.dataset.countTo);
+    const duration = parseFloat(container.dataset.countDuration) || 2;
+    const startTime = performance.now();
+    
+    // If target is 0, just display 0
+    if (targetNumber === 0) {
+      numberElement.textContent = '0';
+      return;
+    }
+    
+    // Set initial value to 0
+    numberElement.textContent = '0';
+    
+    function updateNumber(currentTime) {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / (duration * 1000), 1);
+      
+      // Ease-out cubic for smooth deceleration
+      const easedProgress = 1 - Math.pow(1 - progress, 3);
+      
+      const currentValue = Math.round(targetNumber * easedProgress);
+      numberElement.textContent = currentValue.toLocaleString();
+      
+      if (progress < 1) {
+        requestAnimationFrame(updateNumber);
+      } else {
+        numberElement.textContent = targetNumber.toLocaleString();
+      }
+    }
+    
+    requestAnimationFrame(updateNumber);
+  }
+  
+  // Initialize on DOM ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initStatisticAnimation);
+  } else {
+    initStatisticAnimation();
+  }
+})();
+</script>
+
+<script>
+(function() {
+  function distributeCardsHorizontally() {
+    const sectionId = 'statistics-columns-4-{{ section.id }}';
+    const section = document.getElementById(sectionId);
+    if (!section) return;
+    
+    const cardsGrid = section.querySelector('.cards-grid.layout-columns');
+    if (!cardsGrid) return;
+    
+    // Get all cards
+    const cards = Array.from(cardsGrid.querySelectorAll('.testimonial-card, .video-card, .featured-card, .split-card'));
+    if (cards.length === 0) return;
+    
+    // Determine column count based on screen size
+    let columnCount = 3;
+    if (window.innerWidth <= 1023) {
+      columnCount = 1;
+    }
+    
+    // Clear existing column structure if already processed
+    if (cardsGrid.dataset.processed === 'true') {
+      // Restore original cards
+      cards.forEach(card => {
+        cardsGrid.appendChild(card);
+      });
+    }
+    
+    // Helper function to get card height
+    function getCardHeight(card) {
+      // Check for card-height class (e.g., card-height-329, card-height-690)
+      const heightClass = Array.from(card.classList).find(cls => cls.startsWith('card-height-'));
+      if (heightClass) {
+        return parseInt(heightClass.replace('card-height-', '')) || 0;
+      }
+      // For split-card, use computed height (includes both cards + gap)
+      if (card.classList.contains('split-card')) {
+        return card.offsetHeight || 0;
+      }
+      // Fallback to computed height if no class
+      return card.offsetHeight || 0;
+    }
+    
+    // Find the tallest card
+    let tallestCard = cards[0];
+    let tallestHeight = getCardHeight(cards[0]);
+    
+    cards.forEach(card => {
+      const height = getCardHeight(card);
+      if (height > tallestHeight) {
+        tallestHeight = height;
+        tallestCard = card;
+      }
+    });
+    
+    // Separate tallest card from the rest
+    const remainingCards = cards.filter(card => card !== tallestCard);
+    
+    // Get gap value from CSS custom property or fallback to default
+    const gapValue = getComputedStyle(cardsGrid).getPropertyValue('--column-gap') || 'var(--space-xl)';
+    
+    // Create column containers
+    const columns = [];
+    for (let i = 0; i < columnCount; i++) {
+      const column = document.createElement('div');
+      column.className = 'column-container';
+      column.style.display = 'flex';
+      column.style.flexDirection = 'column';
+      column.style.gap = gapValue;
+      column.style.flex = '1';
+      column.style.minWidth = '0';
+      columns.push(column);
+    }
+    
+    // Clear grid and add columns
+    cardsGrid.innerHTML = '';
+    cardsGrid.style.display = 'flex';
+    cardsGrid.style.flexDirection = 'row';
+    cardsGrid.style.gap = gapValue;
+    columns.forEach(column => cardsGrid.appendChild(column));
+    
+    // Place tallest card at the top of the left column (column 0)
+    columns[0].appendChild(tallestCard);
+    
+    // Distribute remaining cards starting from column 1 (skip column 0)
+    // Fill columns 1 and 2 first, then go back to column 0 if needed
+    remainingCards.forEach((card, index) => {
+      // Start from column 1, then column 2, then back to column 1, etc.
+      // Only go to column 0 after columns 1 and 2 have been filled
+      let columnIndex;
+      if (columnCount === 1) {
+        columnIndex = 0;
+      } else {
+        // For 2+ columns, fill columns 1 and 2 first (skip column 0)
+        const availableColumns = columnCount - 1; // Exclude column 0
+        columnIndex = (index % availableColumns) + 1; // Start from column 1
+      }
+      columns[columnIndex].appendChild(card);
+    });
+    
+    // Mark as processed
+    cardsGrid.dataset.processed = 'true';
+  }
+  
+  // Run on load and resize
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', distributeCardsHorizontally);
+  } else {
+    distributeCardsHorizontally();
+  }
+  
+  // Debounced resize handler
+  let resizeTimeout;
+  window.addEventListener('resize', function() {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(distributeCardsHorizontally, 250);
+  });
+})();
+
+// Parallax scroll effect for background images
+(function() {
+  const sectionId = 'statistics-columns-4-{{ section.id }}';
+  const section = document.getElementById(sectionId);
+  if (!section) return;
+  
+  const backgroundElements = Array.from(section.querySelectorAll('.featured-card-background, .split-card-background'));
+  if (backgroundElements.length === 0) return;
+  
+  // Assign different parallax intensities to each card for variation
+  // Reduced intensities for less movement
+  const parallaxIntensities = [0.02, 0.03, 0.025, 0.035, 0.02, 0.04, 0.025, 0.03]; // Reduced variations
+  backgroundElements.forEach((bg, index) => {
+    bg.dataset.parallaxIntensity = parallaxIntensities[index % parallaxIntensities.length];
+  });
+  
+  function updateParallax() {
+    const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+    const windowHeight = window.innerHeight;
+    
+    backgroundElements.forEach(bg => {
+      const card = bg.closest('.featured-card, .split-card-top, .split-card-bottom');
+      if (!card) return;
+      
+      const rect = card.getBoundingClientRect();
+      const cardTop = rect.top + scrollY;
+      const cardHeight = rect.height;
+      
+      // Calculate how much of the card is visible
+      const cardCenter = cardTop + cardHeight / 2;
+      const viewportCenter = scrollY + windowHeight / 2;
+      
+      // Distance from viewport center to card center
+      const distance = viewportCenter - cardCenter;
+      
+      // Get card-specific parallax intensity (reduced for less movement)
+      const parallaxIntensity = parseFloat(bg.dataset.parallaxIntensity) || 0.025;
+      
+      // Initial offset to start images higher
+      const initialOffset = -30;
+      let translateY = initialOffset + (distance * parallaxIntensity);
+      
+      // Clamp to prevent too much downward movement - keep it within reasonable bounds
+      translateY = Math.max(initialOffset, Math.min(initialOffset + 20, translateY));
+      
+      // Apply transform - base scale of 1.4 (140% zoom) + initial offset + subtle parallax translation
+      // The scale is centered, so images stay properly positioned
+      bg.style.transform = `scale(1.4) translate3d(0, ${translateY}px, 0)`;
+    });
+  }
+  
+  // Use requestAnimationFrame for smooth performance
+  let ticking = false;
+  function onScroll() {
+    if (!ticking) {
+      window.requestAnimationFrame(function() {
+        updateParallax();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }
+  
+  // Initial call
+  updateParallax();
+  
+  // Listen to scroll events
+  window.addEventListener('scroll', onScroll, { passive: true });
+  
+  // Update on resize
+  window.addEventListener('resize', updateParallax, { passive: true });
+})();
+
+// Staggered fade-in and slide-up animation for cards
+(function() {
+  const sectionId = 'statistics-columns-4-{{ section.id }}';
+  const section = document.getElementById(sectionId);
+  if (!section) return;
+  
+  const cardsGrid = section.querySelector('.cards-grid.layout-columns');
+  if (!cardsGrid) return;
+  
+  // Wait for cards to be distributed into columns
+  function initAnimation() {
+    const featuredCards = Array.from(cardsGrid.querySelectorAll('.featured-card'));
+    const splitCards = Array.from(cardsGrid.querySelectorAll('.split-card'));
+    
+    // Collect all cards to animate (featured cards + split card parts)
+    const allCardsToAnimate = [];
+    
+    // Add featured cards
+    featuredCards.forEach(card => {
+      allCardsToAnimate.push({ element: card, delay: 0 });
+    });
+    
+    // Add split card top and bottom parts separately
+    splitCards.forEach(splitCard => {
+      const topCard = splitCard.querySelector('.split-card-top');
+      const bottomCard = splitCard.querySelector('.split-card-bottom');
+      
+      if (topCard) {
+        allCardsToAnimate.push({ element: topCard, delay: 0 });
+      }
+      if (bottomCard) {
+        allCardsToAnimate.push({ element: bottomCard, delay: 0 });
+      }
+    });
+    
+    if (allCardsToAnimate.length === 0) return;
+    
+    // Intersection Observer to trigger animation when section comes into view
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.1 // Trigger when 10% of section is visible
+    };
+    
+    const observer = new IntersectionObserver(function(entries) {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          // Stagger the animation for each card
+          allCardsToAnimate.forEach((card, index) => {
+            setTimeout(() => {
+              card.element.classList.add('animate-in');
+            }, index * 100); // 100ms delay between each card
+          });
+          
+          // Unobserve after animation is triggered
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+    
+    // Start observing the section
+    observer.observe(section);
+  }
+  
+  // Wait for card distribution to complete, then initialize animation
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+      setTimeout(initAnimation, 500); // Wait for card distribution
+    });
+  } else {
+    setTimeout(initAnimation, 500); // Wait for card distribution
+  }
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Statistics Columns 4",
+  "tag": "section",
+  "class": "statistics-columns-4-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Heading"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "What Our Customers Say"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_family",
+      "label": "Heading Font Family",
+      "options": [
+        { "value": "font-primary", "label": "Primary" },
+        { "value": "font-body", "label": "Body" },
+        { "value": "font-handwritten", "label": "Handwritten" },
+        { "value": "font-serif", "label": "Serif" }
+      ],
+      "default": "font-primary"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_size",
+      "label": "Heading Font Size (Mobile)",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" },
+        { "value": "text-xl", "label": "Extra Large" },
+        { "value": "text-2xl", "label": "2X Large" },
+        { "value": "text-3xl", "label": "3X Large" },
+        { "value": "text-4xl", "label": "4X Large" },
+        { "value": "text-5xl", "label": "5X Large" },
+        { "value": "text-6xl", "label": "6X Large" },
+        { "value": "text-7xl", "label": "7X Large" },
+        { "value": "text-8xl", "label": "8X Large" },
+        { "value": "text-9xl", "label": "9X Large" }
+      ],
+      "default": "text-3xl"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_size_desktop",
+      "label": "Heading Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-xs", "label": "Extra Small" },
+        { "value": "lg:text-sm", "label": "Small" },
+        { "value": "lg:text-base", "label": "Base" },
+        { "value": "lg:text-lg", "label": "Large" },
+        { "value": "lg:text-xl", "label": "Extra Large" },
+        { "value": "lg:text-2xl", "label": "2X Large" },
+        { "value": "lg:text-3xl", "label": "3X Large" },
+        { "value": "lg:text-4xl", "label": "4X Large" },
+        { "value": "lg:text-5xl", "label": "5X Large" },
+        { "value": "lg:text-6xl", "label": "6X Large" },
+        { "value": "lg:text-7xl", "label": "7X Large" },
+        { "value": "lg:text-8xl", "label": "8X Large" },
+        { "value": "lg:text-9xl", "label": "9X Large" }
+      ],
+      "default": "lg:text-5xl"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_weight",
+      "label": "Heading Font Weight",
+      "options": [
+        { "value": "font-light", "label": "Light" },
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semi Bold" },
+        { "value": "font-bold", "label": "Bold" }
+      ],
+      "default": "font-bold"
+    },
+    {
+      "type": "select",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "options": [
+        { "value": "text-white", "label": "White" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-primary", "label": "Primary" },
+        { "value": "text-secondary", "label": "Secondary" },
+        { "value": "text-tertiary", "label": "Tertiary" },
+        { "value": "text-quaternary", "label": "Quaternary" },
+        { "value": "text-success", "label": "Success" },
+        { "value": "text-warning", "label": "Warning" },
+        { "value": "text-error", "label": "Error" },
+        { "value": "text-info", "label": "Info" },
+        { "value": "text-neutral", "label": "Neutral" },
+        { "value": "text-neutral-light", "label": "Neutral Light" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "text-primary"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Read real stories from customers who have transformed their health with our products.",
+      "info": "Optional description text displayed below the heading"
+    },
+    {
+      "type": "select",
+      "id": "description_font_family",
+      "label": "Description Font Family",
+      "options": [
+        { "value": "font-primary", "label": "Primary" },
+        { "value": "font-body", "label": "Body" },
+        { "value": "font-handwritten", "label": "Handwritten" },
+        { "value": "font-serif", "label": "Serif" }
+      ],
+      "default": "font-body"
+    },
+    {
+      "type": "select",
+      "id": "description_font_size",
+      "label": "Description Font Size (Mobile)",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" },
+        { "value": "text-xl", "label": "Extra Large" },
+        { "value": "text-2xl", "label": "2X Large" },
+        { "value": "text-3xl", "label": "3X Large" },
+        { "value": "text-4xl", "label": "4X Large" },
+        { "value": "text-5xl", "label": "5X Large" },
+        { "value": "text-6xl", "label": "6X Large" },
+        { "value": "text-7xl", "label": "7X Large" },
+        { "value": "text-8xl", "label": "8X Large" },
+        { "value": "text-9xl", "label": "9X Large" }
+      ],
+      "default": "text-base"
+    },
+    {
+      "type": "select",
+      "id": "description_font_size_desktop",
+      "label": "Description Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-xs", "label": "Extra Small" },
+        { "value": "lg:text-sm", "label": "Small" },
+        { "value": "lg:text-base", "label": "Base" },
+        { "value": "lg:text-lg", "label": "Large" },
+        { "value": "lg:text-xl", "label": "Extra Large" },
+        { "value": "lg:text-2xl", "label": "2X Large" },
+        { "value": "lg:text-3xl", "label": "3X Large" },
+        { "value": "lg:text-4xl", "label": "4X Large" },
+        { "value": "lg:text-5xl", "label": "5X Large" },
+        { "value": "lg:text-6xl", "label": "6X Large" },
+        { "value": "lg:text-7xl", "label": "7X Large" },
+        { "value": "lg:text-8xl", "label": "8X Large" },
+        { "value": "lg:text-9xl", "label": "9X Large" }
+      ],
+      "default": "lg:text-lg"
+    },
+    {
+      "type": "select",
+      "id": "description_font_weight",
+      "label": "Description Font Weight",
+      "options": [
+        { "value": "font-light", "label": "Light" },
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semi Bold" },
+        { "value": "font-bold", "label": "Bold" }
+      ],
+      "default": "font-normal"
+    },
+    {
+      "type": "select",
+      "id": "description_color",
+      "label": "Description Color",
+      "options": [
+        { "value": "text-white", "label": "White" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-primary", "label": "Primary" },
+        { "value": "text-secondary", "label": "Secondary" },
+        { "value": "text-tertiary", "label": "Tertiary" },
+        { "value": "text-quaternary", "label": "Quaternary" },
+        { "value": "text-success", "label": "Success" },
+        { "value": "text-warning", "label": "Warning" },
+        { "value": "text-error", "label": "Error" },
+        { "value": "text-info", "label": "Info" },
+        { "value": "text-neutral", "label": "Neutral" },
+        { "value": "text-neutral-light", "label": "Neutral Light" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "text-neutral-dark"
+    },
+    {
+      "type": "header",
+      "content": "Card Overline Typography"
+    },
+    {
+      "type": "select",
+      "id": "card_overline_font_family",
+      "label": "Overline Font Family",
+      "options": [
+        { "value": "font-primary", "label": "Primary" },
+        { "value": "font-body", "label": "Body" },
+        { "value": "font-handwritten", "label": "Handwritten" },
+        { "value": "font-serif", "label": "Serif" }
+      ],
+      "default": "font-body"
+    },
+    {
+      "type": "select",
+      "id": "card_overline_font_size",
+      "label": "Overline Font Size (Mobile)",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" },
+        { "value": "text-xl", "label": "Extra Large" },
+        { "value": "text-2xl", "label": "2X Large" }
+      ],
+      "default": "text-base"
+    },
+    {
+      "type": "select",
+      "id": "card_overline_font_size_desktop",
+      "label": "Overline Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-xs", "label": "Extra Small" },
+        { "value": "lg:text-sm", "label": "Small" },
+        { "value": "lg:text-base", "label": "Base" },
+        { "value": "lg:text-lg", "label": "Large" },
+        { "value": "lg:text-xl", "label": "Extra Large" },
+        { "value": "lg:text-2xl", "label": "2X Large" }
+      ],
+      "default": "lg:text-lg"
+    },
+    {
+      "type": "select",
+      "id": "card_overline_font_weight",
+      "label": "Overline Font Weight",
+      "options": [
+        { "value": "font-light", "label": "Light" },
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semi Bold" },
+        { "value": "font-bold", "label": "Bold" }
+      ],
+      "default": "font-medium"
+    },
+    {
+      "type": "select",
+      "id": "card_overline_color",
+      "label": "Overline Color",
+      "options": [
+        { "value": "text-white", "label": "White" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-primary", "label": "Primary" },
+        { "value": "text-secondary", "label": "Secondary" },
+        { "value": "text-tertiary", "label": "Tertiary" },
+        { "value": "text-quaternary", "label": "Quaternary" },
+        { "value": "text-neutral", "label": "Neutral" },
+        { "value": "text-neutral-light", "label": "Neutral Light" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "text-neutral-dark"
+    },
+    {
+      "type": "header",
+      "content": "Card Statistic/Title Typography"
+    },
+    {
+      "type": "select",
+      "id": "card_title_font_family",
+      "label": "Statistic/Title Font Family",
+      "options": [
+        { "value": "font-primary", "label": "Primary" },
+        { "value": "font-body", "label": "Body" },
+        { "value": "font-handwritten", "label": "Handwritten" },
+        { "value": "font-serif", "label": "Serif" }
+      ],
+      "default": "font-serif"
+    },
+    {
+      "type": "select",
+      "id": "card_title_font_size",
+      "label": "Statistic/Title Font Size (Mobile)",
+      "options": [
+        { "value": "text-2xl", "label": "2X Large" },
+        { "value": "text-3xl", "label": "3X Large" },
+        { "value": "text-4xl", "label": "4X Large" },
+        { "value": "text-5xl", "label": "5X Large" },
+        { "value": "text-6xl", "label": "6X Large" },
+        { "value": "text-7xl", "label": "7X Large" }
+      ],
+      "default": "text-5xl"
+    },
+    {
+      "type": "select",
+      "id": "card_title_font_size_desktop",
+      "label": "Statistic/Title Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-3xl", "label": "3X Large" },
+        { "value": "lg:text-4xl", "label": "4X Large" },
+        { "value": "lg:text-5xl", "label": "5X Large" },
+        { "value": "lg:text-6xl", "label": "6X Large" },
+        { "value": "lg:text-7xl", "label": "7X Large" },
+        { "value": "lg:text-8xl", "label": "8X Large" }
+      ],
+      "default": "lg:text-7xl"
+    },
+    {
+      "type": "select",
+      "id": "card_title_font_weight",
+      "label": "Statistic/Title Font Weight",
+      "options": [
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semi Bold" },
+        { "value": "font-bold", "label": "Bold" },
+        { "value": "font-extrabold", "label": "Extra Bold" }
+      ],
+      "default": "font-bold"
+    },
+    {
+      "type": "select",
+      "id": "card_title_color",
+      "label": "Statistic/Title Color",
+      "options": [
+        { "value": "text-white", "label": "White" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-primary", "label": "Primary" },
+        { "value": "text-secondary", "label": "Secondary" },
+        { "value": "text-tertiary", "label": "Tertiary" },
+        { "value": "text-quaternary", "label": "Quaternary" },
+        { "value": "text-neutral", "label": "Neutral" },
+        { "value": "text-neutral-light", "label": "Neutral Light" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "text-neutral-dark"
+    },
+    {
+      "type": "header",
+      "content": "Card Body Text Typography"
+    },
+    {
+      "type": "select",
+      "id": "card_text_font_family",
+      "label": "Body Text Font Family",
+      "options": [
+        { "value": "font-primary", "label": "Primary" },
+        { "value": "font-body", "label": "Body" },
+        { "value": "font-handwritten", "label": "Handwritten" },
+        { "value": "font-serif", "label": "Serif" }
+      ],
+      "default": "font-body"
+    },
+    {
+      "type": "select",
+      "id": "card_text_font_size",
+      "label": "Body Text Font Size (Mobile)",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" },
+        { "value": "text-xl", "label": "Extra Large" },
+        { "value": "text-2xl", "label": "2X Large" }
+      ],
+      "default": "text-base"
+    },
+    {
+      "type": "select",
+      "id": "card_text_font_size_desktop",
+      "label": "Body Text Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-xs", "label": "Extra Small" },
+        { "value": "lg:text-sm", "label": "Small" },
+        { "value": "lg:text-base", "label": "Base" },
+        { "value": "lg:text-lg", "label": "Large" },
+        { "value": "lg:text-xl", "label": "Extra Large" },
+        { "value": "lg:text-2xl", "label": "2X Large" }
+      ],
+      "default": "lg:text-lg"
+    },
+    {
+      "type": "select",
+      "id": "card_text_font_weight",
+      "label": "Body Text Font Weight",
+      "options": [
+        { "value": "font-light", "label": "Light" },
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semi Bold" },
+        { "value": "font-bold", "label": "Bold" }
+      ],
+      "default": "font-normal"
+    },
+    {
+      "type": "select",
+      "id": "card_text_color",
+      "label": "Body Text Color",
+      "options": [
+        { "value": "text-white", "label": "White" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-primary", "label": "Primary" },
+        { "value": "text-secondary", "label": "Secondary" },
+        { "value": "text-tertiary", "label": "Tertiary" },
+        { "value": "text-quaternary", "label": "Quaternary" },
+        { "value": "text-neutral", "label": "Neutral" },
+        { "value": "text-neutral-light", "label": "Neutral Light" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "text-neutral-dark"
+    },
+    {
+      "type": "header",
+      "content": "Card Heights"
+    },
+    {
+      "type": "select",
+      "id": "card_height_mobile",
+      "label": "Card Height (Mobile)",
+      "options": [
+        { "value": "250", "label": "Extra Small (250px)" },
+        { "value": "300", "label": "Small (300px)" },
+        { "value": "338", "label": "Medium (338px)" },
+        { "value": "400", "label": "Large (400px)" },
+        { "value": "450", "label": "Extra Large (450px)" },
+        { "value": "500", "label": "Huge (500px)" }
+      ],
+      "default": "338",
+      "info": "Height of the featured card and total split card on mobile"
+    },
+    {
+      "type": "select",
+      "id": "card_height_desktop",
+      "label": "Card Height (Desktop)",
+      "options": [
+        { "value": "400", "label": "Small (400px)" },
+        { "value": "500", "label": "Medium (500px)" },
+        { "value": "600", "label": "Large (600px)" },
+        { "value": "700", "label": "Extra Large (700px)" },
+        { "value": "800", "label": "Huge (800px)" },
+        { "value": "900", "label": "Massive (900px)" }
+      ],
+      "default": "700",
+      "info": "Height of the featured card and total split card on desktop"
+    },
+    {
+      "type": "header",
+      "content": "Card Divider Line"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_card_divider",
+      "label": "Show Divider Line",
+      "default": true,
+      "info": "Show a horizontal line between the title/statistic and text"
+    },
+    {
+      "type": "header",
+      "content": "Card Overlay"
+    },
+    {
+      "type": "range",
+      "id": "card_overlay_opacity",
+      "label": "Overlay Opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 90,
+      "info": "Opacity of the overlay on cards (0% = transparent, 100% = solid)"
+    },
+    {
+      "type": "range",
+      "id": "card_text_opacity",
+      "label": "Text & Divider Opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100,
+      "info": "Opacity of text, titles, overlines, and dividers on all cards"
+    },
+    {
+      "type": "header",
+      "content": "Layout Settings"
+    },
+    {
+      "type": "select",
+      "id": "layout_width",
+      "label": "Layout Width",
+      "options": [
+        { "value": "inline", "label": "In Line" },
+        { "value": "wide", "label": "Wide" },
+        { "value": "full_width", "label": "Full Width" }
+      ],
+      "default": "inline",
+      "info": "In Line: Constrained to container (~1280px). Wide: Larger max-width (~1800px). Full Width: Edge-to-edge."
+    },
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "label": "Heading & Description Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center",
+      "info": "Controls the alignment of the section heading and description text"
+    },
+    {
+      "type": "select",
+      "id": "column_gap",
+      "label": "Column Gap",
+      "options": [
+        { "value": "xs", "label": "Extra Small (4px)" },
+        { "value": "sm", "label": "Small (8px)" },
+        { "value": "md", "label": "Medium (16px)" },
+        { "value": "lg", "label": "Large (24px)" },
+        { "value": "xl", "label": "Extra Large (32px)" },
+        { "value": "2xl", "label": "2X Large (48px)" },
+        { "value": "3xl", "label": "3X Large (64px)" }
+      ],
+      "default": "xl",
+      "info": "Spacing between columns and between cards within columns. Uses theme spacing values."
+    },
+    {
+      "type": "select",
+      "id": "background_color",
+      "label": "Section Background Color",
+      "options": [
+        { "value": "bg-white", "label": "White" },
+        { "value": "bg-black", "label": "Black" },
+        { "value": "bg-primary", "label": "Primary" },
+        { "value": "bg-secondary", "label": "Secondary" },
+        { "value": "bg-tertiary", "label": "Tertiary" },
+        { "value": "bg-quaternary", "label": "Quaternary" },
+        { "value": "bg-success", "label": "Success" },
+        { "value": "bg-warning", "label": "Warning" },
+        { "value": "bg-error", "label": "Error" },
+        { "value": "bg-info", "label": "Info" },
+        { "value": "bg-neutral", "label": "Neutral" },
+        { "value": "bg-neutral-light", "label": "Neutral Light" },
+        { "value": "bg-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "bg-neutral"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Section Background Image"
+    },
+    {
+      "type": "select",
+      "id": "section_border_radius",
+      "label": "Section Border Radius",
+      "options": [
+        { "value": "rounded-none", "label": "None" },
+        { "value": "rounded-sm", "label": "Small" },
+        { "value": "rounded", "label": "Base" },
+        { "value": "rounded-md", "label": "Medium" },
+        { "value": "rounded-lg", "label": "Large" },
+        { "value": "rounded-xl", "label": "Extra Large" },
+        { "value": "rounded-2xl", "label": "2X Large" },
+        { "value": "rounded-3xl", "label": "3X Large" }
+      ],
+      "default": "rounded-none"
+    },
+    {
+      "type": "header",
+      "content": "Section spacing"
+    },
+    {
+      "type": "select",
+      "id": "padding_x_mobile",
+      "label": "Padding Left (Mobile)",
+      "options": [
+        { "value": "px-0", "label": "None" },
+        { "value": "px-0", "label": "None" },
+        { "value": "px-xs", "label": "Extra Small" },
+        { "value": "px-sm", "label": "Small" },
+        { "value": "px-md", "label": "Medium" },
+        { "value": "px-lg", "label": "Large" },
+        { "value": "px-xl", "label": "Extra Large" },
+        { "value": "px-2xl", "label": "2X Large" },
+        { "value": "px-3xl", "label": "3X Large" }
+      ],
+      "default": "px-0"
+    },
+    {
+      "type": "select",
+      "id": "padding_top_mobile",
+      "label": "Padding Top (Mobile)",
+      "options": [
+        { "value": "pt-0", "label": "None" },
+        { "value": "pt-xs", "label": "Extra Small" },
+        { "value": "pt-sm", "label": "Small" },
+        { "value": "pt-md", "label": "Medium" },
+        { "value": "pt-lg", "label": "Large" },
+        { "value": "pt-xl", "label": "Extra Large" },
+        { "value": "pt-2xl", "label": "2X Large" },
+        { "value": "pt-3xl", "label": "3X Large" }
+      ],
+      "default": "pt-xl"
+    },
+    {
+      "type": "select",
+      "id": "padding_bottom_mobile",
+      "label": "Padding Bottom (Mobile)",
+      "options": [
+        { "value": "pb-0", "label": "None" },
+        { "value": "pb-xs", "label": "Extra Small" },
+        { "value": "pb-sm", "label": "Small" },
+        { "value": "pb-md", "label": "Medium" },
+        { "value": "pb-lg", "label": "Large" },
+        { "value": "pb-xl", "label": "Extra Large" },
+        { "value": "pb-2xl", "label": "2X Large" },
+        { "value": "pb-3xl", "label": "3X Large" }
+      ],
+      "default": "pb-xl"
+    },
+    {
+      "type": "select",
+      "id": "padding_x_desktop",
+      "label": "Padding Left Right (Desktop)",
+      "options": [
+        { "value": "px-0", "label": "None" },
+        { "value": "px-0", "label": "None" },
+        { "value": "px-xs", "label": "Extra Small" },
+        { "value": "px-sm", "label": "Small" },
+        { "value": "px-md", "label": "Medium" },
+        { "value": "px-lg", "label": "Large" },
+        { "value": "px-xl", "label": "Extra Large" },
+        { "value": "px-2xl", "label": "2X Large" },
+        { "value": "px-3xl", "label": "3X Large" }
+      ],
+      "default": "px-0"
+    },
+    {
+      "type": "select",
+      "id": "padding_top_desktop",
+      "label": "Padding Top (Desktop)",
+      "options": [
+        { "value": "pt-0", "label": "None" },
+        { "value": "pt-xs", "label": "Extra Small" },
+        { "value": "pt-sm", "label": "Small" },
+        { "value": "pt-md", "label": "Medium" },
+        { "value": "pt-lg", "label": "Large" },
+        { "value": "pt-xl", "label": "Extra Large" },
+        { "value": "pt-2xl", "label": "2X Large" },
+        { "value": "pt-3xl", "label": "3X Large" }
+      ],
+      "default": "pt-3xl"
+    },
+    {
+      "type": "select",
+      "id": "padding_bottom_desktop",
+      "label": "Padding Bottom (Desktop)",
+      "options": [
+        { "value": "pb-0", "label": "None" },
+        { "value": "pb-xs", "label": "Extra Small" },
+        { "value": "pb-sm", "label": "Small" },
+        { "value": "pb-md", "label": "Medium" },
+        { "value": "pb-lg", "label": "Large" },
+        { "value": "pb-xl", "label": "Extra Large" },
+        { "value": "pb-2xl", "label": "2X Large" },
+        { "value": "pb-3xl", "label": "3X Large" }
+      ],
+      "default": "pb-3xl"
+    },
+    {
+      "type": "header",
+      "content": "Card Styling"
+    },
+    {
+      "type": "checkbox",
+      "id": "content_based_height",
+      "label": "Content-Based Card Height",
+      "default": false,
+      "info": "When enabled, testimonial cards will adjust their height to fit their content. When disabled, cards will stretch to match the tallest card in each row."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_card_shadows",
+      "label": "Show Card Shadows",
+      "default": true,
+      "info": "Enable shadow effects on testimonial cards"
+    },
+    {
+      "type": "select",
+      "id": "testimonial_card_border_radius",
+      "label": "Testimonial Card Border Radius",
+      "options": [
+        { "value": "rounded-none", "label": "None" },
+        { "value": "rounded-sm", "label": "Small" },
+        { "value": "rounded", "label": "Base" },
+        { "value": "rounded-md", "label": "Medium" },
+        { "value": "rounded-lg", "label": "Large" },
+        { "value": "rounded-xl", "label": "Extra Large" },
+        { "value": "rounded-2xl", "label": "2X Large" },
+        { "value": "rounded-3xl", "label": "3X Large" }
+      ],
+      "default": "rounded-md"
+    },
+    {
+      "type": "select",
+      "id": "testimonial_card_background",
+      "label": "Testimonial Card Background Color",
+      "options": [
+        { "value": "bg-white", "label": "White" },
+        { "value": "bg-black", "label": "Black" },
+        { "value": "bg-primary", "label": "Primary" },
+        { "value": "bg-secondary", "label": "Secondary" },
+        { "value": "bg-tertiary", "label": "Tertiary" },
+        { "value": "bg-quaternary", "label": "Quaternary" },
+        { "value": "bg-success", "label": "Success" },
+        { "value": "bg-warning", "label": "Warning" },
+        { "value": "bg-error", "label": "Error" },
+        { "value": "bg-info", "label": "Info" },
+        { "value": "bg-neutral", "label": "Neutral" },
+        { "value": "bg-neutral-light", "label": "Neutral Light" },
+        { "value": "bg-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "bg-neutral-light"
+    },
+    {
+      "type": "select",
+      "id": "testimonial_card_padding",
+      "label": "Card Padding",
+      "options": [
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "header",
+      "content": "Container Settings"
+    },
+    {
+      "type": "select",
+      "id": "container_background_color",
+      "label": "Container Background Color",
+      "options": [
+        { "value": "", "label": "None (Transparent)" },
+        { "value": "bg-white", "label": "White" },
+        { "value": "bg-black", "label": "Black" },
+        { "value": "bg-primary", "label": "Primary" },
+        { "value": "bg-secondary", "label": "Secondary" },
+        { "value": "bg-tertiary", "label": "Tertiary" },
+        { "value": "bg-quaternary", "label": "Quaternary" },
+        { "value": "bg-success", "label": "Success" },
+        { "value": "bg-warning", "label": "Warning" },
+        { "value": "bg-error", "label": "Error" },
+        { "value": "bg-info", "label": "Info" },
+        { "value": "bg-neutral", "label": "Neutral" },
+        { "value": "bg-neutral-light", "label": "Neutral Light" },
+        { "value": "bg-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": ""
+    },
+    {
+      "type": "image_picker",
+      "id": "container_background_image",
+      "label": "Container Background Image"
+    },
+    {
+      "type": "select",
+      "id": "container_border_radius",
+      "label": "Container Border Radius",
+      "options": [
+        { "value": "rounded-none", "label": "None" },
+        { "value": "rounded-sm", "label": "Small" },
+        { "value": "rounded", "label": "Base" },
+        { "value": "rounded-md", "label": "Medium" },
+        { "value": "rounded-lg", "label": "Large" },
+        { "value": "rounded-xl", "label": "Extra Large" },
+        { "value": "rounded-2xl", "label": "2X Large" },
+        { "value": "rounded-3xl", "label": "3X Large" }
+      ],
+      "default": "rounded-none"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_y_mobile",
+      "label": "Container Padding Y (Mobile)",
+      "options": [
+        { "value": "py-xs", "label": "Extra Small" },
+        { "value": "py-sm", "label": "Small" },
+        { "value": "py-md", "label": "Medium" },
+        { "value": "py-lg", "label": "Large" },
+        { "value": "py-xl", "label": "Extra Large" },
+        { "value": "py-2xl", "label": "2X Large" },
+        { "value": "py-3xl", "label": "3X Large" }
+      ],
+      "default": "py-lg"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_y_desktop",
+      "label": "Container Padding Y (Desktop)",
+      "options": [
+        { "value": "lg:py-xs", "label": "Extra Small" },
+        { "value": "lg:py-sm", "label": "Small" },
+        { "value": "lg:py-md", "label": "Medium" },
+        { "value": "lg:py-lg", "label": "Large" },
+        { "value": "lg:py-xl", "label": "Extra Large" },
+        { "value": "lg:py-2xl", "label": "2X Large" },
+        { "value": "lg:py-3xl", "label": "3X Large" }
+      ],
+      "default": "lg:py-2xl"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_x_mobile",
+      "label": "Container Padding X (Mobile)",
+      "options": [
+        { "value": "px-0", "label": "None" },
+        { "value": "px-xs", "label": "Extra Small" },
+        { "value": "px-sm", "label": "Small" },
+        { "value": "px-md", "label": "Medium" },
+        { "value": "px-lg", "label": "Large" },
+        { "value": "px-xl", "label": "Extra Large" },
+        { "value": "px-2xl", "label": "2X Large" },
+        { "value": "px-3xl", "label": "3X Large" }
+      ],
+      "default": "px-0"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_x_desktop",
+      "label": "Container Padding X (Desktop)",
+      "options": [
+        { "value": "lg:px-0", "label": "None" },
+        { "value": "lg:px-xs", "label": "Extra Small" },
+        { "value": "lg:px-sm", "label": "Small" },
+        { "value": "lg:px-md", "label": "Medium" },
+        { "value": "lg:px-lg", "label": "Large" },
+        { "value": "lg:px-xl", "label": "Extra Large" },
+        { "value": "lg:px-2xl", "label": "2X Large" },
+        { "value": "lg:px-3xl", "label": "3X Large" }
+      ],
+      "default": "lg:px-0"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "featured_card",
+      "name": "Featured Card",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Card Styling"
+        },
+        {
+          "type": "select",
+          "id": "border_radius",
+          "label": "Border Radius",
+          "options": [
+            { "value": "rounded-none", "label": "None" },
+            { "value": "rounded-sm", "label": "Small" },
+            { "value": "rounded", "label": "Base" },
+            { "value": "rounded-md", "label": "Medium" },
+            { "value": "rounded-lg", "label": "Large" },
+            { "value": "rounded-xl", "label": "Extra Large" },
+            { "value": "rounded-2xl", "label": "2X Large" },
+            { "value": "rounded-3xl", "label": "3X Large" }
+          ],
+          "default": "rounded-md",
+          "info": "Uses theme border radius settings"
+        },
+        {
+          "type": "select",
+          "id": "background_color",
+          "label": "Background Color",
+          "options": [
+            { "value": "bg-white", "label": "White" },
+            { "value": "bg-black", "label": "Black" },
+            { "value": "bg-primary", "label": "Primary" },
+            { "value": "bg-secondary", "label": "Secondary" },
+            { "value": "bg-tertiary", "label": "Tertiary" },
+            { "value": "bg-quaternary", "label": "Quaternary" },
+            { "value": "bg-success", "label": "Success" },
+            { "value": "bg-warning", "label": "Warning" },
+            { "value": "bg-error", "label": "Error" },
+            { "value": "bg-info", "label": "Info" },
+            { "value": "bg-neutral", "label": "Neutral" },
+            { "value": "bg-neutral-light", "label": "Neutral Light" },
+            { "value": "bg-neutral-dark", "label": "Neutral Dark" }
+          ],
+          "default": "bg-neutral-light"
+        },
+        {
+          "type": "header",
+          "content": "Background Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "background_image",
+          "label": "Background Image"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_overlay",
+          "label": "Show Black Overlay (50% opacity)",
+          "default": false
+        },
+        {
+          "type": "header",
+          "content": "Overline Text"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_overline",
+          "label": "Show Overline",
+          "default": true,
+          "info": "Styling controlled by section-level Card Overline settings"
+        },
+        {
+          "type": "text",
+          "id": "overline_text",
+          "label": "Overline Text",
+          "default": "Total Body Transformations"
+        },
+        {
+          "type": "header",
+          "content": "Icon"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_icon",
+          "label": "Show Icon",
+          "default": true
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_image",
+          "label": "Icon Image"
+        },
+        {
+          "type": "select",
+          "id": "icon_size",
+          "label": "Icon Size",
+          "options": [
+            { "value": "xs", "label": "Extra Small" },
+            { "value": "sm", "label": "Small" },
+            { "value": "md", "label": "Medium" },
+            { "value": "lg", "label": "Large" },
+            { "value": "xl", "label": "Extra Large" },
+            { "value": "2xl", "label": "2X Large" }
+          ],
+          "default": "md"
+        },
+        {
+          "type": "header",
+          "content": "Animated Statistic Number"
+        },
+        {
+          "type": "text",
+          "id": "statistic_number",
+          "label": "Target Number",
+          "default": "100",
+          "info": "Number to count up to. Styling controlled by section-level Card Title settings."
+        },
+        {
+          "type": "text",
+          "id": "statistic_prefix",
+          "label": "Prefix (before number)",
+          "info": "E.g., '$' or '+'"
+        },
+        {
+          "type": "text",
+          "id": "statistic_suffix",
+          "label": "Suffix (after number)",
+          "info": "E.g., '%' or 'K' or '+'"
+        },
+        {
+          "type": "range",
+          "id": "statistic_duration",
+          "label": "Animation Duration (seconds)",
+          "min": 0.5,
+          "max": 5,
+          "step": 0.5,
+          "default": 2
+        },
+        {
+          "type": "header",
+          "content": "Description Text"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_text",
+          "label": "Show Text",
+          "default": true,
+          "info": "Styling controlled by section-level Card Body Text settings"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Add your text content here</p>"
+        }
+      ]
+    },
+    {
+      "type": "split_card",
+      "name": "Split Card",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Card Styling"
+        },
+        {
+          "type": "select",
+          "id": "border_radius",
+          "label": "Border Radius",
+          "options": [
+            { "value": "rounded-none", "label": "None" },
+            { "value": "rounded-sm", "label": "Small" },
+            { "value": "rounded", "label": "Base" },
+            { "value": "rounded-md", "label": "Medium" },
+            { "value": "rounded-lg", "label": "Large" },
+            { "value": "rounded-xl", "label": "Extra Large" },
+            { "value": "rounded-2xl", "label": "2X Large" },
+            { "value": "rounded-3xl", "label": "3X Large" }
+          ],
+          "default": "rounded-md",
+          "info": "Applied to each card individually"
+        },
+        {
+          "type": "select",
+          "id": "background_color",
+          "label": "Background Color",
+          "options": [
+            { "value": "bg-white", "label": "White" },
+            { "value": "bg-black", "label": "Black" },
+            { "value": "bg-primary", "label": "Primary" },
+            { "value": "bg-secondary", "label": "Secondary" },
+            { "value": "bg-tertiary", "label": "Tertiary" },
+            { "value": "bg-quaternary", "label": "Quaternary" },
+            { "value": "bg-neutral", "label": "Neutral" },
+            { "value": "bg-neutral-light", "label": "Neutral Light" },
+            { "value": "bg-neutral-dark", "label": "Neutral Dark" }
+          ],
+          "default": "bg-neutral-light"
+        },
+        {
+          "type": "range",
+          "id": "gap_size",
+          "label": "Gap Between Cards",
+          "min": 0,
+          "max": 100,
+          "step": 4,
+          "unit": "px",
+          "default": 24,
+          "info": "Vertical spacing between top and bottom cards"
+        },
+        {
+          "type": "header",
+          "content": "Top Card"
+        },
+        {
+          "type": "image_picker",
+          "id": "top_card_background_image",
+          "label": "Background Image"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_top_overlay",
+          "label": "Show Overlay",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "show_top_overline",
+          "label": "Show Overline",
+          "default": true,
+          "info": "Styling controlled by section-level Card Overline settings"
+        },
+        {
+          "type": "text",
+          "id": "top_overline_text",
+          "label": "Overline Text",
+          "default": "Weight Lost"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_top_icon",
+          "label": "Show Icon",
+          "default": true
+        },
+        {
+          "type": "image_picker",
+          "id": "top_card_icon_image",
+          "label": "Icon Image"
+        },
+        {
+          "type": "select",
+          "id": "top_card_icon_size",
+          "label": "Icon Size",
+          "options": [
+            { "value": "xs", "label": "Extra Small" },
+            { "value": "sm", "label": "Small" },
+            { "value": "md", "label": "Medium" },
+            { "value": "lg", "label": "Large" },
+            { "value": "xl", "label": "Extra Large" },
+            { "value": "2xl", "label": "2X Large" }
+          ],
+          "default": "md"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_split_top_title",
+          "label": "Show Title",
+          "default": true,
+          "info": "Styling controlled by section-level Card Title settings"
+        },
+        {
+          "type": "select",
+          "id": "split_top_title_mode",
+          "label": "Title Mode",
+          "options": [
+            { "value": "1", "label": "Title 1" },
+            { "value": "2", "label": "Title 2" },
+            { "value": "3", "label": "Title 3" },
+            { "value": "4", "label": "Title 4" },
+            { "value": "5", "label": "Title 5" },
+            { "value": "6", "label": "Title 6" },
+            { "value": "cycle", "label": "Cycle Through All" }
+          ],
+          "default": "1"
+        },
+        {
+          "type": "range",
+          "id": "split_top_title_duration",
+          "label": "Cycle Duration (seconds)",
+          "min": 1,
+          "max": 10,
+          "step": 1,
+          "default": 3,
+          "info": "Only used when cycling"
+        },
+        {
+          "type": "text",
+          "id": "split_top_text_1",
+          "label": "Title 1",
+          "default": "Top Card Title"
+        },
+        {
+          "type": "text",
+          "id": "split_top_text_2",
+          "label": "Title 2"
+        },
+        {
+          "type": "text",
+          "id": "split_top_text_3",
+          "label": "Title 3"
+        },
+        {
+          "type": "text",
+          "id": "split_top_text_4",
+          "label": "Title 4"
+        },
+        {
+          "type": "text",
+          "id": "split_top_text_5",
+          "label": "Title 5"
+        },
+        {
+          "type": "text",
+          "id": "split_top_text_6",
+          "label": "Title 6"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_top_text",
+          "label": "Show Body Text",
+          "default": true,
+          "info": "Styling controlled by section-level Card Body Text settings"
+        },
+        {
+          "type": "richtext",
+          "id": "top_card_text",
+          "label": "Body Text",
+          "default": "<p>Add text for the top card</p>"
+        },
+        {
+          "type": "header",
+          "content": "Bottom Card"
+        },
+        {
+          "type": "image_picker",
+          "id": "bottom_card_background_image",
+          "label": "Background Image"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_bottom_overlay",
+          "label": "Show Overlay",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "show_bottom_overline",
+          "label": "Show Overline",
+          "default": true,
+          "info": "Styling controlled by section-level Card Overline settings"
+        },
+        {
+          "type": "text",
+          "id": "bottom_overline_text",
+          "label": "Overline Text",
+          "default": "Omega Score Improvements"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_bottom_icon",
+          "label": "Show Icon",
+          "default": true
+        },
+        {
+          "type": "image_picker",
+          "id": "bottom_card_icon_image",
+          "label": "Icon Image"
+        },
+        {
+          "type": "select",
+          "id": "bottom_card_icon_size",
+          "label": "Icon Size",
+          "options": [
+            { "value": "xs", "label": "Extra Small" },
+            { "value": "sm", "label": "Small" },
+            { "value": "md", "label": "Medium" },
+            { "value": "lg", "label": "Large" },
+            { "value": "xl", "label": "Extra Large" },
+            { "value": "2xl", "label": "2X Large" }
+          ],
+          "default": "md"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_split_bottom_title",
+          "label": "Show Title",
+          "default": true,
+          "info": "Styling controlled by section-level Card Title settings"
+        },
+        {
+          "type": "select",
+          "id": "split_bottom_title_mode",
+          "label": "Title Mode",
+          "options": [
+            { "value": "1", "label": "Title 1" },
+            { "value": "2", "label": "Title 2" },
+            { "value": "3", "label": "Title 3" },
+            { "value": "4", "label": "Title 4" },
+            { "value": "5", "label": "Title 5" },
+            { "value": "6", "label": "Title 6" },
+            { "value": "cycle", "label": "Cycle Through All" }
+          ],
+          "default": "1"
+        },
+        {
+          "type": "range",
+          "id": "split_bottom_title_duration",
+          "label": "Cycle Duration (seconds)",
+          "min": 1,
+          "max": 10,
+          "step": 1,
+          "default": 3,
+          "info": "Only used when cycling"
+        },
+        {
+          "type": "text",
+          "id": "split_bottom_text_1",
+          "label": "Title 1",
+          "default": "Bottom Card Title"
+        },
+        {
+          "type": "text",
+          "id": "split_bottom_text_2",
+          "label": "Title 2"
+        },
+        {
+          "type": "text",
+          "id": "split_bottom_text_3",
+          "label": "Title 3"
+        },
+        {
+          "type": "text",
+          "id": "split_bottom_text_4",
+          "label": "Title 4"
+        },
+        {
+          "type": "text",
+          "id": "split_bottom_text_5",
+          "label": "Title 5"
+        },
+        {
+          "type": "text",
+          "id": "split_bottom_text_6",
+          "label": "Title 6"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_bottom_text",
+          "label": "Show Body Text",
+          "default": true,
+          "info": "Styling controlled by section-level Card Body Text settings"
+        },
+        {
+          "type": "richtext",
+          "id": "bottom_card_text",
+          "label": "Body Text",
+          "default": "<p>Add text for the bottom card</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Statistics Columns 4",
+      "blocks": [
+        {
+          "type": "featured_card",
+          "settings": {
+            "border_radius": "rounded-md",
+            "background_color": "bg-neutral-light"
+          }
+        },
+        {
+          "type": "split_card",
+          "settings": {
+            "border_radius": "rounded-md",
+            "background_color": "bg-neutral-light",
+            "gap_size": 24
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+

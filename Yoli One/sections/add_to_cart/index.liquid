@@ -1,0 +1,782 @@
+<div class="add-to-cart-section">
+  <div class="form12_block w-form">
+    <form id="wf-form-Form-12" name="wf-form-Form-12" data-name="Form 12" method="get"
+      data-wf-page-id="67d09b425b66fbbf96d717f2" data-wf-element-id="7e9614c3-7acc-3be3-c92b-60a3a9de60f6">
+      <div id="w-node-_7e9614c3-7acc-3be3-c92b-60a3a9de60f7-96d717f2" class="form12_radio-group">
+        <label class="form12_radio-2 chosen w-radio {{ section.settings.subscribe_background_color }} {{ section.settings.subscribe_text_color }}">
+          <div class="div-block-2 {{section.settings.card_background_color}} {{ section.settings.card_title_color}} {{ section.settings.card_title_font_size }} {{ section.settings.card_title_font_weight }}">{{ section.settings.card_title }}</div>
+          <div class="card-text">
+            <span class="form12_radio-label w-form-label {{ section.settings.subscribe_font_size }} {{ section.settings.subscribe_font_weight }}" for="Form-12-Option-1">
+              {{ section.settings.subscribe_save_text }}
+              <div class="price-input">
+                <span class="form12_radio-label-span" id="subscription-price"></span>
+                <input type="radio" name="purchase-type" value="subscription" class="radio-input" checked>
+              </div>
+            </span>
+            <ul role="list" class="list">
+              {% for block in section.blocks %}
+                {% if block.type == 'benefit' %}
+                  <li class="{{ block.settings.benefit_font_size | default: 'text-md' }} {{ block.settings.benefit_font_weight | default: 'text-fw-bold' }}" {{ block.fluid_attributes }}>{{ block.settings.text }}</li>
+                {% endif %}
+              {% endfor %}
+            </ul>
+          </div>
+        </label>
+        <label id="w-node-_7e9614c3-7acc-3be3-c92b-60a3a9de6109-96d717f2" class="form12_radio-2 buy-once w-radio {{ section.settings.try_once_background_color }} {{ section.settings.try_once_text_color }}">
+          <span class="form12_radio-label notselected w-form-label {{ section.settings.try_once_font_size }} {{ section.settings.try_once_font_weight }}" for="Form-12-Option-2">
+            {{ section.settings.try_once_text }}
+            <div class="price-input">
+              <span class="form12_radio-label-span">{{ enrollment_pack.price }}</span>
+              <input type="radio" name="purchase-type" value="once" class="radio-input">
+            </div>
+          </span>
+        </label>
+      </div>
+    </form>
+  </div>
+
+  <div class="product-header1_add-to-cart w-form">
+    <form id="email-form" name="email-form" data-name="Email Form" method="get" class="product-header1_default-state"
+      data-wf-page-id="67d09b425b66fbbf96d717f2" data-wf-element-id="390f5283-abb6-906b-a60a-f616064a5061">
+      <div class="w-layout-hflex flex-block">
+        <button type="button" id="add-to-cart-button" data-fluid-open-cart-after-add="true" class="button-2 is-add-to-cart-button w-button {{section.settings.add_to_cart_color}} {{section.settings.add_to_cart_background_color}} {{ section.settings.add_to_cart_font_size }} {{ section.settings.add_to_cart_font_weight }}" onclick="scheduleUpdateCart()">
+          {{section.settings.add_to_cart_text }}
+        </button>
+      </div>
+    </form>
+  </div>
+
+  {% if section.settings.show_free_shipping %}
+    <div class="free-shipping">
+      <p class="{{ section.settings.free_shipping_font_size }} {{ section.settings.free_shipping_font_weight }}">{{ section.settings.free_shipping_text }}</p>
+    </div>
+  {% endif %}
+
+  {% if section.settings.show_payment_methods %}
+    <div class="credit-cards">
+      {% for block in section.blocks %}
+        {% if block.type == 'payment_method' %}
+          <div class="payment-card {{ block.settings.card_size | default: 'card-md' }}" {{ block.fluid_attributes }}>
+            <img src="{{ block.settings.image | image_url }}" alt="{{ block.settings.alt }}" class="payment-icon">
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  {% endif %}
+</div>
+
+{% schema %}
+  {
+    "name":"Add to Cart Section",
+    "settings":[
+      {
+        "type": "header",
+        "content": "Price card"
+      },
+      {
+        "type": "header",
+        "content": "Payment methods"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_payment_methods",
+        "label": "Show payment methods",
+        "default": true
+      },
+      {
+        "type":"text",
+        "id":"card_title",
+        "label":"Card title",
+        "default":"Most Popular"
+      },
+      {
+        "type": "select",
+        "id": "card_title_font_size",
+        "label": "Card title font size",
+        "options": [
+          { "value": "text-xs", "label": "Extra Small" },
+          { "value": "text-sm", "label": "Small" },
+          { "value": "text-md", "label": "Medium" },
+          { "value": "text-lg", "label": "Large" }
+        ],
+        "default": "text-md"
+      },
+      {
+        "type": "select",
+        "id": "card_title_font_weight",
+        "label": "Card title font weight",
+        "options": [
+          { "value": "text-fw-light", "label": "Light" },
+          { "value": "text-fw-normal", "label": "Normal" },
+          { "value": "text-fw-medium", "label": "Medium" },
+          { "value": "text-fw-semibold", "label": "Semi Bold" },
+          { "value": "text-fw-bold", "label": "Bold" }
+        ],
+        "default": "text-fw-semibold"
+      },
+      {
+        "type": "select",
+        "id": "card_title_color",
+        "label": "Card background color",
+        "options": [
+          { "value": "text-blue", "label": "Blue" },
+          { "value": "text-gray", "label": "Gray" },
+          { "value": "text-neutral-dark", "label": "Brown" },
+          { "value": "text-brown-2", "label": "Brown 2" },
+          { "value": "text-gold", "label": "Gold" },
+          { "value": "text-black", "label": "Black" },
+          { "value": "text-white", "label": "White" }
+        ],
+        "default": "text-neutral-dark"
+      },
+      {
+        "type": "select",
+        "id": "card_background_color",
+        "label": "Card background color",
+        "options": [
+          { "value": "card-bg-blue", "label": "Blue" },
+          { "value": "card-bg-gray", "label": "Gray" },
+          { "value": "card-bg-brown", "label": "Brown" },
+          { "value": "card-bg-brown-2", "label": "Brown 2" },
+          { "value": "card-bg-gold", "label": "Gold" },
+          { "value": "card-bg-black", "label": "Black" },
+          { "value": "card-bg-white", "label": "White" }
+        ],
+        "default": "card-bg-gold"
+      },
+      {
+        "type": "header",
+        "content": "Subscribe & Save Settings"
+      },
+      {
+        "type":"text",
+        "id":"subscribe_save_text",
+        "label":"Subscribe and save text",
+        "default":"Subscribe & Save"
+      },
+      {
+        "type": "select",
+        "id": "subscribe_font_size",
+        "label": "Subscribe text font size",
+        "options": [
+          { "value": "text-xs", "label": "Extra Small" },
+          { "value": "text-sm", "label": "Small" },
+          { "value": "text-md", "label": "Medium" },
+          { "value": "text-lg", "label": "Large" }
+        ],
+        "default": "text-md"
+      },
+      {
+        "type": "select",
+        "id": "subscribe_font_weight",
+        "label": "Subscribe text font weight",
+        "options": [
+          { "value": "text-fw-light", "label": "Light" },
+          { "value": "text-fw-normal", "label": "Normal" },
+          { "value": "text-fw-medium", "label": "Medium" },
+          { "value": "text-fw-semibold", "label": "Semi Bold" },
+          { "value": "text-fw-bold", "label": "Bold" }
+        ],
+        "default": "text-fw-semibold"
+      },
+      {
+        "type": "select",
+        "id": "subscribe_background_color",
+        "label": "Subscribe background color",
+        "options": [
+          { "value": "", "label": "None" },
+          { "value": "card-bg-background", "label": "Light Gold" },
+          { "value": "card-bg-blue", "label": "Blue" },
+          { "value": "card-bg-gray", "label": "Gray" },
+          { "value": "card-bg-brown", "label": "Brown" },
+          { "value": "card-bg-brown-2", "label": "Brown 2" },
+          { "value": "card-bg-gold", "label": "Gold" },
+          { "value": "card-bg-black", "label": "Black" },
+          { "value": "card-bg-white", "label": "White" }
+        ],
+        "default": "card-bg-background"
+      },
+      {
+        "type": "select",
+        "id": "subscribe_text_color",
+        "label": "Subscribe text color",
+        "options": [
+          { "value": "", "label": "None" },
+          { "value": "text-blue", "label": "Blue" },
+          { "value": "text-gray", "label": "Gray" },
+          { "value": "text-neutral-dark", "label": "Brown" },
+          { "value": "text-brown-2", "label": "Brown 2" },
+          { "value": "text-gold", "label": "Gold" },
+          { "value": "text-black", "label": "Black" },
+          { "value": "text-white", "label": "White" }
+        ],
+        "default": "text-gray"
+      },
+      {
+        "type": "header",
+        "content": "Try once Settings"
+      },
+      {
+        "type":"text",
+        "id":"try_once_text",
+        "label":"Try once text",
+        "default":"Try Once"
+      },
+      {
+        "type": "select",
+        "id": "try_once_font_size",
+        "label": "Try once text font size",
+        "options": [
+          { "value": "text-xs", "label": "Extra Small" },
+          { "value": "text-sm", "label": "Small" },
+          { "value": "text-md", "label": "Medium" },
+          { "value": "text-lg", "label": "Large" }
+        ],
+        "default": "text-md"
+      },
+      {
+        "type": "select",
+        "id": "try_once_font_weight",
+        "label": "Try once text font weight",
+        "options": [
+          { "value": "text-fw-light", "label": "Light" },
+          { "value": "text-fw-normal", "label": "Normal" },
+          { "value": "text-fw-medium", "label": "Medium" },
+          { "value": "text-fw-semibold", "label": "Semi Bold" },
+          { "value": "text-fw-bold", "label": "Bold" }
+        ],
+        "default": "text-fw-semibold"
+      },
+      {
+        "type": "select",
+        "id": "try_once_background_color",
+        "label": "Try once background color",
+        "options": [
+          { "value": "", "label": "None" },
+          { "value": "card-bg-blue", "label": "Blue" },
+          { "value": "card-bg-background", "label": "Light Gold" },
+          { "value": "card-bg-gray", "label": "Gray" },
+          { "value": "card-bg-brown", "label": "Brown" },
+          { "value": "card-bg-brown-2", "label": "Brown 2" },
+          { "value": "card-bg-gold", "label": "Gold" },
+          { "value": "card-bg-black", "label": "Black" },
+          { "value": "card-bg-white", "label": "White" }
+        ],
+        "default": "card-bg-background"
+      },
+      {
+        "type": "select",
+        "id": "try_once_text_color",
+        "label": "Try once text color",
+        "options": [
+          { "value": "", "label": "None" },
+          { "value": "text-blue", "label": "Blue" },
+          { "value": "text-gray", "label": "Gray" },
+          { "value": "text-neutral-dark", "label": "Brown" },
+          { "value": "text-brown-2", "label": "Brown 2" },
+          { "value": "text-gold", "label": "Gold" },
+          { "value": "text-black", "label": "Black" },
+          { "value": "text-white", "label": "White" }
+        ],
+        "default": "text-gray"
+      },
+      {
+        "type": "header",
+        "content": "Add to cart button"
+      },
+      {
+        "type":"text",
+        "id":"add_to_cart_text",
+        "label":"Add to cart button text",
+        "default":"Add to Cart"
+      },
+      {
+        "type": "select",
+        "id": "add_to_cart_font_size",
+        "label": "Add to cart font size",
+        "options": [
+          { "value": "text-xs", "label": "Extra Small" },
+          { "value": "text-sm", "label": "Small" },
+          { "value": "text-md", "label": "Medium" },
+          { "value": "text-lg", "label": "Large" }
+        ],
+        "default": "text-md"
+      },
+      {
+        "type": "select",
+        "id": "add_to_cart_font_weight",
+        "label": "Add to cart font weight",
+        "options": [
+          { "value": "text-fw-light", "label": "Light" },
+          { "value": "text-fw-normal", "label": "Normal" },
+          { "value": "text-fw-medium", "label": "Medium" },
+          { "value": "text-fw-semibold", "label": "Semi Bold" },
+          { "value": "text-fw-bold", "label": "Bold" }
+        ],
+        "default": "text-fw-semibold"
+      },
+      {
+        "type": "select",
+        "id": "add_to_cart_color",
+        "label": "Add to cart text color",
+        "options": [
+          { "value": "text-blue", "label": "Blue (#012169)" },
+          { "value": "text-gray", "label": "Gray (#7f8283)" },
+          { "value": "text-neutral-dark", "label": "Brown (#49473D)" },
+          { "value": "text-brown-2", "label": "Brown 2 (#484333)" },
+          { "value": "text-gold", "label": "Gold (#EEA81A)" },
+          { "value": "text-black", "label": "Black (#000000)" },
+          { "value": "text-white", "label": "White (#FFFFFF)" }
+        ],
+        "default": "text-neutral-dark"
+      },
+      {
+        "type": "select",
+        "id": "add_to_cart_background_color",
+        "label": "Add to cart background color",
+        "options": [
+          { "value": "card-bg-blue", "label": "Blue (#012169)" },
+          { "value": "card-bg-gray", "label": "Gray (#7f8283)" },
+          { "value": "card-bg-brown", "label": "Brown (#48463c)" },
+          { "value": "card-bg-brown-2", "label": "Brown 2 (#484333)" },
+          { "value": "card-bg-gold", "label": "Gold (#EEA81A)" },
+          { "value": "card-bg-black", "label": "Black (#000000)" },
+          { "value": "card-bg-white", "label": "White" }
+        ],
+        "default": "card-bg-gold"
+      },
+      {
+        "type": "header",
+        "content": "Free shipping"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_free_shipping",
+        "label": "Show free shipping",
+        "default": true
+      },
+      {
+        "type":"text",
+        "id":"free_shipping_text",
+        "label":"Free shipping text",
+        "default":"Free Shipping Over $50"
+      }
+      ,
+      {
+        "type": "select",
+        "id": "free_shipping_font_size",
+        "label": "Free shipping font size",
+        "options": [
+          { "value": "text-xs", "label": "Extra Small" },
+          { "value": "text-sm", "label": "Small" },
+          { "value": "text-md", "label": "Medium" },
+          { "value": "text-lg", "label": "Large" }
+        ],
+        "default": "text-md"
+      },
+      {
+        "type": "select",
+        "id": "free_shipping_font_weight",
+        "label": "Free shipping font weight",
+        "options": [
+          { "value": "text-fw-light", "label": "Light" },
+          { "value": "text-fw-normal", "label": "Normal" },
+          { "value": "text-fw-medium", "label": "Medium" },
+          { "value": "text-fw-semibold", "label": "Semi Bold" },
+          { "value": "text-fw-bold", "label": "Bold" }
+        ],
+        "default": "text-fw-semibold"
+      }
+    ],
+    "blocks":[
+      {
+        "type":"benefit",
+        "name":"Subscription Benefit",
+        "settings":[
+          {
+            "type":"text",
+            "id":"text",
+            "label":"Benefit text",
+            "default":"Subscription benefit"
+          },
+          {
+            "type": "select",
+            "id": "benefit_font_size",
+            "label": "Benefit font size",
+            "options": [
+              { "value": "text-xs", "label": "Extra Small" },
+              { "value": "text-sm", "label": "Small" },
+              { "value": "text-md", "label": "Medium" },
+              { "value": "text-lg", "label": "Large" }
+            ],
+            "default": "text-md"
+          },
+          {
+            "type": "select",
+            "id": "benefit_font_weight",
+            "label": "Benefit font weight",
+            "options": [
+              { "value": "text-fw-light", "label": "Light" },
+              { "value": "text-fw-normal", "label": "Normal" },
+              { "value": "text-fw-medium", "label": "Medium" },
+              { "value": "text-fw-semibold", "label": "Semi Bold" },
+              { "value": "text-fw-bold", "label": "Bold" }
+            ],
+            "default": "text-fw-bold"
+          }
+        ]
+      },
+      {
+        "type":"payment_method",
+        "name":"Payment Method",
+        "settings":[
+          {
+            "type": "checkbox",
+            "id": "show_payment_method",
+            "label": "Show payment method",
+            "default": true
+          },
+          {
+            "type":"image_picker",
+            "id":"image",
+            "label":"Payment method image"
+          },
+          {
+            "type":"text",
+            "id":"alt",
+            "label":"Alt text",
+            "default":"Payment method"
+          },
+          {
+            "type": "select",
+            "id": "card_size",
+            "label": "Card size",
+            "options": [
+              { "value": "card-sm", "label": "Small" },
+              { "value": "card-md", "label": "Medium" },
+              { "value": "card-lg", "label": "Large" }
+            ],
+            "default": "card-md"
+          }
+        ]
+      }
+    ],
+    "presets":[
+      {
+        "name":"Add to Cart Section",
+        "category":"Product",
+        "blocks":[
+          {
+            "type":"benefit",
+            "settings":{
+              "text":"Save 20% with wholesale pricing"
+            }
+          },
+          {
+            "type":"benefit",
+            "settings":{
+              "text":"100% 30-day risk-free money-back guarantee"
+            }
+          },
+          {
+            "type":"benefit",
+            "settings":{
+              "text":"Earn Rewards for free products"
+            }
+          },
+          {
+            "type":"benefit",
+            "settings":{
+              "text":"Change or cancel your subscription any time"
+            }
+          },
+          {
+            "type":"payment_method",
+            "settings":{
+              "image":"https://ik.imagekit.io/fluid/filestack-migration/filestack_CGSPjSoEQiC9FdtxpuFb_iQ_zQ7XvYL",
+              "alt":"Visa"
+            }
+          },
+          {
+            "type":"payment_method",
+            "settings":{
+              "image":"https://ik.imagekit.io/fluid/filestack-migration/filestack_By9raoQoSj6uJ0fR72Yi_dDqHKWxTC",
+              "alt":"American Express"
+            }
+          },
+          {
+            "type":"payment_method",
+            "settings":{
+              "image":"https://ik.imagekit.io/fluid/filestack-migration/filestack_sIieNJ7mQfCejhK347rF_SbkYVn5syX",
+              "alt":"Mastercard"
+            }
+          },
+          {
+            "type":"payment_method",
+            "settings":{
+              "image":"https://ik.imagekit.io/fluid/filestack-migration/filestack_64w5IYWSgSzLz3xMNjvR_GWppBWG2-a",
+              "alt":"Apple Pay"
+            }
+          },
+          {
+            "type":"payment_method",
+            "settings":{
+              "image":"https://ik.imagekit.io/fluid/filestack-migration/filestack_rhUpUHRJRculivsOEkGZ_cmyksd9Nu",
+              "alt":"PayPal"
+            }
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
+
+<script>
+  // ================| Packs enrollment ids |================
+  const packs = [
+    {
+      "name": "Transformation pack",
+      "enrollment_pack_id": 461,
+      "subscription_pack_id": 446,
+      "pack_id": "1nVHTpRorDvGN1eXJtXEfN6a"
+
+    },
+    {
+      "name": "Transformation Launch Pack",
+      "enrollment_pack_id": 447,
+      "subscription_pack_id": 460, 
+      "pack_id": "4V7kFTCGAdc5nFSKVfDLjhuo"
+    },  
+    {
+      "name": "Transformation Share Pack",
+      "enrollment_pack_id": 448,
+      "subscription_pack_id": 459,
+      "pack_id": "aENA7VyztXbPdvXHaEsp4DbB"
+    },
+    {
+      "name": "Launch Pack",
+      "enrollment_pack_id": 450,
+      "subscription_pack_id": 458,
+      "pack_id": "3BJtX1Dn6UeiPWddbzPFqreS"
+    },
+    {
+      "name": "Builder Pack",
+      "enrollment_pack_id": 451,
+      "subscription_pack_id": 457,
+      "pack_id": "dga2t3w9PKQ38zcrCDXpX7gb"
+    },
+    {
+      "name": "ProBuilder Pack",
+      "enrollment_pack_id": 463,
+      "subscription_pack_id": 456,
+      "pack_id": "mJMmCQspobm6z9jQYQNvpG6o"
+    }
+  ]
+
+  function getCurrentPackToken() {
+    const currentPack = window.location.pathname.split('/').pop();
+    return currentPack;
+  }
+
+  function setAddToCartButtonData() {
+    const currentPackId = getCurrentPackToken();
+    const currentPack = packs.find(pack => pack.pack_id === currentPackId);
+    const isSubscriptionChecked = $('input[name="purchase-type"]:checked').val() === 'subscription';
+    const addToCartButton = document.getElementById('add-to-cart-button');
+
+    if (isSubscriptionChecked) {
+      addToCartButton.setAttribute('data-fluid-add-enrollment-pack', currentPack.subscription_pack_id);
+    } else {
+      addToCartButton.setAttribute('data-fluid-add-enrollment-pack', currentPack.enrollment_pack_id);
+    }
+  }
+
+  // ================| Subscription price |================
+  async function updateSubscriptionPrice() {
+    const currentPack = getCurrentPackToken();
+    console.log('currentPack token:', currentPack);
+
+    const packMapping = {
+      '1nVHTpRorDvGN1eXJtXEfN6a': 53586,
+      'aENA7VyztXbPdvXHaEsp4DbB': 53588,
+      '4V7kFTCGAdc5nFSKVfDLjhuo': 53589,
+      '3BJtX1Dn6UeiPWddbzPFqreS': 55625,
+      'dga2t3w9PKQ38zcrCDXpX7gb': 55626,
+      'mJMmCQspobm6z9jQYQNvpG6o': 55627
+    };
+
+    const subscription_pack_id = packMapping[currentPack];
+    console.log('subscription_pack_id:', subscription_pack_id);
+
+    const subscriptionPrice = await getSubscriptionPrice(subscription_pack_id);
+
+    if (subscriptionPrice) {
+      const subscriptionPriceElement = document.getElementById('subscription-price');
+      if (subscriptionPriceElement) {
+        subscriptionPriceElement.textContent = `${subscriptionPrice}`;
+      }
+    }
+  }
+
+  async function getSubscriptionPrice(subscription_pack_id) {
+    try {
+      const url = `https://yoli.fluid.app/api/company/v1/products/${subscription_pack_id}?lang=en`;
+      const token = 'PT-tKicE8bWxwyVhURbc6yhYufB';
+
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'x-fluid-client': 'fair-share',
+        },
+      });
+
+      console.log('Response status:', response.status, response.ok);
+
+      if (!response.ok) {
+        console.error('API error:', response.status);
+        return null;
+      }
+
+      const data = await response.json();
+      const subscriptionPrice = data.product.product_subscription_plans[0].subscription_plan.wholesale_subscription_price;
+
+      return subscriptionPrice.replace(/\s*\(USD\)/, '');
+    } catch (error) {
+      console.error('Error getting subscription price:', error);
+      return null;
+    }
+  }
+
+  // ================| Bundle variants |================
+  
+  function bundleVariants() {
+    const bundles = JSON.parse(localStorage.getItem('selectedProductsCart') || '{}');
+    console.log("bundles", bundles);
+    const items = [];
+  
+    for (const key in bundles) {
+      const bundle = bundles[key];
+      const item = {
+        "variant_id": parseInt(bundle.variant_id),
+        "quantity": parseInt(bundle.quantity),
+        "display_to_customer": (parseInt(bundle.quantity) > 0)
+      };
+      items.push(item);
+    }
+    console.log("items", items);
+    return items;
+  }
+  
+  let cartToken = '';
+
+  async function getCartToken() {
+    const cart = await window.FairShareSDK.getCart();
+    return cart.cart_token;
+  }
+
+  async function getItemId() {
+    const cart = await window.FairShareSDK.getCart();
+    return cart.items?.[0]?.id ?? null;
+  }
+
+  async function updateBundleProducts(item_id) {
+    const url = `https://yoli.fluid.app/api/carts/${cartToken}/items/${item_id}/bundled_items`;
+    try {
+      const response = await fetch(url, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+           "bundled_items": bundleVariants()
+          }),
+      });
+      
+      const data = await response.json();
+
+      if (!response.ok) {
+        console.error('API error:', response.status, data);
+        return null;
+      }
+
+      return data;
+    } catch (error) {
+      console.error('Error updating cart:', error);
+    }
+  }
+
+  async function updateCart() {
+    if (!cartToken) cartToken = await getCartToken();
+    const item_id = await getItemId();
+    if (!item_id) return;
+
+    await updateBundleProducts(item_id);
+  }
+
+  let updateCartTimeoutId = null;
+  function scheduleUpdateCart() {
+    if (updateCartTimeoutId) clearTimeout(updateCartTimeoutId);
+    updateCartTimeoutId = setTimeout(() => { updateCart(); }, 1000);
+  }
+
+  // ================| update colors |================
+
+  function updateRadioColors() {
+    const subscriptionRadio = document.querySelector('input[value="subscription"]');
+    const tryOnceRadio = document.querySelector('input[value="once"]');
+    const chosenLabel = document.querySelector('.form12_radio-2.chosen');
+    const tryOnceLabel = document.querySelector('.form12_radio-2.buy-once');
+    const mostPopularDiv = document.querySelector('.div-block-2');
+
+    const isSubscription = !!(subscriptionRadio && subscriptionRadio.checked);
+    const colors = isSubscription
+      ? { chosen: '#49473D', chosenBorder: '#0f100fde', tryOnce: '#49473D99', tryOnceBorder: '#49473D99', most: '#49473D' }
+      : { chosen: '#49473D99', chosenBorder: '#49473D99', tryOnce: '#49473D', tryOnceBorder: '#0f100fde', most: '#49473D99' };
+
+    if (chosenLabel) {
+      chosenLabel.style.color = colors.chosen;
+      chosenLabel.style.borderColor = colors.chosenBorder;
+    }
+    if (tryOnceLabel) {
+      tryOnceLabel.style.color = colors.tryOnce;
+      tryOnceLabel.style.borderColor = colors.tryOnceBorder;
+    }
+    if (mostPopularDiv) {
+      mostPopularDiv.style.color = colors.most;
+    }
+  }
+
+  // ================| initializer |================
+
+  function updateAddToCartEnabled() {
+    const addToCartButton = document.getElementById('add-to-cart-button');
+    if (!addToCartButton) return;
+    const complete = JSON.parse(localStorage.getItem('packSelectionsComplete') || 'false');
+    addToCartButton.disabled = !complete;
+  }
+
+  function init() {
+    updateSubscriptionPrice();
+    updateRadioColors();
+    setAddToCartButtonData();
+    getCartToken().then(token => { cartToken = token; });
+    updateAddToCartEnabled();
+
+    document.querySelectorAll('input[name="purchase-type"]').forEach(function (radio) {
+      radio.addEventListener('change', updateRadioColors);
+      radio.addEventListener('change', setAddToCartButtonData);
+    });
+
+    window.addEventListener('pack-selections-updated', function () {
+      updateAddToCartEnabled();
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+</script>

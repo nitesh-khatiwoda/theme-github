@@ -1,0 +1,2510 @@
+<link rel="stylesheet" href="{{ 'main_product/styles.css' | asset_url }}">
+<!-- Product Header 2 Section -->
+<section class="product-header-2 {{ section.settings.background_color | default: 'bg-white' }} {{ section.settings.section_padding_y_mobile | default: 'py-0' }} {{ section.settings.section_padding_y_desktop | default: 'lg:py-0' }} {{ section.settings.section_border_radius | default: 'rounded-none' }}" id="product-header-{{ section.id }}" {% if section.settings.background_image %}data-bg="{{ section.settings.background_image | image_url }}"{% endif %}>
+  
+  <div class="container">
+    <div class="product-header-inner font-body {{ section.settings.container_background_color }} {{ section.settings.container_border_radius | default: 'rounded-none' }} {{ section.settings.container_padding_y_mobile | default: 'py-0' }} {{ section.settings.container_padding_y_desktop | default: 'lg:py-3xl' }} {{ section.settings.container_padding_x_mobile | default: 'px-md' }} {{ section.settings.container_padding_x_desktop | default: 'lg:px-md' }}" {% if section.settings.container_background_image %}data-bg="{{ section.settings.container_background_image | image_url }}"{% endif %}>
+      
+      <div class="product-layout">
+        
+        <!-- Left Column: Media Gallery with Thumbnails -->
+        <div class="media-column">
+          
+          <!-- Build gallery images array from settings -->
+          {% assign gallery_images = '' | split: '' %}
+          
+          {% if section.settings.gallery_image_1 != blank %}
+            {% assign gallery_images = gallery_images | push: section.settings.gallery_image_1 %}
+          {% endif %}
+          {% if section.settings.gallery_image_2 != blank %}
+            {% assign gallery_images = gallery_images | push: section.settings.gallery_image_2 %}
+          {% endif %}
+          {% if section.settings.gallery_image_3 != blank %}
+            {% assign gallery_images = gallery_images | push: section.settings.gallery_image_3 %}
+          {% endif %}
+          {% if section.settings.gallery_image_4 != blank %}
+            {% assign gallery_images = gallery_images | push: section.settings.gallery_image_4 %}
+          {% endif %}
+          {% if section.settings.gallery_image_5 != blank %}
+            {% assign gallery_images = gallery_images | push: section.settings.gallery_image_5 %}
+          {% endif %}
+          {% if section.settings.gallery_image_6 != blank %}
+            {% assign gallery_images = gallery_images | push: section.settings.gallery_image_6 %}
+          {% endif %}
+          {% if section.settings.gallery_image_7 != blank %}
+            {% assign gallery_images = gallery_images | push: section.settings.gallery_image_7 %}
+          {% endif %}
+          {% if section.settings.gallery_image_8 != blank %}
+            {% assign gallery_images = gallery_images | push: section.settings.gallery_image_8 %}
+          {% endif %}
+          {% if section.settings.gallery_image_9 != blank %}
+            {% assign gallery_images = gallery_images | push: section.settings.gallery_image_9 %}
+          {% endif %}
+          {% if section.settings.gallery_image_10 != blank %}
+            {% assign gallery_images = gallery_images | push: section.settings.gallery_image_10 %}
+          {% endif %}
+          
+          {% assign has_gallery_images = false %}
+          {% if gallery_images.size > 0 %}
+            {% assign has_gallery_images = true %}
+          {% endif %}
+          
+          <div class="product-image-gallery" style="--thumbnail-size: {{ section.settings.thumbnail_size | default: '100px' }}; --main-border-radius: {{ section.settings.main_image_border_radius | default: '16px' }}; --thumb-border-radius: {{ section.settings.thumbnail_border_radius | default: '12px' }}; --gallery-transition: {{ section.settings.gallery_transition_speed | default: '0.4s' }}; --main-aspect-ratio: {{ section.settings.main_image_aspect_ratio | default: '4/5' }};">
+            
+            <!-- Thumbnail Column (Left Side) -->
+            {% if section.settings.show_thumbnails != false %}
+            <div class="thumbnail-column {{ section.settings.thumbnail_gap | default: 'gap-sm' }}">
+              <!-- Hero/First image thumbnail -->
+              {% if section.settings.hero_image != blank %}
+                <button class="thumbnail-item active" data-index="0" onclick="switchProductImage(0, '{{ section.id }}')">
+                  <img src="{{ section.settings.hero_image | image_url: width: 200 }}" alt="{{ section.settings.hero_image_alt | default: 'Product image 1' }}" loading="eager">
+                </button>
+              {% elsif product.thumbnail_image != blank %}
+                <button class="thumbnail-item active" data-index="0" onclick="switchProductImage(0, '{{ section.id }}')">
+                  <img src="{{ product.thumbnail_image | image_url: width: 200 }}" alt="{{ product.title }}" loading="eager">
+                </button>
+              {% elsif product.image != blank %}
+                <button class="thumbnail-item active" data-index="0" onclick="switchProductImage(0, '{{ section.id }}')">
+                  <img src="{{ product.image | image_url: width: 200 }}" alt="{{ product.title }}" loading="eager">
+                </button>
+              {% endif %}
+              
+              <!-- Gallery thumbnails -->
+              {% if has_gallery_images %}
+                {% assign thumb_index = 1 %}
+                {% for gallery_img in gallery_images %}
+                  <button class="thumbnail-item" data-index="{{ thumb_index }}" onclick="switchProductImage({{ thumb_index }}, '{{ section.id }}')">
+                    <img src="{{ gallery_img | image_url: width: 200 }}" alt="Product image {{ thumb_index | plus: 1 }}" loading="lazy">
+                  </button>
+                  {% assign thumb_index = thumb_index | plus: 1 %}
+                {% endfor %}
+              {% else %}
+                <!-- Use product images if no gallery images -->
+                {% if product.images.size > 0 %}
+                  {% assign thumb_index = 1 %}
+                  {% for image in product.images %}
+                    {% unless image.attached_to_variant? %}
+                      <button class="thumbnail-item" data-index="{{ thumb_index }}" onclick="switchProductImage({{ thumb_index }}, '{{ section.id }}')">
+                        <img src="{{ image.src | image_url: width: 200 }}" alt="{{ product.title }}" loading="lazy">
+                      </button>
+                      {% assign thumb_index = thumb_index | plus: 1 %}
+                    {% endunless %}
+                  {% endfor %}
+                {% endif %}
+              {% endif %}
+              </div>
+            {% endif %}
+            
+            <!-- Main Image Column (Right Side) -->
+            <div class="main-image-column">
+              <div class="main-image-wrapper">
+                <!-- Hero/First image -->
+                {% if section.settings.hero_video != blank %}
+                  <div class="main-image-slide active" data-index="0">
+                    <video autoplay loop muted playsinline class="main-product-video">
+                      <source src="{{ section.settings.hero_video }}" type="video/mp4">
+                    </video>
+                  </div>
+                {% elsif section.settings.hero_image != blank %}
+                  <div class="main-image-slide active" data-index="0">
+                    <img src="{{ section.settings.hero_image | image_url: width: 1200 }}" alt="{{ section.settings.hero_image_alt | default: 'Product hero' }}" loading="eager" class="clickable-image" data-full-src="{{ section.settings.hero_image | image_url: width: 1600 }}" data-section-id="{{ section.id }}">
+                  </div>
+                {% elsif product.thumbnail_image != blank %}
+                  <div class="main-image-slide active" data-index="0">
+                    <img src="{{ product.thumbnail_image | image_url: width: 1200 }}" alt="{{ product.title }}" loading="eager" class="clickable-image" data-full-src="{{ product.thumbnail_image | image_url: width: 1600 }}" data-section-id="{{ section.id }}">
+                  </div>
+                {% elsif product.image != blank %}
+                  <div class="main-image-slide active" data-index="0">
+                    <img src="{{ product.image | image_url: width: 1200 }}" alt="{{ product.title }}" loading="eager" class="clickable-image" data-full-src="{{ product.image | image_url: width: 1600 }}" data-section-id="{{ section.id }}">
+                  </div>
+                {% else %}
+                  <div class="main-image-slide active" data-index="0">
+                    <img src="{{ 'placeholder-image.png' | asset_url }}" alt="Placeholder">
+              </div>
+                {% endif %}
+                
+                <!-- Gallery images -->
+                {% if has_gallery_images %}
+                  {% assign slide_index = 1 %}
+                  {% for gallery_img in gallery_images %}
+                    <div class="main-image-slide" data-index="{{ slide_index }}">
+                      <img src="{{ gallery_img | image_url: width: 1200 }}" alt="Product image {{ slide_index | plus: 1 }}" loading="lazy" class="clickable-image" data-section-id="{{ section.id }}" data-full-src="{{ gallery_img | image_url: width: 1600 }}">
+                    </div>
+                    {% assign slide_index = slide_index | plus: 1 %}
+                  {% endfor %}
+                {% else %}
+                  <!-- Use product images if no gallery images -->
+                  {% if product.images.size > 0 %}
+                    {% assign slide_index = 1 %}
+                    {% for image in product.images %}
+                      {% unless image.attached_to_variant? %}
+                        <div class="main-image-slide" data-index="{{ slide_index }}">
+                          <img src="{{ image.src | image_url: width: 1200 }}" alt="{{ product.title }}" loading="lazy" class="clickable-image" data-section-id="{{ section.id }}" data-full-src="{{ image.src | image_url: width: 1600 }}">
+                        </div>
+                        {% assign slide_index = slide_index | plus: 1 %}
+                      {% endunless %}
+                    {% endfor %}
+                  {% endif %}
+                {% endif %}
+            
+                <!-- Navigation Arrows -->
+                {% if section.settings.show_navigation_arrows != false %}
+                <div class="image-nav-arrows">
+                  <button class="nav-arrow nav-arrow-prev" onclick="navigateProductImage(-1, '{{ section.id }}')" aria-label="Previous image">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M15 18l-6-6 6-6"/>
+                    </svg>
+                  </button>
+                  <button class="nav-arrow nav-arrow-next" onclick="navigateProductImage(1, '{{ section.id }}')" aria-label="Next image">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M9 18l6-6-6-6"/>
+                    </svg>
+                  </button>
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+            
+            </div>
+          
+        </div>
+        
+        <!-- Right Column: Product Info (Sticky) -->
+        <form 
+          class="info-column"
+          id='product-form'
+          data-fluid-checkout-group
+          data-variant='{{ selected_variant_id }}'
+        >
+          <div class="info-sticky">
+            
+            <!-- Product Title with Code -->
+            <div class="product-title-wrapper">
+              {% if section.settings.product_code != blank %}
+              <div class="product-code-badge">
+                <span class="{{ section.settings.code_font_size | default: 'text-base' }} {{ section.settings.code_color | default: 'text-primary' }}">
+                  {{ section.settings.product_code }}<sup>{{ section.settings.code_superscript | default: '™' }}</sup>
+                </span>
+              </div>
+              {% endif %}
+              
+             
+              <h1 class="{{ section.settings.title_font_family | default: 'font-primary' }} {{ section.settings.title_font_size | default: 'text-2xl' }} {{ section.settings.title_font_size_desktop | default: 'lg:text-3xl' }} {{ section.settings.title_font_weight | default: 'font-normal' }} {{ section.settings.title_color | default: 'text-primary' }} leading-heading">
+                {{ product.title }}
+              </h1>
+             
+            </div>
+            
+            <!-- Rating & Reviews -->
+            {% if section.settings.show_rating %}
+            <div class="rating-wrapper">
+              <div class="stars">
+                {% if section.settings.stars_image != blank %}
+                  <img src="{{ section.settings.stars_image | image_url: width: 100 | default: 'placeholder-image.png' | asset_url }}" alt="Star rating" loading="lazy" style="width: 88px; height: 16px;">
+                {% else %}
+                  <div class="flex">
+                  {% for i in (1..5) %}
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor" class="{{ section.settings.star_color | default: 'text-quaternary' }}">
+                      <path d="M9 0L11.0206 6.90983H18.5595L12.7694 11.1803L14.7901 18.0902L9 13.8197L3.20993 18.0902L5.23058 11.1803L-0.559492 6.90983H6.97937L9 0Z"/>
+                    </svg>
+                  {% endfor %}
+                </div>
+              {% endif %}
+              </div>
+
+              <div class="rating-text">
+                <span class="{{ section.settings.rating_font_size | default: 'text-sm' }} {{ section.settings.rating_color | default: 'text-primary' }}">
+                  {{ section.settings.rating_value | default: '4.8' }} •
+                </span>
+              </div>
+              {% if section.settings.show_reviews_link %}
+              <a href="{{ section.settings.reviews_link | default: '#reviews' }}" class="reviews-link {{ section.settings.rating_font_size | default: 'text-sm' }} {{ section.settings.rating_color | default: 'text-primary' }}">
+                {{ section.settings.reviews_text | default: '18 Reviews' }}
+              </a>
+              {% endif %}
+            </div>
+            {% endif %}
+            
+            <!-- Product Description -->
+            {% if product.description != blank %}
+            <div class="product-description">
+              <p class="{{ section.settings.description_font_family | default: 'font-body' }} {{ section.settings.description_font_size | default: 'text-base' }} {{ section.settings.description_font_size_desktop | default: 'lg:text-base' }} {{ section.settings.description_font_weight | default: 'font-normal' }} {{ section.settings.description_color | default: 'text-primary' }} leading-body">
+                {{ product.description }}
+              </p>
+            </div>
+            {% endif %}
+            
+            <!-- Price Section -->
+            <div class="price-section">
+              <span class="price {{ section.settings.price_font_family | default: 'font-primary' }} {{ section.settings.price_font_size | default: 'text-xl' }} {{ section.settings.price_font_size_desktop | default: 'lg:text-2xl' }} {{ section.settings.price_font_weight | default: 'font-normal' }} {{ section.settings.price_color | default: 'text-primary' }}">
+                {{ product.price }}
+              </span>
+              
+              {% if section.settings.show_new_badge %}
+              <span class="new-badge" style="background-color: {{ section.settings.badge_background | default: '#d3fa99' }}">
+                <span class="{{ section.settings.badge_font_size | default: 'text-xs' }} {{ section.settings.badge_text_color | default: 'text-primary' }}">
+                  {{ section.settings.badge_text | default: 'New' }}
+                </span>
+              </span>
+              {% endif %}
+            </div>
+            
+            <!-- Subscription Info -->
+            {% if product.subscription_description != blank %}
+            <div class="subscription-info">
+              <p class="{{ section.settings.subscription_font_size | default: 'text-sm' }} {{ section.settings.subscription_color | default: 'text-primary' }} leading-body">
+                {{ product.subscription_description }}
+              </p>
+            </div>
+            {% elsif section.settings.subscription_info != blank %}
+            <div class="subscription-info">
+              <p class="{{ section.settings.subscription_font_size | default: 'text-sm' }} {{ section.settings.subscription_color | default: 'text-primary' }} leading-body">
+                {{ section.settings.subscription_info }}
+              </p>
+            </div>
+            {% endif %}
+            {% assign not_purchasable = out_of_stock || available_for_country != true || active != true %}
+            {% unless not_purchasable %}
+              <div class='subscribe'>
+                {% if allow_subscription %}
+                  <div class="subscribe-item flex flex-col gap-md">
+                    <div class='subscribe-option'>
+                      {% if subscription_only %}
+                        <input
+                          type='radio'
+                          checkbox
+                          name='fluid-checkout-subscribe'
+                          value='subscription'
+                          id='subscribe-and-save'
+                          checked=''
+                        >
+                      {% else %}
+                        <input
+                          type='radio'
+                          checkbox
+                          name='fluid-checkout-subscribe'
+                          value='subscription'
+                          id='subscribe-and-save'
+                          {% if request.query_parameters.subscribe %}
+                            checked
+                          {% endif %}
+                        >
+                      {% endif %}
+                      <label for='subscribe-and-save'>
+                        <div class='flex justify-between w-full items-center'>
+                          <span class="{{ section.settings.subscription_title_font_family }}  {{ section.settings.subscription_title_font_size }} {{ section.settings.subscription_title_font_size_desktop }} {{ section.settings.subscription_title_font_weight }} {{ section.settings.subscription_title_color }}">{{ 'products.product.subscribe' | t }}</span>
+                          <p class='purchase-price subscription-price {{ section.settings.product_price_font_family }}  {{ section.settings.product_price_font_size }} {{ section.settings.product_price_font_size_desktop }} {{ section.settings.product_price_font_weight }} {{ section.settings.product_price_color }}'>
+                            {{ product.subscription_price }}: {{product}}
+                          </p>
+                        </div>
+                      </label>
+                    </div>
+                    <ul class="subscribe-features flex flex-col gap-xs {{ section.settings.subscription_list_font_family }}  {{ section.settings.subscription_list_font_size }} {{ section.settings.subscription_list_font_size_desktop }} {{ section.settings.subscription_list_font_weight }} {{ section.settings.subscription_list_color }}">
+                      {% assign saved_percentage = product.saved_percentage_on_subscription | plus: 0 %}
+                        {% if saved_percentage > 1 %}
+                          <li class="flex items-center gap-sm">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M0 12C0 5.37258 5.37258 0 12 0C18.6274 0 24 5.37258 24 12C24 18.6274 18.6274 24 12 24C5.37258 24 0 18.6274 0 12Z" fill="#DCFAE6"></path>
+                              <path fill-rule="evenodd" clip-rule="evenodd" d="M17.0964 7.39016L9.93641 14.3002L8.03641 12.2702C7.68641 11.9402 7.13641 11.9202 6.73641 12.2002C6.34641 12.4902 6.23641 13.0002 6.47641 13.4102L8.72641 17.0702C8.94641 17.4102 9.32641 17.6202 9.75641 17.6202C10.1664 17.6202 10.5564 17.4102 10.7764 17.0702C11.1364 16.6002 18.0064 8.41016 18.0064 8.41016C18.9064 7.49016 17.8164 6.68016 17.0964 7.38016V7.39016Z" fill="#079455"></path>
+                            </svg>
+                            <span>
+  
+                              {{ 'products.subscribe_feature.subscribe_and_save' | t: save: product.saved_percentage_on_subscription }}
+                            </span>
+                          </li>
+                      {% endif %}
+                      <li class="flex items-center gap-sm">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M0 12C0 5.37258 5.37258 0 12 0C18.6274 0 24 5.37258 24 12C24 18.6274 18.6274 24 12 24C5.37258 24 0 18.6274 0 12Z" fill="#DCFAE6"></path>
+                          <path fill-rule="evenodd" clip-rule="evenodd" d="M17.0964 7.39016L9.93641 14.3002L8.03641 12.2702C7.68641 11.9402 7.13641 11.9202 6.73641 12.2002C6.34641 12.4902 6.23641 13.0002 6.47641 13.4102L8.72641 17.0702C8.94641 17.4102 9.32641 17.6202 9.75641 17.6202C10.1664 17.6202 10.5564 17.4102 10.7764 17.0702C11.1364 16.6002 18.0064 8.41016 18.0064 8.41016C18.9064 7.49016 17.8164 6.68016 17.0964 7.38016V7.39016Z" fill="#079455"></path>
+                        </svg>
+                        <span>{{'products.subscribe_feature.update_subscription' | t }}</span>
+                      </li>
+                    </ul>
+                    {% if product.subscription_plans.size > 1 %}
+                      <div class="subscription-plans" {% unless request.query_parameters.subscribe %} style="display: none;" {% endunless %}>
+                        <div class='custom-select-dropdown product-variant-item'>
+                          <label class='font-medium capitalize'>{{ 'products.product.subscripton_plan' | t }}</label>
+  
+                          <select class='subscription-plans-dropdown option-value custom-theme-select'>
+                            {% for subscription_plan in product.subscription_plans%}
+                              <option {% if subscription_plan.selected %}selected{% endif %} value='{{ subscription_plan.id }}' data-subscription-price="{{subscription_plan.display_subscription_price}}">{{ subscription_plan.name }}</option>
+                            {% endfor %}
+                          </select>
+                        </div>
+                      </div>
+                    {% endif %}
+  
+                  </div>
+  
+                {% endif %}
+                {% unless subscription_only %}
+                  <div class="one-time-purchase-section subscribe-item">
+                    <div class='subscribe-option'>
+                      <input
+                        type='radio'
+                        checkbox
+                        name='fluid-checkout-subscribe'
+                        value='regular'
+                        id='one-time-purchase'
+                        {% unless request.query_parameters.subscribe %}
+                          checked
+                        {% endunless %}
+                      >
+                      <label for='one-time-purchase'>
+                        <div class='flex justify-between w-full items-center'>
+                          <span class="{{ section.settings.subscription_title_font_family }}  {{ section.settings.subscription_title_font_size }} {{ section.settings.subscription_title_font_size_desktop }} {{ section.settings.subscription_title_font_weight }} {{ section.settings.subscription_title_color }}">{{ 'products.product.one_time_purchase' | t }}</span>
+                          <p class='purchase-price {{ section.settings.product_price_font_family }}  {{ section.settings.product_price_font_size }} {{ section.settings.product_price_font_size_desktop }} {{ section.settings.product_price_font_weight }} {{ section.settings.product_price_color }}'>{{ product.price }}</p>
+                        </div>
+                      </label>
+                    </div>
+                  </div>
+                {% endunless %}
+              </div>
+              {% if limited_stock %}
+                <div>
+                  {{ 'products.product.limited_stock' | t: quantity: buyable_quantity }}
+                </div>
+              {% endif %}
+            {% else %}
+              <div class='error-message'>
+                {% if available_for_country != true %}
+                  {{ 'products.product.not_available_in_country' | t }}
+                {% else %}
+                  {% if selected_variant_id == blank %}
+                    {{ 'products.product.not_available' | t }}
+                    {% if available_values.size < 1 %}
+                      {{ 'products.product.change_option' | t }}
+                    {% endif %}
+                  {% else %}
+                    {{ 'products.product.out_of_stock' | t }}
+                  {% endif %}
+                {% endif %}
+              </div>
+            {% endunless %}
+
+            <div class='add-to-cart-section flex justify-between items-end gap-sm'>
+              <div class='qty-buttons'>
+                <div class='qty-wrap'>
+                  <span class='qty-dec qty-action-btn' id='decrease_quantity'>-</span>
+                  <span class='qty-val' id='quantity'>1</span>
+                  <span class='qty-inc qty-action-btn' id='increase_quantity'>+</span>
+                  <input hidden value='1' name='fluid-checkout-quantity' {% if product.buyable_quantity %}data-max-quantity="{{ product.buyable_quantity }}"{% endif %} id='fluid-checkout-quantity'>
+                </div>
+              </div>
+              <div class="btn-section flex-1">
+                {% if external_url %}
+                  <a
+                    href='{{ external_url }}'
+                    class='btn btn-{{ section.settings.cart_button_style }}-{{section.settings.cart_button_color }} {{ section.settings.cart_button_size }} {{section.settings.cart_button_font_weight }} {{ section.settings.cart_button_border_radius }} w-full'
+                  >
+                    {{- 'products.product.add_to_cart' | t -}}
+                  </a>
+                {% elsif not_purchasable %}
+                  <button
+                    disabled
+                    class='btn btn-{{ section.settings.cart_button_style }}-{{section.settings.cart_button_color }} {{ section.settings.cart_button_size }} {{section.settings.cart_button_font_weight }} {{ section.settings.cart_button_border_radius }} w-full disabled'
+                  >
+                    {{ 'products.product.add_to_cart' | t }}
+                  </button>
+                {% else %}
+                  <button
+                    class='btn btn-{{ section.settings.cart_button_style }}-{{section.settings.cart_button_color }} {{ section.settings.cart_button_size }} {{section.settings.cart_button_font_weight }} {{ section.settings.cart_button_border_radius }} w-full'
+                    type='button'
+                    data-fluid-add-to-cart="{{ selected_variant_id }}"
+                    data-fluid-quantity="1"
+                    {% if request.query_parameters.subscribe or product.subscription_only %}
+                      data-fluid-subscription-plan-id="{{ product.selected_subscription_plan_id }}"
+                    {% endif %}
+                  >
+                    {{ 'products.product.add_to_cart' | t }}
+                  </button>
+                {% endif %}
+              </div>
+            </div>
+            
+            <!-- CTA Button -->
+            {% if section.settings.show_cta %}
+            <div class="cta-wrapper">
+              <a href="{{ section.settings.cta_url | default: '#' }}" class="btn btn-{{ section.settings.button_style | default: 'filled' }}-{{ section.settings.button_color | default: 'primary' }} {{ section.settings.button_size | default: 'btn-md' }} {{ settings.button_border_radius | default: 'rounded-md' }} w-full">
+                {{ section.settings.cta_text | default: 'Start Now' }}
+              </a>
+            </div>
+            {% endif %}
+            
+            <!-- Guarantee Text -->
+            {% if section.settings.guarantee_text != blank %}
+            <div class="guarantee-text">
+              <p class="{{ section.settings.guarantee_font_size | default: 'text-sm' }} {{ section.settings.guarantee_color | default: 'text-neutral' }} leading-body">
+                {{ section.settings.guarantee_text }}
+              </p>
+            </div>
+            {% endif %}
+            
+            <!-- Accordions -->
+            <div class="accordions-wrapper">
+              
+              <!-- Benefits Accordion -->
+              {% assign benefit_blocks = section.blocks | where: "type", "benefit_item" %}
+              {% if benefit_blocks.size > 0 %}
+              <div class="accordion-item">
+                <button class="accordion-header" onclick="this.parentElement.classList.toggle('active')">
+                  <span class="{{ section.settings.accordion_font_size | default: 'text-base' }} {{ section.settings.accordion_color | default: 'text-primary' }}">
+                    {{ section.settings.benefits_title | default: 'Benefits*' }}
+                  </span>
+                  <svg class="accordion-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M19 9L12 16L5 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+                <div class="accordion-content hidden">
+                  <ul class="benefits-list">
+                    {% for block in benefit_blocks %}
+                      {% if block.settings.benefit_text != blank %}
+                      <li class="{{ section.settings.benefit_font_size | default: 'text-base' }} {{ section.settings.benefit_color | default: 'text-primary' }}" {{ block.fluid_attributes }}>
+                        {{ block.settings.benefit_text }}
+                      </li>
+                      {% endif %}
+                    {% endfor %}
+                  </ul>
+                </div>
+              </div>
+              {% endif %}
+              
+              <!-- Ingredients Accordion -->
+              {% if section.settings.show_ingredients %}
+              <div class="accordion-item">
+                <button class="accordion-header" onclick="this.parentElement.classList.toggle('active')">
+                  <span class="{{ section.settings.accordion_font_size | default: 'text-base' }} {{ section.settings.accordion_color | default: 'text-primary' }}">
+                    {{ section.settings.ingredients_title | default: 'Ingredients' }}
+                  </span>
+                  <svg class="accordion-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M19 9L12 16L5 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+                <div class="accordion-content hidden">
+                  {% if section.settings.ingredients_content != blank %}
+                  <div class="ingredients-content {{ section.settings.ingredients_font_size | default: 'text-sm' }} {{ section.settings.ingredients_color | default: 'text-primary' }}">
+                    {{ section.settings.ingredients_content }}
+                  </div>
+                  {% endif %}
+                </div>
+              </div>
+              {% endif %}
+              
+            </div>
+            
+            <!-- Bundle Upsell Card -->
+            {% if section.settings.show_bundle_upsell %}
+            <div class="bundle-card {{ section.settings.bundle_background | default: 'bg-secondary-light' }}">
+              <div class="bundle-image">
+                {% if section.settings.bundle_image != blank %}
+                  <img src="{{ section.settings.bundle_image | image_url: width: 150 }}" alt="{{ section.settings.bundle_image_alt | default: 'Bundle products' }}" loading="lazy">
+                {% endif %}
+              </div>
+              <div class="bundle-content">
+                {% assign saved_percentage = product.saved_percentage_on_subscription | plus: 0 %}
+
+                {% if section.settings.bundle_title != blank %}
+                <h3 class="{{ section.settings.bundle_title_font_size | default: 'text-base' }} {{ section.settings.bundle_title_color | default: 'text-primary' }} leading-heading">
+                  {{ section.settings.bundle_title }} {{ saved_percentage }}
+                </h3>
+                {% endif %}
+                
+                {% if section.settings.bundle_description != blank %}
+                <p class="{{ section.settings.bundle_description_font_size | default: 'text-sm' }} {{ section.settings.bundle_description_color | default: 'text-primary' }} leading-body">
+                  {{ section.settings.bundle_description }}
+                </p>
+                {% endif %}
+                
+                <div class="bundle-footer">
+                  <div class="bundle-pricing">
+                    <span class="bundle-price {{ section.settings.bundle_price_font_size | default: 'text-base' }} {{ section.settings.bundle_price_color | default: 'text-primary' }}">
+                      {{ product.price }}
+                    </span>
+                    {% if section.settings.show_bundle_original_price and product.compare_at_price %}
+                    <span class="bundle-original-price {{ section.settings.bundle_price_font_size | default: 'text-base' }}">
+                      {{ product.compare_at_price }}
+                    </span>
+                    {% endif %}
+                  </div>
+                  
+                  
+                  {% if section.settings.show_bundle_button %}
+                  <a href="{{ section.settings.bundle_button_url | default: '#' }}" class="btn btn-{{ section.settings.bundle_button_style | default: 'filled' }}-{{ section.settings.bundle_button_color | default: 'primary' }} {{ section.settings.bundle_button_size | default: 'btn-md' }} {{ settings.button_border_radius | default: 'rounded-md' }}">
+                    {{ section.settings.bundle_button_text | default: 'Add' }}
+                  </a>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            {% endif %}
+            
+          </div>
+        </form>
+        
+      </div>
+      
+    </div>
+  </div>
+  
+  <!-- Sticky Footer (appears on scroll) -->
+  {% if section.settings.show_sticky_footer %}
+  <div class="sticky-footer" id="stickyFooter-{{ section.id }}">
+    <div class="sticky-footer-content">
+      <div class="sticky-product-info">
+        {% if section.settings.hero_image != blank %}
+        <div class="sticky-thumb">
+          <img src="{{ section.settings.hero_image | image_url: width: 100 }}" alt="{{ product.title }}">
+        </div>
+        {% elsif product.thumbnail_image != blank %}
+        <div class="sticky-thumb">
+          <img src="{{ product.thumbnail_image | image_url: width: 100 }}" alt="{{ product.title }}">
+        </div>
+        {% elsif product.image != blank %}
+        <div class="sticky-thumb">
+          <img src="{{ product.image | image_url: width: 100 }}" alt="{{ product.title }}">
+        </div>
+        {% endif %}
+        <div class="sticky-text">
+          {% if section.settings.product_code != blank %}
+          <span class="sticky-code {{ section.settings.sticky_code_font_size | default: 'text-sm' }} {{ section.settings.sticky_code_color | default: 'text-primary' }}">
+            {{ section.settings.product_code }}<sup>{{ section.settings.code_superscript | default: '™' }}</sup>
+          </span>
+          {% endif %}
+          <h3 class="{{ section.settings.sticky_title_font_size | default: 'text-lg' }} {{ section.settings.sticky_title_color | default: 'text-primary' }} leading-heading">
+            {{ product.title }}
+          </h3>
+        </div>
+      </div>
+      <div class="sticky-cta">
+        {% assign not_purchasable = out_of_stock || available_for_country != true || active != true %}
+        {% if external_url %}
+          <a
+            href='{{ external_url }}'
+            class='btn btn-{{ section.settings.cart_button_style }}-{{section.settings.cart_button_color }} {{ section.settings.sticky_button_size | default: 'btn-md' }} {{section.settings.cart_button_font_weight }} {{ section.settings.cart_button_border_radius }}'
+          >
+            {{- 'products.product.add_to_cart' | t -}}
+          </a>
+        {% elsif not_purchasable %}
+          <button
+            disabled
+            class='btn btn-{{ section.settings.cart_button_style }}-{{section.settings.cart_button_color }} {{ section.settings.sticky_button_size | default: 'btn-md' }} {{section.settings.cart_button_font_weight }} {{ section.settings.cart_button_border_radius }} disabled'
+          >
+            {{ 'products.product.add_to_cart' | t }}
+          </button>
+        {% else %}
+          <button
+            class='btn btn-{{ section.settings.cart_button_style }}-{{section.settings.cart_button_color }} {{ section.settings.sticky_button_size | default: 'btn-md' }} {{section.settings.cart_button_font_weight }} {{ section.settings.cart_button_border_radius }}'
+            type='button'
+            data-fluid-add-to-cart="{{ selected_variant_id }}"
+            data-fluid-quantity="1"
+            {% if request.query_parameters.subscribe or product.subscription_only %}
+              data-fluid-subscription-plan-id="{{ product.selected_subscription_plan_id }}"
+            {% endif %}
+          >
+            {{ 'products.product.add_to_cart' | t }}
+          </button>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  {% endif %}
+  
+  <!-- Image Modal/Lightbox -->
+  <div class="image-modal" id="imageModal-{{ section.id }}">
+    <button class="modal-close" aria-label="Close modal" data-section-id="{{ section.id }}">&times;</button>
+    <div class="modal-content product-gallery">
+      <div class='splide main-slider'>
+        <div class='splide__track'>
+          <ul class='splide__list'>
+            {% if section.settings.hero_image != blank %}
+              <li class='splide__slide'>
+                <div class="modal-main-image">
+                  <img src="{{ section.settings.hero_image | image_url: width: 1000 }}" alt="{{ section.settings.hero_image_alt | default: 'Product hero' }}" loading="eager" class="clickable-image" data-full-src="{{ section.settings.hero_image | image_url: width: 1600 }}">
+                </div>
+              </li>
+            {% elsif product.thumbnail_image != blank %}
+              <li class='splide__slide'>
+                <div class="modal-main-image">
+                  <img src="{{ product.thumbnail_image | image_url: width: 1000 }}" alt="{{ product.title }}" loading="eager" class="clickable-image" data-full-src="{{ product.thumbnail_image | image_url: width: 1600 }}">
+                </div>
+              </li>
+            {% elsif product.image != blank %}
+              <li class='splide__slide'>
+                <div class="modal-main-image">
+                  <img src="{{ product.image | image_url: width: 1000 }}" alt="{{ product.title }}" loading="eager" class="clickable-image" data-full-src="{{ product.image | image_url: width: 1600 }}">
+                </div>
+              </li>
+            {% endif %}
+            {% assign gallery_blocks = section.blocks | where: "type", "gallery_image" %}
+            {% assign has_block_images = false %}
+            {% for block in gallery_blocks %}
+              {% if block.settings.image != blank %}
+                {% assign has_block_images = true %}
+                {% break %}
+              {% endif %}
+            {% endfor %}
+            
+            {% if has_block_images %}
+              {% for block in gallery_blocks %}
+                {% if block.settings.image != blank %}
+                <li class='splide__slide'>
+                  <div class="modal-main-image">
+                   <img src='{{ block.settings.image | image_url: width: 1000 }}' alt='{{ block.settings.image_alt | default: "Product image" }}'>
+                  </div>
+                </li>
+                {% endif %}
+              {% endfor %}
+            {% else %}
+              <!-- Product-level images only (not attached to variants) -->
+              {% if product.images.size > 0 %}
+                {% for image in product.images %}
+                  {% unless image.attached_to_variant? %}
+                    <li class='splide__slide'>
+                      <div class="modal-main-image">
+                       <img src='{{ image.src | image_url: width: 1000 }}' alt='{{ product.title }}'>
+                      </div>
+                    </li>
+                  {% endunless %}
+                {% endfor %}
+              {% endif %}
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+
+      <div  class='splide thumbnail-slider modal-thumbnails'>
+        <div class='splide__track'>
+          <ul class='splide__list'>
+            {% if section.settings.hero_image != blank %}
+              <li class='splide__slide'>
+                <div class="modal-thumb">
+                  <img src="{{ section.settings.hero_image | image_url: width: 200 }}" alt="{{ section.settings.hero_image_alt | default: 'Product hero' }}">
+                </div>
+              </li>
+            {% elsif product.thumbnail_image != blank %}
+              <li class='splide__slide'>
+                <div class="modal-thumb">
+                  <img src="{{ product.thumbnail_image | image_url: width: 200 }}" alt="{{ product.title }}">
+                </div>
+              </li>
+            {% elsif product.image != blank %}
+              <li class='splide__slide'>
+                <div class="modal-thumb">
+                  <img src="{{ product.image | image_url: width: 200 }}" alt="{{ product.title }}">
+                </div>
+              </li>
+            {% endif %}
+            {% assign gallery_blocks = section.blocks | where: "type", "gallery_image" %}
+            {% assign has_block_images = false %}
+            {% for block in gallery_blocks %}
+              {% if block.settings.image != blank %}
+                {% assign has_block_images = true %}
+                {% break %}
+              {% endif %}
+            {% endfor %}
+            
+            {% if has_block_images %}
+              {% for block in gallery_blocks %}
+                {% if block.settings.image != blank %}
+                <li class='splide__slide'>
+                  <div class="modal-thumb">
+                    <img src='{{ block.settings.image | image_url: width: 200 }}' alt='{{ block.settings.image_alt | default: "Product image" }}'>
+                  </div>
+                </li>
+                {% endif %}
+              {% endfor %}
+            {% else %}
+              <!-- Product-level images only (not attached to variants) -->
+              {% if product.images.size > 0 %}
+                {% for image in product.images %}
+                  {% unless image.attached_to_variant? %}
+                    <li class='splide__slide'>
+                      <div class="modal-thumb">
+                        <img src='{{ image.src | image_url: width: 200 }}' alt='{{ product.title }}'>
+                      </div>
+                    </li>
+                  {% endunless %}
+                {% endfor %}
+              {% endif %}
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+     
+    </div>
+  </div>
+  
+</section>
+
+<!-- Product Image Gallery JavaScript -->
+<script>
+(function() {
+  const sectionId = '{{ section.id }}';
+  
+  // Sticky Footer functionality
+  const stickyFooter = document.getElementById('stickyFooter-' + sectionId);
+  const productSection = document.getElementById('product-header-' + sectionId);
+  
+  if (stickyFooter && productSection) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            // Section is in view, hide sticky footer
+            stickyFooter.classList.remove('visible');
+          } else {
+            // Section is out of view, show sticky footer
+            stickyFooter.classList.add('visible');
+          }
+        });
+      },
+      {
+        threshold: 0,
+        rootMargin: '-100px 0px 0px 0px'
+      }
+    );
+    
+    observer.observe(productSection);
+  }
+})();
+
+// Product Image Gallery Functions
+window.switchProductImage = function(index, sectionId) {
+  const section = document.getElementById('product-header-' + sectionId);
+  if (!section) return;
+  
+  // Update thumbnails
+  const thumbnails = section.querySelectorAll('.thumbnail-item');
+  thumbnails.forEach((thumb, i) => {
+    if (i === index) {
+      thumb.classList.add('active');
+    } else {
+      thumb.classList.remove('active');
+    }
+  });
+  
+  // Update main images
+  const slides = section.querySelectorAll('.main-image-slide');
+  slides.forEach((slide, i) => {
+    if (i === index) {
+      slide.classList.add('active');
+    } else {
+      slide.classList.remove('active');
+    }
+  });
+};
+
+window.navigateProductImage = function(direction, sectionId) {
+  const section = document.getElementById('product-header-' + sectionId);
+  if (!section) return;
+  
+  const thumbnails = section.querySelectorAll('.thumbnail-item');
+  const activeThumb = section.querySelector('.thumbnail-item.active');
+  
+  if (!activeThumb) return;
+  
+  const currentIndex = Array.from(thumbnails).indexOf(activeThumb);
+  let newIndex = currentIndex + direction;
+  
+  // Wrap around
+  if (newIndex < 0) {
+    newIndex = thumbnails.length - 1;
+  } else if (newIndex >= thumbnails.length) {
+    newIndex = 0;
+  }
+  
+  window.switchProductImage(newIndex, sectionId);
+};
+
+// Keyboard navigation
+{% if section.settings.enable_keyboard_nav != false %}
+document.addEventListener('keydown', function(e) {
+  const productSection = document.querySelector('.product-header-2');
+  if (!productSection) return;
+  
+  const sectionId = productSection.id.replace('product-header-', '');
+  
+  if (e.key === 'ArrowLeft') {
+    window.navigateProductImage(-1, sectionId);
+  } else if (e.key === 'ArrowRight') {
+    window.navigateProductImage(1, sectionId);
+  }
+});
+{% endif %}
+</script>
+<script>
+  function slider() {
+    if ($('.main-slider').length) {
+      document.querySelectorAll('.product-gallery').forEach(function (gallery) {
+        const mainSliderEl = gallery.querySelector('.main-slider');
+        const thumbnailSliderEl = gallery.querySelector('.thumbnail-slider');
+        if (!mainSliderEl) return;
+        if (mainSliderEl.classList.contains('is-initialized')) return;
+        const main = new Splide(mainSliderEl, {
+          arrows: false,
+          pagination: false,
+          rewind: true,
+        });
+        if (thumbnailSliderEl) {
+          const thumbnails = new Splide(thumbnailSliderEl, {
+            start: 0,
+            perPage: 3,
+            gap: 12,
+            rewind: true,
+            pagination: false,
+            arrows: false,
+            isNavigation: true,
+            mediaQuery: "min",
+            fixedWidth: 80,
+            fixedHeight: 80,
+            breakpoints: {
+              576: {
+                perPage: 4
+              },
+            },
+          });
+          main.sync(thumbnails);
+          thumbnails.mount();
+          main.mount();
+        }else {
+          main.mount();
+        }
+      });
+    }
+  }
+  document.addEventListener('DOMContentLoaded', function () {
+    slider();
+  })
+</script>
+
+{% schema %}
+{
+  "name": "Main Product",
+  "tag": "section",
+  "class": "product-header-2-section",
+  "enabled_on": {
+    "templates": ["product"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hero Media"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero Image"
+    },
+    {
+      "type": "text",
+      "id": "hero_image_alt",
+      "label": "Hero Image Alt Text",
+      "default": "Product hero"
+    },
+    {
+      "type": "text",
+      "id": "hero_video",
+      "label": "Hero Video URL (MP4)",
+      "info": "If set, video will be used instead of image"
+    },
+    {
+      "type": "header",
+      "content": "Product Code"
+    },
+    {
+      "type": "text",
+      "id": "product_code",
+      "label": "Product Code",
+      "default": "",
+      "info": "e.g., DM-02"
+    },
+    {
+      "type": "text",
+      "id": "code_superscript",
+      "label": "Code Superscript",
+      "default": "™"
+    },
+    {
+      "type": "select",
+      "id": "code_font_size",
+      "label": "Code Font Size",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" }
+      ],
+      "default": "text-base"
+    },
+    {
+      "type": "select",
+      "id": "code_color",
+      "label": "Code Color",
+      "options": [
+        { "value": "text-primary", "label": "Primary Text" },
+        { "value": "text-secondary", "label": "Secondary Text" },
+        { "value": "text-inverse", "label": "Inverse" },
+        { "value": "text-accent", "label": "Accent" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-white", "label": "White" }
+      ],
+      "default": "text-primary"
+    },
+    {
+      "type": "header",
+      "content": "Product Title"
+    },
+    {
+      "type": "text",
+      "id": "product_title",
+      "label": "Product Title",
+      "default": "Lorem Ipsum"
+    },
+    {
+      "type": "select",
+      "id": "title_font_family",
+      "label": "Title Font Family",
+      "options": [
+        { "value": "font-primary", "label": "Primary Text" },
+        { "value": "font-body", "label": "Body" },
+        { "value": "font-handwritten", "label": "Handwritten" },
+        { "value": "font-serif", "label": "Serif" }
+      ],
+      "default": "font-primary"
+    },
+    {
+      "type": "select",
+      "id": "title_font_size",
+      "label": "Title Font Size (Mobile)",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" },
+        { "value": "text-xl", "label": "Extra Large" },
+        { "value": "text-2xl", "label": "2X Large" },
+        { "value": "text-3xl", "label": "3X Large" },
+        { "value": "text-4xl", "label": "4X Large" }
+      ],
+      "default": "text-2xl"
+    },
+    {
+      "type": "select",
+      "id": "title_font_size_desktop",
+      "label": "Title Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-xs", "label": "Extra Small" },
+        { "value": "lg:text-sm", "label": "Small" },
+        { "value": "lg:text-base", "label": "Base" },
+        { "value": "lg:text-lg", "label": "Large" },
+        { "value": "lg:text-xl", "label": "Extra Large" },
+        { "value": "lg:text-2xl", "label": "2X Large" },
+        { "value": "lg:text-3xl", "label": "3X Large" },
+        { "value": "lg:text-4xl", "label": "4X Large" }
+      ],
+      "default": "lg:text-3xl"
+    },
+    {
+      "type": "select",
+      "id": "title_font_weight",
+      "label": "Title Font Weight",
+      "options": [
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semibold" }
+      ],
+      "default": "font-semibold"
+    },
+    {
+      "type": "select",
+      "id": "title_color",
+      "label": "Title Color",
+      "options": [
+        { "value": "text-primary", "label": "Primary Text" },
+        { "value": "text-secondary", "label": "Secondary Text" },
+        { "value": "text-inverse", "label": "Inverse" },
+        { "value": "text-muted", "label": "Muted" },
+        { "value": "text-accent", "label": "Accent" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-white", "label": "White" }
+      ],
+      "default": "text-primary"
+    },
+    {
+      "type": "header",
+      "content": "Rating & Reviews"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "label": "Show Rating",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "stars_image",
+      "label": "Stars Image",
+      "info": "Upload a stars rating image",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "rating_value",
+      "label": "Rating Value",
+      "default": "4.8"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_reviews_link",
+      "label": "Show Reviews Link",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "reviews_text",
+      "label": "Reviews Text",
+      "default": "18 Reviews"
+    },
+    {
+      "type": "url",
+      "id": "reviews_link",
+      "label": "Reviews Link",
+      "default": "#reviews"
+    },
+    {
+      "type": "select",
+      "id": "rating_font_size",
+      "label": "Rating Font Size",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" }
+      ],
+      "default": "text-sm"
+    },
+    {
+      "type": "select",
+      "id": "rating_color",
+      "label": "Rating Color",
+      "options": [
+        { "value": "text-primary", "label": "Primary Text" },
+        { "value": "text-secondary", "label": "Secondary Text" },
+        { "value": "text-inverse", "label": "Inverse" },
+        { "value": "text-muted", "label": "Muted" },
+        { "value": "text-accent", "label": "Accent" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-white", "label": "White" }
+      ],
+      "default": "text-primary"
+    },
+    {
+      "type": "header",
+      "content": "Description"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "DM-02™ helps cover the nutritional needs of your body and gut microbiome with 100% daily value of 20 essential vitamins and minerals.*"
+    },
+    {
+      "type": "select",
+      "id": "description_font_family",
+      "label": "Description Font Family",
+      "options": [
+        { "value": "font-primary", "label": "Primary Text" },
+        { "value": "font-body", "label": "Body" },
+        { "value": "font-handwritten", "label": "Handwritten" },
+        { "value": "font-serif", "label": "Serif" }
+      ],
+      "default": "font-body"
+    },
+    {
+      "type": "select",
+      "id": "description_font_size",
+      "label": "Description Font Size (Mobile)",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" }
+      ],
+      "default": "text-base"
+    },
+    {
+      "type": "select",
+      "id": "description_font_size_desktop",
+      "label": "Description Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-xs", "label": "Extra Small" },
+        { "value": "lg:text-sm", "label": "Small" },
+        { "value": "lg:text-base", "label": "Base" },
+        { "value": "lg:text-lg", "label": "Large" }
+      ],
+      "default": "lg:text-base"
+    },
+    {
+      "type": "select",
+      "id": "description_font_weight",
+      "label": "Description Font Weight",
+      "options": [
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semibold" }
+      ],
+      "default": "font-semibold"
+    },
+    {
+      "type": "select",
+      "id": "description_color",
+      "label": "Description Color",
+      "options": [
+        { "value": "text-primary", "label": "Primary Text" },
+        { "value": "text-secondary", "label": "Secondary Text" },
+        { "value": "text-inverse", "label": "Inverse" },
+        { "value": "text-muted", "label": "Muted" },
+        { "value": "text-accent", "label": "Accent" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-white", "label": "White" }
+      ],
+      "default": "text-primary"
+    },
+    {
+      "type": "header",
+      "content": "Price & Badge"
+    },
+    {
+      "type": "text",
+      "id": "price",
+      "label": "Price",
+      "default": "$39.99"
+    },
+    {
+      "type": "select",
+      "id": "price_font_family",
+      "label": "Price Font Family",
+      "options": [
+        { "value": "font-primary", "label": "Primary Text" },
+        { "value": "font-body", "label": "Body" },
+        { "value": "font-handwritten", "label": "Handwritten" },
+        { "value": "font-serif", "label": "Serif" }
+      ],
+      "default": "font-primary"
+    },
+    {
+      "type": "select",
+      "id": "price_font_size",
+      "label": "Price Font Size (Mobile)",
+      "options": [
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" },
+        { "value": "text-xl", "label": "Extra Large" },
+        { "value": "text-2xl", "label": "2X Large" },
+        { "value": "text-3xl", "label": "3X Large" }
+      ],
+      "default": "text-xl"
+    },
+    {
+      "type": "select",
+      "id": "price_font_size_desktop",
+      "label": "Price Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-base", "label": "Base" },
+        { "value": "lg:text-lg", "label": "Large" },
+        { "value": "lg:text-xl", "label": "Extra Large" },
+        { "value": "lg:text-2xl", "label": "2X Large" },
+        { "value": "lg:text-3xl", "label": "3X Large" }
+      ],
+      "default": "lg:text-2xl"
+    },
+    {
+      "type": "select",
+      "id": "price_font_weight",
+      "label": "Price Font Weight",
+      "options": [
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semibold" }
+      ],
+      "default": "font-semibold"
+    },
+    {
+      "type": "select",
+      "id": "price_color",
+      "label": "Price Color",
+      "options": [
+        { "value": "text-primary", "label": "Primary Text" },
+        { "value": "text-secondary", "label": "Secondary Text" },
+        { "value": "text-inverse", "label": "Inverse" },
+        { "value": "text-muted", "label": "Muted" },
+        { "value": "text-accent", "label": "Accent" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-white", "label": "White" }
+      ],
+      "default": "text-primary"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_new_badge",
+      "label": "Show 'New' Badge",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Badge Text",
+      "default": "New"
+    },
+    {
+      "type": "color",
+      "id": "badge_background",
+      "label": "Badge Background Color",
+      "default": "#d3fa99"
+    },
+    {
+      "type": "select",
+      "id": "badge_font_size",
+      "label": "Badge Font Size",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" }
+      ],
+      "default": "text-xs"
+    },
+    {
+      "type": "select",
+      "id": "badge_text_color",
+      "label": "Badge Text Color",
+      "options": [
+        { "value": "text-primary", "label": "Primary Text" },
+        { "value": "text-secondary", "label": "Secondary Text" },
+        { "value": "text-inverse", "label": "Inverse" },
+        { "value": "text-muted", "label": "Muted" },
+        { "value": "text-accent", "label": "Accent" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-white", "label": "White" }
+      ],
+      "default": "text-primary"
+    },
+    {
+      "type": "header",
+      "content": "Subscription Info"
+    },
+    {
+      "type": "text",
+      "id": "subscription_info",
+      "label": "Subscription Info",
+      "default": "30-day supply delivered monthly. Pause or cancel anytime."
+    },
+    {
+      "type": "select",
+      "id": "subscription_font_size",
+      "label": "Subscription Font Size",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" }
+      ],
+      "default": "text-sm"
+    },
+    {
+      "type": "select",
+      "id": "subscription_color",
+      "label": "Subscription Color",
+      "options": [
+        { "value": "text-primary", "label": "Primary Text" },
+        { "value": "text-secondary", "label": "Secondary Text" },
+        { "value": "text-inverse", "label": "Inverse" },
+        { "value": "text-muted", "label": "Muted" },
+        { "value": "text-accent", "label": "Accent" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-white", "label": "White" }
+      ],
+      "default": "text-primary"
+    },
+    {
+      "type": "header",
+      "content": "Subscription Title"
+    },
+    {
+      "type": "select",
+      "id": "subscription_title_font_family",
+      "label": "Font Family",
+      "options": [
+        { "value": "font-primary", "label": "Primary" },
+        { "value": "font-body", "label": "Body" },
+        { "value": "font-handwritten", "label": "Handwritten" },
+        { "value": "font-serif", "label": "Serif" }
+      ],
+      "default": "font-body"
+    },
+    {
+      "type": "select",
+      "id": "subscription_title_font_size",
+      "label": "Font Size (Mobile)",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" },
+        { "value": "text-xl", "label": "Extra Large" },
+        { "value": "text-2xl", "label": "2X Large" },
+        { "value": "text-3xl", "label": "3X Large" },
+        { "value": "text-4xl", "label": "4X Large" },
+        { "value": "text-5xl", "label": "5X Large" },
+        { "value": "text-6xl", "label": "6X Large" },
+        { "value": "text-7xl", "label": "7X Large" },
+        { "value": "text-8xl", "label": "8X Large" },
+        { "value": "text-9xl", "label": "9X Large" }
+      ],
+      "default": "text-base"
+    },
+    {
+      "type": "select",
+      "id": "subscription_title_font_size_desktop",
+      "label": "Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-xs", "label": "Extra Small" },
+        { "value": "lg:text-sm", "label": "Small" },
+        { "value": "lg:text-base", "label": "Base" },
+        { "value": "lg:text-lg", "label": "Large" },
+        { "value": "lg:text-xl", "label": "Extra Large" },
+        { "value": "lg:text-2xl", "label": "2X Large" },
+        { "value": "lg:text-3xl", "label": "3X Large" },
+        { "value": "lg:text-4xl", "label": "4X Large" },
+        { "value": "lg:text-5xl", "label": "5X Large" },
+        { "value": "lg:text-6xl", "label": "6X Large" },
+        { "value": "lg:text-7xl", "label": "7X Large" },
+        { "value": "lg:text-8xl", "label": "8X Large" },
+        { "value": "lg:text-9xl", "label": "9X Large" }
+      ],
+      "default": "lg:text-base"
+    },
+    {
+      "type": "select",
+      "id": "subscription_title_font_weight",
+      "label": "Font Weight",
+      "options": [
+        { "value": "font-light", "label": "Light" },
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semi Bold" },
+        { "value": "font-bold", "label": "Bold" }
+      ],
+      "default": "font-semibold"
+    },
+    {
+      "type": "select",
+      "id": "subscription_title_color",
+      "label": "Text Color",
+      "options": [
+        { "value": "text-white", "label": "White" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-primary", "label": "Primary" },
+        { "value": "text-secondary", "label": "Secondary" },
+        { "value": "text-tertiary", "label": "Tertiary" },
+        { "value": "text-quaternary", "label": "Quaternary" },
+        { "value": "text-success", "label": "Success" },
+        { "value": "text-warning", "label": "Warning" },
+        { "value": "text-error", "label": "Error" },
+        { "value": "text-info", "label": "Info" },
+        { "value": "text-neutral", "label": "Neutral" },
+        { "value": "text-neutral-light", "label": "Neutral Light" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "text-black"
+    },
+    {
+      "type": "header",
+      "content": "Subscription List"
+    },
+    {
+      "type": "select",
+      "id": "subscription_list_font_family",
+      "label": "Font Family",
+      "options": [
+        { "value": "font-primary", "label": "Primary" },
+        { "value": "font-body", "label": "Body" },
+        { "value": "font-handwritten", "label": "Handwritten" },
+        { "value": "font-serif", "label": "Serif" }
+      ],
+      "default": "font-body"
+    },
+    {
+      "type": "select",
+      "id": "subscription_list_font_size",
+      "label": "Font Size (Mobile)",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" },
+        { "value": "text-xl", "label": "Extra Large" },
+        { "value": "text-2xl", "label": "2X Large" },
+        { "value": "text-3xl", "label": "3X Large" },
+        { "value": "text-4xl", "label": "4X Large" },
+        { "value": "text-5xl", "label": "5X Large" },
+        { "value": "text-6xl", "label": "6X Large" },
+        { "value": "text-7xl", "label": "7X Large" },
+        { "value": "text-8xl", "label": "8X Large" },
+        { "value": "text-9xl", "label": "9X Large" }
+      ],
+      "default": "text-base"
+    },
+    {
+      "type": "select",
+      "id": "subscription_list_font_size_desktop",
+      "label": "Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-xs", "label": "Extra Small" },
+        { "value": "lg:text-sm", "label": "Small" },
+        { "value": "lg:text-base", "label": "Base" },
+        { "value": "lg:text-lg", "label": "Large" },
+        { "value": "lg:text-xl", "label": "Extra Large" },
+        { "value": "lg:text-2xl", "label": "2X Large" },
+        { "value": "lg:text-3xl", "label": "3X Large" },
+        { "value": "lg:text-4xl", "label": "4X Large" },
+        { "value": "lg:text-5xl", "label": "5X Large" },
+        { "value": "lg:text-6xl", "label": "6X Large" },
+        { "value": "lg:text-7xl", "label": "7X Large" },
+        { "value": "lg:text-8xl", "label": "8X Large" },
+        { "value": "lg:text-9xl", "label": "9X Large" }
+      ],
+      "default": "lg:text-base"
+    },
+    {
+      "type": "select",
+      "id": "subscription_list_font_weight",
+      "label": "Font Weight",
+      "options": [
+        { "value": "font-light", "label": "Light" },
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semi Bold" },
+        { "value": "font-bold", "label": "Bold" }
+      ],
+      "default": "font-normal"
+    },
+    {
+      "type": "select",
+      "id": "subscription_list_color",
+      "label": "Text Color",
+      "options": [
+        { "value": "text-white", "label": "White" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-primary", "label": "Primary" },
+        { "value": "text-secondary", "label": "Secondary" },
+        { "value": "text-tertiary", "label": "Tertiary" },
+        { "value": "text-quaternary", "label": "Quaternary" },
+        { "value": "text-success", "label": "Success" },
+        { "value": "text-warning", "label": "Warning" },
+        { "value": "text-error", "label": "Error" },
+        { "value": "text-info", "label": "Info" },
+        { "value": "text-neutral", "label": "Neutral" },
+        { "value": "text-neutral-light", "label": "Neutral Light" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "text-neutral-dark"
+    },
+    {
+      "type": "header",
+      "content": "Add To Cart Button Settings"
+    },
+    {
+      "type": "select",
+      "id": "cart_button_style",
+      "label": "Button Style",
+      "options": [
+        { "value": "filled", "label": "Filled" },
+        { "value": "outline", "label": "Outline" },
+        { "value": "ghost", "label": "Ghost" }
+      ],
+      "default": "filled"
+    },
+    {
+      "type": "select",
+      "id": "cart_button_color",
+      "label": "Button Color",
+      "options": [
+        { "value": "primary", "label": "Primary" },
+        { "value": "secondary", "label": "Secondary" },
+        { "value": "tertiary", "label": "Tertiary" },
+        { "value": "quaternary", "label": "Quaternary" },
+        { "value": "success", "label": "Success" },
+        { "value": "warning", "label": "Warning" },
+        { "value": "error", "label": "Error" },
+        { "value": "info", "label": "Info" },
+        { "value": "black", "label": "Black" },
+        { "value": "white", "label": "White" }
+      ],
+      "default": "primary"
+    },
+    {
+      "type": "select",
+      "id": "cart_button_size",
+      "label": "Button Size",
+      "options": [
+        { "value": "btn-xs", "label": "Extra Small" },
+        { "value": "btn-sm", "label": "Small" },
+        { "value": "btn-md", "label": "Medium" },
+        { "value": "btn-lg", "label": "Large" },
+        { "value": "btn-xl", "label": "Extra Large" }
+      ],
+      "default": "btn-md"
+    },
+    {
+      "type": "select",
+      "id": "cart_button_font_weight",
+      "label": "Button Font Weight",
+      "options": [
+        { "value": "font-light", "label": "Light" },
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semi Bold" },
+        { "value": "font-bold", "label": "Bold" }
+      ],
+      "default": "font-medium"
+    },
+    {
+      "type": "select",
+      "id": "cart_button_border_radius",
+      "label": "Button Border Radius",
+      "options": [
+        { "value": "rounded-none", "label": "None" },
+        { "value": "rounded-sm", "label": "Small" },
+        { "value": "rounded", "label": "Base" },
+        { "value": "rounded-md", "label": "Medium" },
+        { "value": "rounded-lg", "label": "Large" },
+        { "value": "rounded-xl", "label": "Extra Large" },
+        { "value": "rounded-2xl", "label": "2X Large" },
+        { "value": "rounded-3xl", "label": "3X Large" }
+      ],
+      "default": "rounded-lg"
+    },
+    {
+      "type": "header",
+      "content": "CTA Button"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_cta",
+      "label": "Show CTA Button",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Button Text",
+      "default": "Start Now"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "Button URL"
+    },
+    {
+      "type": "select",
+      "id": "button_style",
+      "label": "Button Style",
+      "options": [
+        { "value": "filled", "label": "Filled" },
+        { "value": "outline", "label": "Outline" },
+        { "value": "ghost", "label": "Ghost" }
+      ],
+      "default": "filled"
+    },
+    {
+      "type": "select",
+      "id": "button_color",
+      "label": "Button Color",
+      "options": [
+        { "value": "primary", "label": "Primary Text" },
+        { "value": "secondary", "label": "Secondary Text" },
+        { "value": "tertiary", "label": "Accent" },
+        { "value": "quaternary", "label": "Accent Alt" },
+        { "value": "success", "label": "Success" },
+        { "value": "warning", "label": "Warning" },
+        { "value": "error", "label": "Error" },
+        { "value": "info", "label": "Info" },
+        { "value": "neutral", "label": "Neutral" },
+        { "value": "white", "label": "White" }
+      ],
+      "default": "primary"
+    },
+    {
+      "type": "select",
+      "id": "button_size",
+      "label": "Button Size",
+      "options": [
+        { "value": "btn-sm", "label": "Small" },
+        { "value": "btn-md", "label": "Medium" },
+        { "value": "btn-lg", "label": "Large" }
+      ],
+      "default": "btn-md"
+    },
+    {
+      "type": "header",
+      "content": "Guarantee Text"
+    },
+    {
+      "type": "text",
+      "id": "guarantee_text",
+      "label": "Guarantee Text",
+      "default": "30-day risk-free guarantee. Free US shipping."
+    },
+    {
+      "type": "select",
+      "id": "guarantee_font_size",
+      "label": "Guarantee Font Size",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" }
+      ],
+      "default": "text-sm"
+    },
+    {
+      "type": "select",
+      "id": "guarantee_color",
+      "label": "Guarantee Color",
+      "options": [
+        { "value": "text-primary", "label": "Primary Text" },
+        { "value": "text-secondary", "label": "Secondary Text" },
+        { "value": "text-inverse", "label": "Inverse" },
+        { "value": "text-muted", "label": "Muted" },
+        { "value": "text-accent", "label": "Accent" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-white", "label": "White" }
+      ],
+      "default": "text-neutral"
+    },
+    {
+      "type": "header",
+      "content": "Accordions"
+    },
+    {
+      "type": "text",
+      "id": "benefits_title",
+      "label": "Benefits Section Title",
+      "default": "Benefits*"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_ingredients",
+      "label": "Show Ingredients Section",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "ingredients_title",
+      "label": "Ingredients Section Title",
+      "default": "Ingredients"
+    },
+    {
+      "type": "textarea",
+      "id": "ingredients_content",
+      "label": "Ingredients Content",
+      "info": "Add ingredient details here"
+    },
+    {
+      "type": "select",
+      "id": "accordion_font_size",
+      "label": "Accordion Title Font Size",
+      "options": [
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" }
+      ],
+      "default": "text-base"
+    },
+    {
+      "type": "select",
+      "id": "accordion_color",
+      "label": "Accordion Title Color",
+      "options": [
+        { "value": "text-primary", "label": "Primary Text" },
+        { "value": "text-secondary", "label": "Secondary Text" },
+        { "value": "text-inverse", "label": "Inverse" },
+        { "value": "text-muted", "label": "Muted" },
+        { "value": "text-accent", "label": "Accent" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-white", "label": "White" }
+      ],
+      "default": "text-primary"
+    },
+    {
+      "type": "select",
+      "id": "benefit_font_size",
+      "label": "Benefit Font Size",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" }
+      ],
+      "default": "text-base"
+    },
+    {
+      "type": "select",
+      "id": "benefit_color",
+      "label": "Benefit Color",
+      "options": [
+        { "value": "text-primary", "label": "Primary Text" },
+        { "value": "text-secondary", "label": "Secondary Text" },
+        { "value": "text-inverse", "label": "Inverse" },
+        { "value": "text-muted", "label": "Muted" },
+        { "value": "text-accent", "label": "Accent" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-white", "label": "White" }
+      ],
+      "default": "text-primary"
+    },
+    {
+      "type": "select",
+      "id": "ingredients_font_size",
+      "label": "Ingredients Font Size",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" }
+      ],
+      "default": "text-sm"
+    },
+    {
+      "type": "select",
+      "id": "ingredients_color",
+      "label": "Ingredients Color",
+      "options": [
+        { "value": "text-primary", "label": "Primary Text" },
+        { "value": "text-secondary", "label": "Secondary Text" },
+        { "value": "text-inverse", "label": "Inverse" },
+        { "value": "text-muted", "label": "Muted" },
+        { "value": "text-accent", "label": "Accent" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-white", "label": "White" }
+      ],
+      "default": "text-primary"
+    },
+    {
+      "type": "header",
+      "content": "Bundle Upsell"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_bundle_upsell",
+      "label": "Show Bundle Upsell",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "bundle_image",
+      "label": "Bundle Image"
+    },
+    {
+      "type": "text",
+      "id": "bundle_image_alt",
+      "label": "Bundle Image Alt",
+      "default": "Bundle products"
+    },
+    {
+      "type": "text",
+      "id": "bundle_title",
+      "label": "Bundle Title",
+      "default": "Bundle + Save 25%"
+    },
+    {
+      "type": "select",
+      "id": "bundle_title_font_size",
+      "label": "Bundle Title Font Size",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" }
+      ],
+      "default": "text-base"
+    },
+    {
+      "type": "select",
+      "id": "bundle_title_color",
+      "label": "Bundle Title Color",
+      "options": [
+        { "value": "text-primary", "label": "Primary Text" },
+        { "value": "text-secondary", "label": "Secondary Text" },
+        { "value": "text-inverse", "label": "Inverse" },
+        { "value": "text-muted", "label": "Muted" },
+        { "value": "text-accent", "label": "Accent" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-white", "label": "White" }
+      ],
+      "default": "text-primary"
+    },
+    {
+      "type": "textarea",
+      "id": "bundle_description",
+      "label": "Bundle Description",
+      "default": "Add DS-01® Daily Synbiotic to your routine and save on your first order."
+    },
+    {
+      "type": "select",
+      "id": "bundle_description_font_size",
+      "label": "Bundle Description Font Size",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" }
+      ],
+      "default": "text-sm"
+    },
+    {
+      "type": "select",
+      "id": "bundle_description_color",
+      "label": "Bundle Description Color",
+      "options": [
+        { "value": "text-primary", "label": "Primary Text" },
+        { "value": "text-secondary", "label": "Secondary Text" },
+        { "value": "text-inverse", "label": "Inverse" },
+        { "value": "text-muted", "label": "Muted" },
+        { "value": "text-accent", "label": "Accent" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-white", "label": "White" }
+      ],
+      "default": "text-primary"
+    },
+    {
+      "type": "text",
+      "id": "bundle_price",
+      "label": "Bundle Price",
+      "default": "$67.48"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_bundle_original_price",
+      "label": "Show Original Price",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "bundle_original_price",
+      "label": "Bundle Original Price",
+      "default": "$89.98"
+    },
+    {
+      "type": "select",
+      "id": "bundle_price_font_size",
+      "label": "Bundle Price Font Size",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" }
+      ],
+      "default": "text-base"
+    },
+    {
+      "type": "select",
+      "id": "bundle_price_color",
+      "label": "Bundle Price Color",
+      "options": [
+        { "value": "text-primary", "label": "Primary Text" },
+        { "value": "text-secondary", "label": "Secondary Text" },
+        { "value": "text-inverse", "label": "Inverse" },
+        { "value": "text-muted", "label": "Muted" },
+        { "value": "text-accent", "label": "Accent" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-white", "label": "White" }
+      ],
+      "default": "text-primary"
+    },
+    {
+      "type": "select",
+      "id": "bundle_background",
+      "label": "Bundle Card Background",
+      "options": [
+        { "value": "bg-page", "label": "Page (White)" },
+        { "value": "bg-card-primary", "label": "Card Primary" },
+        { "value": "bg-card-secondary", "label": "Card Secondary" },
+        { "value": "bg-banner", "label": "Banner" },
+        { "value": "bg-accent-warm", "label": "Accent Warm" },
+        { "value": "bg-accent-dark", "label": "Accent Dark" },
+        { "value": "bg-accent-soft", "label": "Accent Soft" },
+        { "value": "bg-primary", "label": "Brand Primary" },
+        { "value": "bg-white", "label": "White" }
+      ],
+      "default": "bg-card-primary"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_bundle_button",
+      "label": "Show Bundle Button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "bundle_button_text",
+      "label": "Bundle Button Text",
+      "default": "Add"
+    },
+    {
+      "type": "url",
+      "id": "bundle_button_url",
+      "label": "Bundle Button URL"
+    },
+    {
+      "type": "select",
+      "id": "bundle_button_style",
+      "label": "Bundle Button Style",
+      "options": [
+        { "value": "filled", "label": "Filled" },
+        { "value": "outline", "label": "Outline" },
+        { "value": "ghost", "label": "Ghost" }
+      ],
+      "default": "outline"
+    },
+    {
+      "type": "select",
+      "id": "bundle_button_color",
+      "label": "Bundle Button Color",
+      "options": [
+        { "value": "primary", "label": "Primary Text" },
+        { "value": "secondary", "label": "Secondary Text" },
+        { "value": "tertiary", "label": "Accent" },
+        { "value": "quaternary", "label": "Accent Alt" },
+        { "value": "success", "label": "Success" },
+        { "value": "warning", "label": "Warning" },
+        { "value": "error", "label": "Error" },
+        { "value": "info", "label": "Info" },
+        { "value": "neutral", "label": "Neutral" },
+        { "value": "white", "label": "White" }
+      ],
+      "default": "primary"
+    },
+    {
+      "type": "select",
+      "id": "bundle_button_size",
+      "label": "Bundle Button Size",
+      "options": [
+        { "value": "btn-sm", "label": "Small" },
+        { "value": "btn-md", "label": "Medium" }
+      ],
+      "default": "btn-md"
+    },
+    {
+      "type": "header",
+      "content": "Gallery Images"
+    },
+    {
+      "type": "image_picker",
+      "id": "gallery_image_1",
+      "label": "Gallery Image 1",
+      "info": "Additional product image"
+    },
+    {
+      "type": "image_picker",
+      "id": "gallery_image_2",
+      "label": "Gallery Image 2",
+      "info": "Additional product image"
+    },
+    {
+      "type": "image_picker",
+      "id": "gallery_image_3",
+      "label": "Gallery Image 3",
+      "info": "Additional product image"
+    },
+    {
+      "type": "image_picker",
+      "id": "gallery_image_4",
+      "label": "Gallery Image 4",
+      "info": "Additional product image"
+    },
+    {
+      "type": "image_picker",
+      "id": "gallery_image_5",
+      "label": "Gallery Image 5",
+      "info": "Additional product image"
+    },
+    {
+      "type": "image_picker",
+      "id": "gallery_image_6",
+      "label": "Gallery Image 6",
+      "info": "Additional product image"
+    },
+    {
+      "type": "image_picker",
+      "id": "gallery_image_7",
+      "label": "Gallery Image 7",
+      "info": "Additional product image"
+    },
+    {
+      "type": "image_picker",
+      "id": "gallery_image_8",
+      "label": "Gallery Image 8",
+      "info": "Additional product image"
+    },
+    {
+      "type": "image_picker",
+      "id": "gallery_image_9",
+      "label": "Gallery Image 9",
+      "info": "Additional product image"
+    },
+    {
+      "type": "image_picker",
+      "id": "gallery_image_10",
+      "label": "Gallery Image 10",
+      "info": "Additional product image"
+    },
+    {
+      "type": "header",
+      "content": "Gallery Display Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_thumbnails",
+      "label": "Show Thumbnail Navigation",
+      "default": true,
+      "info": "Display vertical thumbnail column on left side"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_keyboard_nav",
+      "label": "Enable Keyboard Navigation",
+      "default": true,
+      "info": "Allow arrow keys to navigate images"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_navigation_arrows",
+      "label": "Show Navigation Arrows",
+      "default": true,
+      "info": "Display prev/next arrows on main image"
+    },
+    {
+      "type": "select",
+      "id": "thumbnail_size",
+      "label": "Thumbnail Size",
+      "options": [
+        { "value": "80px", "label": "Small (80px)" },
+        { "value": "100px", "label": "Medium (100px)" },
+        { "value": "120px", "label": "Large (120px)" }
+      ],
+      "default": "100px",
+      "info": "Width of thumbnail column on desktop"
+    },
+    {
+      "type": "select",
+      "id": "thumbnail_gap",
+      "label": "Thumbnail Gap",
+      "options": [
+        { "value": "gap-xs", "label": "Extra Small" },
+        { "value": "gap-sm", "label": "Small" },
+        { "value": "gap-md", "label": "Medium" },
+        { "value": "gap-lg", "label": "Large" }
+      ],
+      "default": "gap-sm",
+      "info": "Space between thumbnails"
+    },
+    {
+      "type": "select",
+      "id": "thumbnail_border_radius",
+      "label": "Thumbnail Border Radius",
+      "options": [
+        { "value": "rounded-none", "label": "None (Square)" },
+        { "value": "rounded-sm", "label": "Small" },
+        { "value": "rounded", "label": "Base" },
+        { "value": "rounded-md", "label": "Medium" },
+        { "value": "rounded-lg", "label": "Large" },
+        { "value": "rounded-xl", "label": "Extra Large" },
+        { "value": "rounded-2xl", "label": "2X Large" },
+        { "value": "rounded-full", "label": "Full (Circle)" }
+      ],
+      "default": "rounded-lg",
+      "info": "Corner rounding for thumbnails"
+    },
+    {
+      "type": "select",
+      "id": "main_image_border_radius",
+      "label": "Main Image Border Radius",
+      "options": [
+        { "value": "rounded-none", "label": "None (Square)" },
+        { "value": "rounded-sm", "label": "Small" },
+        { "value": "rounded", "label": "Base" },
+        { "value": "rounded-md", "label": "Medium" },
+        { "value": "rounded-lg", "label": "Large" },
+        { "value": "rounded-xl", "label": "Extra Large" },
+        { "value": "rounded-2xl", "label": "2X Large" },
+        { "value": "rounded-3xl", "label": "3X Large" }
+      ],
+      "default": "rounded-xl",
+      "info": "Corner rounding for main product image"
+    },
+    {
+      "type": "select",
+      "id": "main_image_aspect_ratio",
+      "label": "Main Image Aspect Ratio (Desktop)",
+      "options": [
+        { "value": "1/1", "label": "Square (1:1)" },
+        { "value": "4/5", "label": "Portrait (4:5)" },
+        { "value": "3/4", "label": "Portrait (3:4)" },
+        { "value": "16/9", "label": "Landscape (16:9)" },
+        { "value": "auto", "label": "Auto (Original)" }
+      ],
+      "default": "4/5",
+      "info": "Shape of the main product image"
+    },
+    {
+      "type": "select",
+      "id": "gallery_transition_speed",
+      "label": "Image Transition Speed",
+      "options": [
+        { "value": "0.2s", "label": "Fast" },
+        { "value": "0.4s", "label": "Medium" },
+        { "value": "0.6s", "label": "Slow" }
+      ],
+      "default": "0.4s",
+      "info": "How quickly images fade in/out"
+    },
+    {
+      "type": "header",
+      "content": "Sticky Footer"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_sticky_footer",
+      "label": "Show Sticky Footer on Scroll",
+      "default": true,
+      "info": "Shows a sticky bar at bottom when section scrolls out of view"
+    },
+    {
+      "type": "select",
+      "id": "sticky_code_font_size",
+      "label": "Sticky Code Font Size",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" }
+      ],
+      "default": "text-sm"
+    },
+    {
+      "type": "select",
+      "id": "sticky_code_color",
+      "label": "Sticky Code Color",
+      "options": [
+        { "value": "text-primary", "label": "Primary Text" },
+        { "value": "text-secondary", "label": "Secondary Text" },
+        { "value": "text-inverse", "label": "Inverse" },
+        { "value": "text-muted", "label": "Muted" },
+        { "value": "text-accent", "label": "Accent" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-white", "label": "White" }
+      ],
+      "default": "text-primary"
+    },
+    {
+      "type": "select",
+      "id": "sticky_title_font_size",
+      "label": "Sticky Title Font Size",
+      "options": [
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" },
+        { "value": "text-xl", "label": "Extra Large" }
+      ],
+      "default": "text-lg"
+    },
+    {
+      "type": "select",
+      "id": "sticky_title_color",
+      "label": "Sticky Title Color",
+      "options": [
+        { "value": "text-primary", "label": "Primary Text" },
+        { "value": "text-secondary", "label": "Secondary Text" },
+        { "value": "text-inverse", "label": "Inverse" },
+        { "value": "text-muted", "label": "Muted" },
+        { "value": "text-accent", "label": "Accent" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-white", "label": "White" }
+      ],
+      "default": "text-primary"
+    },
+    {
+      "type": "select",
+      "id": "sticky_button_size",
+      "label": "Sticky Button Size",
+      "options": [
+        { "value": "btn-sm", "label": "Small" },
+        { "value": "btn-md", "label": "Medium" },
+        { "value": "btn-lg", "label": "Large" }
+      ],
+      "default": "btn-md"
+    },
+    {
+      "type": "header",
+      "content": "Layout Settings"
+    },
+    {
+      "type": "select",
+      "id": "background_color",
+      "label": "Section Background Color",
+      "options": [
+        { "value": "bg-page", "label": "Page (White)" },
+        { "value": "bg-card-primary", "label": "Card Primary" },
+        { "value": "bg-card-secondary", "label": "Card Secondary" },
+        { "value": "bg-banner", "label": "Banner" },
+        { "value": "bg-accent-warm", "label": "Accent Warm" },
+        { "value": "bg-accent-dark", "label": "Accent Dark" },
+        { "value": "bg-accent-soft", "label": "Accent Soft" },
+        { "value": "bg-primary", "label": "Brand Primary" },
+        { "value": "bg-white", "label": "White" }
+      ],
+      "default": "bg-page"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Section Background Image"
+    },
+    {
+      "type": "select",
+      "id": "section_padding_y_mobile",
+      "label": "Section Vertical Padding (Mobile)",
+      "options": [
+        { "value": "py-xs", "label": "Extra Small" },
+        { "value": "py-sm", "label": "Small" },
+        { "value": "py-md", "label": "Medium" },
+        { "value": "py-lg", "label": "Large" },
+        { "value": "py-xl", "label": "Extra Large" },
+        { "value": "py-2xl", "label": "2X Large" },
+        { "value": "py-3xl", "label": "3X Large" }
+      ],
+      "default": "py-0"
+    },
+    {
+      "type": "select",
+      "id": "section_padding_y_desktop",
+      "label": "Section Vertical Padding (Desktop)",
+      "options": [
+        { "value": "lg:py-xs", "label": "Extra Small" },
+        { "value": "lg:py-sm", "label": "Small" },
+        { "value": "lg:py-md", "label": "Medium" },
+        { "value": "lg:py-lg", "label": "Large" },
+        { "value": "lg:py-xl", "label": "Extra Large" },
+        { "value": "lg:py-2xl", "label": "2X Large" },
+        { "value": "lg:py-3xl", "label": "3X Large" }
+      ],
+      "default": "lg:py-0"
+    },
+    {
+      "type": "select",
+      "id": "section_border_radius",
+      "label": "Section Border Radius",
+      "options": [
+        { "value": "rounded-none", "label": "None" },
+        { "value": "rounded-sm", "label": "Small" },
+        { "value": "rounded", "label": "Base" },
+        { "value": "rounded-md", "label": "Medium" },
+        { "value": "rounded-lg", "label": "Large" },
+        { "value": "rounded-xl", "label": "Extra Large" },
+        { "value": "rounded-2xl", "label": "2X Large" },
+        { "value": "rounded-3xl", "label": "3X Large" }
+      ],
+      "default": "rounded-none"
+    },
+    {
+      "type": "header",
+      "content": "Container Settings"
+    },
+    {
+      "type": "select",
+      "id": "container_background_color",
+      "label": "Container Background Color",
+      "options": [
+        { "value": "", "label": "None (Transparent)" },
+        { "value": "bg-white", "label": "White" },
+        { "value": "bg-black", "label": "Black" },
+        { "value": "bg-primary", "label": "Primary Text" },
+        { "value": "bg-secondary", "label": "Secondary Text" },
+        { "value": "bg-accent-warm", "label": "Accent" },
+        { "value": "bg-banner", "label": "Accent Alt" },
+        { "value": "bg-success", "label": "Success" },
+        { "value": "bg-warning", "label": "Warning" },
+        { "value": "bg-error", "label": "Error" },
+        { "value": "bg-info", "label": "Info" },
+        { "value": "bg-neutral", "label": "Neutral" },
+        { "value": "bg-neutral-light", "label": "Neutral Light" },
+        { "value": "bg-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": ""
+    },
+    {
+      "type": "image_picker",
+      "id": "container_background_image",
+      "label": "Container Background Image"
+    },
+    {
+      "type": "select",
+      "id": "container_border_radius",
+      "label": "Container Border Radius",
+      "options": [
+        { "value": "rounded-none", "label": "None" },
+        { "value": "rounded-sm", "label": "Small" },
+        { "value": "rounded", "label": "Base" },
+        { "value": "rounded-md", "label": "Medium" },
+        { "value": "rounded-lg", "label": "Large" },
+        { "value": "rounded-xl", "label": "Extra Large" },
+        { "value": "rounded-2xl", "label": "2X Large" },
+        { "value": "rounded-3xl", "label": "3X Large" }
+      ],
+      "default": "rounded-none"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_y_mobile",
+      "label": "Container Padding Y (Mobile)",
+      "options": [
+        { "value": "py-xs", "label": "Extra Small" },
+        { "value": "py-sm", "label": "Small" },
+        { "value": "py-md", "label": "Medium" },
+        { "value": "py-lg", "label": "Large" },
+        { "value": "py-xl", "label": "Extra Large" },
+        { "value": "py-2xl", "label": "2X Large" },
+        { "value": "py-3xl", "label": "3X Large" }
+      ],
+      "default": "py-0"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_y_desktop",
+      "label": "Container Padding Y (Desktop)",
+      "options": [
+        { "value": "lg:py-xs", "label": "Extra Small" },
+        { "value": "lg:py-sm", "label": "Small" },
+        { "value": "lg:py-md", "label": "Medium" },
+        { "value": "lg:py-lg", "label": "Large" },
+        { "value": "lg:py-xl", "label": "Extra Large" },
+        { "value": "lg:py-2xl", "label": "2X Large" },
+        { "value": "lg:py-3xl", "label": "3X Large" }
+      ],
+      "default": "lg:py-3xl"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_x_mobile",
+      "label": "Container Padding X (Mobile)",
+      "options": [
+        { "value": "px-0", "label": "None" },
+        { "value": "px-xs", "label": "Extra Small" },
+        { "value": "px-sm", "label": "Small" },
+        { "value": "px-md", "label": "Medium" },
+        { "value": "px-lg", "label": "Large" },
+        { "value": "px-xl", "label": "Extra Large" },
+        { "value": "px-2xl", "label": "2X Large" },
+        { "value": "px-3xl", "label": "3X Large" }
+      ],
+      "default": "px-0"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_x_desktop",
+      "label": "Container Padding X (Desktop)",
+      "options": [
+        { "value": "lg:px-0", "label": "None" },
+        { "value": "lg:px-xs", "label": "Extra Small" },
+        { "value": "lg:px-sm", "label": "Small" },
+        { "value": "lg:px-md", "label": "Medium" },
+        { "value": "lg:px-lg", "label": "Large" },
+        { "value": "lg:px-xl", "label": "Extra Large" },
+        { "value": "lg:px-2xl", "label": "2X Large" },
+        { "value": "lg:px-3xl", "label": "3X Large" }
+      ],
+      "default": "lg:px-0"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "benefit_item",
+      "name": "Benefit Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "benefit_text",
+          "label": "Benefit Text",
+          "default": "Benefit description"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Header 2",
+      "settings": {
+        "product_code": "",
+        "product_title": "Lorem Ipsum",
+        "description": "Lorem ipsum helps cover the nutritional needs of your body and gut microbiome with 100% daily value of 20 essential vitamins and minerals.*",
+        "price": "$39.99",
+        "show_new_badge": false,
+        "subscription_info": "30-day supply delivered monthly. Pause or cancel anytime.",
+        "show_cta": false,
+        "cta_text": "Start Now",
+        "guarantee_text": "30-day risk-free guarantee. Free US shipping.",
+        "show_rating": true,
+        "rating_value": "4.8",
+        "reviews_text": "18 Reviews",
+        "benefits_title": "Benefits*",
+        "show_ingredients": true,
+        "show_bundle_upsell": true,
+        "bundle_title": "Bundle + Save 25%",
+        "bundle_description": "Add DS-01® Daily Synbiotic to your routine and save on your first order.",
+        "bundle_price": "$67.48",
+        "bundle_original_price": "$89.98",
+        "show_sticky_footer": true,
+        "show_thumbnails": true,
+        "enable_keyboard_nav": true,
+        "show_navigation_arrows": true,
+        "thumbnail_size": "100px",
+        "thumbnail_gap": "gap-sm",
+        "thumbnail_border_radius": "rounded-lg",
+        "main_image_border_radius": "rounded-xl",
+        "main_image_aspect_ratio": "4/5",
+        "gallery_transition_speed": "0.4s"
+      },
+      "blocks": [
+        {
+          "type": "benefit_item",
+          "settings": {
+            "benefit_text": "Meets 100% daily value of 20 vitamins and minerals"
+          }
+        },
+        {
+          "type": "benefit_item",
+          "settings": {
+            "benefit_text": "Helps fill daily nutrient gaps with precise dosing"
+          }
+        },
+        {
+          "type": "benefit_item",
+          "settings": {
+            "benefit_text": "Engineered for absorption throughout the GI tract"
+          }
+        },
+        {
+          "type": "benefit_item",
+          "settings": {
+            "benefit_text": "Bioavailable nutrients your body can use"
+          }
+        },
+        {
+          "type": "benefit_item",
+          "settings": {
+            "benefit_text": "Supports healthy aging and immune function"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+
+

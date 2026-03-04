@@ -1,0 +1,323 @@
+/* Results Carousel Section */
+.results-carousel {
+  position: relative;
+  width: 100%;
+  overflow-x: clip;
+  overflow-y: visible;
+}
+
+.results-carousel-inner {
+  position: relative;
+  overflow: visible;
+}
+
+/* Content Container - ensures consistent alignment */
+.results-carousel-content-container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Full Width Carousel Container (Outside Container Padding) */
+.results-carousel-fullwidth {
+  width: 100%;
+  max-width: inherit;
+  overflow-x: visible;
+  overflow-y: visible;
+  position: relative;
+  margin-top: var(--space-xl, 32px);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Header Section */
+.results-carousel-header {
+  margin-bottom: var(--space-xl, 32px);
+  width: 100%;
+}
+
+.results-carousel-title-wrapper {
+  line-height: 1.2;
+}
+
+.results-carousel-title {
+  margin: 0;
+}
+
+.results-carousel-description-wrapper {
+  line-height: 1.5;
+}
+
+.results-carousel-description {
+  margin: 0;
+}
+
+.results-carousel-wrapper {
+  position: relative;
+  width: 100%;
+  overflow: visible;
+}
+
+/* Carousel Container */
+.results-carousel-container {
+  position: relative;
+  overflow: visible;
+}
+
+/* Carousel Track */
+.results-carousel-track {
+  display: flex;
+  width: 100%;
+  will-change: transform;
+  gap: var(--space-md, 16px);
+  padding-right: var(--space-3xl, 48px);
+}
+
+/* Carousel Item */
+.results-carousel-item {
+  flex-shrink: 0;
+  position: relative;
+}
+
+/* Image Wrapper */
+.results-carousel-image-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 9 / 16;
+  background: #000;
+  overflow: hidden;
+}
+
+/* Image Element */
+.results-carousel-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  user-select: none;
+}
+
+/* Gradient Overlay */
+.results-carousel-gradient-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.6) 40%, rgba(0, 0, 0, 0) 100%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Content Overlay */
+.results-carousel-content-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: var(--space-lg, 24px) var(--space-md, 16px) var(--space-md, 16px);
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm, 8px);
+}
+
+/* Description Text */
+.results-carousel-item-description {
+  margin: 0;
+  line-height: 1.5;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Name Text */
+.results-carousel-item-name {
+  margin: 0;
+  line-height: 1.3;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Navigation Controls Container */
+.results-carousel-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: var(--space-md, 16px);
+  padding: var(--space-sm, 8px) 0;
+}
+
+/* Reversed layout: Dots left, Arrows right */
+.results-carousel-controls.controls-layout-reversed {
+  flex-direction: row-reverse;
+}
+
+.results-carousel-controls.controls-layout-reversed .results-carousel-progress {
+  justify-content: flex-start;
+}
+
+/* Navigation Buttons Group */
+.results-carousel-nav-buttons {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm, 8px);
+}
+
+/* Navigation Buttons */
+.results-carousel-nav-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full, 9999px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  opacity: 0.7;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.results-carousel-nav-btn:hover:not(:disabled) {
+  transform: scale(1.1);
+  opacity: 1;
+}
+
+.results-carousel-nav-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.results-carousel-nav-btn:focus {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+.results-carousel-nav-btn svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* Progress Indicator */
+.results-carousel-progress {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: var(--space-sm, 8px);
+}
+
+.results-carousel-progress-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full, 9999px);
+  border: none;
+  background: rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  padding: 0;
+  cursor: pointer;
+}
+
+.results-carousel-progress-dot:hover {
+  background: rgba(0, 0, 0, 0.5);
+  transform: scale(1.2);
+}
+
+.results-carousel-progress-dot.is-active {
+  width: 32px;
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.results-carousel-progress-dot:focus {
+  outline: 2px solid rgba(0, 0, 0, 0.5);
+  outline-offset: 2px;
+}
+
+/* Responsive Design */
+@media (min-width: 640px) {
+  .results-carousel-container {
+    margin-right: calc(-1 * var(--space-3xl, 48px));
+  }
+  
+  .results-carousel-track {
+    gap: var(--space-lg, 24px);
+  }
+  
+  .results-carousel-nav-btn {
+    width: 44px;
+    height: 44px;
+  }
+  
+  .results-carousel-nav-buttons {
+    gap: var(--space-md, 16px);
+  }
+  
+  .results-carousel-controls {
+    margin-top: var(--space-lg, 24px);
+  }
+}
+
+@media (min-width: 1024px) {
+  .results-carousel-container {
+    margin-right: calc(-1 * var(--space-3xl, 48px));
+  }
+  
+  .results-carousel-track {
+    gap: var(--space-xl, 32px);
+  }
+  
+  .results-carousel-nav-btn {
+    width: 48px;
+    height: 48px;
+  }
+  
+  .results-carousel-nav-btn svg {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .results-carousel-nav-buttons {
+    gap: var(--space-lg, 24px);
+  }
+  
+  .results-carousel-controls {
+    margin-top: var(--space-xl, 32px);
+  }
+}
+
+/* Background Image Support */
+.results-carousel[data-bg] {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.results-carousel-inner[data-bg] {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Touch/Swipe Optimization for Mobile */
+@media (max-width: 639px) {
+  .results-carousel-container {
+    margin-right: calc(-1 * var(--space-lg, 24px));
+  }
+  
+  .results-carousel-track {
+    padding-right: var(--space-lg, 24px);
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .results-carousel-track {
+    transition: none;
+  }
+  
+  .results-carousel-nav-btn {
+    transition: opacity 0.2s ease;
+  }
+  
+  .results-carousel-nav-btn:hover:not(:disabled) {
+    transform: scale(1);
+  }
+}

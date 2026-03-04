@@ -1,0 +1,2069 @@
+<link rel="stylesheet" href="{{ 'omega-comparison/styles.css' | asset_url }}">
+
+<!-- Omega Comparison Section -->
+<section class="omega-comparison {{ section.settings.background_color | default: 'bg-neutral-light' }} {{ section.settings.section_padding_y_mobile | default: 'py-xl' }} {{ section.settings.section_padding_y_desktop | default: 'lg:py-3xl' }} {{ section.settings.section_border_radius | default: 'rounded-none' }}" {% if section.settings.background_image %}data-bg="{{ section.settings.background_image | image_url }}"{% endif %} id="section-{{ section.id }}">
+  <div class="{{section.settings.container_layout_width | default: 'container')}}">
+    <div class="omega-comparison-inner {{ section.settings.container_background_color | default: '' }} {{ section.settings.container_border_radius | default: 'rounded-none' }} {{ section.settings.container_padding_y_mobile | default: 'py-lg' }} {{ section.settings.container_padding_y_desktop | default: 'lg:py-2xl' }} {{ section.settings.container_padding_x_mobile | default: 'px-md' }} {{ section.settings.container_padding_x_desktop | default: 'lg:px-xl' }}" {% if section.settings.container_background_image %}data-bg="{{ section.settings.container_background_image | image_url }}"{% endif %}>
+      
+      <!-- Top Content Section -->
+      <div class="omega-comparison-header mb-2xl lg:mb-3xl">
+        
+        <!-- Main Heading -->
+        {% if section.settings.heading != blank %}
+        <div class="omega-comparison-heading mb-lg">
+          <h1 class="{{ section.settings.heading_font_family | default: 'font-handwritten' }} {{ section.settings.heading_font_size | default: 'text-4xl' }} {{ section.settings.heading_font_size_desktop | default: 'lg:text-5xl' }} {{ section.settings.heading_font_weight | default: 'font-normal' }} {{ section.settings.heading_color | default: 'text-neutral-dark' }}" style="line-height: 1;">
+            {{ section.settings.heading }}
+          </h1>
+        </div>
+        {% endif %}
+        
+        <!-- Description -->
+        {% if section.settings.description != blank %}
+        <div class="omega-comparison-description">
+          <p class="{{ section.settings.description_font_family | default: 'font-body' }} {{ section.settings.description_font_size | default: 'text-base' }} {{ section.settings.description_font_size_desktop | default: 'lg:text-lg' }} {{ section.settings.description_font_weight | default: 'font-normal' }} {{ section.settings.description_color | default: 'text-neutral-dark' }}">
+            {{ section.settings.description }}
+          </p>
+        </div>
+        {% endif %}
+        
+      </div>
+      
+      <!-- Comparison Container -->
+      {% if section.blocks.size > 0 %}
+      {% assign layout_style = section.settings.layout_style | default: 'default' %}
+      <div class="omega-comparison-wrapper {% if layout_style == 'sticky_labels' %}omega-comparison-wrapper--sticky-labels{% endif %}">
+        
+        <!-- Comparison Box (White Container with Border) -->
+        <div class="comparison-box {% if layout_style == 'sticky_labels' %}comparison-box--sticky-layout{% endif %}">
+          
+          {% if layout_style == 'sticky_labels' %}
+            <!-- Sticky Labels Layout -->
+            <div class="comparison-sticky-layout">
+              
+              <!-- Navigation Controls - Top Right -->
+              {% if section.settings.show_comparison_header %}
+              <div class="comparison-controls comparison-controls--sticky-top {% if section.settings.controls_layout == 'dots_left' %}controls-layout-reversed{% endif %}">
+                <div class="comparison-navigation flex gap-sm">
+                  <button class="comparison-nav-btn comparison-nav-prev" aria-label="Previous products" style="cursor: pointer;" type="button">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="{{ section.settings.nav_arrow_color | default: 'text-neutral-dark' }}">
+                      <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </button>
+                  <button class="comparison-nav-btn comparison-nav-next" aria-label="Next products" style="cursor: pointer;" type="button">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="{{ section.settings.nav_arrow_color | default: 'text-neutral-dark' }}">
+                      <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </button>
+                </div>
+                {% if section.settings.show_progress_dots %}
+                <div class="comparison-progress" data-comparison-progress="{{ section.id }}">
+                  <!-- Dots will be generated by JavaScript -->
+                </div>
+                {% endif %}
+              </div>
+              {% endif %}
+              <div class="omega-table-wrapper">
+              
+                <!-- Left Sidebar: Header, Icon, and Labels -->
+                <div class="comparison-sticky-sidebar">
+                  
+                  <!-- Comparison Header and Icon -->
+                  {% if section.settings.show_comparison_header %}
+                  <div class="comparison-sticky-header">
+                    <!-- Icon -->
+                    {% if section.settings.show_sticky_icon != false %}
+                      {% if section.settings.comparison_icon != blank %}
+                      <div class="comparison-icon comparison-icon--sticky" style="--sticky-icon-width-mobile: {{ section.settings.sticky_icon_width_mobile | default: '80' }}px; --sticky-icon-width-desktop: {{ section.settings.sticky_icon_width_desktop | default: '160' }}px;">
+                        <img src="{{ section.settings.comparison_icon | image_url: width: 400 }}"
+                             alt="{{ section.settings.comparison_icon_alt | default: 'Comparison icon' }}"
+                             loading="lazy"
+                             style="box-shadow: none !important;">
+                      </div>
+                      {% else %}
+                      <div class="comparison-icon comparison-icon--sticky" style="--sticky-icon-width-mobile: {{ section.settings.sticky_icon_width_mobile | default: '80' }}px; --sticky-icon-width-desktop: {{ section.settings.sticky_icon_width_desktop | default: '160' }}px;">
+                        <img src="{{ 'placeholder-image.png' | asset_url }}"
+                             alt="Placeholder"
+                             loading="lazy"
+                             style="box-shadow: none !important;">
+                      </div>
+                      {% endif %}
+                    {% endif %}
+                    
+                    <!-- Title -->
+                    {% if section.settings.comparison_title != blank %}
+                    <h2 class="comparison-sticky-title {{ section.settings.comparison_title_font_family | default: 'font-body' }} {{ section.settings.card_title_font_size | default: 'text-lg' }} {{ section.settings.card_title_font_size_desktop | default: 'lg:text-xl' }} {{ section.settings.comparison_title_font_weight | default: 'font-bold' }} {{ section.settings.comparison_title_color | default: 'text-neutral-dark' }}">
+                      {{ section.settings.comparison_title }}
+                    </h2>
+                    {% endif %}
+                  </div>
+                  {% endif %}
+                  
+                  <!-- Spacer to match card header height -->
+                  <div class="comparison-sticky-header-spacer"></div>
+                  
+                  <!-- Sticky Labels Column -->
+                  <div class="comparison-sticky-labels" style="--spec-row-padding-y: {{ section.settings.spec_row_spacing | default: '10' }}px;">
+                    {% assign first_block = section.blocks[0] %}
+                    {% if first_block.type == 'comparison_card' %}
+                      {% for i in (1..10) %}
+                        {% assign label_key = 'spec_' | append: i | append: '_label' %}
+                        {% assign label = first_block.settings[label_key] %}
+                        
+                        {% if label != blank %}
+                        <div class="comparison-sticky-label-row">
+                          <div class="spec-label-sticky {{ section.settings.spec_label_font_family | default: 'font-body' }} {{ section.settings.spec_label_font_size | default: 'text-xs' }} {{ section.settings.spec_label_font_size_desktop | default: 'lg:text-sm' }} {{ section.settings.spec_label_font_weight | default: 'font-bold' }} {{ section.settings.spec_label_color | default: 'text-neutral-dark' }}">
+                            {{ label }}
+                          </div>
+                        </div>
+                        {% endif %}
+                      {% endfor %}
+                    {% endif %}
+                  </div>
+                  
+                </div>
+                
+                <!-- Right Side: Cards Container -->
+                <div class="comparison-sticky-content">
+                  
+                  <!-- Comparison Cards Container -->
+                  <div class="comparison-cards-container" data-carousel="{{ section.id }}">
+                    <div class="comparison-cards-track">
+                      {% for block in section.blocks %}
+                        {% if block.type == 'comparison_card' %}
+                        <div class="comparison-card {% if block.settings.is_highlighted %}comparison-card--highlighted{% endif %} {{ section.settings.card_border_radius | default: 'rounded-md' }}" style="width: {{ section.settings.card_width | default: '259' }}px; min-width: {{ section.settings.card_width | default: '259' }}px;" {{ block.fluid_attributes }}>
+                          
+                          <!-- Card Header -->
+                          <div class="comparison-card-header mb-sm">
+                            <!-- Product Image -->
+                            <div class="comparison-card-image" 
+                                 style="--image-width-mobile: {{ section.settings.image_width_mobile | default: '180' }}px; --image-height-mobile: {{ section.settings.image_height_mobile | default: '142' }}px; --image-width-desktop: {{ section.settings.image_width_desktop | default: '157' }}px; --image-height-desktop: {{ section.settings.image_height_desktop | default: '153' }}px;">
+                              {% if block.settings.product_image != blank %}
+                              <img src="{{ block.settings.product_image | image_url: width: 400 }}"
+                                   alt="{{ block.settings.product_image_alt | default: block.settings.product_name }}"
+                                   loading="lazy"
+                                   style="box-shadow: none !important;">
+                              {% else %}
+                              <img src="{{ 'placeholder-image.png' | asset_url }}"
+                                   alt="Placeholder"
+                                   loading="lazy"
+                                   style="box-shadow: none !important;">
+                              {% endif %}
+                            </div>
+                            
+                            {% if block.settings.product_name != blank %}
+                            <h3 class="{{ section.settings.card_title_font_family | default: 'font-body' }} {{ section.settings.card_title_font_size | default: 'text-lg' }} {{ section.settings.card_title_font_size_desktop | default: 'lg:text-xl' }} {{ section.settings.card_title_font_weight | default: 'font-bold' }} {{ section.settings.card_title_color | default: 'text-neutral-dark' }} text-center mt-sm">
+                              {{ block.settings.product_name }}
+                            </h3>
+                            {% endif %}
+                          </div>
+                          
+                          <!-- Card Specifications (Values Only) -->
+                          <div class="comparison-card-specs comparison-card-specs--sticky" style="--spec-row-padding-y: {{ section.settings.spec_row_spacing | default: '10' }}px;">
+                            {% for i in (1..10) %}
+                              {% assign label_key = 'spec_' | append: i | append: '_label' %}
+                              {% assign value_key = 'spec_' | append: i | append: '_value' %}
+                              {% assign label = block.settings[label_key] %}
+                              {% assign value = block.settings[value_key] %}
+                              
+                              {% if label != blank or value != blank %}
+                              <div class="comparison-spec-row comparison-spec-row--sticky">
+                                {% if value != blank %}
+                                <div class="spec-value {{ section.settings.spec_value_font_family | default: 'font-body' }} {{ section.settings.spec_value_font_size | default: 'text-base' }} {{ section.settings.spec_value_font_size_desktop | default: 'lg:text-base' }} {{ section.settings.spec_value_font_weight | default: 'font-normal' }} {{ section.settings.spec_value_color | default: 'text-neutral-dark' }}">
+                                  {{ value }}
+                                </div>
+                                {% endif %}
+                              </div>
+                              {% endif %}
+                            {% endfor %}
+                          </div>
+                          
+                        </div>
+                        {% endif %}
+                      {% endfor %}
+                    </div>
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+            
+          {% else %}
+            <!-- Default Layout -->
+          
+          <!-- Comparison Header -->
+          {% if section.settings.show_comparison_header %}
+          <div class="comparison-header mb-lg">
+            <div class="comparison-header-left flex items-center gap-md">
+              <!-- Icon -->
+              {% if section.settings.show_comparison_icon %}
+                {% if section.settings.comparison_icon %}
+                <div class="comparison-icon">
+                  <img src="{{ section.settings.comparison_icon | image_url: width: 54 }}"
+                       alt="{{ section.settings.comparison_icon_alt | default: 'Comparison icon' }}"
+                       loading="lazy"
+                       style="box-shadow: none !important;">
+                </div>
+                {% else %}
+                <div class="comparison-icon">
+                  <img src="{{ 'placeholder-image.png' | asset_url }}"
+                       alt="Placeholder"
+                       loading="lazy"
+                       style="box-shadow: none !important;">
+                </div>
+                {% endif %}
+              {% endif %}
+              
+              <!-- Title -->
+              {% if section.settings.comparison_title != blank %}
+              <h2 class="{{ section.settings.comparison_title_font_family | default: 'font-body' }} {{ section.settings.comparison_title_font_size | default: 'text-2xl' }} {{ section.settings.comparison_title_font_size_desktop | default: 'lg:text-3xl' }} {{ section.settings.comparison_title_font_weight | default: 'font-bold' }} {{ section.settings.comparison_title_color | default: 'text-neutral-dark' }}">
+                {{ section.settings.comparison_title }}
+              </h2>
+              {% endif %}
+            </div>
+            
+            <!-- Navigation Controls -->
+            <div class="comparison-controls {% if section.settings.controls_layout == 'dots_left' %}controls-layout-reversed{% endif %}">
+              <div class="comparison-navigation flex gap-sm">
+                <button class="comparison-nav-btn comparison-nav-prev" aria-label="Previous products" style="cursor: pointer;" type="button">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="{{ section.settings.nav_arrow_color | default: 'text-neutral-dark' }}">
+                    <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+                <button class="comparison-nav-btn comparison-nav-next" aria-label="Next products" style="cursor: pointer;" type="button">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="{{ section.settings.nav_arrow_color | default: 'text-neutral-dark' }}">
+                    <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+              </div>
+              {% if section.settings.show_progress_dots %}
+              <div class="comparison-progress" data-comparison-progress="{{ section.id }}">
+                <!-- Dots will be generated by JavaScript -->
+              </div>
+              {% endif %}
+            </div>
+          </div>
+          {% endif %}
+          
+          <!-- Comparison Cards Container -->
+          <div class="comparison-cards-container" data-carousel="{{ section.id }}">
+            <div class="comparison-cards-track">
+              {% for block in section.blocks %}
+                {% if block.type == 'comparison_card' %}
+                <div class="comparison-card {% if block.settings.is_highlighted %}comparison-card--highlighted{% endif %} {{ section.settings.card_border_radius | default: 'rounded-md' }}" style="width: {{ section.settings.card_width | default: '259' }}px; min-width: {{ section.settings.card_width | default: '259' }}px;" {{ block.fluid_attributes }}>
+                  
+                  <!-- Card Header -->
+                  <div class="comparison-card-header mb-sm">
+                    <!-- Product Image -->
+                      <div class="comparison-card-image" 
+                         style="--image-width-mobile: {{ section.settings.image_width_mobile | default: '180' }}px; --image-height-mobile: {{ section.settings.image_height_mobile | default: '142' }}px; --image-width-desktop: {{ section.settings.image_width_desktop | default: '157' }}px; --image-height-desktop: {{ section.settings.image_height_desktop | default: '153' }}px;">
+                        {% if block.settings.product_image != blank %}
+                      <img src="{{ block.settings.product_image | image_url: width: 400 }}"
+                           alt="{{ block.settings.product_image_alt | default: block.settings.product_name }}"
+                           loading="lazy"
+                           style="box-shadow: none !important;">
+                      {% else %}
+                      <img src="{{ 'placeholder-image.png' | asset_url }}"
+                           alt="Placeholder"
+                           loading="lazy"
+                           style="box-shadow: none !important;">
+                      {% endif %}
+                    </div>
+                      
+                      {% if block.settings.product_name != blank %}
+                      <h3 class="{{ section.settings.card_title_font_family | default: 'font-body' }} {{ section.settings.card_title_font_size | default: 'text-lg' }} {{ section.settings.card_title_font_size_desktop | default: 'lg:text-xl' }} {{ section.settings.card_title_font_weight | default: 'font-bold' }} {{ section.settings.card_title_color | default: 'text-neutral-dark' }} text-center mt-sm">
+                        {{ block.settings.product_name }}
+                      </h3>
+                      {% endif %}
+                  </div>
+                  
+                  <!-- Card Specifications -->
+                  <div class="comparison-card-specs" style="--spec-row-padding-y: {{ section.settings.spec_row_spacing | default: '10' }}px; --label-value-gap: {{ section.settings.label_value_gap | default: '-2' }}px;">
+                    {% for i in (1..10) %}
+                      {% assign label_key = 'spec_' | append: i | append: '_label' %}
+                      {% assign value_key = 'spec_' | append: i | append: '_value' %}
+                      {% assign label = block.settings[label_key] %}
+                      {% assign value = block.settings[value_key] %}
+                      
+                      {% if label != blank or value != blank %}
+                      <div class="comparison-spec-row">
+                        {% if label != blank %}
+                        <div class="spec-label {{ section.settings.spec_label_font_family | default: 'font-body' }} {{ section.settings.spec_label_font_size | default: 'text-xs' }} {{ section.settings.spec_label_font_size_desktop | default: 'lg:text-sm' }} {{ section.settings.spec_label_font_weight | default: 'font-bold' }} {{ section.settings.spec_label_color | default: 'text-neutral-dark' }}">
+                          {{ label }}
+                        </div>
+                        {% endif %}
+                        {% if value != blank %}
+                        <div class="spec-value {{ section.settings.spec_value_font_family | default: 'font-body' }} {{ section.settings.spec_value_font_size | default: 'text-base' }} {{ section.settings.spec_value_font_size_desktop | default: 'lg:text-base' }} {{ section.settings.spec_value_font_weight | default: 'font-normal' }} {{ section.settings.spec_value_color | default: 'text-neutral-dark' }}">
+                          {{ value }}
+                        </div>
+                        {% endif %}
+                      </div>
+                      {% endif %}
+                    {% endfor %}
+                  </div>
+                  
+                </div>
+                {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+          
+          <!-- Footer Notes -->
+          {% if section.settings.footer_note_1 != blank or section.settings.footer_note_2 != blank %}
+          <div class="comparison-footer-notes mt-lg">
+            {% if section.settings.footer_note_1 != blank %}
+            <p class="{{ section.settings.footer_note_font_family | default: 'font-body' }} {{ section.settings.footer_note_font_size | default: 'text-xs' }} {{ section.settings.footer_note_font_size_desktop | default: 'lg:text-xs' }} {{ section.settings.footer_note_font_weight | default: 'font-normal' }} {{ section.settings.footer_note_color | default: 'text-neutral-dark' }}">
+              {{ section.settings.footer_note_1 }}
+            </p>
+            {% endif %}
+            {% if section.settings.footer_note_2 != blank %}
+            <p class="{{ section.settings.footer_note_font_family | default: 'font-body' }} {{ section.settings.footer_note_font_size | default: 'text-xs' }} {{ section.settings.footer_note_font_size_desktop | default: 'lg:text-xs' }} {{ section.settings.footer_note_font_weight | default: 'font-normal' }} {{ section.settings.footer_note_color | default: 'text-neutral-dark' }}">
+              {{ section.settings.footer_note_2 }}
+            </p>
+            {% endif %}
+          </div>
+            {% endif %}
+            
+          {% endif %}
+          
+        </div>
+        
+      </div>
+      {% endif %}
+      
+    </div>
+  </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const carousel = document.querySelector('[data-carousel="{{ section.id }}"]');
+  if (!carousel) return;
+  
+  const wrapper = carousel.closest('.omega-comparison-wrapper');
+  if (!wrapper) return;
+  
+  const track = carousel.querySelector('.comparison-cards-track');
+  const prevBtn = wrapper.querySelector('.comparison-nav-prev');
+  const nextBtn = wrapper.querySelector('.comparison-nav-next');
+  const progressContainer = wrapper.querySelector('[data-comparison-progress]');
+  
+  if (!track || !prevBtn || !nextBtn) return;
+  
+  const cards = track.querySelectorAll('.comparison-card');
+  let currentIndex = 0;
+  
+  // For sticky layout, we need to scroll the container, not the track
+  const isStickyLayout = wrapper.classList.contains('omega-comparison-wrapper--sticky-labels');
+  const scrollContainer = isStickyLayout ? carousel : track;
+  
+  // Function to align specification rows across all cards
+  function alignSpecRows() {
+    const cards = track.querySelectorAll('.comparison-card');
+    if (cards.length === 0) return;
+    
+    // Check if we're in sticky labels layout
+    const isStickyLayout = wrapper.classList.contains('omega-comparison-wrapper--sticky-labels');
+    const stickyLabelRows = isStickyLayout ? wrapper.querySelectorAll('.comparison-sticky-label-row') : null;
+    
+    // Get all spec rows from all cards
+    const allSpecRows = Array.from(cards).map(card => {
+      return Array.from(card.querySelectorAll('.comparison-spec-row'));
+    });
+    
+    // Find the maximum number of rows
+    const maxRows = Math.max(...allSpecRows.map(rows => rows.length));
+    
+    // For each row index, find the tallest row and apply that height to all rows at that index
+    for (let rowIndex = 0; rowIndex < maxRows; rowIndex++) {
+      let maxHeight = 0;
+      
+      // First pass: find the maximum height for this row index (including sticky labels if applicable)
+      allSpecRows.forEach(rows => {
+        if (rows[rowIndex]) {
+          // Reset height to auto to get natural height
+          rows[rowIndex].style.height = 'auto';
+          const height = rows[rowIndex].offsetHeight;
+          if (height > maxHeight) {
+            maxHeight = height;
+          }
+        }
+      });
+      
+      // Also check sticky label row height if in sticky layout
+      if (isStickyLayout && stickyLabelRows && stickyLabelRows[rowIndex]) {
+        stickyLabelRows[rowIndex].style.height = 'auto';
+        const stickyHeight = stickyLabelRows[rowIndex].offsetHeight;
+        if (stickyHeight > maxHeight) {
+          maxHeight = stickyHeight;
+        }
+      }
+      
+      // Second pass: apply the max height to all rows at that index (including sticky labels)
+      if (maxHeight > 0) {
+        allSpecRows.forEach(rows => {
+          if (rows[rowIndex]) {
+            rows[rowIndex].style.height = maxHeight + 'px';
+          }
+        });
+        
+        // Also apply to sticky label row if in sticky layout
+        if (isStickyLayout && stickyLabelRows && stickyLabelRows[rowIndex]) {
+          stickyLabelRows[rowIndex].style.height = maxHeight + 'px';
+        }
+      }
+    }
+  }
+  
+  // Function to align sticky header spacer with card header
+  function alignStickySpacer() {
+    const isStickyLayout = wrapper.classList.contains('omega-comparison-wrapper--sticky-labels');
+    if (!isStickyLayout) return;
+    
+    const spacer = wrapper.querySelector('.comparison-sticky-header-spacer');
+    const firstCard = track.querySelector('.comparison-card');
+    const cardHeader = firstCard ? firstCard.querySelector('.comparison-card-header') : null;
+    const cardSpecs = firstCard ? firstCard.querySelector('.comparison-card-specs') : null;
+    const navButtons = wrapper.querySelector('.comparison-navigation--sticky');
+    const cardsContainer = wrapper.querySelector('.comparison-cards-container');
+    
+    if (spacer && cardHeader && firstCard && cardSpecs) {
+      // Reset spacer height
+      spacer.style.height = 'auto';
+      spacer.style.minHeight = '0';
+      
+      // Get the exact position where the first spec row starts
+      const firstSpecRow = cardSpecs.querySelector('.comparison-spec-row');
+      if (!firstSpecRow) return;
+      
+      // Get card's top position relative to its container
+      const cardRect = firstCard.getBoundingClientRect();
+      const specsRect = firstSpecRow.getBoundingClientRect();
+      
+      // Get the first spec row's padding-top
+      const specRowStyles = window.getComputedStyle(firstSpecRow);
+      const specRowPaddingTop = parseFloat(specRowStyles.paddingTop) || 0;
+      
+      // Calculate the distance from card top to first spec row (before padding)
+      const distanceFromCardTop = specsRect.top - cardRect.top - specRowPaddingTop;
+      
+      // Get header height (icon + title)
+      const stickyHeader = wrapper.querySelector('.comparison-sticky-header');
+      let headerHeight = 0;
+      if (stickyHeader) {
+        headerHeight = stickyHeader.offsetHeight;
+      }
+      
+      // Spacer should match the distance, accounting for header
+      // Navigation buttons are now at the top right, not in the sidebar
+      // We've already subtracted the spec row padding-top so labels align with content
+      const spacerHeight = distanceFromCardTop - headerHeight;
+      
+      spacer.style.height = Math.max(0, spacerHeight) + 'px';
+      spacer.style.minHeight = Math.max(0, spacerHeight) + 'px';
+      
+      // Ensure sidebar doesn't extend beyond cards container height
+      if (cardsContainer && window.innerWidth >= 1024) {
+        const sidebar = wrapper.querySelector('.comparison-sticky-sidebar');
+        const stickyContent = wrapper.querySelector('.comparison-sticky-content');
+        if (sidebar && stickyContent) {
+          const cardsHeight = cardsContainer.offsetHeight;
+          const contentPadding = parseFloat(window.getComputedStyle(stickyContent).paddingTop) + 
+                                parseFloat(window.getComputedStyle(stickyContent).paddingBottom);
+          const maxSidebarHeight = cardsHeight + contentPadding;
+          sidebar.style.maxHeight = maxSidebarHeight + 'px';
+        }
+      }
+    }
+  }
+  
+  // Function to check if cards are scrolling underneath sidebar
+  function checkCardsUnderSidebar() {
+    const isStickyLayout = wrapper.classList.contains('omega-comparison-wrapper--sticky-labels');
+    if (!isStickyLayout) return;
+    
+    // Only check on desktop (where sidebar is sticky)
+    if (window.innerWidth < 1024) {
+      const sidebar = wrapper.querySelector('.comparison-sticky-sidebar');
+      if (sidebar) sidebar.classList.remove('has-cards-underneath');
+      return;
+    }
+    
+    const sidebar = wrapper.querySelector('.comparison-sticky-sidebar');
+    const cardsContainer = wrapper.querySelector('.comparison-cards-container');
+    
+    if (!sidebar || !cardsContainer) return;
+    
+    // Check if cards container has visible cards
+    const hasCards = track.querySelectorAll('.comparison-card').length > 0;
+    const cardsRect = cardsContainer.getBoundingClientRect();
+    const isCardsVisible = cardsRect.width > 0 && cardsRect.height > 0 && 
+                          cardsRect.top < window.innerHeight && 
+                          cardsRect.bottom > 0;
+    
+    // Add class if cards exist and container is visible
+    if (hasCards && isCardsVisible) {
+      sidebar.classList.add('has-cards-underneath');
+    } else {
+      sidebar.classList.remove('has-cards-underneath');
+    }
+  }
+  
+  // Align rows on load
+  alignSpecRows();
+  alignStickySpacer();
+  checkCardsUnderSidebar();
+  
+  // Check for cards under sidebar on scroll
+  const cardsContainer = wrapper.querySelector('.comparison-cards-container');
+  if (cardsContainer) {
+    cardsContainer.addEventListener('scroll', checkCardsUnderSidebar);
+  }
+  
+  // Also check on window scroll (in case cards container comes into view)
+  window.addEventListener('scroll', checkCardsUnderSidebar, { passive: true });
+  
+  // Re-align rows on window resize
+  let resizeTimeout;
+  window.addEventListener('resize', function() {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(function() {
+      // Reset heights first
+      track.querySelectorAll('.comparison-spec-row').forEach(row => {
+        row.style.height = 'auto';
+      });
+      const wrapper = carousel.closest('.omega-comparison-wrapper');
+      if (wrapper) {
+        wrapper.querySelectorAll('.comparison-sticky-label-row').forEach(row => {
+          row.style.height = 'auto';
+        });
+      }
+      alignSpecRows();
+      alignStickySpacer();
+      checkCardsUnderSidebar();
+    }, 100);
+  });
+  
+  function getCardWidth() {
+    const firstCard = track.querySelector('.comparison-card');
+    return firstCard ? firstCard.offsetWidth : 259;
+  }
+  
+  function getGap() {
+    const computedStyle = window.getComputedStyle(track);
+    const gap = computedStyle.gap || computedStyle.columnGap || '16px';
+    // Convert gap to pixels
+    if (gap && gap.includes('px')) {
+      return parseFloat(gap);
+    }
+    // If gap is a CSS variable or other value, calculate from first two cards
+    const firstCard = track.querySelector('.comparison-card');
+    const secondCard = firstCard ? firstCard.nextElementSibling : null;
+    if (firstCard && secondCard) {
+      const firstCardRight = firstCard.getBoundingClientRect().right;
+      const secondCardLeft = secondCard.getBoundingClientRect().left;
+      return secondCardLeft - firstCardRight;
+    }
+    // Fallback to default gap
+    return 16;
+  }
+  
+  function scrollToCard(direction) {
+    const cardWidth = getCardWidth();
+    const gap = getGap();
+    const scrollAmount = cardWidth + gap;
+    const currentScroll = scrollContainer.scrollLeft;
+    const maxScroll = scrollContainer.scrollWidth - scrollContainer.offsetWidth;
+    
+    let targetScroll;
+    if (direction === 'next') {
+      targetScroll = Math.min(maxScroll, currentScroll + scrollAmount);
+      if (currentIndex < cards.length - 1) currentIndex++;
+    } else {
+      targetScroll = Math.max(0, currentScroll - scrollAmount);
+      if (currentIndex > 0) currentIndex--;
+    }
+    
+    scrollContainer.scrollTo({ left: targetScroll, behavior: 'smooth' });
+    updateProgressDots();
+  }
+  
+  function scrollToIndex(index) {
+    const cardWidth = getCardWidth();
+    const gap = getGap();
+    const maxScroll = scrollContainer.scrollWidth - scrollContainer.offsetWidth;
+    const targetScroll = Math.min(maxScroll, index * (cardWidth + gap));
+    
+    currentIndex = index;
+    scrollContainer.scrollTo({ left: targetScroll, behavior: 'smooth' });
+    updateButtons();
+    updateProgressDots();
+  }
+  
+  function updateProgressDots() {
+    if (!progressContainer) return;
+    
+    progressContainer.innerHTML = '';
+    
+    // Create one dot per card
+    for (let i = 0; i < cards.length; i++) {
+      const dot = document.createElement('button');
+      dot.className = 'comparison-progress-dot';
+      if (i === currentIndex) {
+        dot.classList.add('is-active');
+      }
+      dot.setAttribute('data-index', i);
+      dot.setAttribute('aria-label', `Go to card ${i + 1}`);
+      dot.style.cursor = 'pointer';
+      dot.addEventListener('click', function() {
+        scrollToIndex(i);
+      });
+      progressContainer.appendChild(dot);
+    }
+  }
+  
+  function updateButtons() {
+    const maxScroll = scrollContainer.scrollWidth - scrollContainer.offsetWidth;
+    const currentScroll = scrollContainer.scrollLeft;
+    
+    prevBtn.style.opacity = currentScroll <= 0 ? '0.5' : '1';
+    prevBtn.disabled = currentScroll <= 0;
+    nextBtn.style.opacity = currentScroll >= maxScroll - 1 ? '0.5' : '1';
+    nextBtn.disabled = currentScroll >= maxScroll - 1;
+  }
+  
+  prevBtn.addEventListener('click', function() {
+    if (prevBtn.disabled) return;
+    scrollToCard('prev');
+  });
+  
+  nextBtn.addEventListener('click', function() {
+    if (nextBtn.disabled) return;
+    scrollToCard('next');
+  });
+  
+  scrollContainer.addEventListener('scroll', function() {
+    // Update currentIndex based on scroll position
+    const cardWidth = getCardWidth();
+    const gap = getGap();
+    const scrollPos = scrollContainer.scrollLeft;
+    const newIndex = Math.round(scrollPos / (cardWidth + gap));
+    if (newIndex !== currentIndex && newIndex >= 0 && newIndex < cards.length) {
+      currentIndex = newIndex;
+      updateProgressDots();
+    }
+    updateButtons();
+  });
+  
+  window.addEventListener('resize', function() {
+    updateButtons();
+    updateProgressDots();
+  });
+  
+  updateButtons();
+  updateProgressDots();
+});
+</script>
+
+{% schema %}
+{
+  "name": "Omega Comparison",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout Width (Container)"
+    },
+    {
+      "type": "select",
+      "id": "container_layout_width",
+      "label": "Layout Width (Container)",
+      "options": [
+        { "value": "container", "label": "Container" },
+        { "value": "container-full", "label": "Full Width (Container Full)" }
+      ],
+      "default": "container",
+      "info": "Choose whether the container is constrained to the width of the page or full width"
+    },
+    {
+      "type": "header",
+      "content": "Main Heading"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading Text",
+      "default": "A Smarter, Stronger Omega Formula. Backed by real science and not just a supplement label."
+    },
+    {
+      "type": "select",
+      "id": "heading_font_family",
+      "label": "Font Family",
+      "options": [
+        { "value": "font-primary", "label": "Primary" },
+        { "value": "font-body", "label": "Body" },
+        { "value": "font-handwritten", "label": "Handwritten" },
+        { "value": "font-serif", "label": "Serif" }
+      ],
+      "default": "font-handwritten"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_size",
+      "label": "Font Size (Mobile)",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" },
+        { "value": "text-xl", "label": "Extra Large" },
+        { "value": "text-2xl", "label": "2X Large" },
+        { "value": "text-3xl", "label": "3X Large" },
+        { "value": "text-4xl", "label": "4X Large" },
+        { "value": "text-5xl", "label": "5X Large" },
+        { "value": "text-6xl", "label": "6X Large" },
+        { "value": "text-7xl", "label": "7X Large" },
+        { "value": "text-8xl", "label": "8X Large" },
+        { "value": "text-9xl", "label": "9X Large" }
+      ],
+      "default": "text-4xl"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_size_desktop",
+      "label": "Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-xs", "label": "Extra Small" },
+        { "value": "lg:text-sm", "label": "Small" },
+        { "value": "lg:text-base", "label": "Base" },
+        { "value": "lg:text-lg", "label": "Large" },
+        { "value": "lg:text-xl", "label": "Extra Large" },
+        { "value": "lg:text-2xl", "label": "2X Large" },
+        { "value": "lg:text-3xl", "label": "3X Large" },
+        { "value": "lg:text-4xl", "label": "4X Large" },
+        { "value": "lg:text-5xl", "label": "5X Large" },
+        { "value": "lg:text-6xl", "label": "6X Large" },
+        { "value": "lg:text-7xl", "label": "7X Large" },
+        { "value": "lg:text-8xl", "label": "8X Large" },
+        { "value": "lg:text-9xl", "label": "9X Large" }
+      ],
+      "default": "lg:text-5xl"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_weight",
+      "label": "Font Weight",
+      "options": [
+        { "value": "font-light", "label": "Light" },
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semi Bold" },
+        { "value": "font-bold", "label": "Bold" }
+      ],
+      "default": "font-normal"
+    },
+    {
+      "type": "select",
+      "id": "heading_color",
+      "label": "Text Color",
+      "options": [
+        { "value": "text-white", "label": "White" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-primary", "label": "Primary" },
+        { "value": "text-secondary", "label": "Secondary" },
+        { "value": "text-tertiary", "label": "Tertiary" },
+        { "value": "text-quaternary", "label": "Quaternary" },
+        { "value": "text-success", "label": "Success" },
+        { "value": "text-warning", "label": "Warning" },
+        { "value": "text-error", "label": "Error" },
+        { "value": "text-info", "label": "Info" },
+        { "value": "text-neutral", "label": "Neutral" },
+        { "value": "text-neutral-light", "label": "Neutral Light" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "text-neutral-dark"
+    },
+    {
+      "type": "header",
+      "content": "Description"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description Text",
+      "default": "Most omega supplements offer low doses, poor absorption, and little transparency. Yoli Vital Omegas+ changes that—offering a potent, full-spectrum formula from wild-caught fish, plus Vitamin D3 and a 90-day satisfaction guarantee."
+    },
+    {
+      "type": "select",
+      "id": "description_font_family",
+      "label": "Font Family",
+      "options": [
+        { "value": "font-primary", "label": "Primary" },
+        { "value": "font-body", "label": "Body" },
+        { "value": "font-handwritten", "label": "Handwritten" },
+        { "value": "font-serif", "label": "Serif" }
+      ],
+      "default": "font-body"
+    },
+    {
+      "type": "select",
+      "id": "description_font_size",
+      "label": "Font Size (Mobile)",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" },
+        { "value": "text-xl", "label": "Extra Large" },
+        { "value": "text-2xl", "label": "2X Large" },
+        { "value": "text-3xl", "label": "3X Large" },
+        { "value": "text-4xl", "label": "4X Large" },
+        { "value": "text-5xl", "label": "5X Large" },
+        { "value": "text-6xl", "label": "6X Large" },
+        { "value": "text-7xl", "label": "7X Large" },
+        { "value": "text-8xl", "label": "8X Large" },
+        { "value": "text-9xl", "label": "9X Large" }
+      ],
+      "default": "text-base"
+    },
+    {
+      "type": "select",
+      "id": "description_font_size_desktop",
+      "label": "Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-xs", "label": "Extra Small" },
+        { "value": "lg:text-sm", "label": "Small" },
+        { "value": "lg:text-base", "label": "Base" },
+        { "value": "lg:text-lg", "label": "Large" },
+        { "value": "lg:text-xl", "label": "Extra Large" },
+        { "value": "lg:text-2xl", "label": "2X Large" },
+        { "value": "lg:text-3xl", "label": "3X Large" },
+        { "value": "lg:text-4xl", "label": "4X Large" },
+        { "value": "lg:text-5xl", "label": "5X Large" },
+        { "value": "lg:text-6xl", "label": "6X Large" },
+        { "value": "lg:text-7xl", "label": "7X Large" },
+        { "value": "lg:text-8xl", "label": "8X Large" },
+        { "value": "lg:text-9xl", "label": "9X Large" }
+      ],
+      "default": "lg:text-lg"
+    },
+    {
+      "type": "select",
+      "id": "description_font_weight",
+      "label": "Font Weight",
+      "options": [
+        { "value": "font-light", "label": "Light" },
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semi Bold" },
+        { "value": "font-bold", "label": "Bold" }
+      ],
+      "default": "font-normal"
+    },
+    {
+      "type": "select",
+      "id": "description_color",
+      "label": "Text Color",
+      "options": [
+        { "value": "text-white", "label": "White" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-primary", "label": "Primary" },
+        { "value": "text-secondary", "label": "Secondary" },
+        { "value": "text-tertiary", "label": "Tertiary" },
+        { "value": "text-quaternary", "label": "Quaternary" },
+        { "value": "text-success", "label": "Success" },
+        { "value": "text-warning", "label": "Warning" },
+        { "value": "text-error", "label": "Error" },
+        { "value": "text-info", "label": "Info" },
+        { "value": "text-neutral", "label": "Neutral" },
+        { "value": "text-neutral-light", "label": "Neutral Light" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "text-neutral-dark"
+    },
+    {
+      "type": "header",
+      "content": "Comparison Header"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_comparison_header",
+      "label": "Show Comparison Header",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_comparison_icon",
+      "label": "Show Comparison Icon",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "comparison_icon",
+      "label": "Comparison Icon"
+    },
+    {
+      "type": "text",
+      "id": "comparison_icon_alt",
+      "label": "Icon Alt Text",
+      "default": "Comparison icon"
+    },
+    {
+      "type": "header",
+      "content": "Sticky Labels Layout Icon"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_sticky_icon",
+      "label": "Show Icon in Sticky Labels Layout",
+      "default": true,
+      "info": "Control whether the icon appears in the sticky labels layout mode"
+    },
+    {
+      "type": "select",
+      "id": "sticky_icon_width_mobile",
+      "label": "Icon Width (Mobile)",
+      "options": [
+        { "value": "60", "label": "60px" },
+        { "value": "70", "label": "70px" },
+        { "value": "80", "label": "80px (Default)" },
+        { "value": "90", "label": "90px" },
+        { "value": "100", "label": "100px" },
+        { "value": "120", "label": "120px" },
+        { "value": "140", "label": "140px" },
+        { "value": "160", "label": "160px" }
+      ],
+      "default": "80"
+    },
+    {
+      "type": "select",
+      "id": "sticky_icon_width_desktop",
+      "label": "Icon Width (Desktop)",
+      "options": [
+        { "value": "60", "label": "60px" },
+        { "value": "70", "label": "70px" },
+        { "value": "80", "label": "80px" },
+        { "value": "90", "label": "90px" },
+        { "value": "100", "label": "100px" },
+        { "value": "120", "label": "120px" },
+        { "value": "140", "label": "140px" },
+        { "value": "160", "label": "160px (Default)" },
+        { "value": "180", "label": "180px" },
+        { "value": "200", "label": "200px" }
+      ],
+      "default": "160"
+    },
+    {
+      "type": "text",
+      "id": "comparison_title",
+      "label": "Comparison Title",
+      "default": "Product Comparison"
+    },
+    {
+      "type": "select",
+      "id": "comparison_title_font_family",
+      "label": "Font Family",
+      "options": [
+        { "value": "font-primary", "label": "Primary" },
+        { "value": "font-body", "label": "Body" },
+        { "value": "font-handwritten", "label": "Handwritten" },
+        { "value": "font-serif", "label": "Serif" }
+      ],
+      "default": "font-body"
+    },
+    {
+      "type": "select",
+      "id": "comparison_title_font_size",
+      "label": "Font Size (Mobile)",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" },
+        { "value": "text-xl", "label": "Extra Large" },
+        { "value": "text-2xl", "label": "2X Large" },
+        { "value": "text-3xl", "label": "3X Large" },
+        { "value": "text-4xl", "label": "4X Large" },
+        { "value": "text-5xl", "label": "5X Large" },
+        { "value": "text-6xl", "label": "6X Large" },
+        { "value": "text-7xl", "label": "7X Large" },
+        { "value": "text-8xl", "label": "8X Large" },
+        { "value": "text-9xl", "label": "9X Large" }
+      ],
+      "default": "text-2xl"
+    },
+    {
+      "type": "select",
+      "id": "comparison_title_font_size_desktop",
+      "label": "Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-xs", "label": "Extra Small" },
+        { "value": "lg:text-sm", "label": "Small" },
+        { "value": "lg:text-base", "label": "Base" },
+        { "value": "lg:text-lg", "label": "Large" },
+        { "value": "lg:text-xl", "label": "Extra Large" },
+        { "value": "lg:text-2xl", "label": "2X Large" },
+        { "value": "lg:text-3xl", "label": "3X Large" },
+        { "value": "lg:text-4xl", "label": "4X Large" },
+        { "value": "lg:text-5xl", "label": "5X Large" },
+        { "value": "lg:text-6xl", "label": "6X Large" },
+        { "value": "lg:text-7xl", "label": "7X Large" },
+        { "value": "lg:text-8xl", "label": "8X Large" },
+        { "value": "lg:text-9xl", "label": "9X Large" }
+      ],
+      "default": "lg:text-3xl"
+    },
+    {
+      "type": "select",
+      "id": "comparison_title_font_weight",
+      "label": "Font Weight",
+      "options": [
+        { "value": "font-light", "label": "Light" },
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semi Bold" },
+        { "value": "font-bold", "label": "Bold" }
+      ],
+      "default": "font-bold"
+    },
+    {
+      "type": "select",
+      "id": "comparison_title_color",
+      "label": "Text Color",
+      "options": [
+        { "value": "text-white", "label": "White" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-primary", "label": "Primary" },
+        { "value": "text-secondary", "label": "Secondary" },
+        { "value": "text-tertiary", "label": "Tertiary" },
+        { "value": "text-quaternary", "label": "Quaternary" },
+        { "value": "text-success", "label": "Success" },
+        { "value": "text-warning", "label": "Warning" },
+        { "value": "text-error", "label": "Error" },
+        { "value": "text-info", "label": "Info" },
+        { "value": "text-neutral", "label": "Neutral" },
+        { "value": "text-neutral-light", "label": "Neutral Light" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "text-neutral-dark"
+    },
+    {
+      "type": "select",
+      "id": "nav_arrow_color",
+      "label": "Navigation Arrow Color",
+      "options": [
+        { "value": "text-white", "label": "White" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-primary", "label": "Primary" },
+        { "value": "text-secondary", "label": "Secondary" },
+        { "value": "text-tertiary", "label": "Tertiary" },
+        { "value": "text-quaternary", "label": "Quaternary" },
+        { "value": "text-success", "label": "Success" },
+        { "value": "text-warning", "label": "Warning" },
+        { "value": "text-error", "label": "Error" },
+        { "value": "text-info", "label": "Info" },
+        { "value": "text-neutral", "label": "Neutral" },
+        { "value": "text-neutral-light", "label": "Neutral Light" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "text-neutral-dark"
+    },
+    {
+      "type": "header",
+      "content": "Navigation Controls"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_progress_dots",
+      "label": "Show Progress Dots",
+      "default": false,
+      "info": "Display dot indicators for each comparison card"
+    },
+    {
+      "type": "select",
+      "id": "controls_layout",
+      "label": "Controls Layout",
+      "options": [
+        { "value": "arrows_left", "label": "Arrows Left, Dots Right" },
+        { "value": "dots_left", "label": "Dots Left, Arrows Right" }
+      ],
+      "default": "dots_left",
+      "info": "Position of navigation arrows and progress dots"
+    },
+    {
+      "type": "header",
+      "content": "Card Styling"
+    },
+    {
+      "type": "select",
+      "id": "card_width",
+      "label": "Card Width",
+      "options": [
+        { "value": "180", "label": "180px" },
+        { "value": "200", "label": "200px" },
+        { "value": "220", "label": "220px" },
+        { "value": "240", "label": "240px" },
+        { "value": "259", "label": "259px (Default)" },
+        { "value": "280", "label": "280px" },
+        { "value": "300", "label": "300px" },
+        { "value": "320", "label": "320px" },
+        { "value": "350", "label": "350px" },
+        { "value": "380", "label": "380px" },
+        { "value": "400", "label": "400px" },
+        { "value": "450", "label": "450px" },
+        { "value": "500", "label": "500px" }
+      ],
+      "default": "259",
+      "info": "Controls the width of each comparison card"
+    },
+    {
+      "type": "select",
+      "id": "card_border_radius",
+      "label": "Card Border Radius",
+      "options": [
+        { "value": "rounded-none", "label": "None" },
+        { "value": "rounded-sm", "label": "Small" },
+        { "value": "rounded", "label": "Base" },
+        { "value": "rounded-md", "label": "Medium" },
+        { "value": "rounded-lg", "label": "Large" },
+        { "value": "rounded-xl", "label": "Extra Large" },
+        { "value": "rounded-2xl", "label": "2X Large" },
+        { "value": "rounded-3xl", "label": "3X Large" }
+      ],
+      "default": "rounded-md"
+    },
+    {
+      "type": "header",
+      "content": "Product Image Size"
+    },
+    {
+      "type": "select",
+      "id": "image_width_mobile",
+      "label": "Image Width (Mobile)",
+      "options": [
+        { "value": "100", "label": "100px" },
+        { "value": "120", "label": "120px" },
+        { "value": "140", "label": "140px" },
+        { "value": "160", "label": "160px" },
+        { "value": "180", "label": "180px (Default)" },
+        { "value": "200", "label": "200px" },
+        { "value": "220", "label": "220px" },
+        { "value": "240", "label": "240px" },
+        { "value": "260", "label": "260px" }
+      ],
+      "default": "180"
+    },
+    {
+      "type": "select",
+      "id": "image_height_mobile",
+      "label": "Image Height (Mobile)",
+      "options": [
+        { "value": "80", "label": "80px" },
+        { "value": "100", "label": "100px" },
+        { "value": "120", "label": "120px" },
+        { "value": "142", "label": "142px (Default)" },
+        { "value": "160", "label": "160px" },
+        { "value": "180", "label": "180px" },
+        { "value": "200", "label": "200px" },
+        { "value": "220", "label": "220px" },
+        { "value": "240", "label": "240px" }
+      ],
+      "default": "142"
+    },
+    {
+      "type": "select",
+      "id": "image_width_desktop",
+      "label": "Image Width (Desktop)",
+      "options": [
+        { "value": "100", "label": "100px" },
+        { "value": "120", "label": "120px" },
+        { "value": "140", "label": "140px" },
+        { "value": "157", "label": "157px (Default)" },
+        { "value": "180", "label": "180px" },
+        { "value": "200", "label": "200px" },
+        { "value": "220", "label": "220px" },
+        { "value": "240", "label": "240px" },
+        { "value": "260", "label": "260px" }
+      ],
+      "default": "157"
+    },
+    {
+      "type": "select",
+      "id": "image_height_desktop",
+      "label": "Image Height (Desktop)",
+      "options": [
+        { "value": "100", "label": "100px" },
+        { "value": "120", "label": "120px" },
+        { "value": "140", "label": "140px" },
+        { "value": "153", "label": "153px (Default)" },
+        { "value": "160", "label": "160px" },
+        { "value": "180", "label": "180px" },
+        { "value": "200", "label": "200px" },
+        { "value": "220", "label": "220px" },
+        { "value": "240", "label": "240px" }
+      ],
+      "default": "153"
+    },
+    {
+      "type": "select",
+      "id": "card_title_font_family",
+      "label": "Card Title Font Family",
+      "options": [
+        { "value": "font-primary", "label": "Primary" },
+        { "value": "font-body", "label": "Body" },
+        { "value": "font-handwritten", "label": "Handwritten" },
+        { "value": "font-serif", "label": "Serif" }
+      ],
+      "default": "font-body"
+    },
+    {
+      "type": "select",
+      "id": "card_title_font_size",
+      "label": "Card Title Font Size (Mobile)",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" },
+        { "value": "text-xl", "label": "Extra Large" },
+        { "value": "text-2xl", "label": "2X Large" },
+        { "value": "text-3xl", "label": "3X Large" },
+        { "value": "text-4xl", "label": "4X Large" },
+        { "value": "text-5xl", "label": "5X Large" },
+        { "value": "text-6xl", "label": "6X Large" },
+        { "value": "text-7xl", "label": "7X Large" },
+        { "value": "text-8xl", "label": "8X Large" },
+        { "value": "text-9xl", "label": "9X Large" }
+      ],
+      "default": "text-lg"
+    },
+    {
+      "type": "select",
+      "id": "card_title_font_size_desktop",
+      "label": "Card Title Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-xs", "label": "Extra Small" },
+        { "value": "lg:text-sm", "label": "Small" },
+        { "value": "lg:text-base", "label": "Base" },
+        { "value": "lg:text-lg", "label": "Large" },
+        { "value": "lg:text-xl", "label": "Extra Large" },
+        { "value": "lg:text-2xl", "label": "2X Large" },
+        { "value": "lg:text-3xl", "label": "3X Large" },
+        { "value": "lg:text-4xl", "label": "4X Large" },
+        { "value": "lg:text-5xl", "label": "5X Large" },
+        { "value": "lg:text-6xl", "label": "6X Large" },
+        { "value": "lg:text-7xl", "label": "7X Large" },
+        { "value": "lg:text-8xl", "label": "8X Large" },
+        { "value": "lg:text-9xl", "label": "9X Large" }
+      ],
+      "default": "lg:text-xl"
+    },
+    {
+      "type": "select",
+      "id": "card_title_font_weight",
+      "label": "Card Title Font Weight",
+      "options": [
+        { "value": "font-light", "label": "Light" },
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semi Bold" },
+        { "value": "font-bold", "label": "Bold" }
+      ],
+      "default": "font-bold"
+    },
+    {
+      "type": "select",
+      "id": "card_title_color",
+      "label": "Card Title Color",
+      "options": [
+        { "value": "text-white", "label": "White" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-primary", "label": "Primary" },
+        { "value": "text-secondary", "label": "Secondary" },
+        { "value": "text-tertiary", "label": "Tertiary" },
+        { "value": "text-quaternary", "label": "Quaternary" },
+        { "value": "text-success", "label": "Success" },
+        { "value": "text-warning", "label": "Warning" },
+        { "value": "text-error", "label": "Error" },
+        { "value": "text-info", "label": "Info" },
+        { "value": "text-neutral", "label": "Neutral" },
+        { "value": "text-neutral-light", "label": "Neutral Light" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "text-neutral-dark"
+    },
+    {
+      "type": "header",
+      "content": "Specification Styling"
+    },
+    {
+      "type": "select",
+      "id": "spec_row_spacing",
+      "label": "Gap Between Specification Rows",
+      "options": [
+        { "value": "0", "label": "None (0px)" },
+        { "value": "4", "label": "Extra Small (4px)" },
+        { "value": "6", "label": "Small (6px)" },
+        { "value": "8", "label": "Medium (8px)" },
+        { "value": "10", "label": "Default (10px)" },
+        { "value": "12", "label": "Large (12px)" },
+        { "value": "16", "label": "Extra Large (16px)" },
+        { "value": "20", "label": "2X Large (20px)" },
+        { "value": "24", "label": "3X Large (24px)" },
+        { "value": "28", "label": "4X Large (28px)" },
+        { "value": "32", "label": "5X Large (32px)" }
+      ],
+      "default": "10",
+      "info": "Controls the vertical spacing between each specification row"
+    },
+    {
+      "type": "select",
+      "id": "label_value_gap",
+      "label": "Gap Between Label and Value",
+      "options": [
+        { "value": "-4", "label": "Very Tight (-4px)" },
+        { "value": "-3", "label": "Tight (-3px)" },
+        { "value": "-2", "label": "Close (-2px)" },
+        { "value": "-1", "label": "Very Close (-1px)" },
+        { "value": "0", "label": "None (0px)" },
+        { "value": "1", "label": "Extra Small (1px)" },
+        { "value": "2", "label": "Small (2px)" },
+        { "value": "4", "label": "Medium (4px)" },
+        { "value": "6", "label": "Large (6px)" },
+        { "value": "8", "label": "Extra Large (8px)" }
+      ],
+      "default": "-2",
+      "info": "Controls the spacing between the label and its value. Negative values bring them closer together."
+    },
+    {
+      "type": "select",
+      "id": "spec_label_font_family",
+      "label": "Spec Label Font Family",
+      "options": [
+        { "value": "font-primary", "label": "Primary" },
+        { "value": "font-body", "label": "Body" },
+        { "value": "font-handwritten", "label": "Handwritten" },
+        { "value": "font-serif", "label": "Serif" }
+      ],
+      "default": "font-body"
+    },
+    {
+      "type": "select",
+      "id": "spec_label_font_size",
+      "label": "Spec Label Font Size (Mobile)",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" },
+        { "value": "text-xl", "label": "Extra Large" },
+        { "value": "text-2xl", "label": "2X Large" },
+        { "value": "text-3xl", "label": "3X Large" },
+        { "value": "text-4xl", "label": "4X Large" },
+        { "value": "text-5xl", "label": "5X Large" },
+        { "value": "text-6xl", "label": "6X Large" },
+        { "value": "text-7xl", "label": "7X Large" },
+        { "value": "text-8xl", "label": "8X Large" },
+        { "value": "text-9xl", "label": "9X Large" }
+      ],
+      "default": "text-xs"
+    },
+    {
+      "type": "select",
+      "id": "spec_label_font_size_desktop",
+      "label": "Spec Label Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-xs", "label": "Extra Small" },
+        { "value": "lg:text-sm", "label": "Small" },
+        { "value": "lg:text-base", "label": "Base" },
+        { "value": "lg:text-lg", "label": "Large" },
+        { "value": "lg:text-xl", "label": "Extra Large" },
+        { "value": "lg:text-2xl", "label": "2X Large" },
+        { "value": "lg:text-3xl", "label": "3X Large" },
+        { "value": "lg:text-4xl", "label": "4X Large" },
+        { "value": "lg:text-5xl", "label": "5X Large" },
+        { "value": "lg:text-6xl", "label": "6X Large" },
+        { "value": "lg:text-7xl", "label": "7X Large" },
+        { "value": "lg:text-8xl", "label": "8X Large" },
+        { "value": "lg:text-9xl", "label": "9X Large" }
+      ],
+      "default": "lg:text-sm"
+    },
+    {
+      "type": "select",
+      "id": "spec_label_font_weight",
+      "label": "Spec Label Font Weight",
+      "options": [
+        { "value": "font-light", "label": "Light" },
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semi Bold" },
+        { "value": "font-bold", "label": "Bold" }
+      ],
+      "default": "font-bold"
+    },
+    {
+      "type": "select",
+      "id": "spec_label_color",
+      "label": "Spec Label Color",
+      "options": [
+        { "value": "text-white", "label": "White" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-primary", "label": "Primary" },
+        { "value": "text-secondary", "label": "Secondary" },
+        { "value": "text-tertiary", "label": "Tertiary" },
+        { "value": "text-quaternary", "label": "Quaternary" },
+        { "value": "text-success", "label": "Success" },
+        { "value": "text-warning", "label": "Warning" },
+        { "value": "text-error", "label": "Error" },
+        { "value": "text-info", "label": "Info" },
+        { "value": "text-neutral", "label": "Neutral" },
+        { "value": "text-neutral-light", "label": "Neutral Light" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "text-neutral-dark"
+    },
+    {
+      "type": "select",
+      "id": "spec_value_font_family",
+      "label": "Spec Value Font Family",
+      "options": [
+        { "value": "font-primary", "label": "Primary" },
+        { "value": "font-body", "label": "Body" },
+        { "value": "font-handwritten", "label": "Handwritten" },
+        { "value": "font-serif", "label": "Serif" }
+      ],
+      "default": "font-body"
+    },
+    {
+      "type": "select",
+      "id": "spec_value_font_size",
+      "label": "Spec Value Font Size (Mobile)",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" },
+        { "value": "text-xl", "label": "Extra Large" },
+        { "value": "text-2xl", "label": "2X Large" },
+        { "value": "text-3xl", "label": "3X Large" },
+        { "value": "text-4xl", "label": "4X Large" },
+        { "value": "text-5xl", "label": "5X Large" },
+        { "value": "text-6xl", "label": "6X Large" },
+        { "value": "text-7xl", "label": "7X Large" },
+        { "value": "text-8xl", "label": "8X Large" },
+        { "value": "text-9xl", "label": "9X Large" }
+      ],
+      "default": "text-base"
+    },
+    {
+      "type": "select",
+      "id": "spec_value_font_size_desktop",
+      "label": "Spec Value Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-xs", "label": "Extra Small" },
+        { "value": "lg:text-sm", "label": "Small" },
+        { "value": "lg:text-base", "label": "Base" },
+        { "value": "lg:text-lg", "label": "Large" },
+        { "value": "lg:text-xl", "label": "Extra Large" },
+        { "value": "lg:text-2xl", "label": "2X Large" },
+        { "value": "lg:text-3xl", "label": "3X Large" },
+        { "value": "lg:text-4xl", "label": "4X Large" },
+        { "value": "lg:text-5xl", "label": "5X Large" },
+        { "value": "lg:text-6xl", "label": "6X Large" },
+        { "value": "lg:text-7xl", "label": "7X Large" },
+        { "value": "lg:text-8xl", "label": "8X Large" },
+        { "value": "lg:text-9xl", "label": "9X Large" }
+      ],
+      "default": "lg:text-base"
+    },
+    {
+      "type": "select",
+      "id": "spec_value_font_weight",
+      "label": "Spec Value Font Weight",
+      "options": [
+        { "value": "font-light", "label": "Light" },
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semi Bold" },
+        { "value": "font-bold", "label": "Bold" }
+      ],
+      "default": "font-normal"
+    },
+    {
+      "type": "select",
+      "id": "spec_value_color",
+      "label": "Spec Value Color",
+      "options": [
+        { "value": "text-white", "label": "White" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-primary", "label": "Primary" },
+        { "value": "text-secondary", "label": "Secondary" },
+        { "value": "text-tertiary", "label": "Tertiary" },
+        { "value": "text-quaternary", "label": "Quaternary" },
+        { "value": "text-success", "label": "Success" },
+        { "value": "text-warning", "label": "Warning" },
+        { "value": "text-error", "label": "Error" },
+        { "value": "text-info", "label": "Info" },
+        { "value": "text-neutral", "label": "Neutral" },
+        { "value": "text-neutral-light", "label": "Neutral Light" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "text-neutral-dark"
+    },
+    {
+      "type": "header",
+      "content": "Footer Notes"
+    },
+    {
+      "type": "text",
+      "id": "footer_note_1",
+      "label": "Footer Note 1",
+      "default": "*with a 12 month plan"
+    },
+    {
+      "type": "text",
+      "id": "footer_note_2",
+      "label": "Footer Note 2",
+      "default": "**with a 10 month plan"
+    },
+    {
+      "type": "select",
+      "id": "footer_note_font_family",
+      "label": "Font Family",
+      "options": [
+        { "value": "font-primary", "label": "Primary" },
+        { "value": "font-body", "label": "Body" },
+        { "value": "font-handwritten", "label": "Handwritten" },
+        { "value": "font-serif", "label": "Serif" }
+      ],
+      "default": "font-body"
+    },
+    {
+      "type": "select",
+      "id": "footer_note_font_size",
+      "label": "Font Size (Mobile)",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" },
+        { "value": "text-xl", "label": "Extra Large" },
+        { "value": "text-2xl", "label": "2X Large" },
+        { "value": "text-3xl", "label": "3X Large" },
+        { "value": "text-4xl", "label": "4X Large" },
+        { "value": "text-5xl", "label": "5X Large" },
+        { "value": "text-6xl", "label": "6X Large" },
+        { "value": "text-7xl", "label": "7X Large" },
+        { "value": "text-8xl", "label": "8X Large" },
+        { "value": "text-9xl", "label": "9X Large" }
+      ],
+      "default": "text-xs"
+    },
+    {
+      "type": "select",
+      "id": "footer_note_font_size_desktop",
+      "label": "Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-xs", "label": "Extra Small" },
+        { "value": "lg:text-sm", "label": "Small" },
+        { "value": "lg:text-base", "label": "Base" },
+        { "value": "lg:text-lg", "label": "Large" },
+        { "value": "lg:text-xl", "label": "Extra Large" },
+        { "value": "lg:text-2xl", "label": "2X Large" },
+        { "value": "lg:text-3xl", "label": "3X Large" },
+        { "value": "lg:text-4xl", "label": "4X Large" },
+        { "value": "lg:text-5xl", "label": "5X Large" },
+        { "value": "lg:text-6xl", "label": "6X Large" },
+        { "value": "lg:text-7xl", "label": "7X Large" },
+        { "value": "lg:text-8xl", "label": "8X Large" },
+        { "value": "lg:text-9xl", "label": "9X Large" }
+      ],
+      "default": "lg:text-xs"
+    },
+    {
+      "type": "select",
+      "id": "footer_note_font_weight",
+      "label": "Font Weight",
+      "options": [
+        { "value": "font-light", "label": "Light" },
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semi Bold" },
+        { "value": "font-bold", "label": "Bold" }
+      ],
+      "default": "font-normal"
+    },
+    {
+      "type": "select",
+      "id": "footer_note_color",
+      "label": "Text Color",
+      "options": [
+        { "value": "text-white", "label": "White" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-primary", "label": "Primary" },
+        { "value": "text-secondary", "label": "Secondary" },
+        { "value": "text-tertiary", "label": "Tertiary" },
+        { "value": "text-quaternary", "label": "Quaternary" },
+        { "value": "text-success", "label": "Success" },
+        { "value": "text-warning", "label": "Warning" },
+        { "value": "text-error", "label": "Error" },
+        { "value": "text-info", "label": "Info" },
+        { "value": "text-neutral", "label": "Neutral" },
+        { "value": "text-neutral-light", "label": "Neutral Light" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "text-neutral-dark"
+    },
+    {
+      "type": "header",
+      "content": "Layout Settings"
+    },
+    {
+      "type": "select",
+      "id": "layout_style",
+      "label": "Layout Style",
+      "options": [
+        { "value": "default", "label": "Default (Labels on Cards)" },
+        { "value": "sticky_labels", "label": "Sticky Labels (Labels on Left)" }
+      ],
+      "default": "default",
+      "info": "Choose whether labels appear on each card or as a sticky column on the left"
+    },
+    {
+      "type": "select",
+      "id": "background_color",
+      "label": "Section Background Color",
+      "options": [
+        { "value": "bg-white", "label": "White" },
+        { "value": "bg-black", "label": "Black" },
+        { "value": "bg-primary", "label": "Primary" },
+        { "value": "bg-secondary", "label": "Secondary" },
+        { "value": "bg-tertiary", "label": "Tertiary" },
+        { "value": "bg-quaternary", "label": "Quaternary" },
+        { "value": "bg-success", "label": "Success" },
+        { "value": "bg-warning", "label": "Warning" },
+        { "value": "bg-error", "label": "Error" },
+        { "value": "bg-info", "label": "Info" },
+        { "value": "bg-neutral", "label": "Neutral" },
+        { "value": "bg-neutral-light", "label": "Neutral Light" },
+        { "value": "bg-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "bg-neutral-light"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Section Background Image"
+    },
+    {
+      "type": "select",
+      "id": "section_padding_y_mobile",
+      "label": "Section Vertical Padding (Mobile)",
+      "options": [
+        { "value": "py-xs", "label": "Extra Small" },
+        { "value": "py-sm", "label": "Small" },
+        { "value": "py-md", "label": "Medium" },
+        { "value": "py-lg", "label": "Large" },
+        { "value": "py-xl", "label": "Extra Large" },
+        { "value": "py-2xl", "label": "2X Large" },
+        { "value": "py-3xl", "label": "3X Large" }
+      ],
+      "default": "py-xl"
+    },
+    {
+      "type": "select",
+      "id": "section_padding_y_desktop",
+      "label": "Section Vertical Padding (Desktop)",
+      "options": [
+        { "value": "lg:py-xs", "label": "Extra Small" },
+        { "value": "lg:py-sm", "label": "Small" },
+        { "value": "lg:py-md", "label": "Medium" },
+        { "value": "lg:py-lg", "label": "Large" },
+        { "value": "lg:py-xl", "label": "Extra Large" },
+        { "value": "lg:py-2xl", "label": "2X Large" },
+        { "value": "lg:py-3xl", "label": "3X Large" }
+      ],
+      "default": "lg:py-3xl"
+    },
+    {
+      "type": "select",
+      "id": "section_border_radius",
+      "label": "Section Border Radius",
+      "options": [
+        { "value": "rounded-none", "label": "None" },
+        { "value": "rounded-sm", "label": "Small" },
+        { "value": "rounded", "label": "Base" },
+        { "value": "rounded-md", "label": "Medium" },
+        { "value": "rounded-lg", "label": "Large" },
+        { "value": "rounded-xl", "label": "Extra Large" },
+        { "value": "rounded-2xl", "label": "2X Large" },
+        { "value": "rounded-3xl", "label": "3X Large" }
+      ],
+      "default": "rounded-none"
+    },
+    {
+      "type": "header",
+      "content": "Container Settings"
+    },
+    {
+      "type": "select",
+      "id": "container_background_color",
+      "label": "Container Background Color",
+      "options": [
+        { "value": "", "label": "None (Transparent)" },
+        { "value": "bg-white", "label": "White" },
+        { "value": "bg-black", "label": "Black" },
+        { "value": "bg-primary", "label": "Primary" },
+        { "value": "bg-secondary", "label": "Secondary" },
+        { "value": "bg-tertiary", "label": "Tertiary" },
+        { "value": "bg-quaternary", "label": "Quaternary" },
+        { "value": "bg-success", "label": "Success" },
+        { "value": "bg-warning", "label": "Warning" },
+        { "value": "bg-error", "label": "Error" },
+        { "value": "bg-info", "label": "Info" },
+        { "value": "bg-neutral", "label": "Neutral" },
+        { "value": "bg-neutral-light", "label": "Neutral Light" },
+        { "value": "bg-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": ""
+    },
+    {
+      "type": "image_picker",
+      "id": "container_background_image",
+      "label": "Container Background Image"
+    },
+    {
+      "type": "select",
+      "id": "container_border_radius",
+      "label": "Container Border Radius",
+      "options": [
+        { "value": "rounded-none", "label": "None" },
+        { "value": "rounded-sm", "label": "Small" },
+        { "value": "rounded", "label": "Base" },
+        { "value": "rounded-md", "label": "Medium" },
+        { "value": "rounded-lg", "label": "Large" },
+        { "value": "rounded-xl", "label": "Extra Large" },
+        { "value": "rounded-2xl", "label": "2X Large" },
+        { "value": "rounded-3xl", "label": "3X Large" }
+      ],
+      "default": "rounded-none"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_y_mobile",
+      "label": "Container Padding Y (Mobile)",
+      "options": [
+        { "value": "py-xs", "label": "Extra Small" },
+        { "value": "py-sm", "label": "Small" },
+        { "value": "py-md", "label": "Medium" },
+        { "value": "py-lg", "label": "Large" },
+        { "value": "py-xl", "label": "Extra Large" },
+        { "value": "py-2xl", "label": "2X Large" },
+        { "value": "py-3xl", "label": "3X Large" }
+      ],
+      "default": "py-lg"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_y_desktop",
+      "label": "Container Padding Y (Desktop)",
+      "options": [
+        { "value": "lg:py-xs", "label": "Extra Small" },
+        { "value": "lg:py-sm", "label": "Small" },
+        { "value": "lg:py-md", "label": "Medium" },
+        { "value": "lg:py-lg", "label": "Large" },
+        { "value": "lg:py-xl", "label": "Extra Large" },
+        { "value": "lg:py-2xl", "label": "2X Large" },
+        { "value": "lg:py-3xl", "label": "3X Large" }
+      ],
+      "default": "lg:py-2xl"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_x_mobile",
+      "label": "Container Padding X (Mobile)",
+      "options": [
+        { "value": "px-0", "label": "None" },
+        { "value": "px-xs", "label": "Extra Small" },
+        { "value": "px-sm", "label": "Small" },
+        { "value": "px-md", "label": "Medium" },
+        { "value": "px-lg", "label": "Large" },
+        { "value": "px-xl", "label": "Extra Large" },
+        { "value": "px-2xl", "label": "2X Large" },
+        { "value": "px-3xl", "label": "3X Large" }
+      ],
+      "default": "px-0"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_x_desktop",
+      "label": "Container Padding X (Desktop)",
+      "options": [
+        { "value": "lg:px-0", "label": "None" },
+        { "value": "lg:px-xs", "label": "Extra Small" },
+        { "value": "lg:px-sm", "label": "Small" },
+        { "value": "lg:px-md", "label": "Medium" },
+        { "value": "lg:px-lg", "label": "Large" },
+        { "value": "lg:px-xl", "label": "Extra Large" },
+        { "value": "lg:px-2xl", "label": "2X Large" },
+        { "value": "lg:px-3xl", "label": "3X Large" }
+      ],
+      "default": "lg:px-0"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "comparison_card",
+      "name": "Comparison Card",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "is_highlighted",
+          "label": "Highlight This Card",
+          "default": false,
+          "info": "Highlighted cards use a different background color"
+        },
+        {
+          "type": "text",
+          "id": "product_name",
+          "label": "Product Name",
+          "default": "Product Name"
+        },
+        {
+          "type": "image_picker",
+          "id": "product_image",
+          "label": "Product Image"
+        },
+        {
+          "type": "text",
+          "id": "product_image_alt",
+          "label": "Product Image Alt Text"
+        },
+        {
+          "type": "header",
+          "content": "Specification 1"
+        },
+        {
+          "type": "text",
+          "id": "spec_1_label",
+          "label": "Label",
+          "default": "Full Spectrum"
+        },
+        {
+          "type": "text",
+          "id": "spec_1_value",
+          "label": "Value",
+          "default": "Yes (Omegas 3, 7, 9, 11)"
+        },
+        {
+          "type": "header",
+          "content": "Specification 2"
+        },
+        {
+          "type": "text",
+          "id": "spec_2_label",
+          "label": "Label",
+          "default": "Form of Fatty Acids"
+        },
+        {
+          "type": "text",
+          "id": "spec_2_value",
+          "label": "Value",
+          "default": "Triglycerides"
+        },
+        {
+          "type": "header",
+          "content": "Specification 3"
+        },
+        {
+          "type": "text",
+          "id": "spec_3_label",
+          "label": "Label",
+          "default": "Omega-3 Fatty Acids"
+        },
+        {
+          "type": "text",
+          "id": "spec_3_value",
+          "label": "Value",
+          "default": "1,770 mg"
+        },
+        {
+          "type": "header",
+          "content": "Specification 4"
+        },
+        {
+          "type": "text",
+          "id": "spec_4_label",
+          "label": "Label",
+          "default": "Other Omega 3's"
+        },
+        {
+          "type": "text",
+          "id": "spec_4_value",
+          "label": "Value",
+          "default": "200 mg"
+        },
+        {
+          "type": "header",
+          "content": "Specification 5"
+        },
+        {
+          "type": "text",
+          "id": "spec_5_label",
+          "label": "Label",
+          "default": "EPA"
+        },
+        {
+          "type": "text",
+          "id": "spec_5_value",
+          "label": "Value",
+          "default": "1,000 mg"
+        },
+        {
+          "type": "header",
+          "content": "Specification 6"
+        },
+        {
+          "type": "text",
+          "id": "spec_6_label",
+          "label": "Label",
+          "default": "DHA"
+        },
+        {
+          "type": "text",
+          "id": "spec_6_value",
+          "label": "Value",
+          "default": "570 mg"
+        },
+        {
+          "type": "header",
+          "content": "Specification 7"
+        },
+        {
+          "type": "text",
+          "id": "spec_7_label",
+          "label": "Label",
+          "default": "Vitamin D3"
+        },
+        {
+          "type": "text",
+          "id": "spec_7_value",
+          "label": "Value",
+          "default": "50 mcg 2,000 IU"
+        },
+        {
+          "type": "header",
+          "content": "Specification 8"
+        },
+        {
+          "type": "text",
+          "id": "spec_8_label",
+          "label": "Label",
+          "default": "Source"
+        },
+        {
+          "type": "text",
+          "id": "spec_8_value",
+          "label": "Value",
+          "default": "Wild Caught Sardines, Anchovy, Mackerel"
+        },
+        {
+          "type": "header",
+          "content": "Specification 9"
+        },
+        {
+          "type": "text",
+          "id": "spec_9_label",
+          "label": "Label",
+          "default": "Omega-3 Test Kit"
+        },
+        {
+          "type": "text",
+          "id": "spec_9_value",
+          "label": "Value",
+          "default": "+ FREE test kit (4 bottles, 4 month supply)"
+        },
+        {
+          "type": "header",
+          "content": "Specification 10"
+        },
+        {
+          "type": "text",
+          "id": "spec_10_label",
+          "label": "Label",
+          "default": "$ Back Guarantee"
+        },
+        {
+          "type": "text",
+          "id": "spec_10_value",
+          "label": "Value",
+          "default": "90-Day"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Omega Comparison",
+      "blocks": [
+        {
+          "type": "comparison_card",
+          "settings": {
+            "is_highlighted": true,
+            "product_name": "Yoli's Vital Omegas+",
+            "spec_1_label": "Full Spectrum",
+            "spec_1_value": "Yes (Omegas 3, 7, 9, 11)",
+            "spec_2_label": "Form of Fatty Acids",
+            "spec_2_value": "Triglycerides",
+            "spec_3_label": "Omega-3 Fatty Acids",
+            "spec_3_value": "1,770 mg",
+            "spec_4_label": "Other Omega 3's",
+            "spec_4_value": "200 mg",
+            "spec_5_label": "EPA",
+            "spec_5_value": "1,000 mg",
+            "spec_6_label": "DHA",
+            "spec_6_value": "570 mg",
+            "spec_7_label": "Vitamin D3",
+            "spec_7_value": "50 mcg 2,000 IU",
+            "spec_8_label": "Source",
+            "spec_8_value": "Wild Caught Sardines, Anchovy, Mackerel",
+            "spec_9_label": "Omega-3 Test Kit",
+            "spec_9_value": "+ FREE test kit (4 bottles, 4 month supply)",
+            "spec_10_label": "$ Back Guarantee",
+            "spec_10_value": "90-Day"
+          }
+        },
+        {
+          "type": "comparison_card",
+          "settings": {
+            "is_highlighted": false,
+            "product_name": "Competitor Product",
+            "spec_1_label": "Full Spectrum",
+            "spec_1_value": "No",
+            "spec_2_label": "Form of Fatty Acids",
+            "spec_2_value": "Ethyl Esters",
+            "spec_3_label": "Omega-3 Fatty Acids",
+            "spec_3_value": "1,000 mg",
+            "spec_4_label": "Other Omega 3's",
+            "spec_4_value": "100 mg",
+            "spec_5_label": "EPA",
+            "spec_5_value": "600 mg",
+            "spec_6_label": "DHA",
+            "spec_6_value": "400 mg",
+            "spec_7_label": "Vitamin D3",
+            "spec_7_value": "No",
+            "spec_8_label": "Source",
+            "spec_8_value": "Farm-raised fish",
+            "spec_9_label": "Omega-3 Test Kit",
+            "spec_9_value": "Not included",
+            "spec_10_label": "$ Back Guarantee",
+            "spec_10_value": "30-Day"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+

@@ -1,0 +1,675 @@
+/* Design Utilities - Buttons & Components */
+
+/* ===================================
+   BUTTON SYSTEM
+   =================================== */
+
+/* Base Button Styles */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500; /* LOCKED: Always medium */
+  line-height: 1.25; /* LOCKED */
+  letter-spacing: 0; /* LOCKED */
+  text-align: center;
+  text-transform: none; /* LOCKED: Sentence case */
+  white-space: nowrap;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  border: 2px solid transparent;
+  /* border-radius controlled by utility classes (rounded-md, rounded-lg, etc.) */
+  text-decoration: none;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn:focus {
+  outline: 2px solid var(--clr-neutral-light);
+  outline-offset: 4px;
+}
+
+.btn:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Button Sizes - LOCKED TO 3 SIZES ONLY */
+.btn-sm {
+  padding: 8px 16px; /* LOCKED */
+  font-size: 14px; /* LOCKED */
+  min-height: 36px; /* LOCKED */
+}
+
+.btn-md {
+  padding: 12px 24px; /* LOCKED */
+  font-size: 16px; /* LOCKED */
+  min-height: 44px; /* LOCKED */
+}
+
+.btn-lg {
+  padding: 16px 32px; /* LOCKED */
+  font-size: 16px; /* LOCKED */
+  min-height: 52px; /* LOCKED */
+}
+
+/* DEPRECATED: Do not use */
+.btn-xs,
+.btn-xl {
+  display: none !important; /* Force removal of deprecated sizes */
+}
+
+/* Filled Button Styles */
+.btn-filled-primary {
+  background-color: var(--clr-primary);
+  color: var(--clr-white);
+  border-color: var(--clr-primary);
+}
+
+.btn-filled-secondary {
+  background-color: var(--clr-secondary);
+  color: var(--clr-black);
+  border-color: var(--clr-secondary);
+}
+
+.btn-filled-tertiary {
+  background-color: var(--clr-tertiary);
+  color: var(--clr-white);
+  border-color: var(--clr-tertiary);
+}
+
+.btn-filled-quaternary {
+  background-color: var(--clr-quaternary);
+  color: var(--clr-white);
+  border-color: var(--clr-quaternary);
+}
+
+/* Accent Color Filled Buttons */
+.btn-filled-accent-1 {
+  background-color: var(--clr-accent-1);
+  color: var(--clr-white);
+  border-color: var(--clr-accent-1);
+}
+
+.btn-filled-accent-2 {
+  background-color: var(--clr-accent-2);
+  color: var(--clr-black);
+  border-color: var(--clr-accent-2);
+}
+
+.btn-filled-accent-3 {
+  background-color: var(--clr-accent-3);
+  color: var(--clr-white);
+  border-color: var(--clr-accent-3);
+}
+
+.btn-filled-accent-4 {
+  background-color: var(--clr-accent-4);
+  color: var(--clr-white);
+  border-color: var(--clr-accent-4);
+}
+
+.btn-filled-accent-5 {
+  background-color: var(--clr-accent-5);
+  color: var(--clr-white);
+  border-color: var(--clr-accent-5);
+}
+
+.btn-filled-accent-6 {
+  background-color: var(--clr-accent-6);
+  color: var(--clr-white);
+  border-color: var(--clr-accent-6);
+}
+
+.btn-filled-accent-7 {
+  background-color: var(--clr-accent-7);
+  color: var(--clr-white);
+  border-color: var(--clr-accent-7);
+}
+
+.btn-filled-success {
+  background-color: var(--clr-success);
+  color: var(--clr-white);
+  border-color: var(--clr-success);
+}
+
+.btn-filled-warning {
+  background-color: var(--clr-warning);
+  color: var(--clr-white);
+  border-color: var(--clr-warning);
+}
+
+.btn-filled-error {
+  background-color: var(--clr-error);
+  color: var(--clr-white);
+  border-color: var(--clr-error);
+}
+
+.btn-filled-info {
+  background-color: var(--clr-info);
+  color: var(--clr-white);
+  border-color: var(--clr-info);
+}
+
+/* Neutral Filled Buttons */
+.btn-filled-neutral {
+  background-color: var(--clr-neutral);
+  color: var(--clr-white);
+  border-color: var(--clr-neutral);
+}
+
+.btn-filled-neutral-light {
+  background-color: var(--clr-neutral-light);
+  color: var(--clr-black);
+  border-color: var(--clr-neutral-light);
+}
+
+.btn-filled-neutral-dark {
+  background-color: var(--clr-neutral-dark);
+  color: var(--clr-white);
+  border-color: var(--clr-neutral-dark);
+}
+
+.btn-filled-neutral-medium {
+  background-color: var(--clr-neutral-medium);
+  color: var(--clr-white);
+  border-color: var(--clr-neutral-medium);
+}
+
+.btn-filled-neutral-lighter {
+  background-color: var(--clr-neutral-lighter);
+  color: var(--clr-black);
+  border-color: var(--clr-neutral-lighter);
+}
+
+.btn-filled-black {
+  background-color: var(--clr-black);
+  color: var(--clr-white);
+  border-color: var(--clr-black);
+}
+
+.btn-filled-white {
+  background-color: var(--clr-white);
+  color: var(--clr-black);
+  border-color: var(--clr-white);
+}
+
+/* Outline Button Styles */
+.btn-outline-primary {
+  background-color: transparent;
+  color: var(--clr-primary);
+  border-color: var(--clr-primary);
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--clr-primary);
+  color: var(--clr-white);
+}
+
+.btn-outline-secondary {
+  background-color: transparent;
+  color: var(--clr-secondary);
+  border-color: var(--clr-secondary);
+}
+
+.btn-outline-secondary:hover {
+  background-color: var(--clr-secondary);
+  color: var(--clr-black);
+}
+
+.btn-outline-tertiary {
+  background-color: transparent;
+  color: var(--clr-tertiary);
+  border-color: var(--clr-tertiary);
+}
+
+.btn-outline-tertiary:hover {
+  background-color: var(--clr-tertiary);
+  color: var(--clr-white);
+}
+
+.btn-outline-quaternary {
+  background-color: transparent;
+  color: var(--clr-quaternary);
+  border-color: var(--clr-quaternary);
+}
+
+.btn-outline-quaternary:hover {
+  background-color: var(--clr-quaternary);
+  color: var(--clr-white);
+}
+
+/* Accent Color Outline Buttons */
+.btn-outline-accent-1 {
+  background-color: transparent;
+  color: var(--clr-accent-1);
+  border-color: var(--clr-accent-1);
+}
+
+.btn-outline-accent-1:hover {
+  background-color: var(--clr-accent-1);
+  color: var(--clr-white);
+}
+
+.btn-outline-accent-2 {
+  background-color: transparent;
+  color: var(--clr-accent-2);
+  border-color: var(--clr-accent-2);
+}
+
+.btn-outline-accent-2:hover {
+  background-color: var(--clr-accent-2);
+  color: var(--clr-black);
+}
+
+.btn-outline-accent-3 {
+  background-color: transparent;
+  color: var(--clr-accent-3);
+  border-color: var(--clr-accent-3);
+}
+
+.btn-outline-accent-3:hover {
+  background-color: var(--clr-accent-3);
+  color: var(--clr-white);
+}
+
+.btn-outline-accent-4 {
+  background-color: transparent;
+  color: var(--clr-accent-4);
+  border-color: var(--clr-accent-4);
+}
+
+.btn-outline-accent-4:hover {
+  background-color: var(--clr-accent-4);
+  color: var(--clr-white);
+}
+
+.btn-outline-accent-5 {
+  background-color: transparent;
+  color: var(--clr-accent-5);
+  border-color: var(--clr-accent-5);
+}
+
+.btn-outline-accent-5:hover {
+  background-color: var(--clr-accent-5);
+  color: var(--clr-white);
+}
+
+.btn-outline-accent-6 {
+  background-color: transparent;
+  color: var(--clr-accent-6);
+  border-color: var(--clr-accent-6);
+}
+
+.btn-outline-accent-6:hover {
+  background-color: var(--clr-accent-6);
+  color: var(--clr-white);
+}
+
+.btn-outline-accent-7 {
+  background-color: transparent;
+  color: var(--clr-accent-7);
+  border-color: var(--clr-accent-7);
+}
+
+.btn-outline-accent-7:hover {
+  background-color: var(--clr-accent-7);
+  color: var(--clr-white);
+}
+
+.btn-outline-success {
+  background-color: transparent;
+  color: var(--clr-success);
+  border-color: var(--clr-success);
+}
+
+.btn-outline-success:hover {
+  background-color: var(--clr-success);
+  color: var(--clr-white);
+}
+
+.btn-outline-warning {
+  background-color: transparent;
+  color: var(--clr-warning);
+  border-color: var(--clr-warning);
+}
+
+.btn-outline-warning:hover {
+  background-color: var(--clr-warning);
+  color: var(--clr-white);
+}
+
+.btn-outline-error {
+  background-color: transparent;
+  color: var(--clr-error);
+  border-color: var(--clr-error);
+}
+
+.btn-outline-error:hover {
+  background-color: var(--clr-error);
+  color: var(--clr-white);
+}
+
+.btn-outline-info {
+  background-color: transparent;
+  color: var(--clr-info);
+  border-color: var(--clr-info);
+}
+
+.btn-outline-info:hover {
+  background-color: var(--clr-info);
+  color: var(--clr-white);
+}
+
+/* Neutral Outline Buttons */
+.btn-outline-neutral {
+  background-color: transparent;
+  color: var(--clr-neutral);
+  border-color: var(--clr-neutral);
+}
+
+.btn-outline-neutral:hover {
+  background-color: var(--clr-neutral);
+  color: var(--clr-white);
+}
+
+.btn-outline-neutral-light {
+  background-color: transparent;
+  color: var(--clr-neutral-light);
+  border-color: var(--clr-neutral-light);
+}
+
+.btn-outline-neutral-light:hover {
+  background-color: var(--clr-neutral-light);
+  color: var(--clr-black);
+}
+
+.btn-outline-neutral-dark {
+  background-color: transparent;
+  color: var(--clr-neutral-dark);
+  border-color: var(--clr-neutral-dark);
+}
+
+.btn-outline-neutral-dark:hover {
+  background-color: var(--clr-neutral-dark);
+  color: var(--clr-white);
+}
+
+.btn-outline-neutral-medium {
+  background-color: transparent;
+  color: var(--clr-neutral-medium);
+  border-color: var(--clr-neutral-medium);
+}
+
+.btn-outline-neutral-medium:hover {
+  background-color: var(--clr-neutral-medium);
+  color: var(--clr-white);
+}
+
+.btn-outline-neutral-lighter {
+  background-color: transparent;
+  color: var(--clr-neutral-lighter);
+  border-color: var(--clr-neutral-lighter);
+}
+
+.btn-outline-neutral-lighter:hover {
+  background-color: var(--clr-neutral-lighter);
+  color: var(--clr-black);
+}
+
+.btn-outline-black {
+  background-color: transparent;
+  color: var(--clr-black);
+  border-color: var(--clr-black);
+}
+
+.btn-outline-black:hover {
+  background-color: var(--clr-black);
+  color: var(--clr-white);
+}
+
+.btn-outline-white {
+  background-color: transparent;
+  color: var(--clr-white);
+  border-color: var(--clr-white);
+}
+
+.btn-outline-white:hover {
+  background-color: var(--clr-white);
+  color: var(--clr-black);
+}
+
+/* Ghost Button Styles */
+.btn-ghost,
+.btn-ghost-primary,
+.btn-ghost-secondary,
+.btn-ghost-tertiary,
+.btn-ghost-quaternary,
+.btn-ghost-accent-1,
+.btn-ghost-accent-2,
+.btn-ghost-accent-3,
+.btn-ghost-accent-4,
+.btn-ghost-accent-5,
+.btn-ghost-accent-6,
+.btn-ghost-accent-7,
+.btn-ghost-success,
+.btn-ghost-warning,
+.btn-ghost-error,
+.btn-ghost-info,
+.btn-ghost-neutral,
+.btn-ghost-neutral-light,
+.btn-ghost-neutral-dark,
+.btn-ghost-neutral-medium,
+.btn-ghost-neutral-lighter,
+.btn-ghost-black,
+.btn-ghost-white {
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.btn-ghost-primary { color: var(--clr-primary); }
+.btn-ghost-secondary { color: var(--clr-secondary); }
+.btn-ghost-tertiary { color: var(--clr-tertiary); }
+.btn-ghost-quaternary { color: var(--clr-quaternary); }
+.btn-ghost-accent-1 { color: var(--clr-accent-1); }
+.btn-ghost-accent-2 { color: var(--clr-accent-2); }
+.btn-ghost-accent-3 { color: var(--clr-accent-3); }
+.btn-ghost-accent-4 { color: var(--clr-accent-4); }
+.btn-ghost-accent-5 { color: var(--clr-accent-5); }
+.btn-ghost-accent-6 { color: var(--clr-accent-6); }
+.btn-ghost-accent-7 { color: var(--clr-accent-7); }
+.btn-ghost-success { color: var(--clr-success); }
+.btn-ghost-warning { color: var(--clr-warning); }
+.btn-ghost-error { color: var(--clr-error); }
+.btn-ghost-info { color: var(--clr-info); }
+.btn-ghost-neutral { color: var(--clr-neutral); }
+.btn-ghost-neutral-light { color: var(--clr-neutral-light); }
+.btn-ghost-neutral-dark { color: var(--clr-neutral-dark); }
+.btn-ghost-neutral-medium { color: var(--clr-neutral-medium); }
+.btn-ghost-neutral-lighter { color: var(--clr-neutral-lighter); }
+.btn-ghost-black { color: var(--clr-black); }
+.btn-ghost-white { color: var(--clr-white); }
+.btn-ghost { color: currentColor; }
+
+.btn-ghost:hover,
+.btn-ghost-primary:hover,
+.btn-ghost-secondary:hover,
+.btn-ghost-tertiary:hover,
+.btn-ghost-quaternary:hover,
+.btn-ghost-accent-1:hover,
+.btn-ghost-accent-2:hover,
+.btn-ghost-accent-3:hover,
+.btn-ghost-accent-4:hover,
+.btn-ghost-accent-5:hover,
+.btn-ghost-accent-6:hover,
+.btn-ghost-accent-7:hover,
+.btn-ghost-success:hover,
+.btn-ghost-warning:hover,
+.btn-ghost-error:hover,
+.btn-ghost-info:hover,
+.btn-ghost-neutral:hover,
+.btn-ghost-neutral-light:hover,
+.btn-ghost-neutral-dark:hover,
+.btn-ghost-neutral-medium:hover,
+.btn-ghost-neutral-lighter:hover,
+.btn-ghost-black:hover,
+.btn-ghost-white:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* ===================================
+   IMAGE UTILITIES
+   =================================== */
+
+img {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.object-cover { object-fit: cover; }
+.object-contain { object-fit: contain; }
+
+/* ===================================
+   BADGE COMPONENT
+   =================================== */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-xs) var(--space-sm);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  border-radius: var(--radius-base);
+  white-space: nowrap;
+}
+
+.badge-primary {
+  background-color: var(--clr-primary);
+  color: var(--clr-white);
+}
+
+.badge-secondary {
+  background-color: var(--clr-secondary);
+  color: var(--clr-black);
+}
+
+.badge-success {
+  background-color: var(--clr-success);
+  color: var(--clr-white);
+}
+
+.badge-warning {
+  background-color: var(--clr-warning);
+  color: var(--clr-white);
+}
+
+.badge-error {
+  background-color: var(--clr-error);
+  color: var(--clr-white);
+}
+
+/* ===================================
+   CARD COMPONENT
+   =================================== */
+
+.card {
+  background-color: var(--clr-white);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-4px);
+}
+
+/* ===================================
+   INPUT STYLES
+   =================================== */
+
+.input {
+  width: 100%;
+  padding: var(--space-md) var(--space-lg);
+  font-size: var(--font-size-base);
+  border: 2px solid var(--clr-neutral);
+  border-radius: var(--radius-base);
+  transition: border-color 0.3s ease;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--clr-primary);
+}
+
+.input::placeholder {
+  color: var(--clr-neutral-dark);
+  opacity: 0.6;
+}
+
+/* ===================================
+   FORM STYLES
+   =================================== */
+
+.form-group {
+  margin-bottom: var(--space-lg);
+}
+
+.form-label {
+  display: block;
+  margin-bottom: var(--space-sm);
+  font-weight: 500;
+  font-size: var(--font-size-sm);
+  color: var(--clr-neutral-dark);
+}
+
+/* ===================================
+   TRANSITION UTILITIES
+   =================================== */
+
+.transition-all {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.transition-transform {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.transition-opacity {
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ===================================
+   HOVER EFFECTS
+   =================================== */
+
+.hover\:opacity-90:hover {
+  opacity: 0.9;
+}
+
+.hover\:scale-105:hover {
+  transform: scale(1.05);
+}
+
+/* ===================================
+   RESPONSIVE UTILITIES
+   =================================== */
+
+@media (min-width: 768px) {
+  .md\:flex { display: flex; }
+  .md\:hidden { display: none; }
+  .md\:block { display: block; }
+}
+
+@media (min-width: 1024px) {
+  .lg\:flex { display: flex; }
+  .lg\:hidden { display: none; }
+  .lg\:block { display: block; }
+}
+

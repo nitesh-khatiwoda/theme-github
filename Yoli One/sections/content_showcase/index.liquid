@@ -1,0 +1,573 @@
+{% comment %}
+  Content Showcase Section
+  Features heading, body text, certification icons, and image
+{% endcomment %}
+
+<section class="content-showcase {{ section.settings.background_color | default: 'bg-white' }} {{ section.settings.section_padding_y_mobile | default: 'py-xl' }} {{ section.settings.section_padding_y_desktop | default: 'lg:py-3xl' }} {{ section.settings.section_padding_x_mobile | default: 'px-xl' }} {{ section.settings.section_padding_x_desktop | default: 'lg:px-xl' }}">
+  <div class="{{section.settings.container_layout_width | default: 'container'}}">
+    <div class="content-showcase-wrapper" {% if section.settings.flip_layout %}data-flip="true"{% endif %}>
+      
+      <!-- Content Column -->
+      <div class="content-column flex flex-col gap-lg">
+        
+        <!-- Heading -->
+        <div class="content-heading {{ section.settings.content_font_family | default: 'font-handwritten' }}">
+          <h2 class="{{ section.settings.heading_font_size | default: 'text-5xl' }} {{ section.settings.heading_font_size_desktop | default: 'lg:text-6xl' }} {{ section.settings.heading_color | default: 'text-secondary' }} {{ section.settings.heading_font_weight | default: 'font-normal' }}">
+            {{ section.settings.heading | default: "Powering the goals of millions of people worldwide" }}
+          </h2>
+        </div>
+        
+        <!-- Body Text -->
+        <div class="content-body {{ section.settings.body_font_family | default: 'font-body' }}">
+          <p class="{{ section.settings.body_font_size | default: 'text-base' }} {{ section.settings.body_font_size_desktop | default: 'lg:text-lg' }} {{ section.settings.body_color | default: 'text-secondary' }} {{ section.settings.body_font_weight | default: 'font-normal' }}">
+            {{ section.settings.body_text | default: "From busy parents juggling family life to elite athletes pushing their limits, Yoli's science-backed formulas have become the secret weapon in medicine cabinets across the globe." }}
+          </p>
+        </div>
+        
+        <!-- Certification Icons -->
+        <div class="certification-icons">
+          {% for block in section.blocks %}
+            {% case block.type %}
+              {% when 'certification' %}
+                <div class="certification-item" {{ block.fluid_attributes }}>
+              {% if block.settings.icon_image %}
+                <img src="{{ block.settings.icon_image | image_url }}" 
+                     alt="{{ block.settings.icon_text | default: 'Certification' }}" 
+                     style="max-width: 96px; height: auto;">
+              {% else %}
+                <img src="{{ 'placeholder-image.png' | asset_url }}" 
+                     alt="{{ block.settings.icon_text | default: 'Certification' }}"
+                     style="max-width: 96px; height: auto;">
+              {% endif %}
+                </div>
+            {% endcase %}
+          {% endfor %}
+        </div>
+        
+      </div>
+      
+      <!-- Image Column -->
+      <div class="image-column">
+        {% assign br_tl = section.settings.image_border_top_left | default: "8" %}
+        {% assign br_tr = section.settings.image_border_top_right | default: "50" %}
+        {% assign br_br = section.settings.image_border_bottom_right | default: "8" %}
+        {% assign br_bl = section.settings.image_border_bottom_left | default: "8" %}
+        
+        {% if section.settings.flip_layout %}
+          {% comment %} When flipped, swap left and right borders {% endcomment %}
+          {% assign br_tl = section.settings.image_border_top_right | default: "50" %}
+          {% assign br_tr = section.settings.image_border_top_left | default: "8" %}
+          {% assign br_br = section.settings.image_border_bottom_left | default: "8" %}
+          {% assign br_bl = section.settings.image_border_bottom_right | default: "8" %}
+        {% endif %}
+        
+        {% if section.settings.feature_image %}
+          <div class="image-wrapper" style="border-radius: {{ br_tl }}px {{ br_tr }}px {{ br_br }}px {{ br_bl }}px;">
+            <img src="{{ section.settings.feature_image | image_url }}" 
+                 alt="{{ section.settings.feature_image_alt | default: section.settings.heading }}" 
+                 class="w-full h-full object-cover">
+          </div>
+        {% else %}
+          <div class="image-wrapper" style="border-radius: {{ br_tl }}px {{ br_tr }}px {{ br_br }}px {{ br_bl }}px;">
+            <img src="{{ 'placeholder-image.png' | asset_url }}" 
+                 alt="Yoli Products"
+                 class="w-full h-full object-cover">
+          </div>
+        {% endif %}
+      </div>
+      
+    </div>
+  </div>
+</section>
+
+<style>
+  .content-showcase {
+    min-height: 400px;
+  }
+  
+  .content-showcase-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3xl);
+  }
+  
+  .content-column {
+    max-width: 600px;
+    width: 100%;
+  }
+  
+  .image-column {
+    width: 100%;
+  }
+  
+  .content-heading {
+    line-height: 1;
+  }
+  
+  @media (min-width: 1024px) {
+    .content-showcase-wrapper {
+      flex-direction: row;
+      align-items: center;
+    }
+    
+    .content-column {
+      width: 50%;
+      max-width: none;
+    }
+    
+    .image-column {
+      width: 50%;
+      flex-shrink: 0;
+    }
+    
+    .content-heading h2 {
+      line-height: 67px;
+    }
+    
+    .content-showcase-wrapper[data-flip="true"] {
+      flex-direction: row-reverse;
+    }
+  }
+  
+  .certification-icons {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-xl);
+    padding-top: var(--space-md);
+  }
+  
+  .certification-item {
+    flex-shrink: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    opacity: 0.8;
+  }
+  
+  .certification-item:hover {
+    transform: translateY(-4px);
+    opacity: 1;
+  }
+  
+  .image-wrapper {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+  }
+  
+  @media (max-width: 1023px) {
+    .content-showcase-wrapper {
+      gap: var(--space-2xl);
+    }
+    
+    .certification-icons {
+      gap: var(--space-lg);
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Content Showcase",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout Width (Container)"
+    },
+    {
+      "type": "select",
+      "id": "container_layout_width",
+      "label": "Layout Width (Container)",
+      "options": [
+        { "value": "container", "label": "Container" },
+        { "value": "container-full", "label": "Full Width (Container Full)" }
+      ],
+      "default": "container",
+      "info": "Choose whether the container is constrained to the width of the page or full width"
+    },
+    {
+      "type": "header",
+      "content": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading Text",
+      "default": "Powering the goals of millions of people worldwide"
+    },
+    {
+      "type": "select",
+      "id": "content_font_family",
+      "label": "Heading Font Family",
+      "options": [
+        { "value": "font-primary", "label": "Primary" },
+        { "value": "font-body", "label": "Body" },
+        { "value": "font-handwritten", "label": "Handwritten" },
+        { "value": "font-serif", "label": "Serif" }
+      ],
+      "default": "font-handwritten"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_size",
+      "label": "Heading Font Size (Mobile)",
+      "options": [
+        { "value": "text-3xl", "label": "3X Large" },
+        { "value": "text-4xl", "label": "4X Large" },
+        { "value": "text-5xl", "label": "5X Large" },
+        { "value": "text-6xl", "label": "6X Large" },
+        { "value": "text-7xl", "label": "7X Large" }
+      ],
+      "default": "text-5xl"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_size_desktop",
+      "label": "Heading Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-4xl", "label": "4X Large" },
+        { "value": "lg:text-5xl", "label": "5X Large" },
+        { "value": "lg:text-6xl", "label": "6X Large" },
+        { "value": "lg:text-7xl", "label": "7X Large" },
+        { "value": "lg:text-8xl", "label": "8X Large" }
+      ],
+      "default": "lg:text-6xl"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_weight",
+      "label": "Heading Font Weight",
+      "options": [
+        { "value": "font-light", "label": "Light" },
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semi Bold" },
+        { "value": "font-bold", "label": "Bold" }
+      ],
+      "default": "font-normal"
+    },
+    {
+      "type": "select",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "options": [
+        { "value": "text-white", "label": "White" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-primary", "label": "Primary" },
+        { "value": "text-secondary", "label": "Secondary" },
+        { "value": "text-tertiary", "label": "Tertiary" },
+        { "value": "text-quaternary", "label": "Quaternary" },
+        { "value": "text-success", "label": "Success" },
+        { "value": "text-warning", "label": "Warning" },
+        { "value": "text-error", "label": "Error" },
+        { "value": "text-info", "label": "Info" },
+        { "value": "text-neutral", "label": "Neutral" },
+        { "value": "text-neutral-light", "label": "Neutral Light" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "text-secondary"
+    },
+    {
+      "type": "header",
+      "content": "Body Text"
+    },
+    {
+      "type": "textarea",
+      "id": "body_text",
+      "label": "Body Text",
+      "default": "From busy parents juggling family life to elite athletes pushing their limits, Yoli's science-backed formulas have become the secret weapon in medicine cabinets across the globe. Our products don't just deliver results —they create transformations, helping everyday heroes crush fitness goals, reclaim their energy, and rediscover what their bodies are truly capable of."
+    },
+    {
+      "type": "select",
+      "id": "body_font_family",
+      "label": "Body Font Family",
+      "options": [
+        { "value": "font-primary", "label": "Primary" },
+        { "value": "font-body", "label": "Body" },
+        { "value": "font-handwritten", "label": "Handwritten" },
+        { "value": "font-serif", "label": "Serif" }
+      ],
+      "default": "font-body"
+    },
+    {
+      "type": "select",
+      "id": "body_font_size",
+      "label": "Body Font Size (Mobile)",
+      "options": [
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" },
+        { "value": "text-xl", "label": "Extra Large" },
+        { "value": "text-2xl", "label": "2X Large" }
+      ],
+      "default": "text-base"
+    },
+    {
+      "type": "select",
+      "id": "body_font_size_desktop",
+      "label": "Body Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-sm", "label": "Small" },
+        { "value": "lg:text-base", "label": "Base" },
+        { "value": "lg:text-lg", "label": "Large" },
+        { "value": "lg:text-xl", "label": "Extra Large" },
+        { "value": "lg:text-2xl", "label": "2X Large" }
+      ],
+      "default": "lg:text-lg"
+    },
+    {
+      "type": "select",
+      "id": "body_font_weight",
+      "label": "Body Font Weight",
+      "options": [
+        { "value": "font-light", "label": "Light" },
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semi Bold" },
+        { "value": "font-bold", "label": "Bold" }
+      ],
+      "default": "font-normal"
+    },
+    {
+      "type": "select",
+      "id": "body_color",
+      "label": "Body Color",
+      "options": [
+        { "value": "text-white", "label": "White" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-primary", "label": "Primary" },
+        { "value": "text-secondary", "label": "Secondary" },
+        { "value": "text-tertiary", "label": "Tertiary" },
+        { "value": "text-quaternary", "label": "Quaternary" },
+        { "value": "text-success", "label": "Success" },
+        { "value": "text-warning", "label": "Warning" },
+        { "value": "text-error", "label": "Error" },
+        { "value": "text-info", "label": "Info" },
+        { "value": "text-neutral", "label": "Neutral" },
+        { "value": "text-neutral-light", "label": "Neutral Light" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "text-secondary"
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "feature_image",
+      "label": "Feature Image"
+    },
+    {
+      "type": "text",
+      "id": "feature_image_alt",
+      "label": "Image Alt Text",
+      "default": "Yoli Products"
+    },
+    {
+      "type": "header",
+      "content": "Image Border Radius"
+    },
+    {
+      "type": "select",
+      "id": "image_border_top_left",
+      "label": "Top Left Radius",
+      "options": [
+        { "value": "0", "label": "None (0px)" },
+        { "value": "2", "label": "Small - Theme (2px)" },
+        { "value": "4", "label": "Base - Theme (4px)" },
+        { "value": "8", "label": "Medium - Theme (8px)" },
+        { "value": "16", "label": "Large - Theme (16px)" },
+        { "value": "24", "label": "XL - Theme (24px)" },
+        { "value": "40", "label": "2XL - Theme (40px)" },
+        { "value": "50", "label": "3XL - Theme (50px)" },
+        { "value": "9999", "label": "Full Circle - Theme (9999px)" }
+      ],
+      "default": "8"
+    },
+    {
+      "type": "select",
+      "id": "image_border_top_right",
+      "label": "Top Right Radius",
+      "options": [
+        { "value": "0", "label": "None (0px)" },
+        { "value": "2", "label": "Small - Theme (2px)" },
+        { "value": "4", "label": "Base - Theme (4px)" },
+        { "value": "8", "label": "Medium - Theme (8px)" },
+        { "value": "16", "label": "Large - Theme (16px)" },
+        { "value": "24", "label": "XL - Theme (24px)" },
+        { "value": "40", "label": "2XL - Theme (40px)" },
+        { "value": "50", "label": "3XL - Theme (50px)" },
+        { "value": "9999", "label": "Full Circle - Theme (9999px)" }
+      ],
+      "default": "50"
+    },
+    {
+      "type": "select",
+      "id": "image_border_bottom_right",
+      "label": "Bottom Right Radius",
+      "options": [
+        { "value": "0", "label": "None (0px)" },
+        { "value": "2", "label": "Small - Theme (2px)" },
+        { "value": "4", "label": "Base - Theme (4px)" },
+        { "value": "8", "label": "Medium - Theme (8px)" },
+        { "value": "16", "label": "Large - Theme (16px)" },
+        { "value": "24", "label": "XL - Theme (24px)" },
+        { "value": "40", "label": "2XL - Theme (40px)" },
+        { "value": "50", "label": "3XL - Theme (50px)" },
+        { "value": "9999", "label": "Full Circle - Theme (9999px)" }
+      ],
+      "default": "8"
+    },
+    {
+      "type": "select",
+      "id": "image_border_bottom_left",
+      "label": "Bottom Left Radius",
+      "options": [
+        { "value": "0", "label": "None (0px)" },
+        { "value": "2", "label": "Small - Theme (2px)" },
+        { "value": "4", "label": "Base - Theme (4px)" },
+        { "value": "8", "label": "Medium - Theme (8px)" },
+        { "value": "16", "label": "Large - Theme (16px)" },
+        { "value": "24", "label": "XL - Theme (24px)" },
+        { "value": "40", "label": "2XL - Theme (40px)" },
+        { "value": "50", "label": "3XL - Theme (50px)" },
+        { "value": "9999", "label": "Full Circle - Theme (9999px)" }
+      ],
+      "default": "8"
+    },
+    {
+      "type": "header",
+      "content": "Layout Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "flip_layout",
+      "label": "Flip Layout (Image on Left)",
+      "info": "On desktop, place image on left and text on right",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "background_color",
+      "label": "Section Background Color",
+      "options": [
+        { "value": "bg-white", "label": "White" },
+        { "value": "bg-black", "label": "Black" },
+        { "value": "bg-primary", "label": "Primary" },
+        { "value": "bg-secondary", "label": "Secondary" },
+        { "value": "bg-tertiary", "label": "Tertiary" },
+        { "value": "bg-quaternary", "label": "Quaternary" },
+        { "value": "bg-success", "label": "Success" },
+        { "value": "bg-warning", "label": "Warning" },
+        { "value": "bg-error", "label": "Error" },
+        { "value": "bg-info", "label": "Info" },
+        { "value": "bg-neutral", "label": "Neutral" },
+        { "value": "bg-neutral-light", "label": "Neutral Light" },
+        { "value": "bg-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "bg-white"
+    },
+    {
+      "type": "select",
+      "id": "section_padding_y_mobile",
+      "label": "Section Vertical Padding (Mobile)",
+      "options": [
+        { "value": "py-xs", "label": "Extra Small" },
+        { "value": "py-sm", "label": "Small" },
+        { "value": "py-md", "label": "Medium" },
+        { "value": "py-lg", "label": "Large" },
+        { "value": "py-xl", "label": "Extra Large" },
+        { "value": "py-2xl", "label": "2X Large" },
+        { "value": "py-3xl", "label": "3X Large" }
+      ],
+      "default": "py-xl"
+    },
+    {
+      "type": "select",
+      "id": "section_padding_y_desktop",
+      "label": "Section Vertical Padding (Desktop)",
+      "options": [
+        { "value": "lg:py-xs", "label": "Extra Small" },
+        { "value": "lg:py-sm", "label": "Small" },
+        { "value": "lg:py-md", "label": "Medium" },
+        { "value": "lg:py-lg", "label": "Large" },
+        { "value": "lg:py-xl", "label": "Extra Large" },
+        { "value": "lg:py-2xl", "label": "2X Large" },
+        { "value": "lg:py-3xl", "label": "3X Large" }
+      ],
+      "default": "lg:py-3xl"
+    },
+    {
+      "type": "select",
+      "id": "section_padding_x_mobile",
+      "label": "Section Horizontal Padding (Mobile)",
+      "options": [
+        { "value": "px-xs", "label": "Extra Small" },
+        { "value": "px-sm", "label": "Small" },
+        { "value": "px-md", "label": "Medium" },
+        { "value": "px-lg", "label": "Large" },
+        { "value": "px-xl", "label": "Extra Large" },
+        { "value": "px-2xl", "label": "2X Large" },
+        { "value": "px-3xl", "label": "3X Large" }
+      ],
+      "default": "px-0"
+    },
+    {
+      "type": "select",
+      "id": "section_padding_x_desktop",
+      "label": "Section Horizontal Padding (Desktop)",
+      "options": [
+        { "value": "lg:px-xs", "label": "Extra Small" },
+        { "value": "lg:px-sm", "label": "Small" },
+        { "value": "lg:px-md", "label": "Medium" },
+        { "value": "lg:px-lg", "label": "Large" },
+        { "value": "lg:px-xl", "label": "Extra Large" },
+        { "value": "lg:px-2xl", "label": "2X Large" },
+        { "value": "lg:px-3xl", "label": "3X Large" }
+      ],
+      "default": "lg:px-0"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "certification",
+      "name": "Certification Icon",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon_image",
+          "label": "Icon Image"
+        },
+        {
+          "type": "text",
+          "id": "icon_text",
+          "label": "Icon Alt Text",
+          "default": "Certification"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Content Showcase",
+      "blocks": [
+        {
+          "type": "certification"
+        },
+        {
+          "type": "certification"
+        },
+        {
+          "type": "certification"
+        },
+        {
+          "type": "certification"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+

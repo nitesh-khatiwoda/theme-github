@@ -1,0 +1,277 @@
+/* Feature Toolkit Carousel Section */
+
+.feature-toolkit-carousel {
+  overflow-x: clip;
+  overflow-y: visible;
+}
+
+.feature-toolkit-carousel .container {
+  overflow: visible;
+}
+
+/* ============================================
+   HEADER ROW
+   ============================================ */
+
+.feature-toolkit-carousel__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  align-items: center;
+  text-align: center;
+  margin-bottom: var(--space-2xl);
+}
+
+.feature-toolkit-carousel__heading-wrapper h2 {
+  margin: 0;
+  line-height: 1.2;
+}
+
+.feature-toolkit-carousel__heading-wrapper h2 span {
+  display: inline;
+}
+
+.feature-toolkit-carousel__button-wrapper {
+  width: 100%;
+}
+
+.feature-toolkit-carousel__button-wrapper .btn {
+  width: 100%;
+  max-width: 300px;
+}
+
+/* Desktop header layout */
+@media (min-width: 1024px) {
+  .feature-toolkit-carousel__header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+    margin-bottom: var(--space-3xl);
+  }
+
+  .feature-toolkit-carousel__button-wrapper {
+    width: auto;
+    flex-shrink: 0;
+  }
+
+  .feature-toolkit-carousel__button-wrapper .btn {
+    width: auto;
+    white-space: nowrap;
+  }
+
+  .feature-toolkit-carousel__heading-wrapper {
+    flex: 1;
+    max-width: 960px;
+  }
+}
+
+/* ============================================
+   CAROUSEL WRAPPER
+   ============================================ */
+
+.feature-toolkit-carousel__wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: visible;
+}
+
+/* Navigation Wrapper - Below Cards, Right Aligned */
+.feature-toolkit-carousel__nav-wrapper {
+  display: flex;
+  gap: var(--space-md);
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: var(--space-xl);
+}
+
+/* Navigation Buttons */
+.feature-toolkit-carousel__nav {
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: var(--clr-neutral-light);
+  border: 2px solid var(--clr-neutral);
+  color: var(--clr-black);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.feature-toolkit-carousel__nav:hover:not(:disabled) {
+  background-color: var(--clr-primary);
+  border-color: var(--clr-primary);
+  color: var(--clr-white);
+  transform: scale(1.05);
+}
+
+.feature-toolkit-carousel__nav:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.feature-toolkit-carousel__nav:focus {
+  outline: 2px solid var(--clr-primary);
+  outline-offset: 4px;
+}
+
+.feature-toolkit-carousel__nav:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Hide nav buttons on mobile (use swipe instead) */
+@media (max-width: 639px) {
+  .feature-toolkit-carousel__nav-wrapper {
+    display: none;
+  }
+}
+
+/* ============================================
+   CAROUSEL TRACK
+   ============================================ */
+
+.feature-toolkit-carousel__track-container {
+  flex: 1;
+  overflow: visible;
+  position: relative;
+  margin-left: 0;
+}
+
+@media (min-width: 640px) {
+  .feature-toolkit-carousel__track-container {
+    margin-right: calc(-1 * var(--space-3xl));
+  }
+}
+
+.feature-toolkit-carousel__track {
+  display: flex;
+  gap: var(--space-lg);
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  touch-action: pan-y pinch-zoom;
+  padding-right: var(--space-3xl);
+}
+
+.feature-toolkit-carousel .inner-container {
+  overflow: visible;
+}
+
+/* ============================================
+   INDIVIDUAL CARD
+   ============================================ */
+
+.feature-toolkit-carousel__card {
+  flex: 0 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  border-radius: 24px;
+  overflow: hidden;
+  min-height: 350px;
+}
+
+.feature-toolkit-carousel__card-title {
+  padding: var(--space-xl) var(--space-lg) 0;
+  flex-shrink: 0;
+}
+
+.feature-toolkit-carousel__card-title h3 {
+  margin: 0;
+  line-height: 1.33;
+}
+
+.feature-toolkit-carousel__card-image {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-top: var(--space-lg);
+  width: 100%;
+}
+
+.feature-toolkit-carousel__card-image img {
+  width: 100%;
+  max-width: 323px;
+  height: auto;
+  object-fit: cover;
+  display: block;
+}
+
+/* ============================================
+   RESPONSIVE CARD WIDTHS
+   ============================================ */
+
+/* Mobile: 1 card visible */
+@media (max-width: 639px) {
+  .feature-toolkit-carousel__card {
+    width: calc(100% - var(--space-lg));
+  }
+}
+
+/* Tablet: 2 cards visible */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .feature-toolkit-carousel__card {
+    width: calc(50% - var(--space-lg));
+  }
+}
+
+/* Desktop: 4 cards visible */
+@media (min-width: 1024px) {
+  .feature-toolkit-carousel__card {
+    width: calc(25% - var(--space-lg));
+  }
+}
+
+/* ============================================
+   HOVER EFFECTS
+   ============================================ */
+
+.feature-toolkit-carousel__card {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.feature-toolkit-carousel__card:hover {
+  transform: translateY(-4px);
+}
+
+/* ============================================
+   BUTTON FOCUS STATES
+   ============================================ */
+
+.feature-toolkit-carousel__button-wrapper .btn:focus {
+  outline: 2px solid var(--clr-primary);
+  outline-offset: 4px;
+}
+
+.feature-toolkit-carousel__button-wrapper .btn:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ============================================
+   TOUCH/SWIPE OPTIMIZATION
+   ============================================ */
+
+@media (max-width: 639px) {
+  .feature-toolkit-carousel__track-container {
+    overflow-x: auto;
+    overflow-y: visible;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+    margin-right: calc(-1 * var(--space-lg));
+  }
+
+  .feature-toolkit-carousel__track-container::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+  }
+  
+  .feature-toolkit-carousel__track {
+    padding-right: var(--space-lg);
+  }
+}
+

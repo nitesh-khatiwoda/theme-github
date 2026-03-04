@@ -1,0 +1,287 @@
+/* Plan Features Carousel Section */
+
+.plan-features-carousel {
+  overflow-x: clip;
+  overflow-y: visible;
+}
+
+.plan-features-carousel .container {
+  overflow: visible;
+}
+
+/* ============================================
+   HEADER ROW
+   ============================================ */
+
+.plan-features-carousel__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+  align-items: flex-start;
+  margin-bottom: var(--space-2xl);
+  min-height: 166px;
+}
+
+.plan-features-carousel__header-left {
+  width: 100%;
+}
+
+.plan-features-carousel__header-left h2 {
+  margin: 0;
+  line-height: 1.2;
+}
+
+.plan-features-carousel__header-right {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  padding-top: 7px;
+}
+
+.plan-features-carousel__subheading {
+  margin: 0;
+}
+
+.plan-features-carousel__subheading p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.plan-features-carousel__button-wrapper {
+  flex-shrink: 0;
+}
+
+.plan-features-carousel__button-wrapper .btn {
+  width: 100%;
+  max-width: 300px;
+}
+
+/* Desktop header layout */
+@media (min-width: 1024px) {
+  .plan-features-carousel__header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--space-2xl);
+  }
+
+  .plan-features-carousel__header-left {
+    flex: 0 0 auto;
+    max-width: 547px;
+  }
+
+  .plan-features-carousel__header-right {
+    flex: 1;
+    max-width: 547px;
+  }
+
+  .plan-features-carousel__button-wrapper .btn {
+    width: auto;
+  }
+}
+
+/* ============================================
+   CAROUSEL WRAPPER
+   ============================================ */
+
+.plan-features-carousel__wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: visible;
+}
+
+/* Navigation Wrapper - Below Cards, Right Aligned */
+.plan-features-carousel__nav-wrapper {
+  display: flex;
+  gap: var(--space-md);
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: var(--space-xl);
+}
+
+/* Navigation Buttons */
+.plan-features-carousel__nav {
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: var(--clr-neutral-light);
+  border: 2px solid var(--clr-neutral);
+  color: var(--clr-black);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.plan-features-carousel__nav:hover:not(:disabled) {
+  background-color: var(--clr-primary);
+  border-color: var(--clr-primary);
+  color: var(--clr-white);
+  transform: scale(1.05);
+}
+
+.plan-features-carousel__nav:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.plan-features-carousel__nav:focus {
+  outline: 2px solid var(--clr-primary);
+  outline-offset: 4px;
+}
+
+.plan-features-carousel__nav:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Hide nav buttons on mobile (use swipe instead) */
+@media (max-width: 639px) {
+  .plan-features-carousel__nav-wrapper {
+    display: none;
+  }
+}
+
+/* ============================================
+   CAROUSEL TRACK
+   ============================================ */
+
+.plan-features-carousel__track-container {
+  flex: 1;
+  overflow: visible;
+  position: relative;
+  margin-left: 0;
+}
+
+@media (min-width: 640px) {
+  .plan-features-carousel__track-container {
+    margin-right: calc(-1 * var(--space-3xl));
+  }
+}
+
+.plan-features-carousel__track {
+  display: flex;
+  gap: var(--space-lg);
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  touch-action: pan-y pinch-zoom;
+  padding-right: var(--space-3xl);
+}
+
+.plan-features-carousel-inner {
+  overflow: visible;
+}
+
+/* ============================================
+   INDIVIDUAL CARD
+   ============================================ */
+
+.plan-features-carousel__card {
+  flex: 0 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  border-radius: 16px;
+  padding: var(--space-lg);
+  min-height: 148px;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.plan-features-carousel__card:hover {
+  transform: translateY(-4px);
+}
+
+.plan-features-carousel__card-icon {
+  flex-shrink: 0;
+  width: 55px;
+  height: 55px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.plan-features-carousel__card-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.plan-features-carousel__card-title {
+  flex: 1;
+}
+
+.plan-features-carousel__card-title h3 {
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* ============================================
+   RESPONSIVE CARD WIDTHS
+   ============================================ */
+
+/* Mobile: 1 card visible */
+@media (max-width: 639px) {
+  .plan-features-carousel__card {
+    width: calc(100% - var(--space-lg));
+    min-width: 280px;
+  }
+}
+
+/* Tablet: 2 cards visible */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .plan-features-carousel__card {
+    width: calc(50% - var(--space-lg));
+    min-width: 300px;
+  }
+}
+
+/* Desktop: Show multiple cards (scrollable) */
+@media (min-width: 1024px) {
+  .plan-features-carousel__card {
+    width: calc(25% - var(--space-lg));
+    min-width: 303px;
+  }
+}
+
+/* ============================================
+   BUTTON FOCUS STATES
+   ============================================ */
+
+.plan-features-carousel__button-wrapper .btn:focus {
+  outline: 2px solid var(--clr-primary);
+  outline-offset: 4px;
+}
+
+.plan-features-carousel__button-wrapper .btn:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ============================================
+   TOUCH/SWIPE OPTIMIZATION
+   ============================================ */
+
+@media (max-width: 639px) {
+  .plan-features-carousel__track-container {
+    overflow-x: auto;
+    overflow-y: visible;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+    margin-right: calc(-1 * var(--space-lg));
+  }
+
+  .plan-features-carousel__track-container::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+  }
+  
+  .plan-features-carousel__track {
+    padding-right: var(--space-lg);
+  }
+}
+

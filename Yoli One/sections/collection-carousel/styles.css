@@ -1,0 +1,388 @@
+/* ============================================
+   COLLECTION CAROUSEL SECTION
+   Split layout with info card and product carousel
+   ============================================ */
+
+.collection-carousel {
+  position: relative;
+  z-index: var(--z-10);
+}
+
+/* ============================================
+   CONTAINER (Adds padding for white background to show)
+   ============================================ */
+
+.collection-carousel__container {
+  padding-left: var(--space-xl);
+  padding-right: var(--space-xl);
+}
+
+@media (max-width: 990px) {
+  .collection-carousel__container {
+    padding-left: var(--space-md);
+    padding-right: var(--space-md);
+  }
+}
+
+/* ============================================
+   SPLIT LAYOUT
+   ============================================ */
+
+.collection-carousel__split {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+
+@media (min-width: 991px) {
+  .collection-carousel__split {
+    flex-direction: row;
+    gap: var(--space-2xl);
+    align-items: stretch;
+  }
+}
+
+/* ============================================
+   LEFT INFO CARD
+   ============================================ */
+
+.collection-carousel__info-card {
+  flex-shrink: 0;
+  width: 100%;
+  padding: var(--space-lg) var(--space-xl);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 320px;
+}
+
+@media (min-width: 991px) {
+  .collection-carousel__info-card {
+    width: 380px;
+    min-height: 400px;
+    padding: var(--space-xl) var(--space-2xl);
+  }
+}
+
+/* Background Image & Overlay */
+.collection-carousel__info-card-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 1;
+}
+
+.collection-carousel__info-card-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+
+.collection-carousel__info-card-solid-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.collection-carousel__info-content {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+  min-width: 0;
+  width: 100%;
+}
+
+/* Header Section (Title + Link) */
+.collection-carousel__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  min-width: 0;
+  width: 100%;
+}
+
+.collection-carousel__title {
+  margin: 0;
+  line-height: 1.3;
+  letter-spacing: 0.018em;
+}
+
+.collection-carousel__link {
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.078em;
+  line-height: 0.55;
+  padding-bottom: 4px;
+  border-bottom: 1px solid currentColor;
+  display: inline-block;
+  align-self: flex-start;
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.collection-carousel__link:hover {
+  opacity: 0.7;
+}
+
+/* Statistic Section */
+.collection-carousel__statistic {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  margin-top: var(--space-md);
+  min-width: 0;
+  width: 100%;
+}
+
+.collection-carousel__statistic-eyebrow {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  line-height: 1.2;
+  opacity: 0.7;
+}
+
+.collection-carousel__statistic-separator {
+  width: 40px;
+  height: 2px;
+  background-color: currentColor;
+  margin: var(--space-sm) 0;
+}
+
+.collection-carousel__statistic-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  min-width: 0;
+  width: 100%;
+}
+
+.collection-carousel__statistic-value {
+  margin: 0;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+}
+
+.collection-carousel__statistic-description {
+  margin: 0;
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+  opacity: 0.8;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden !important;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  max-height: calc(1.5em * 4);
+}
+
+/* ============================================
+   RIGHT CAROUSEL
+   ============================================ */
+
+.collection-carousel__carousel-wrapper {
+  flex: 1;
+  position: relative;
+  min-width: 0;
+}
+
+.collection-carousel__carousel-container {
+  position: relative;
+  width: 100%;
+}
+
+.collection-carousel__track-container {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  padding: var(--space-md) 0;
+}
+
+.collection-carousel__track {
+  display: flex;
+  gap: 18px;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ============================================
+   PRODUCT CARDS
+   ============================================ */
+
+.collection-carousel__product-card {
+  flex: 0 0 auto;
+  width: 372px;
+}
+
+@media (max-width: 990px) {
+  .collection-carousel__product-card {
+    width: 300px;
+  }
+}
+
+@media (max-width: 767px) {
+  .collection-carousel__product-card {
+    width: 280px;
+  }
+}
+
+.collection-carousel__product-link {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  text-decoration: none;
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.collection-carousel__product-link:hover {
+  opacity: 0.9;
+}
+
+/* Product Image */
+.collection-carousel__image-wrapper {
+  position: relative;
+  width: 100%;
+  height: 350px;
+  overflow: hidden;
+}
+
+.collection-carousel__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.collection-carousel__image--default {
+  position: relative;
+  opacity: 1;
+}
+
+.collection-carousel__image--hover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+
+.collection-carousel__product-card:hover .collection-carousel__image--default {
+  opacity: 0;
+}
+
+.collection-carousel__product-card:hover .collection-carousel__image--hover {
+  opacity: 1;
+}
+
+/* Badge */
+.collection-carousel__badge {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+  z-index: 1;
+}
+
+.collection-carousel__badge span {
+  line-height: 1;
+}
+
+/* Product Info */
+.collection-carousel__product-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.collection-carousel__product-title {
+  margin: 0;
+  line-height: 1.6;
+  letter-spacing: 0.033em;
+}
+
+.collection-carousel__product-price {
+  margin: 0;
+  line-height: 1.64;
+  letter-spacing: 0.034em;
+}
+
+/* ============================================
+   NAVIGATION BUTTON
+   ============================================ */
+
+.collection-carousel__nav-button {
+  position: absolute;
+  right: -2px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 3;
+  color: var(--clr-primary);
+}
+
+.collection-carousel__nav-button:hover {
+  transform: translateY(-50%) scale(1.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.collection-carousel__nav-button svg {
+  flex-shrink: 0;
+}
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================ */
+
+/* Mobile: Stack layout */
+@media (max-width: 990px) {
+  .collection-carousel__info-card {
+    min-height: 280px;
+    padding: var(--space-lg) var(--space-xl);
+  }
+  
+  .collection-carousel__info-content {
+    gap: var(--space-lg);
+  }
+  
+  .collection-carousel__nav-button {
+    right: 10px;
+  }
+  
+  .collection-carousel__image-wrapper {
+    height: 280px;
+  }
+}
+
+/* Tablet adjustments */
+@media (min-width: 768px) and (max-width: 990px) {
+  .collection-carousel__image-wrapper {
+    height: 320px;
+  }
+}
+

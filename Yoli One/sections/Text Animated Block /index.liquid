@@ -1,0 +1,858 @@
+<section
+  class="animated-text-block-section animated-scrollable-text-block-- {{ section.settings.background_color }}"
+  id="animated-scrollable-text-block"
+>
+  <div class="image-wrap">
+    <img
+      id="bgImage"
+      src="{{ section.settings.background_image }}"
+      alt="{{ background_image_alt | default: 'bg image' }}"
+      class="{{ section.settings.background_fit }}"
+    />
+
+  </div>
+  {% if section.settings.show_overlay %}
+    {% assign overlay_opacity = section.settings.overlay_opacity | default: 40 | divided_by: 100.0 %}
+    <div class="overlay" style="background: {{ section.settings.overlay_color | default: '#000000' }}; opacity: {{ overlay_opacity }};"></div>
+  {% endif %}
+  <div class="{{section.settings.container_layout_width }}">
+    <div class="content {{ section.settings.alignment }} {{ section.settings.content_padding_x_mobile }} {{  section.settings.content_padding_x_desktop}} {{ section.settings.content_padding_y_mobile }} {{  section.settings.content_padding_y_desktop}}">
+      <!-- Sticky Overline Text -->
+      <div>
+      {% if section.settings.show_overline and section.settings.overline_text != blank %}
+        <div class="section-title  {{ section.settings.overline_font_family }} {{ section.settings.overline_font_size }} {{ section.settings.overline_font_size_desktop  }} {{ section.settings.overline_font_weight }} {{ section.settings.overline_color }} {{ section.settings.overline_text_transform }} {{  section.settings.verline_text_margin_bottom }}">
+          {{ section.settings.overline_text }}
+        </div>
+      {% endif %}
+      {% if section.blocks.size > 0 %}
+        <div class="stack-viewport" id="stackViewport">
+          <div class="stack" id="stack">
+            {% for block in section.blocks %}
+              {% if block.type == 'text_animated_block' %}
+                <div class="heading {{ section.settings.item_font_family }}  {{ section.settings.item_font_size }} {{ section.settings.item_font_size_desktop }} {{ section.settings.item_font_weight }} {{ section.settings.item_text_color }}"  {{ block.fluid_attributes }}>
+                  {{ block.settings.text }}
+                </div>
+
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+      {% if section.settings.button_text != blank and section.settings.button_url != blank %}
+          <div class="text-block-effects-footer mt-xl">
+            <a href="{{ section.settings.button_url }}" class="btn btn-{{ section.settings.button_style | default: 'filled' }}-{{ section.settings.button_color | default: 'primary' }} {{ section.settings.button_size | default: 'btn-md' }} {{ settings.button_border_radius | default: 'rounded-md' }}">
+              {{ section.settings.button_text }}
+            </a>
+          </div>
+          {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- <script>
+    const sectionSelector = document.getElementById("animated-scrollable-text-block");
+    const img = document.getElementById("bgImage");
+    const viewport = document.getElementById("stackViewport");
+    const stack = document.getElementById("stack");
+    const headings = Array.from(stack.querySelectorAll(".heading"));
+
+    let spacerEl = null;
+    let isPinned = false;
+    let sectionTopAbs = 0;
+
+    let sectionH = 400;
+    let maxH = 0;
+    let textTravel = 0;
+    let imgTravel = 0;
+    let pinDistance = 0;
+
+    const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+
+    function createSpacer(height) {
+      if (!spacerEl) {
+        spacerEl = document.createElement("div");
+        spacerEl.style.width = "100%";
+      }
+      spacerEl.style.height = height + "px";
+    }
+
+    function pin() {
+      if (isPinned) return;
+
+      createSpacer(sectionH + pinDistance);
+      sectionSelector.parentNode.insertBefore(spacerEl, sectionSelector.nextSibling);
+
+      sectionSelector.style.position = "fixed";
+      sectionSelector.style.top = "66px";
+      sectionSelector.style.left = "0";
+      sectionSelector.style.right = "0";
+      sectionSelector.style.width = "100%";
+      sectionSelector.style.zIndex = "999";
+
+      isPinned = true;
+    }
+
+    function unpin() {
+      if (!isPinned) return;
+
+      sectionSelector.style.position = "";
+      sectionSelector.style.top = "";
+      sectionSelector.style.left = "";
+      sectionSelector.style.right = "";
+      sectionSelector.style.width = "";
+      sectionSelector.style.zIndex = "";
+
+      if (spacerEl && spacerEl.parentNode) spacerEl.parentNode.removeChild(spacerEl);
+      spacerEl = null;
+
+      isPinned = false;
+    }
+
+    function applyProgress(p) {
+      stack.style.transform = `translate3d(0, ${-textTravel * p}px, 0)`;
+      img.style.transform = `translate3d(0, ${-imgTravel * p}px, 0)`;
+    }
+
+    function measureAndSetup() {
+      headings.forEach(h => (h.style.height = "auto"));
+      viewport.style.height = "auto";
+
+      maxH = 0;
+      headings.forEach(h => {
+        maxH = Math.max(maxH, h.getBoundingClientRect().height);
+      });
+      maxH = Math.ceil(maxH) + 24;
+
+      viewport.style.height = maxH + "px";
+      headings.forEach(h => (h.style.height = maxH + "px"));
+
+      const last = headings[headings.length - 1];
+      textTravel = last.offsetTop;
+
+      sectionH = sectionSelector.getBoundingClientRect().height;
+      imgTravel = img.getBoundingClientRect().height - sectionH;
+
+      const transitions = Math.max(1, headings.length - 1);
+      pinDistance = transitions * sectionH;
+
+      const r = sectionSelector.getBoundingClientRect();
+      sectionTopAbs = r.top + window.scrollY;
+
+      if (isPinned) {
+        createSpacer(sectionH + pinDistance);
+        applyProgress(getProgress());
+      }
+    }
+
+    function getProgress() {
+      const s = window.scrollY;
+      const start = sectionTopAbs;
+      const end = sectionTopAbs + pinDistance;
+
+      if (s <= start) return 0;
+      if (s >= end) return 1;
+      return (s - start) / (end - start);
+    }
+
+    let ticking = false;
+
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+
+      requestAnimationFrame(() => {
+        const s = window.scrollY;
+        const start = sectionTopAbs;
+        const end = sectionTopAbs + pinDistance;
+
+        if (s >= start && s <= end) {
+          pin();
+          applyProgress(clamp((s - start) / pinDistance, 0, 1));
+        } else {
+          if (isPinned) applyProgress(s > end ? 1 : 0);
+          unpin();
+        }
+
+        ticking = false;
+      });
+    }
+
+    function init() {
+      measureAndSetup();
+      onScroll();
+
+      window.addEventListener("scroll", onScroll, { passive: true });
+      window.addEventListener("resize", () => {
+        clearTimeout(window.__rsz);
+        window.__rsz = setTimeout(() => {
+          const wasPinned = isPinned;
+          if (wasPinned) unpin();
+          measureAndSetup();
+          if (wasPinned) onScroll();
+        }, 120);
+      });
+    }
+
+    const start = () => {
+      if (img.complete) init();
+      else img.addEventListener("load", init, { once: true });
+    };
+
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(start);
+    } else {
+      start();
+    }
+</script> -->
+
+<!-- <script>
+document.addEventListener("DOMContentLoaded", () => {
+  const section = document.getElementById("animated-scrollable-text-block");
+  const img = document.getElementById("bgImage");
+  const viewport = document.getElementById("stackViewport");
+  const stack = document.getElementById("stack");
+  const headings = Array.from(stack.querySelectorAll(".heading"));
+
+  let textTravel = 0;
+  let imgTravel = 0;
+  let sectionTop = 0;
+  let pinDistance = 0;
+
+  // Smooth animation
+  let smoothProgress = 0;
+  let targetProgress = 0;
+
+  const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
+
+  function measureHeights() {
+    // Reset heading heights
+    headings.forEach(h => h.style.height = "auto");
+    viewport.style.height = "auto";
+
+    // Max heading height
+    const maxH = Math.max(...headings.map(h => h.getBoundingClientRect().height)) + 24;
+    viewport.style.height = maxH + "px";
+    headings.forEach(h => h.style.height = maxH + "px");
+
+    // Total distance stack will move
+    textTravel = headings[headings.length - 1].offsetTop;
+    imgTravel = img ? Math.max(0, img.getBoundingClientRect().height - section.getBoundingClientRect().height) : 0;
+
+    // Section top and pin distance
+    sectionTop = section.getBoundingClientRect().top + window.scrollY;
+    pinDistance = textTravel; // Exact distance stack travels
+  }
+
+  function applyProgress(p) {
+    stack.style.transform = `translate3d(0, ${-textTravel * p}px, 0)`;
+    if(img) img.style.transform = `translate3d(0, ${-imgTravel * p}px, 0)`;
+  }
+
+  function animateProgress() {
+    smoothProgress += (targetProgress - smoothProgress) * 0.1; // easing
+    applyProgress(smoothProgress);
+
+    if(Math.abs(targetProgress - smoothProgress) > 0.001){
+      requestAnimationFrame(animateProgress);
+    }
+  }
+
+  function onScroll() {
+    const scroll = window.scrollY;
+    if(scroll >= sectionTop && scroll <= sectionTop + pinDistance){
+      // section is pinned
+      targetProgress = clamp((scroll - sectionTop)/pinDistance, 0, 1);
+      animateProgress();
+    } else {
+      // section unpinned
+      targetProgress = scroll > sectionTop + pinDistance ? 1 : 0;
+      animateProgress();
+    }
+  }
+
+  function init() {
+    measureHeights();
+    onScroll();
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", () => {
+      clearTimeout(window.__rsz);
+      window.__rsz = setTimeout(() => {
+        measureHeights();
+        onScroll();
+      }, 100);
+    });
+  }
+
+  // Wait for image and fonts
+  const start = () => {
+    if(img && !img.complete){
+      img.addEventListener("load", init, { once: true });
+    } else {
+      init();
+    }
+  }
+
+  if(document.fonts && document.fonts.ready){
+    document.fonts.ready.then(start);
+  } else {
+    start();
+  }
+});
+</script> -->
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const section = document.getElementById("animated-scrollable-text-block");
+  const img = document.getElementById("bgImage");
+  const viewport = document.getElementById("stackViewport");
+  const stack = document.getElementById("stack");
+  const headings = Array.from(stack.querySelectorAll(".heading"));
+
+  let totalScroll = 0;
+  let imgTravel = 0;
+
+  let smoothProgress = 0;
+  let targetProgress = 0;
+
+  const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
+
+  function measure() {
+    // Reset heading heights
+    headings.forEach(h => (h.style.height = "auto"));
+    viewport.style.height = "auto";
+
+    // Max heading height
+    const maxH = Math.max(...headings.map(h => h.getBoundingClientRect().height)) + 24;
+    viewport.style.height = maxH + "px";
+    headings.forEach(h => (h.style.height = maxH + "px"));
+
+    // Total stack scroll = distance to show last heading fully
+    totalScroll = headings[headings.length - 1].offsetTop;
+
+    // Background travel
+    imgTravel = img ? Math.max(0, img.getBoundingClientRect().height - (window.innerHeight - 66)) : 0;
+
+    // Set section height to 100vh - 66px
+    section.style.height = `calc(100vh - 66px)`;
+
+    // Make section sticky
+    section.style.position = "sticky";
+    section.style.top = "66px"; // account for header height
+    section.style.left = "0";
+    section.style.right = "0";
+    section.style.width = "100%";
+    section.style.zIndex = "1";
+  }
+
+  function applyProgress(p) {
+    stack.style.transform = `translate3d(0, ${-totalScroll * p}px, 0)`;
+    if(img) img.style.transform = `translate3d(0, ${-imgTravel * p}px, 0)`;
+  }
+
+  function animateProgress() {
+    smoothProgress += (targetProgress - smoothProgress) * 0.1;
+    applyProgress(smoothProgress);
+
+    if(Math.abs(targetProgress - smoothProgress) > 0.001){
+      requestAnimationFrame(animateProgress);
+    }
+  }
+
+  function onScroll() {
+    const scroll = window.scrollY;
+    const start = section.offsetTop - 66; // adjust for sticky offset
+    const end = start + totalScroll;
+
+    if(scroll >= start && scroll <= end){
+      targetProgress = clamp((scroll - start) / totalScroll, 0, 1);
+      animateProgress();
+    } else {
+      targetProgress = scroll > end ? 1 : 0;
+      animateProgress();
+    }
+  }
+
+  function init() {
+    measure();
+    onScroll();
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", () => {
+      clearTimeout(window.__rsz);
+      window.__rsz = setTimeout(() => {
+        measure();
+        onScroll();
+      }, 120);
+    });
+  }
+
+  const start = () => {
+    if(img && !img.complete){
+      img.addEventListener("load", init, { once: true });
+    } else {
+      init();
+    }
+  };
+
+  if(document.fonts && document.fonts.ready){
+    document.fonts.ready.then(start);
+  } else {
+    start();
+  }
+});
+</script>
+
+
+
+{% schema %}
+{
+"name": "Text Block Rotate",
+"settings": [
+  {
+    "type": "header",
+    "content": "Layout Width (Container)"
+  },
+  {
+    "type": "select",
+    "id": "container_layout_width",
+    "label": "Layout Width (Container)",
+    "options": [
+      { "value": "container", "label": "Container" },
+      { "value": "container-full", "label": "Full Width (Container Full)" }
+    ],
+    "default": "container",
+    "info": "Choose whether the container is constrained to the width of the page or full width"
+  },
+  {
+    "type": "header",
+    "content": "Section Settings"
+  },
+  {
+    "type": "select",
+    "id": "background_color",
+    "label": "Background Color",
+    "options": [
+      { "value": "bg-white", "label": "White" },
+      { "value": "bg-black", "label": "Black" },
+      { "value": "bg-neutral-light", "label": "Neutral Light" },
+      { "value": "bg-neutral-lighter", "label": "Neutral Lighter" },
+      { "value": "bg-primary", "label": "Primary" },
+      { "value": "bg-secondary", "label": "Secondary" }
+    ],
+    "default": "bg-white"
+  },
+  {
+    "type": "header",
+    "content": "Section Overlay"
+  },
+  {
+    "type": "checkbox",
+    "id": "show_overlay",
+    "label": "Show Overlay",
+    "default": true,
+    "info": "Add a color overlay to improve text readability over images/videos"
+  },
+  {
+    "type": "color",
+    "id": "overlay_color",
+    "label": "Overlay Color",
+    "default": "#000000"
+  },
+  {
+    "type": "range",
+    "id": "overlay_opacity",
+    "label": "Overlay Opacity",
+    "min": 0,
+    "max": 100,
+    "step": 5,
+    "unit": "%",
+    "default": 60,
+    "info": "0% = fully transparent, 100% = fully opaque"
+  },
+  {
+    "type": "header",
+    "content": "Background Image"
+  },
+  {
+    "type": "image_picker",
+    "id": "background_image",
+    "label": "Background Image",
+    "default": "https://cdn.prod.website-files.com/67b62afe81ad0018e0a40aa2/68b1fa2ec342320f8cdac499_Macro%20Mushies2.png",
+    "info": "Used as background image or as poster/fallback for video"
+  },
+  {
+    "type": "text",
+    "id": "background_image_alt",
+    "label": "Background Image Alt Text",
+    "default": "Background image"
+  },
+  {
+    "type": "select",
+    "id": "background_fit",
+    "label": "Background Fit",
+    "options": [
+      { "value": "object-cover", "label": "Cover (Fill, may crop)" },
+      { "value": "object-contain", "label": "Contain (Show entire image)" }
+    ],
+    "default": "cover"
+  },
+  {
+    "type": "header",
+    "content": "Content Spacing"
+  },
+  {
+    "type": "select",
+    "id": "content_padding_y_mobile",
+    "label": "Padding Y (Mobile)",
+    "options": [
+      { "value": "py-0", "label": "None" },
+      { "value": "py-xs", "label": "Extra Small" },
+      { "value": "py-sm", "label": "Small" },
+      { "value": "py-md", "label": "Medium" },
+      { "value": "py-lg", "label": "Large" },
+      { "value": "py-xl", "label": "Extra Large" },
+      { "value": "py-2xl", "label": "2X Large" },
+      { "value": "py-3xl", "label": "3X Large" }
+    ],
+    "default": "py-lg"
+  },
+  {
+    "type": "select",
+    "id": "content_padding_x_mobile",
+    "label": "Padding X (Mobile)",
+    "options": [
+      { "value": "px-0", "label": "None" },
+      { "value": "px-xs", "label": "Extra Small" },
+      { "value": "px-sm", "label": "Small" },
+      { "value": "px-md", "label": "Medium" },
+      { "value": "px-lg", "label": "Large" },
+      { "value": "px-xl", "label": "Extra Large" },
+      { "value": "px-2xl", "label": "2X Large" },
+      { "value": "px-3xl", "label": "3X Large" }
+    ],
+    "default": "px-0"
+  },
+  {
+    "type": "select",
+    "id": "content_padding_y_desktop",
+    "label": "Padding Y (Desktop)",
+    "options": [
+      { "value": "lg:py-0", "label": "None" },
+      { "value": "lg:py-xs", "label": "Extra Small" },
+      { "value": "lg:py-sm", "label": "Small" },
+      { "value": "lg:py-md", "label": "Medium" },
+      { "value": "lg:py-lg", "label": "Large" },
+      { "value": "lg:py-xl", "label": "Extra Large" },
+      { "value": "lg:py-2xl", "label": "2X Large" },
+      { "value": "lg:py-3xl", "label": "3X Large" }
+    ],
+    "default": "lg:py-xl"
+  },
+  {
+    "type": "select",
+    "id": "content_padding_x_desktop",
+    "label": "Padding X (Desktop)",
+    "options": [
+      { "value": "lg:px-0", "label": "None" },
+      { "value": "lg:px-xs", "label": "Extra Small" },
+      { "value": "lg:px-sm", "label": "Small" },
+      { "value": "lg:px-md", "label": "Medium" },
+      { "value": "lg:px-lg", "label": "Large" },
+      { "value": "lg:px-xl", "label": "Extra Large" },
+      { "value": "lg:px-2xl", "label": "2X Large" },
+      { "value": "lg:px-3xl", "label": "3X Large" }
+    ],
+    "default": "lg:px-0"
+  },
+  {
+    "type": "header",
+    "content": "Sticky Overline Text"
+  },
+  {
+    "type": "checkbox",
+    "id": "show_overline",
+    "label": "Show Overline Text",
+    "default": true,
+    "info": "Display a sticky overline text that stays visible while scrolling through the section"
+  },
+  {
+    "type": "text",
+    "id": "overline_text",
+    "label": "Text",
+    "default": "The Yoli Principles"
+  },
+  {
+    "type": "select",
+    "id": "overline_font_family",
+    "label": "Overline Font Family",
+    "options": [
+      { "value": "font-primary", "label": "Primary" },
+      { "value": "font-body", "label": "Body" },
+      { "value": "font-serif", "label": "Serif" },
+      { "value": "font-handwritten", "label": "Handwritten" }
+    ],
+    "default": "font-body"
+  },
+  {
+    "type": "select",
+    "id": "overline_font_size",
+    "label": "Font Size (Mobile)",
+    "options": [
+      { "value": "text-xs", "label": "Extra Small" },
+      { "value": "text-sm", "label": "Small" },
+      { "value": "text-base", "label": "Base" },
+      { "value": "text-lg", "label": "Large" }
+    ],
+    "default": "text-sm"
+  },
+  {
+    "type": "select",
+    "id": "overline_font_size_desktop",
+    "label": "Font Size (Desktop)",
+    "options": [
+      { "value": "lg:text-xs", "label": "Extra Small" },
+      { "value": "lg:text-sm", "label": "Small" },
+      { "value": "lg:text-base", "label": "Base" },
+      { "value": "lg:text-lg", "label": "Large" },
+      { "value": "lg:text-xl", "label": "Extra Large" }
+    ],
+    "default": "lg:text-base"
+  },
+  {
+    "type": "select",
+    "id": "overline_font_weight",
+    "label": "Font Weight",
+    "options": [
+      { "value": "font-normal", "label": "Normal" },
+      { "value": "font-medium", "label": "Medium" },
+      { "value": "font-semibold", "label": "Semibold" },
+      { "value": "font-bold", "label": "Bold" }
+    ],
+    "default": "font-semibold"
+  },
+  {
+    "type": "select",
+    "id": "overline_color",
+    "label": "Text Color",
+    "options": [
+      { "value": "text-black", "label": "Black" },
+      { "value": "text-white", "label": "White" },
+      { "value": "text-primary", "label": "Primary" },
+      { "value": "text-secondary", "label": "Secondary" },
+      { "value": "text-neutral-dark", "label": "Neutral Dark" },
+      { "value": "text-neutral", "label": "Neutral" }
+    ],
+    "default": "text-white"
+  },
+  {
+    "type": "select",
+    "id": "overline_text_transform",
+    "label": "Text Transform",
+    "options": [
+      { "value": "", "label": "None" },
+      { "value": "text-uppercase", "label": "Uppercase" },
+      { "value": "text-lowercase", "label": "Lowercase" },
+      { "value": "text-capitalize", "label": "Capitalize" }
+    ],
+    "default": "text-uppercase"
+  },
+  {
+    "type": "select",
+    "id": "overline_text_margin_bottom",
+    "label": "Margin Bottom",
+    "options": [
+      { "value": "mb-xs", "label": "Extra Small" },
+      { "value": "md-sm", "label": "Small" },
+      { "value": "mb-md", "label": "Medium" },
+      { "value": "mb-lg", "label": "Large" },
+      { "value": "mb-xl", "label": "Extra Large" },
+      { "value": "mb-2xl", "label": "2X Large" }
+    ],
+    "default": "mb-md"
+  },
+  {
+    "type": "header",
+    "content": "Layout Settings"
+  },
+  {
+    "type": "select",
+    "id": "alignment",
+    "label": "Text Alignment",
+    "options": [
+      { "value": "", "label": "Left" },
+      { "value": "text-center", "label": "Center" },
+      { "value": "text-right", "label": "Right" }
+    ],
+    "default": "text-center"
+  },
+  {
+    "type": "header",
+    "content": "Button Settings"
+  },
+  {
+    "type": "text",
+    "id": "button_text",
+    "label": "Button Text"
+  },
+  {
+    "type": "url",
+    "id": "button_url",
+    "label": "Button URL"
+  },
+  {
+    "type": "select",
+    "id": "button_style",
+    "label": "Button Style",
+    "options": [
+      { "value": "filled", "label": "Filled" },
+      { "value": "outline", "label": "Outline" },
+      { "value": "ghost", "label": "Ghost" }
+    ],
+    "default": "filled"
+  },
+  {
+    "type": "select",
+    "id": "button_color",
+    "label": "Button Color",
+    "options": [
+      { "value": "primary", "label": "Primary" },
+      { "value": "secondary", "label": "Secondary" }
+    ],
+    "default": "primary"
+  },
+  {
+    "type": "select",
+    "id": "button_size",
+    "label": "Button Size",
+    "options": [
+      { "value": "btn-sm", "label": "SM" },
+      { "value": "btn-md", "label": "MD" },
+      { "value": "btn-lg", "label": "LG" }
+    ],
+    "default": "btn-md"
+  },
+  {
+    "type": "header",
+    "content": "Block Item Styling"
+  },
+  {
+    "type": "select",
+    "id": "item_font_family",
+    "label": "Font Family",
+    "options": [
+      { "value": "font-primary", "label": "Primary" },
+      { "value": "font-body", "label": "Body" },
+      { "value": "font-serif", "label": "Serif" },
+      { "value": "font-handwritten", "label": "Handwritten" }
+    ],
+    "default": "font-primary"
+  },
+  {
+    "type": "select",
+    "id": "item_font_size",
+    "label": "Font Size (Mobile)",
+    "options": [
+      { "value": "text-base", "label": "Base" },
+      { "value": "text-lg", "label": "Large" },
+      { "value": "text-xl", "label": "Extra Large" },
+      { "value": "text-2xl", "label": "2X Large" },
+      { "value": "text-3xl", "label": "3X Large" },
+      { "value": "text-4xl", "label": "4X Large" },
+      { "value": "text-5xl", "label": "5XL" },
+      { "value": "text-6xl", "label": "6XL" }
+    ],
+    "default": "text-3xl"
+  },
+  {
+    "type": "select",
+    "id": "item_font_size_desktop",
+    "label": "Font Size (Desktop)",
+    "options": [
+      { "value": "lg:text-lg", "label": "LG" },
+      { "value": "lg:text-xl", "label": "XL" },
+      { "value": "lg:text-2xl", "label": "2XL" },
+      { "value": "lg:text-3xl", "label": "3XL" },
+      { "value": "lg:text-4xl", "label": "4XL" },
+      { "value": "lg:text-5xl", "label": "5XL" },
+      { "value": "lg:text-6xl", "label": "6XL" }
+    ],
+    "default": "lg:text-6xl"
+  },
+  {
+    "type": "select",
+    "id": "item_font_weight",
+    "label": "Font Weight",
+    "options": [
+      { "value": "font-normal", "label": "Normal" },
+      { "value": "font-medium", "label": "Medium" },
+      { "value": "font-semibold", "label": "Semibold" },
+      { "value": "font-bold", "label": "Bold" }
+    ],
+    "default": "font-semibold"
+  },
+  {
+    "type": "select",
+    "id": "item_text_color",
+    "label": "Text Color",
+    "options": [
+      { "value": "text-black", "label": "Black" },
+      { "value": "text-white", "label": "White" },
+      { "value": "text-primary", "label": "Primary" },
+      { "value": "text-secondary", "label": "Secondary" },
+      { "value": "text-neutral-dark", "label": "Neutral Dark" }
+    ],
+    "default": "text-white"
+  }
+],
+"blocks": [
+  {
+    "type": "text_animated_block",
+    "name": "Text Block",
+    "settings": [
+      {
+        "type": "text",
+        "id": "text",
+        "label": "Text",
+        "default": "Your Text Here"
+      }
+    ]
+  }
+],
+"presets": [
+  {
+    "name": "Text Animated Block",
+    "blocks": [
+      {
+        "type": "text_animated_block",
+        "settings": {
+          "text": "Protect Life"
+        }
+      },
+      {
+        "type": "text_animated_block",
+        "settings": {
+          "text": "Give Life"
+        }
+      },
+      {
+        "type": "text_animated_block",
+        "settings": {
+          "text": "Love Life"
+        }
+      },
+{
+        "type": "text_animated_block",
+        "settings": {
+          "text": "Yoli Means Life"
+        }
+      }
+    ]
+  }
+]
+}
+{% endschema %}
+
+

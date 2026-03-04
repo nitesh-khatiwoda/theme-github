@@ -1,0 +1,22 @@
+{% section 'search-results-header', id: 'search-header-01' %}
+
+{% section 'product-showcase-grid-hydrated', id: 'search-products-01' %}
+
+{% schema %}
+{
+  "sections": {
+    "search-header-01": {
+      "type": "search-results-header"
+    },
+    "search-products-01": {
+      "type": "product-showcase-grid-hydrated"
+    }
+  },
+  "order": [
+    "search-header-01",
+    "search-products-01"
+  ],
+  "name": "Search Page"
+}
+{% endschema %}
+

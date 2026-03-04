@@ -1,0 +1,276 @@
+/* Also Bought Section - Modern Card Design */
+.also-bought {
+  width: 100%;
+  padding: 3rem 1.5rem;
+}
+
+/* Section Heading */
+.also-bought-heading {
+  color: var(--ab-heading-color, #1a1a1a);
+  margin: 0 0 2.5rem 0;
+  line-height: 1.2;
+  text-align: center;
+}
+
+/* Products Grid - Responsive columns via CSS variables */
+.also-bought-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--ab-columns-mobile, 1), 1fr);
+  gap: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .also-bought-grid {
+    grid-template-columns: repeat(var(--ab-columns-tablet, 2), 1fr);
+    gap: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .also-bought-grid {
+    grid-template-columns: repeat(var(--ab-columns, 3), 1fr);
+    gap: 2rem;
+  }
+}
+
+/* Product Card - Modern card design with shadow */
+.also-bought-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--ab-card-bg, #ffffff);
+  border-radius: 1.25rem;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.also-bought-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+/* Image Wrapper - Full width card header style */
+.also-bought-image-wrapper {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.also-bought-image-link {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.also-bought-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.also-bought-image-link:hover .also-bought-image {
+  transform: scale(1.08);
+}
+
+.also-bought-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  color: #9ca3af;
+}
+
+/* Product Info - Card body with padding */
+.also-bought-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 1.25rem 1rem 1.5rem;
+  text-align: center;
+}
+
+/* Title */
+.also-bought-title {
+  margin: 0;
+  color: var(--ab-title-color, #1a1a1a);
+  line-height: 1.3;
+}
+
+.also-bought-title a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.also-bought-title a:hover {
+  color: var(--ab-button-bg, #d4a853);
+}
+
+/* Description */
+.also-bought-description {
+  margin: 0;
+  color: var(--ab-desc-color, #666666);
+  line-height: 1.5;
+  max-width: 100%;
+}
+
+/* Star Rating */
+.also-bought-rating {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.also-bought-stars {
+  display: flex;
+  gap: 0.125rem;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.star {
+  display: inline-block;
+}
+
+.star-full {
+  color: var(--ab-star-filled, #d4a853);
+}
+
+.star-empty {
+  color: var(--ab-star-empty, #d1d5db);
+}
+
+.star-half {
+  position: relative;
+  display: inline-block;
+}
+
+.star-half .star-bg {
+  color: var(--ab-star-empty, #d1d5db);
+}
+
+.star-half .star-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 50%;
+  overflow: hidden;
+  color: var(--ab-star-filled, #d4a853);
+}
+
+.also-bought-rating-text {
+  font-size: 0.8125rem;
+  color: var(--ab-rating-color, #666666);
+  line-height: 1.4;
+}
+
+/* Add to Cart Button - Fully rounded pill style */
+.also-bought-atc-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.75rem;
+  padding: 0.75rem 1.75rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background-color: var(--ab-button-bg, #d4a853);
+  color: var(--ab-button-text, #1a1a1a);
+  border: none;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+  min-width: 140px;
+  box-shadow: 0 2px 8px rgba(212, 168, 83, 0.3);
+}
+
+.also-bought-atc-btn:hover:not(:disabled) {
+  background-color: var(--ab-button-hover-bg, #c49a48);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(212, 168, 83, 0.4);
+}
+
+.also-bought-atc-btn:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(212, 168, 83, 0.3);
+}
+
+.also-bought-atc-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Empty State */
+.also-bought-empty {
+  text-align: center;
+  padding: 2rem;
+  color: #9ca3af;
+  font-size: 0.875rem;
+}
+
+/* Mobile adjustments */
+@media (max-width: 639px) {
+  .also-bought {
+    padding: 2rem 1rem;
+  }
+  
+  .also-bought-heading {
+    margin-bottom: 1.5rem;
+  }
+  
+  .also-bought-grid {
+    gap: 1.25rem;
+  }
+  
+  .also-bought-card {
+    border-radius: 1rem;
+  }
+  
+  .also-bought-info {
+    padding: 1rem 0.875rem 1.25rem;
+  }
+  
+  .also-bought-atc-btn {
+    padding: 0.625rem 1.5rem;
+    font-size: 0.75rem;
+  }
+}
+
+/* When contained in product-layout-grid-content (left column of sticky layout) */
+.product-layout-grid-content .also-bought {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.product-layout-grid-content .also-bought-grid {
+  gap: 1.25rem;
+}
+
+.product-layout-grid-content .also-bought-card {
+  border-radius: 1rem;
+}
+
+/* Extra small screens */
+@media (max-width: 479px) {
+  .also-bought-info {
+    padding: 0.875rem 0.75rem 1rem;
+  }
+  
+  .also-bought-atc-btn {
+    width: 100%;
+    max-width: 180px;
+    padding: 0.625rem 1rem;
+  }
+}

@@ -1,0 +1,754 @@
+<link rel="stylesheet" href="{{ 'hero-main-with-cards/styles.css' | asset_url }}">
+
+<!-- Hero Main with Cards Section -->
+<section class="hero-main-cards {{ section.settings.background_color | default: 'bg-white' }} {{ section.settings.section_padding_y_mobile | default: 'py-0' }} {{ section.settings.section_padding_y_desktop | default: 'lg:py-0' }}" id="hero-main-{{ section.id }}">
+  
+  <div class="{{section.settings.container_layout_width | default: 'container'}}">
+    <div class="hero-main-inner font-body">
+      
+      <!-- Top Header Row -->
+      <div class="hero-header">
+        <div class="header-left">
+          <h1 class="{{ section.settings.heading_font_family | default: 'font-primary' }} {{ section.settings.heading_font_size | default: 'text-3xl' }} {{ section.settings.heading_font_size_desktop | default: 'lg:text-5xl' }} {{ section.settings.heading_font_weight | default: 'font-semibold' }} {{ section.settings.heading_color | default: 'text-white' }} leading-heading">
+            {{ section.settings.heading | default: "The peptide wellness company." }}
+          </h1>
+        </div>
+        
+        <div class="header-right">
+          {% if section.blocks.size > 0 %}
+          <div class="benefit-list">
+            {% for block in section.blocks %}
+              {% if block.type == 'benefit' %}
+              <div class="benefit-item" {{ block.fluid_attributes }}>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" class="check-icon {{ section.settings.check_icon_color | default: 'text-white' }}">
+                  <circle cx="8" cy="8" r="7.5" stroke="currentColor"/>
+                  <path d="M5 8l2 2 4-4" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                </svg>
+                <span class="{{ section.settings.benefit_font_size | default: 'text-sm' }} {{ section.settings.benefit_color | default: 'text-white' }}">{{ block.settings.text }}</span>
+              </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+          {% endif %}
+        </div>
+      </div>
+      
+      <!-- Hero Image + Cards Wrapper -->
+      <div class="hero-cards-wrapper {{ section.settings.hero_border_radius | default: 'rounded' }}">
+        
+        <!-- Main Hero Image Section -->
+        <a href="{{ section.settings.hero_button_url | default: '#' }}" class="hero-main-image" style="background-color: {{ section.settings.hero_bg_color | default: '#f3f5f6' }};">
+          {% if section.settings.hero_image %}
+          <img src="{{ section.settings.hero_image | image_url: width: 1400 }}" alt="{{ section.settings.hero_image_alt | default: 'Hero' }}" loading="eager" class="hero-image-zoom">
+          {% endif %}
+          
+          <!-- Hero Overlay Content -->
+          <div class="hero-overlay-content">
+            <h2 class="{{ section.settings.overlay_heading_font_family | default: 'font-primary' }} {{ section.settings.overlay_heading_font_size | default: 'text-3xl' }} {{ section.settings.overlay_heading_font_size_desktop | default: 'lg:text-5xl' }} {{ section.settings.overlay_heading_color | default: 'text-inverse' }} leading-heading">
+              {{ section.settings.overlay_heading | default: "Remember when you felt like you? Let's get you back there." }}
+            </h2>
+            
+            {% if section.settings.overlay_subline %}
+            <p class="{{ section.settings.overlay_subline_font_size | default: 'text-base' }} {{ section.settings.overlay_subline_font_size_desktop | default: 'lg:text-lg' }} {{ section.settings.overlay_subline_color | default: 'text-inverse' }} {{ section.settings.overlay_subline_opacity | default: 'opacity-90' }}">
+              {{ section.settings.overlay_subline | default: "The complete peptide system: energy, hydration, focus, weight loss, calm, and muscle recovery." }}
+            </p>
+            {% endif %}
+            
+            {% if section.settings.show_hero_button %}
+            <span class="hero-quiz-btn" style="background-color: {{ section.settings.hero_button_bg | default: '#1a1a1a' }};">
+              <span class="{{ section.settings.hero_button_color | default: 'text-inverse' }}">{{ section.settings.hero_button_text | default: 'Shop the collection' }}</span>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" class="{{ section.settings.hero_button_color | default: 'text-inverse' }}">
+                <path d="M3 8h10m0 0l-4-4m4 4l-4 4" stroke="currentColor" stroke-width="1.5"/>
+              </svg>
+            </span>
+            {% endif %}
+          </div>
+        </a>
+        
+        <!-- Bottom Cards Row -->
+        <div class="bottom-cards">
+        
+        <!-- Card 1 -->
+        {% if section.settings.show_card_1 %}
+        <a href="{{ section.settings.card_1_url | default: '#' }}" class="bottom-card {{ section.settings.card_1_bg | default: 'bg-card-primary' }}">
+          <div class="card-icon">
+            {% if section.settings.card_1_icon %}
+            <img src="{{ section.settings.card_1_icon | image_url: width: 128 }}" alt="">
+            {% endif %}
+          </div>
+          <div class="card-text">
+            <h3 class="{{ section.settings.card_heading_font_size | default: 'text-lg' }} {{ section.settings.card_text_color | default: 'text-primary' }}">{{ section.settings.card_1_text | default: 'Sleep deeper tonight.' }}</h3>
+          </div>
+          <div class="card-arrow {{ section.settings.card_arrow_bg | default: 'bg-black' }}">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M3 8h10m0 0l-4-4m4 4l-4 4" stroke="{{ section.settings.card_arrow_color | default: '#ffffff' }}" stroke-width="1.5"/>
+            </svg>
+          </div>
+        </a>
+        {% endif %}
+        
+        <!-- Card 2 -->
+        {% if section.settings.show_card_2 %}
+        <a href="{{ section.settings.card_2_url | default: '#' }}" class="bottom-card {{ section.settings.card_2_bg | default: 'bg-card-secondary' }}">
+          <div class="card-icon">
+            {% if section.settings.card_2_icon %}
+            <img src="{{ section.settings.card_2_icon | image_url: width: 128 }}" alt="">
+            {% endif %}
+          </div>
+          <div class="card-text">
+            <h3 class="{{ section.settings.card_heading_font_size | default: 'text-lg' }} {{ section.settings.card_text_color | default: 'text-primary' }}">{{ section.settings.card_2_text | default: 'Build muscle. Burn fat. Stay hydrated.' }}</h3>
+          </div>
+          <div class="card-arrow {{ section.settings.card_arrow_bg | default: 'bg-black' }}">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M3 8h10m0 0l-4-4m4 4l-4 4" stroke="{{ section.settings.card_arrow_color | default: '#ffffff' }}" stroke-width="1.5"/>
+            </svg>
+          </div>
+        </a>
+        {% endif %}
+        
+        <!-- Card 3 -->
+        {% if section.settings.show_card_3 %}
+        <a href="{{ section.settings.card_3_url | default: '#' }}" class="bottom-card {{ section.settings.card_3_bg | default: 'bg-accent-soft' }}">
+          <div class="card-icon">
+            {% if section.settings.card_3_icon %}
+            <img src="{{ section.settings.card_3_icon | image_url: width: 128 }}" alt="">
+            {% endif %}
+          </div>
+          <div class="card-text">
+            <h3 class="{{ section.settings.card_heading_font_size | default: 'text-lg' }} {{ section.settings.card_text_color | default: 'text-primary' }}">{{ section.settings.card_3_text | default: 'Join the movement.' }}</h3>
+          </div>
+          <div class="card-arrow {{ section.settings.card_arrow_bg | default: 'bg-black' }}">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M3 8h10m0 0l-4-4m4 4l-4 4" stroke="{{ section.settings.card_arrow_color | default: '#ffffff' }}" stroke-width="1.5"/>
+            </svg>
+          </div>
+        </a>
+        {% endif %}
+        
+        </div>
+        
+      </div><!-- End hero-cards-wrapper -->
+      
+    </div>
+  </div>
+  
+</section>
+
+{% schema %}
+{
+  "name": "Hero Main with Cards",
+  "tag": "section",
+  "class": "hero-main-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout Width (Container)"
+    },
+    {
+      "type": "select",
+      "id": "container_layout_width",
+      "label": "Layout Width (Container)",
+      "options": [
+        { "value": "container", "label": "Container" },
+        { "value": "container-full", "label": "Full Width (Container Full)" }
+      ],
+      "default": "container",
+      "info": "Choose whether the container is constrained to the width of the page or full width"
+    },
+    {
+      "type": "header",
+      "content": "Top Heading"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "The peptide wellness company."
+    },
+    {
+      "type": "select",
+      "id": "heading_font_family",
+      "label": "Font Family",
+      "options": [
+        { "value": "font-primary", "label": "Primary" },
+        { "value": "font-body", "label": "Body" },
+        { "value": "font-serif", "label": "Serif" },
+        { "value": "font-handwritten", "label": "Handwritten" }
+      ],
+      "default": "font-primary"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_size",
+      "label": "Font Size (Mobile)",
+      "options": [
+        { "value": "text-3xl", "label": "3X Large" },
+        { "value": "text-4xl", "label": "4X Large" }
+      ],
+      "default": "text-3xl"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_size_desktop",
+      "label": "Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-4xl", "label": "4X Large" },
+        { "value": "lg:text-5xl", "label": "5X Large" }
+      ],
+      "default": "lg:text-5xl"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_weight",
+      "label": "Font Weight",
+      "options": [
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semibold" }
+      ],
+      "default": "font-semibold"
+    },
+    {
+      "type": "select",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "options": [
+        { "value": "text-primary", "label": "Primary Text" },
+        { "value": "text-secondary", "label": "Secondary Text" },
+        { "value": "text-muted", "label": "Muted Text" },
+        { "value": "text-inverse", "label": "Inverse" },
+        { "value": "text-white", "label": "White" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-accent", "label": "Accent" }
+      ],
+      "default": "text-white"
+    },
+    {
+      "type": "header",
+      "content": "Benefits (Right Side)"
+    },
+    {
+      "type": "select",
+      "id": "benefit_font_size",
+      "label": "Benefit Font Size",
+      "options": [
+        { "value": "text-xs", "label": "Extra Small" },
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" }
+      ],
+      "default": "text-sm"
+    },
+    {
+      "type": "select",
+      "id": "benefit_color",
+      "label": "Benefit Text Color",
+      "options": [
+        { "value": "text-primary", "label": "Primary Text" },
+        { "value": "text-secondary", "label": "Secondary Text" },
+        { "value": "text-muted", "label": "Muted Text" },
+        { "value": "text-inverse", "label": "Inverse" },
+        { "value": "text-white", "label": "White" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-accent", "label": "Accent" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" },
+        { "value": "text-neutral", "label": "Neutral" },
+        { "value": "text-neutral-medium", "label": "Neutral Medium" },
+        { "value": "text-brand-dark", "label": "Brand Dark" },
+        { "value": "text-brand-light", "label": "Brand Light" },
+        { "value": "text-success", "label": "Success" },
+        { "value": "text-warning", "label": "Warning" },
+        { "value": "text-error", "label": "Error" },
+        { "value": "text-info", "label": "Info" }
+      ],
+      "default": "text-white"
+    },
+    {
+      "type": "select",
+      "id": "check_icon_color",
+      "label": "Checkmark Icon Color",
+      "options": [
+        { "value": "text-primary", "label": "Primary Text" },
+        { "value": "text-secondary", "label": "Secondary Text" },
+        { "value": "text-muted", "label": "Muted Text" },
+        { "value": "text-inverse", "label": "Inverse" },
+        { "value": "text-white", "label": "White" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-accent", "label": "Accent" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" },
+        { "value": "text-neutral", "label": "Neutral" },
+        { "value": "text-neutral-medium", "label": "Neutral Medium" },
+        { "value": "text-brand-dark", "label": "Brand Dark" },
+        { "value": "text-brand-light", "label": "Brand Light" },
+        { "value": "text-success", "label": "Success (Green)" },
+        { "value": "text-warning", "label": "Warning (Orange)" },
+        { "value": "text-error", "label": "Error (Red)" },
+        { "value": "text-info", "label": "Info (Blue)" }
+      ],
+      "default": "text-white"
+    },
+    {
+      "type": "header",
+      "content": "Hero Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero Image"
+    },
+    {
+      "type": "text",
+      "id": "hero_image_alt",
+      "label": "Image Alt Text"
+    },
+    {
+      "type": "color_background",
+      "id": "hero_bg_color",
+      "label": "Hero Background Color",
+      "default": "#f3f5f6"
+    },
+    {
+      "type": "header",
+      "content": "Hero Overlay Content"
+    },
+    {
+      "type": "textarea",
+      "id": "overlay_heading",
+      "label": "Overlay Heading",
+      "default": "Remember when you felt like you? Let's get you back there."
+    },
+    {
+      "type": "textarea",
+      "id": "overlay_subline",
+      "label": "Overlay Subline",
+      "default": "The complete peptide system: energy, hydration, focus, weight loss, calm, and muscle recovery."
+    },
+    {
+      "type": "select",
+      "id": "overlay_subline_font_size",
+      "label": "Overlay Subline Size (Mobile)",
+      "options": [
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" }
+      ],
+      "default": "text-base"
+    },
+    {
+      "type": "select",
+      "id": "overlay_subline_font_size_desktop",
+      "label": "Overlay Subline Size (Desktop)",
+      "options": [
+        { "value": "lg:text-base", "label": "Base" },
+        { "value": "lg:text-lg", "label": "Large" },
+        { "value": "lg:text-xl", "label": "Extra Large" }
+      ],
+      "default": "lg:text-lg"
+    },
+    {
+      "type": "select",
+      "id": "overlay_subline_color",
+      "label": "Overlay Subline Color",
+      "options": [
+        { "value": "text-primary", "label": "Primary Text" },
+        { "value": "text-secondary", "label": "Secondary Text" },
+        { "value": "text-muted", "label": "Muted Text" },
+        { "value": "text-inverse", "label": "Inverse" },
+        { "value": "text-white", "label": "White" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-accent", "label": "Accent" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" },
+        { "value": "text-neutral", "label": "Neutral" },
+        { "value": "text-neutral-medium", "label": "Neutral Medium" },
+        { "value": "text-brand-dark", "label": "Brand Dark" },
+        { "value": "text-brand-light", "label": "Brand Light" },
+        { "value": "text-success", "label": "Success" },
+        { "value": "text-warning", "label": "Warning" },
+        { "value": "text-error", "label": "Error" },
+        { "value": "text-info", "label": "Info" }
+      ],
+      "default": "text-inverse"
+    },
+    {
+      "type": "select",
+      "id": "overlay_subline_opacity",
+      "label": "Overlay Subline Opacity",
+      "options": [
+        { "value": "opacity-70", "label": "70%" },
+        { "value": "opacity-80", "label": "80%" },
+        { "value": "opacity-90", "label": "90%" },
+        { "value": "opacity-100", "label": "100%" }
+      ],
+      "default": "opacity-90"
+    },
+    {
+      "type": "select",
+      "id": "overlay_heading_font_family",
+      "label": "Overlay Font Family",
+      "options": [
+        { "value": "font-primary", "label": "Primary" },
+        { "value": "font-body", "label": "Body" },
+        { "value": "font-serif", "label": "Serif" },
+        { "value": "font-handwritten", "label": "Handwritten" }
+      ],
+      "default": "font-primary"
+    },
+    {
+      "type": "select",
+      "id": "overlay_heading_font_size",
+      "label": "Overlay Font Size (Mobile)",
+      "options": [
+        { "value": "text-2xl", "label": "2X Large" },
+        { "value": "text-3xl", "label": "3X Large" }
+      ],
+      "default": "text-3xl"
+    },
+    {
+      "type": "select",
+      "id": "overlay_heading_font_size_desktop",
+      "label": "Overlay Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-4xl", "label": "4X Large" },
+        { "value": "lg:text-5xl", "label": "5X Large" }
+      ],
+      "default": "lg:text-5xl"
+    },
+    {
+      "type": "select",
+      "id": "overlay_heading_color",
+      "label": "Overlay Heading Color",
+      "options": [
+        { "value": "text-primary", "label": "Primary Text" },
+        { "value": "text-secondary", "label": "Secondary Text" },
+        { "value": "text-muted", "label": "Muted Text" },
+        { "value": "text-inverse", "label": "Inverse" },
+        { "value": "text-white", "label": "White" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-accent", "label": "Accent" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" },
+        { "value": "text-neutral", "label": "Neutral" },
+        { "value": "text-neutral-medium", "label": "Neutral Medium" },
+        { "value": "text-brand-dark", "label": "Brand Dark" },
+        { "value": "text-brand-light", "label": "Brand Light" },
+        { "value": "text-success", "label": "Success" },
+        { "value": "text-warning", "label": "Warning" },
+        { "value": "text-error", "label": "Error" },
+        { "value": "text-info", "label": "Info" }
+      ],
+      "default": "text-inverse"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_hero_button",
+      "label": "Show Hero Button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "hero_button_text",
+      "label": "Hero Button Text",
+      "default": "Shop the collection"
+    },
+    {
+      "type": "url",
+      "id": "hero_button_url",
+      "label": "Hero Button URL"
+    },
+    {
+      "type": "color_background",
+      "id": "hero_button_bg",
+      "label": "Hero Button Background",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "select",
+      "id": "hero_button_color",
+      "label": "Hero Button Text Color",
+      "options": [
+        { "value": "text-primary", "label": "Primary Text" },
+        { "value": "text-secondary", "label": "Secondary Text" },
+        { "value": "text-muted", "label": "Muted Text" },
+        { "value": "text-inverse", "label": "Inverse" },
+        { "value": "text-white", "label": "White" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-accent", "label": "Accent" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" },
+        { "value": "text-neutral", "label": "Neutral" },
+        { "value": "text-neutral-medium", "label": "Neutral Medium" },
+        { "value": "text-brand-dark", "label": "Brand Dark" },
+        { "value": "text-brand-light", "label": "Brand Light" },
+        { "value": "text-success", "label": "Success" },
+        { "value": "text-warning", "label": "Warning" },
+        { "value": "text-error", "label": "Error" },
+        { "value": "text-info", "label": "Info" }
+      ],
+      "default": "text-inverse"
+    },
+    {
+      "type": "header",
+      "content": "Bottom Card 1"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_card_1",
+      "label": "Show Card 1",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "card_1_icon",
+      "label": "Card 1 Icon"
+    },
+    {
+      "type": "text",
+      "id": "card_1_text",
+      "label": "Card 1 Text",
+      "default": "Sleep deeper tonight."
+    },
+    {
+      "type": "url",
+      "id": "card_1_url",
+      "label": "Card 1 URL"
+    },
+    {
+      "type": "select",
+      "id": "card_1_bg",
+      "label": "Card 1 Background",
+      "options": [
+        { "value": "bg-card-primary", "label": "Card Primary" },
+        { "value": "bg-card-secondary", "label": "Card Secondary" },
+        { "value": "bg-accent-soft", "label": "Accent Soft" },
+        { "value": "bg-page", "label": "Page" }
+      ],
+      "default": "bg-card-primary"
+    },
+    {
+      "type": "header",
+      "content": "Bottom Card 2"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_card_2",
+      "label": "Show Card 2",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "card_2_icon",
+      "label": "Card 2 Icon"
+    },
+    {
+      "type": "text",
+      "id": "card_2_text",
+      "label": "Card 2 Text",
+      "default": "Build muscle. Burn fat. Stay hydrated."
+    },
+    {
+      "type": "url",
+      "id": "card_2_url",
+      "label": "Card 2 URL"
+    },
+    {
+      "type": "select",
+      "id": "card_2_bg",
+      "label": "Card 2 Background",
+      "options": [
+        { "value": "bg-card-primary", "label": "Card Primary" },
+        { "value": "bg-card-secondary", "label": "Card Secondary" },
+        { "value": "bg-accent-soft", "label": "Accent Soft" },
+        { "value": "bg-page", "label": "Page" }
+      ],
+      "default": "bg-card-secondary"
+    },
+    {
+      "type": "header",
+      "content": "Bottom Card 3"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_card_3",
+      "label": "Show Card 3",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "card_3_icon",
+      "label": "Card 3 Icon"
+    },
+    {
+      "type": "text",
+      "id": "card_3_text",
+      "label": "Card 3 Text",
+      "default": "Join the movement."
+    },
+    {
+      "type": "url",
+      "id": "card_3_url",
+      "label": "Card 3 URL"
+    },
+    {
+      "type": "select",
+      "id": "card_3_bg",
+      "label": "Card 3 Background",
+      "options": [
+        { "value": "bg-card-primary", "label": "Card Primary" },
+        { "value": "bg-card-secondary", "label": "Card Secondary" },
+        { "value": "bg-accent-soft", "label": "Accent Soft" },
+        { "value": "bg-page", "label": "Page" }
+      ],
+      "default": "bg-accent-soft"
+    },
+    {
+      "type": "header",
+      "content": "Bottom Cards Styling"
+    },
+    {
+      "type": "select",
+      "id": "card_heading_font_size",
+      "label": "Card Text Size",
+      "options": [
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" },
+        { "value": "text-xl", "label": "Extra Large" }
+      ],
+      "default": "text-lg"
+    },
+    {
+      "type": "select",
+      "id": "card_text_color",
+      "label": "Card Text Color",
+      "options": [
+        { "value": "text-primary", "label": "Primary Text" },
+        { "value": "text-black", "label": "Black" }
+      ],
+      "default": "text-primary"
+    },
+    {
+      "type": "select",
+      "id": "card_arrow_bg",
+      "label": "Card Arrow Background",
+      "options": [
+        { "value": "bg-black", "label": "Black" },
+        { "value": "bg-primary", "label": "Brand Primary" },
+        { "value": "bg-accent-dark", "label": "Accent Dark" }
+      ],
+      "default": "bg-black"
+    },
+    {
+      "type": "color_background",
+      "id": "card_arrow_color",
+      "label": "Card Arrow Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Layout Settings"
+    },
+    {
+      "type": "select",
+      "id": "background_color",
+      "label": "Background Color",
+      "options": [
+        { "value": "bg-white", "label": "White" },
+        { "value": "bg-black", "label": "Black" },
+        { "value": "bg-primary", "label": "Primary" },
+        { "value": "bg-secondary", "label": "Secondary" },
+        { "value": "bg-tertiary", "label": "Tertiary" },
+        { "value": "bg-quaternary", "label": "Quaternary" },
+        { "value": "bg-success", "label": "Success" },
+        { "value": "bg-warning", "label": "Warning" },
+        { "value": "bg-error", "label": "Error" },
+        { "value": "bg-info", "label": "Info" },
+        { "value": "bg-neutral", "label": "Neutral" },
+        { "value": "bg-neutral-light", "label": "Neutral Light" },
+        { "value": "bg-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "bg-neutral-dark"
+    },
+    {
+      "type": "select",
+      "id": "hero_border_radius",
+      "label": "Hero/Cards Border Radius",
+      "options": [
+        { "value": "rounded-none", "label": "None" },
+        { "value": "rounded-sm", "label": "Small" },
+        { "value": "rounded", "label": "Base" },
+        { "value": "rounded-md", "label": "Medium" },
+        { "value": "rounded-lg", "label": "Large" },
+        { "value": "rounded-xl", "label": "Extra Large" },
+        { "value": "rounded-2xl", "label": "2X Large" },
+        { "value": "rounded-3xl", "label": "3X Large" }
+      ],
+      "default": "rounded"
+    },
+    {
+      "type": "select",
+      "id": "section_padding_y_mobile",
+      "label": "Vertical Padding (Mobile)",
+      "options": [
+        { "value": "py-0", "label": "None" },
+        { "value": "py-sm", "label": "Small" },
+        { "value": "py-md", "label": "Medium" }
+      ],
+      "default": "py-0"
+    },
+    {
+      "type": "select",
+      "id": "section_padding_y_desktop",
+      "label": "Vertical Padding (Desktop)",
+      "options": [
+        { "value": "lg:py-0", "label": "None" },
+        { "value": "lg:py-sm", "label": "Small" },
+        { "value": "lg:py-md", "label": "Medium" }
+      ],
+      "default": "lg:py-0"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Benefit",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Benefit Text",
+          "default": "Benefit text here"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Main with Cards",
+      "settings": {
+        "heading": "The peptide wellness company.",
+        "heading_font_family": "font-primary",
+        "heading_font_size": "text-3xl",
+        "heading_font_size_desktop": "lg:text-5xl",
+        "heading_font_weight": "font-semibold",
+        "heading_color": "text-primary",
+        "overlay_heading": "Remember when you felt like you? Let's get you back there.",
+        "overlay_subline": "The complete peptide system: energy, hydration, focus, weight loss, calm, and muscle recovery.",
+        "hero_button_text": "Shop the collection",
+        "show_hero_button": true,
+        "show_card_1": true,
+        "show_card_2": true,
+        "show_card_3": true,
+        "card_1_text": "Sleep deeper tonight.",
+        "card_2_text": "Build muscle. Burn fat. Stay hydrated.",
+        "card_3_text": "Join the movement.",
+        "background_color": "bg-white",
+        "hero_border_radius": "rounded"
+      },
+      "blocks": [
+        { "type": "benefit", "settings": { "text": "Natural peptides your body recognizes" }},
+        { "type": "benefit", "settings": { "text": "Clinically studied, third-party tested" }},
+        { "type": "benefit", "settings": { "text": "No synthetic hormones or injections" }},
+        { "type": "benefit", "settings": { "text": "Made in USA with cGMP standards" }}
+      ]
+    }
+  ]
+}
+{% endschema %}
+

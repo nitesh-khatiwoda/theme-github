@@ -1,0 +1,413 @@
+/* Sticky Timeline Steps Section */
+.sticky-timeline-steps {
+  position: relative;
+  z-index: var(--z-10);
+  overflow: visible;
+}
+
+/* Override global overlays - only apply when background image exists */
+.sticky-timeline-steps::after {
+  display: none !important;
+}
+
+/* Section background image overlay */
+.sticky-timeline-steps[data-bg]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+  z-index: var(--z-0);
+  background-color: rgba(0, 0, 0, 0.6);
+  pointer-events: none;
+  display: block !important;
+}
+
+/* Inner container */
+.sticky-timeline-steps .inner-container {
+  position: relative;
+  z-index: var(--z-10);
+}
+
+/* Container background image overlay */
+.sticky-timeline-steps .inner-container[data-bg]:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+  z-index: var(--z-0);
+  background-color: rgba(0, 0, 0, 0.6);
+  pointer-events: none;
+}
+
+/* Ensure content stays above overlays */
+.sticky-timeline-steps .inner-container > * {
+  position: relative;
+  z-index: var(--z-10);
+}
+
+/* Timeline Wrapper - Mobile: Stack, Desktop: Side by Side */
+.sticky-timeline-steps .timeline-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xl);
+  width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .sticky-timeline-steps .timeline-wrapper {
+    flex-direction: row;
+    gap: var(--space-3xl);
+    align-items: flex-start;
+  }
+}
+
+/* Left Column - Sticky on Desktop */
+.sticky-timeline-steps .left-column-sticky {
+  width: 100%;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+@media (min-width: 1024px) {
+  .sticky-timeline-steps .left-column-sticky {
+    position: sticky;
+    /* Center vertically: top at 50vh, translate up by 50% of height */
+    top: 50vh;
+    transform: translateY(-50%);
+    width: 45%;
+    max-width: 555px;
+    align-self: flex-start;
+    /* Prevent transform transitions for smooth sticky behavior */
+    transition-property: opacity, background-color, border-color;
+  }
+}
+
+/* Left Column Typography */
+.sticky-timeline-steps .left-column-sticky h1 {
+  line-height: 1;
+  margin-bottom: var(--space-sm);
+}
+
+@media (min-width: 1024px) {
+  .sticky-timeline-steps .left-column-sticky h1 {
+    line-height: 1.15;
+  }
+}
+
+.sticky-timeline-steps .supporting-text {
+  line-height: 1.5;
+}
+
+/* Right Column - Scrollable Timeline */
+.sticky-timeline-steps .right-column-timeline {
+  width: 100%;
+  position: relative;
+  flex-grow: 1;
+}
+
+@media (min-width: 1024px) {
+  .sticky-timeline-steps .right-column-timeline {
+    width: 55%;
+    max-width: 576px;
+  }
+}
+
+/* Timeline Main Heading */
+.sticky-timeline-steps .timeline-main-heading {
+  line-height: 1.2;
+  margin-bottom: var(--space-xl);
+}
+
+@media (min-width: 1024px) {
+  .sticky-timeline-steps .timeline-main-heading {
+    margin-bottom: var(--space-2xl);
+  }
+}
+
+/* Timeline Line Container */
+.sticky-timeline-steps .timeline-line-container {
+  position: absolute;
+  left: -30px;
+  top: 0;
+  width: 6px;
+  height: 100%;
+  z-index: 1;
+}
+
+@media (min-width: 1024px) {
+  .sticky-timeline-steps .timeline-line-container {
+    left: -42px;
+    width: 6px;
+  }
+}
+
+/* Timeline Background Line */
+.sticky-timeline-steps .timeline-line-bg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.3;
+}
+
+/* Timeline Fill Line - Animates on Scroll */
+.sticky-timeline-steps .timeline-line-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 0%;
+  /* No transition - updates smoothly via JavaScript scroll handler */
+  transform-origin: top;
+  /* Optimize for smooth scrolling updates */
+  will-change: height;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Steps Container */
+.sticky-timeline-steps .steps-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xl);
+  position: relative;
+  padding-left: var(--space-xl);
+}
+
+@media (min-width: 1024px) {
+  .sticky-timeline-steps .steps-container {
+    gap: var(--space-3xl);
+    padding-left: 0;
+  }
+}
+
+/* Individual Step Item */
+.sticky-timeline-steps .step-item {
+  display: flex;
+  gap: var(--space-lg);
+  position: relative;
+  /* No opacity on container - opacity is controlled by the circle itself */
+  cursor: default;
+}
+
+/* Step Marker (Circle) */
+.sticky-timeline-steps .step-marker {
+  position: absolute;
+  top: 4px;
+  z-index: 2;
+  flex-shrink: 0;
+  /* Position marker so circle center aligns with line center */
+  /* Line center: -30px (line left) + 3px (half of 6px line width) = -27px */
+  /* Circle is 21px wide, so position left edge at -27px - 10.5px = -37.5px */
+  left: -37.5px;
+  width: 21px;
+  height: 21px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (min-width: 1024px) {
+  .sticky-timeline-steps .step-marker {
+    /* Line center: -42px (line left) + 3px (half of 6px line width) = -39px */
+    /* Circle is 25px wide, so position left edge at -39px - 12.5px = -51.5px */
+    left: -51.5px;
+    width: 25px;
+    height: 25px;
+  }
+}
+
+/* Marker Circle */
+.sticky-timeline-steps .marker-circle {
+  width: 21px;
+  height: 21px;
+  border-radius: 50%;
+  border-width: 4px;
+  border-style: solid;
+  /* Remove opacity from transition to prevent fade-in */
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: scale(0.4);
+  /* Fully opaque - ensure background is solid to cover the line */
+  opacity: 1;
+  box-sizing: border-box;
+  cursor: default;
+  pointer-events: none;
+  flex-shrink: 0;
+  /* Force fully opaque background - must be above the line */
+  position: relative;
+  z-index: 3;
+  /* Ensure background is fully opaque - utility class will provide color */
+  /* Default to neutral-light if no bg- class is present */
+  background-color: var(--clr-neutral-light, #f5f5f5) !important;
+  /* Ensure no transparency or images */
+  background-image: none !important;
+  /* Force solid background */
+  background-clip: padding-box;
+}
+
+/* Ensure any background utility class creates a fully opaque background */
+/* Default marker circle color - neutral-light */
+.sticky-timeline-steps .marker-circle:not([class*="bg-"]) {
+  background-color: var(--clr-neutral-light, #f5f5f5) !important;
+  opacity: 1 !important;
+  background-image: none !important;
+}
+
+.sticky-timeline-steps .marker-circle.bg-white {
+  background-color: var(--clr-white, #ffffff) !important;
+  opacity: 1 !important;
+  background-image: none !important;
+}
+
+/* For any other bg- utility class, ensure it's fully opaque */
+.sticky-timeline-steps .marker-circle[class*="bg-"]:not(.bg-white) {
+  opacity: 1 !important;
+  background-image: none !important;
+  /* The bg- utility class sets background-color via CSS variable */
+  /* Keep the utility class background-color */
+}
+
+.sticky-timeline-steps .step-item.active .marker-circle {
+  transform: scale(1);
+  opacity: 1;
+  /* More prominent visual indicator for filled circles */
+  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.15);
+  /* Ensure filled circles are visually distinct */
+  border-width: 5px;
+}
+
+@media (min-width: 1024px) {
+  .sticky-timeline-steps .step-item.active .marker-circle {
+    border-width: 6px;
+    box-shadow: 0 0 0 5px rgba(0, 0, 0, 0.08), 0 3px 12px rgba(0, 0, 0, 0.15);
+  }
+}
+
+@media (min-width: 1024px) {
+  .sticky-timeline-steps .marker-circle {
+    width: 25px;
+    height: 25px;
+    border-width: 5px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .sticky-timeline-steps .marker-circle {
+    width: 24px;
+    height: 24px;
+    border-width: 5px;
+  }
+}
+
+/* Step Content */
+.sticky-timeline-steps .step-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  flex-grow: 1;
+}
+
+/* Step Title */
+.sticky-timeline-steps .step-content h3 {
+  line-height: 1.2;
+  margin: 0;
+}
+
+/* Step Description */
+.sticky-timeline-steps .step-content > div {
+  line-height: 1.5;
+}
+
+/* Mobile Adjustments */
+@media (max-width: 1023px) {
+  /* Ensure left column appears above timeline (not to the left) */
+  .sticky-timeline-steps .left-column-sticky {
+    position: relative !important;
+    top: 0 !important;
+    transform: none !important;
+    margin-bottom: var(--space-xl);
+    width: 100%;
+  }
+  
+  /* Show timeline line and position it left-aligned */
+  .sticky-timeline-steps .timeline-line-container {
+    display: block;
+    left: 0;
+    width: 6px;
+  }
+  
+  /* Adjust steps container to accommodate left-aligned timeline */
+  .sticky-timeline-steps .steps-container {
+    padding-left: calc(var(--space-xl) + var(--space-md));
+  }
+  
+  /* Position step markers left-aligned with timeline line */
+  /* Account for steps-container padding-left */
+  .sticky-timeline-steps .step-marker {
+    position: absolute;
+    /* Line is at left: 0 relative to right-column-timeline */
+    /* Steps-container has padding-left, so circles need to account for that */
+    /* Line center: 0 + 3px (half of 6px) = 3px */
+    /* Circle is 21px wide, center on line: 3px - 10.5px = -7.5px */
+    /* But steps-container padding pushes content right, so subtract padding */
+    /* Move a bit more left for better overlap */
+    left: calc(-1 * var(--space-xl, 32px) - 1 * var(--space-md, 16px) - 10px);
+    top: 4px;
+  }
+  
+  /* Push timeline heading to the right to match step content spacing */
+  .sticky-timeline-steps .timeline-main-heading {
+    text-align: left;
+    padding-left: calc(var(--space-xl) + var(--space-md));
+  }
+  
+  /* Left justify all text on mobile */
+  .sticky-timeline-steps .step-content {
+    text-align: left;
+  }
+  
+  .sticky-timeline-steps .step-content h3 {
+    text-align: left;
+  }
+  
+  .sticky-timeline-steps .step-content > div {
+    text-align: left;
+  }
+  
+  .sticky-timeline-steps .step-item {
+    flex-direction: row;
+    gap: var(--space-lg);
+    padding-left: 0;
+  }
+}
+
+/* Smooth Transitions */
+.sticky-timeline-steps * {
+  transition-property: opacity, transform, background-color, border-color;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Exclude step markers from opacity transitions - must come after global rule */
+.sticky-timeline-steps .step-marker,
+.sticky-timeline-steps .step-marker *,
+.sticky-timeline-steps .marker-circle {
+  transition-property: transform, background-color, border-color, box-shadow !important;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 1 !important;
+}
+
+/* Focus States for Accessibility */
+.sticky-timeline-steps .step-item:focus {
+  outline: 2px solid var(--clr-primary);
+  outline-offset: 4px;
+}
+
+.sticky-timeline-steps .step-item:focus:not(:focus-visible) {
+  outline: none;
+}
+

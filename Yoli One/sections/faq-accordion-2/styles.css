@@ -1,0 +1,155 @@
+/* FAQ Accordion 2 Section Styles */
+
+.faq-accordion-2 {
+  position: relative;
+  overflow: hidden;
+}
+
+.faq-inner {
+  position: relative;
+}
+
+.faq-heading {
+  text-align: center;
+}
+
+.faq-heading h2 {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* FAQ Wrapper */
+.faq-wrapper {
+  width: 100%;
+}
+
+.faq-list {
+  display: flex;
+  flex-direction: column;
+}
+
+/* FAQ Item */
+.faq-item {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.faq-item:first-child {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Question Button */
+.faq-question {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 21px 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s ease;
+  min-height: 86px;
+}
+
+.faq-question:hover {
+  opacity: 0.8;
+}
+
+.faq-question span {
+  line-height: 1.45;
+  margin: 0;
+}
+
+/* Plus/Minus Icon */
+.faq-icon {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  margin-left: var(--space-lg);
+}
+
+.icon-horizontal,
+.icon-vertical {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.3s ease;
+}
+
+.icon-horizontal {
+  width: 12px;
+  height: 2px;
+}
+
+.icon-vertical {
+  width: 2px;
+  height: 12px;
+}
+
+/* When accordion is open, rotate vertical line to make minus sign */
+.faq-item.is-open .icon-vertical {
+  transform: translate(-50%, -50%) rotate(90deg);
+  opacity: 0;
+}
+
+/* Answer Panel */
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.faq-answer-content {
+  padding: 0 0 var(--space-lg) 0;
+}
+
+.faq-answer-content p {
+  margin: 0;
+  opacity: 0.9;
+}
+
+/* Mobile Responsive */
+@media (max-width: 767px) {
+  .faq-question {
+    padding: 16px 0;
+    min-height: 72px;
+  }
+  
+  .faq-icon {
+    margin-left: var(--space-md);
+  }
+  
+  .faq-answer-content {
+    padding: 0 0 var(--space-md) 0;
+  }
+}
+
+/* Accessibility */
+.faq-question:focus {
+  outline: 2px solid rgba(255, 255, 255, 0.5);
+  outline-offset: 2px;
+}
+
+.faq-question:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Animation for smooth expand/collapse */
+.faq-item.is-open .faq-answer {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+

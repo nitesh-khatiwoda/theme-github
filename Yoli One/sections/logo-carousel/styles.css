@@ -1,0 +1,181 @@
+/* Logo Carousel Section Styles */
+
+.logo-carousel {
+  position: relative;
+  overflow: hidden;
+  z-index: var(--z-10);
+}
+
+/* Override global overlays - only apply when background image exists */
+.logo-carousel::after {
+  display: none !important;
+}
+
+/* Section background image overlay */
+.logo-carousel[data-bg]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+  z-index: var(--z-0);
+  background-color: rgba(0, 0, 0, 0.6);
+  pointer-events: none;
+  display: block !important;
+}
+
+/* Ensure content stays above overlays */
+.logo-carousel-inner > * {
+  position: relative;
+  z-index: var(--z-10);
+}
+
+/* Container background image overlay */
+.logo-carousel-inner[data-bg]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+  z-index: var(--z-0);
+  background-color: rgba(0, 0, 0, 0.6);
+  pointer-events: none;
+}
+
+.logo-carousel-container {
+  max-width: 1920px;
+  margin: 0 auto;
+}
+
+.logo-carousel-inner {
+  position: relative;
+  z-index: var(--z-10);
+}
+
+/* Heading */
+.logo-carousel-heading {
+  text-align: left;
+}
+
+.logo-carousel-heading h2 {
+  margin: 0;
+}
+
+/* Carousel Wrapper */
+.logo-carousel-wrapper {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+/* Carousel Track */
+.logo-carousel-track {
+  display: flex;
+  width: fit-content;
+  animation-duration: var(--animation-speed, 30s);
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.logo-carousel-track.scroll-left {
+  animation-name: scroll-left;
+}
+
+.logo-carousel-track.scroll-right {
+  animation-name: scroll-right;
+}
+
+.logo-carousel-track:hover {
+  animation-play-state: paused;
+}
+
+/* Logo Set */
+.logo-set {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3xl);
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .logo-set {
+    gap: var(--space-2xl);
+  }
+}
+
+/* Logo Item */
+.logo-item {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--logo-height, 50px);
+}
+
+.logo-item img {
+  max-height: var(--logo-height, 50px);
+  width: auto;
+  max-width: 200px;
+  object-fit: contain;
+  filter: grayscale(100%);
+  opacity: 0.6;
+  transition: all 0.3s ease;
+}
+
+.logo-item:hover img {
+  filter: grayscale(0%);
+  opacity: 1;
+}
+
+/* Animation - Left to Right (default) */
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Animation - Right to Left */
+@keyframes scroll-right {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+/* Apply animation based on direction */
+.logo-carousel-track.scroll-left {
+  animation-name: scroll-left;
+}
+
+.logo-carousel-track.scroll-right {
+  animation-name: scroll-right;
+}
+
+/* Dynamic CSS Variables */
+.logo-carousel-section {
+  --animation-speed: 30s;
+  --logo-height: 50px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .logo-carousel-heading {
+    text-align: center;
+  }
+  
+  .logo-item img {
+    max-width: 150px;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo-item img {
+    max-width: 120px;
+  }
+}
+

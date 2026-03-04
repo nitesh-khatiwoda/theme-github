@@ -1,0 +1,569 @@
+/* Choose Your Pack Section Styles */
+
+/* Customization Section */
+.product-include {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.quantity-controls .disabled {
+  background: #c3c1c1 !important;
+  color: #827d7d !important;
+  border: 1px solid #827d7d !important;
+  pointer-events: none;
+  cursor: auto;
+}
+
+.section-subtitle {
+  font-size: 1.25rem;
+  padding-bottom: 10px;
+  font-family: 'Eina 01', sans-serif;
+}
+
+.pack-content {
+  width: 75%;
+}
+
+.pack {
+  display: flex;
+  flex-direction: row;
+  margin: 1rem 3rem;
+  gap: 1rem;
+}
+
+.pack-image {
+  height: 3.3rem;
+  aspect-ratio: 1 / 1;
+}
+
+.pack-description-content {
+  display: flex;
+  flex-direction: column;
+  margin: 0 .75rem;
+}
+
+.pack-description {
+  display: inherit;
+  justify-content: space-between;
+}
+
+
+.choose-your-pack-section .customization-section {
+  margin-bottom: 30px;
+}
+
+.choose-your-pack-section .section-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #49473D;
+  margin-bottom: 20px;
+}
+
+.choose-your-pack-section .subtitle-text {
+  color: #666;
+  margin-bottom: 25px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.choose-your-pack-section .section-title.title-xs { font-size: 1.2rem; }
+.choose-your-pack-section .section-title.title-sm { font-size: 1.5rem; }
+.choose-your-pack-section .section-title.title-lg { font-size: 2.2rem; }
+.choose-your-pack-section .section-title.title-fw-light { font-weight: 300; }
+.choose-your-pack-section .section-title.title-fw-normal { font-weight: 400; }
+.choose-your-pack-section .section-title.title-fw-medium { font-weight: 500; }
+.choose-your-pack-section .section-title.title-fw-semibold { font-weight: 600; }
+.choose-your-pack-section .section-title.title-fw-bold { font-weight: 700; }
+
+.choose-your-pack-section .section-subtitle.subtitle-xs { font-size: 1rem; }
+.choose-your-pack-section .section-subtitle.subtitle-sm { font-size: 1.1rem; }
+.choose-your-pack-section .section-subtitle.subtitle-lg { font-size: 1.4rem; }
+.choose-your-pack-section .section-subtitle.subtitle-fw-light { font-weight: 300; }
+.choose-your-pack-section .section-subtitle.subtitle-fw-normal { font-weight: 400; }
+.choose-your-pack-section .section-subtitle.subtitle-fw-medium { font-weight: 500; }
+.choose-your-pack-section .section-subtitle.subtitle-fw-semibold { font-weight: 600; }
+.choose-your-pack-section .section-subtitle.subtitle-fw-bold { font-weight: 700; }
+
+/* Mobile typography utilities for header (match pack section) */
+@media (max-width: 480px) {
+  .choose-your-pack-section .section-title.title-m-xs { font-size: 1rem; }
+  .choose-your-pack-section .section-title.title-m-sm { font-size: 1.1rem; }
+  .choose-your-pack-section .section-title.title-m-md { font-size: 1.25rem; }
+  .choose-your-pack-section .section-title.title-m-lg { font-size: 1.4rem; }
+
+  .choose-your-pack-section .section-subtitle.subtitle-m-xs { font-size: 0.85rem; }
+  .choose-your-pack-section .section-subtitle.subtitle-m-sm { font-size: 0.9rem; }
+  .choose-your-pack-section .section-subtitle.subtitle-m-md { font-size: 1rem; }
+  .choose-your-pack-section .section-subtitle.subtitle-m-lg { font-size: 1.1rem; }
+}
+
+/* Title/subtitle color utilities (no !important to allow JS overrides) */
+.choose-your-pack-section .text-blue { color: #012169; }
+.choose-your-pack-section .text-gray { color: #7f8283; }
+.choose-your-pack-section .text-neutral-dark { color: #49473D; }
+.choose-your-pack-section .text-brown-2 { color: #484333; }
+.choose-your-pack-section .text-gold { color: #EEA81A; }
+.choose-your-pack-section .text-black { color: #000; }
+.choose-your-pack-section .text-white { color: #fff; }
+
+/* Font family utilities for Eina 01 (scoped) */
+.choose-your-pack-section .font-eina01-light { font-family: 'Eina 01', sans-serif; font-weight: 300; }
+.choose-your-pack-section .font-eina01-regular { font-family: 'Eina 01', sans-serif; font-weight: 400; }
+.choose-your-pack-section .font-eina01-semibold { font-family: 'Eina 01', sans-serif; font-weight: 600; }
+.choose-your-pack-section .font-eina01-bold { font-family: 'Eina 01', sans-serif; font-weight: 700; }
+
+/* Button label typography utilities */
+.choose-your-pack-section .button-pack .btn-label.btn-text-xs { font-size: 0.625rem; }
+.choose-your-pack-section .button-pack .btn-label.btn-text-sm { font-size: 0.75rem; }
+.choose-your-pack-section .button-pack .btn-label.btn-text-md { font-size: 0.875rem; }
+.choose-your-pack-section .button-pack .btn-label.btn-text-lg { font-size: 1rem; }
+
+.choose-your-pack-section .button-pack .btn-label.btn-fw-light { font-weight: 300; }
+.choose-your-pack-section .button-pack .btn-label.btn-fw-normal { font-weight: 400; }
+.choose-your-pack-section .button-pack .btn-label.btn-fw-medium { font-weight: 500; }
+.choose-your-pack-section .button-pack .btn-label.btn-fw-semibold { font-weight: 600; }
+.choose-your-pack-section .button-pack .btn-label.btn-fw-bold { font-weight: 700; }
+
+@media (max-width: 480px) {
+  .choose-your-pack-section .button-pack .btn-label.btn-m-text-xs { font-size: 0.625rem; }
+  .choose-your-pack-section .button-pack .btn-label.btn-m-text-sm { font-size: 0.6875rem; }
+  .choose-your-pack-section .button-pack .btn-label.btn-m-text-md { font-size: 0.75rem; }
+  .choose-your-pack-section .button-pack .btn-label.btn-m-text-lg { font-size: 0.8125rem; }
+}
+
+/* Button background/text color utilities (reuse existing where present) */
+.choose-your-pack-section .button-pack.btn-bg-cream { background: #E9DFCE; }
+.choose-your-pack-section .button-pack.btn-bg-white { background: #ffffff; }
+.choose-your-pack-section .button-pack.btn-text-dark h4,
+.choose-your-pack-section .button-pack.btn-text-dark h6 { color: #333333; }
+.choose-your-pack-section .button-pack.btn-text-blue h4,
+.choose-your-pack-section .button-pack.btn-text-blue h6 { color: #0047A5; }
+.choose-your-pack-section .button-pack.btn-text-white h4,
+.choose-your-pack-section .button-pack.btn-text-white h6 { color: #ffffff; }
+
+/* Totals layout (replacing inline styles) */
+.choose-your-pack-section .total-box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.choose-your-pack-section .total-row {
+  display: flex;
+  text-align: right;
+}
+
+.choose-your-pack-section .section-total {
+  margin-left: 0.5rem; /* 8px */
+  font-weight: 700;
+  font-size: 1.25rem; /* 20px */
+  color: #A40000;
+}
+
+/* Selector Groups */
+.choose-your-pack-section .selector-group {
+  margin-bottom: 20px;
+  padding-top: 15px 0;
+  border-bottom: 1px solid #D7D7D7;
+}
+
+.choose-your-pack-section .selector-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.choose-your-pack-section .selector-icon {
+  width: 40px;
+  height: 40px;
+  background: #f7a500;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: white;
+  flex-shrink: 0;
+}
+
+.choose-your-pack-section .selector-icon .icon-text {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.choose-your-pack-section .selector-icon img {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+}
+
+.choose-your-pack-section .selector-info { flex: 1; }
+
+.choose-your-pack-section .selector-title {
+  font-weight: 600;
+  font-size: 16px;
+  color: #333;
+}
+
+.choose-your-pack-section .selector-description {
+  color: #666;
+  font-size: 14px;
+}
+
+/* Product List */
+.choose-your-pack-section .product-list {
+  padding-bottom: 10px;
+  border-radius: 12px;
+  transition: background-color 0.3s ease;
+}
+
+.choose-your-pack-section .product-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+}
+
+.border-bottom {
+  border-bottom: 1px solid #D7D7D7;
+}
+
+.choose-your-pack-section .product-item:last-child {
+  border-bottom: none;
+}
+
+.choose-your-pack-section .product-color {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  margin-right: 15px;
+  flex-shrink: 0;
+}
+
+/* Product Color Variations */
+.choose-your-pack-section .passion-pina { background: linear-gradient(45deg, #f7dc6f, #f39c12); }
+.choose-your-pack-section .passion-raspberry { background: linear-gradient(45deg, #ec7063, #8e44ad); }
+.choose-your-pack-section .passion-grape { background: linear-gradient(45deg, #bb8fce, #6c3483); }
+.choose-your-pack-section .passion-strawberry { background: linear-gradient(45deg, #f1948a, #2ecc71); }
+.choose-your-pack-section .passion-peach { background: linear-gradient(45deg, #f8c471, #e67e22); }
+.choose-your-pack-section .passion-variety { background: linear-gradient(45deg, #85c1e9, #2980b9, #e74c3c, #f39c12); }
+.choose-your-pack-section .passion-tropical { background: linear-gradient(45deg, #82e5aa, #27ae60); }
+.choose-your-pack-section .passion-berry { background: linear-gradient(45deg, #c39bd3, #8e44ad); }
+
+.choose-your-pack-section .product-name {
+  flex: 1;
+  font-size: 14px;
+  color: #333;
+}
+
+.choose-your-pack-section .quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.choose-your-pack-section .qty-btn {
+  width: 15px;
+  height: 15px;
+  padding: 11px;
+  border: 1px solid #333;
+  border-radius: 6px;
+  background: white;
+  color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.choose-your-pack-section .qty-btn:hover {
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+  cursor: pointer;
+  opacity: 0.95;
+}
+
+.choose-your-pack-section .quantity {
+  min-width: 20px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.choose-your-pack-section .thermoburn { background: linear-gradient(45deg, #e74c3c, #c0392b); }
+.choose-your-pack-section .cafe-trim { background: linear-gradient(45deg, #8b4513, #d2691e); }
+.choose-your-pack-section .cocoa-trim { background: linear-gradient(45deg, #6f4e37, #a0522d); }
+.choose-your-pack-section .fun-raspberry { background: linear-gradient(45deg, #e91e63, #ad1457); }
+.choose-your-pack-section .truth-pomegranate { background: linear-gradient(45deg, #9c27b0, #6a1b9a); }
+
+/* Additional specific elements */
+.choose-your-pack-section .non-uppercase {
+  text-transform: none;
+}
+
+.choose-your-pack-section .products-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  justify-content: space-between;
+}
+
+.choose-your-pack-section .product-button {
+  background: transparent;
+  color: #333;
+  border: none;
+  border-radius: 0px;
+  font-weight: 600;
+  padding: 3px;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-self: end;
+  gap: .4rem;
+}
+
+.choose-your-pack-section .product-item-description {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.choose-your-pack-section .product-item-description p {
+  font-size: 1rem;
+}
+
+.choose-your-pack-section .product-content-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.choose-your-pack-section .product-description-content {
+  display: flex;
+  gap: 1rem;
+}
+
+.choose-your-pack-section .text-option {
+  font-size: 1rem;
+}
+
+.choose-your-pack-section .dropdown-title {
+  margin-left: 19px;
+  font-weight: 400;
+  color: #49473D;
+  line-height: normal;
+}
+
+.choose-your-pack-section .dropdown-icon {
+  transition: transform 0.3s ease;
+}
+
+.dropdown-icon.rotated {
+  transform: rotate(180deg);
+}
+
+.choose-your-pack-section .yoli-icon {
+  object-fit: contain;
+  width: 3.6rem;
+  height: auto;
+}
+
+.choose-your-pack-section .margin-0 {
+  margin: 0;
+}
+
+.choose-your-pack-section .padding-0 {
+  padding: 0;
+}
+
+.choose-your-pack-section .number {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.choose-your-pack-section .total-selected {
+  display: flex;
+  flex-direction: column;
+  background: #b4cef2;
+  border: 2px solid #0047a5;
+  color: #0047a5;
+  padding: 10px;
+  margin-bottom: 1rem;
+  border-radius: 10px;
+}
+
+.choose-your-pack-section .total-description {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.choose-your-pack-section .qty-number {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.choose-your-pack-section .button-content {
+  display: flex;
+  gap: 1rem;
+  padding: 1.5rem 0rem;
+  border-top: 1px solid #D7D7D7;
+}
+
+.choose-your-pack-section .button-pack {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 8rem;
+  height: 3.65rem;
+  flex-shrink: 0;
+  border-radius: 5px;
+  opacity: 0.85;
+  background: #E9DFCE;
+  transition: 0.3s;
+}
+
+.choose-your-pack-section .button-pack:hover {
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+  cursor: pointer;
+  opacity: 0.95;
+}
+
+.button-pack.active {
+  background-color: #ffffff !important;
+  border: 2px solid;
+}
+
+.choose-your-pack-section .button-pack h4 {
+  text-align: center;
+  font-size: 23px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  color: #333333;
+}
+
+.choose-your-pack-section .button-pack h6 {
+  text-align: center;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+/* Button color utilities */
+.choose-your-pack-section .button-pack.btn-bg-cream { background: #E9DFCE; }
+.choose-your-pack-section .button-pack.btn-bg-white { background: #ffffff; }
+.choose-your-pack-section .button-pack.btn-text-dark h4,
+.choose-your-pack-section .button-pack.btn-text-dark h6 { color: #333333; }
+.choose-your-pack-section .button-pack.btn-text-blue h4,
+.choose-your-pack-section .button-pack.btn-text-blue h6 { color: #0047A5; }
+.choose-your-pack-section .button-pack.btn-text-white h4,
+.choose-your-pack-section .button-pack.btn-text-white h6 { color: #ffffff; }
+
+/* Mobile Responsive */
+@media (max-width: 991px) {
+.choose-your-pack-section .button-pack {
+     width: 30%;
+  }
+  
+.choose-your-pack-section .button-pack h4 {
+    font-size: 15px;
+  }
+  
+.choose-your-pack-section .button-pack h6 {
+    font-size: 11px;;
+  }
+}
+
+@media (max-width: 768px) {
+.choose-your-pack-section .selector-header {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+.choose-your-pack-section .customization-section {
+    margin-bottom: 18px;
+  }
+
+.choose-your-pack-section .section-title {
+    font-size: 1.1rem;
+    margin-bottom: 4px;
+  }
+
+.choose-your-pack-section .subtitle-text {
+    font-size: 0.95rem;
+    margin-bottom: 10px;
+  }
+
+.choose-your-pack-section .selector-group {
+    margin-bottom: 10px;
+    padding-top: 8px;
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+.choose-your-pack-section .product-list {
+    margin-bottom: 8px;
+    margin-top: 10px;
+    padding-bottom: 6px;
+    border-radius: 8px;
+  }
+
+.choose-your-pack-section .product-item {
+    padding: 8px 8px;
+    font-size: 0.95rem;
+  }
+
+.choose-your-pack-section .products-item {
+    padding: 8px 8px;
+    font-size: 0.95rem;
+  }
+
+.choose-your-pack-section .product-item-description p {
+    font-size: 0.95rem;
+  }
+
+.choose-your-pack-section .quantity-controls {
+    gap: 6px;
+  }
+
+.choose-your-pack-section .qty-btn {
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    font-size: 1.1rem;
+    border-radius: 6px;
+  }
+
+.choose-your-pack-section .qty-number {
+    font-size: 1rem;
+  }
+
+.choose-your-pack-section .total-selected {
+    font-size: 0.9rem;
+    padding: 6px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+  }
+
+.choose-your-pack-section .total-description {
+    font-size: 0.9rem;
+  }
+
+.choose-your-pack-section .yoli-icon {
+    width: 3rem;
+    height: auto;
+  }
+
+   .pack {
+    margin: 1rem 1.1rem;
+  }
+
+  .pack-content {
+    width: 100%;
+  }
+}

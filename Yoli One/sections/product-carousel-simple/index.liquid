@@ -1,0 +1,539 @@
+<!-- Product Carousel Simple - Minimal Version -->
+<link rel="stylesheet" href="{{ 'product-carousel-simple/styles.css' | asset_url }}">
+
+<section 
+  class="product-carousel-simple {{ section.settings.background_color | default: 'bg-neutral' }} {{ section.settings.section_padding_y_mobile | default: 'py-xl' }} {{ section.settings.section_padding_y_desktop | default: 'lg:py-3xl' }}"
+  id="carousel-{{ section.id }}">
+  
+  <div class="{{section.settings.container_layout_width | default: 'container'}}">
+    <div class="product-carousel-simple-inner {{ section.settings.container_padding_y_mobile | default: 'py-lg' }} {{ section.settings.container_padding_y_desktop | default: 'lg:py-2xl' }}">
+      
+      <!-- Title -->
+      {% if section.settings.title != blank %}
+      <div class="product-carousel-simple-header">
+        <h2 class="{{ section.settings.title_font_family | default: 'font-primary' }} {{ section.settings.title_font_size | default: 'text-2xl' }} {{ section.settings.title_font_size_desktop | default: 'lg:text-3xl' }} {{ section.settings.title_font_weight | default: 'font-bold' }} {{ section.settings.title_color | default: 'text-black' }}">
+          {{ section.settings.title }}
+        </h2>
+      </div>
+      {% endif %}
+      
+      <!-- Carousel -->
+      {% if section.blocks.size > 0 %}
+      <div class="product-carousel-simple-wrapper">
+        <div class="product-carousel-simple-container">
+          
+          <!-- Track -->
+          <div class="product-carousel-simple-track {{ section.settings.card_gap | default: 'gap-md' }}" id="track-{{ section.id }}">
+            {% for block in section.blocks %}
+              {% if block.type == 'product' %}
+              <div class="product-carousel-simple-card" {{ block.fluid_attributes }}>
+                <a href="{{ block.settings.product_url | default: '#' }}" class="product-card-link">
+                  
+                  <!-- Image -->
+                  <div class="product-card-image-wrapper">
+                    {% if block.settings.product_image %}
+                      <img
+                        src="{{ block.settings.product_image | image_url: width: 600 }}"
+                        alt="{{ block.settings.product_title | default: 'Product image' }}"
+                        class="product-card-image"
+                        loading="lazy">
+                    {% else %}
+                      <svg class="product-card-image" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" fill="none">
+                        <rect width="400" height="400" fill="#f5f5f5"/>
+                        <path d="M200 120c-22.1 0-40 17.9-40 40s17.9 40 40 40 40-17.9 40-40-17.9-40-40-40zm0 60c-11 0-20-9-20-20s9-20 20-20 20 9 20 20-9 20-20 20zm100 120H100l40-80 60 40 40-20 60 60z" fill="#d0d0d0"/>
+                      </svg>
+                    {% endif %}
+                  </div>
+                  
+                  <!-- Info -->
+                  <div class="product-card-info">
+                    {% if block.settings.product_title != blank %}
+                    <h3 class="{{ section.settings.product_title_font_family | default: 'font-body' }} {{ section.settings.product_title_font_size | default: 'text-lg' }} {{ section.settings.product_title_font_size_desktop | default: 'lg:text-xl' }} {{ section.settings.product_title_font_weight | default: 'font-bold' }} {{ section.settings.product_title_color | default: 'text-black' }}">
+                      {{ block.settings.product_title }}
+                    </h3>
+                    {% endif %}
+                    
+                    {% if block.settings.product_price != blank %}
+                    <p class="{{ section.settings.product_price_font_family | default: 'font-body' }} {{ section.settings.product_price_font_size | default: 'text-base' }} {{ section.settings.product_price_font_size_desktop | default: 'lg:text-lg' }} {{ section.settings.product_price_font_weight | default: 'font-bold' }} {{ section.settings.product_price_color | default: 'text-neutral-dark' }}">
+                      {{ block.settings.product_price }}
+                    </p>
+                    {% endif %}
+                  </div>
+                  
+                </a>
+              </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+          
+        </div>
+        
+        <!-- Navigation -->
+        <div class="product-carousel-simple-nav">
+          <button class="carousel-nav-btn carousel-prev" id="prev-{{ section.id }}" aria-label="Previous">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M15 19l-7-7 7-7"/>
+            </svg>
+          </button>
+          <button class="carousel-nav-btn carousel-next" id="next-{{ section.id }}" aria-label="Next">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 5l7 7-7 7"/>
+            </svg>
+          </button>
+        </div>
+        
+      </div>
+      {% endif %}
+      
+    </div>
+  </div>
+</section>
+
+<script>
+(function() {
+  try {
+    // Wait for DOM to be fully loaded
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initCarousel);
+    } else {
+      initCarousel();
+    }
+    
+    function initCarousel() {
+      try {
+        const sectionId = '{{ section.id }}';
+        const track = document.getElementById('track-' + sectionId);
+        const prevBtn = document.getElementById('prev-' + sectionId);
+        const nextBtn = document.getElementById('next-' + sectionId);
+        
+        if (!track || !prevBtn || !nextBtn) {
+          console.warn('Product carousel: Elements not found');
+          return;
+        }
+        
+        const cards = track.querySelectorAll('.product-carousel-simple-card');
+        if (cards.length === 0) {
+          console.warn('Product carousel: No cards found');
+          return;
+        }
+        
+        let currentIndex = 0;
+        
+        function updateCarousel() {
+          try {
+            if (!cards[0]) return;
+            
+            // Get dimensions
+            const cardWidth = cards[0].offsetWidth || 280;
+            const trackStyles = window.getComputedStyle(track);
+            const gap = parseInt(trackStyles.gap) || 16;
+            
+            // Calculate position
+            const scrollDistance = currentIndex * (cardWidth + gap);
+            
+            // Apply animation
+            track.style.transition = 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+            track.style.transform = 'translateX(-' + scrollDistance + 'px)';
+            
+            // Update buttons
+            prevBtn.disabled = currentIndex === 0;
+            nextBtn.disabled = currentIndex >= cards.length - 1;
+            
+            prevBtn.style.opacity = currentIndex === 0 ? '0.4' : '1';
+            prevBtn.style.cursor = currentIndex === 0 ? 'not-allowed' : 'pointer';
+            
+            nextBtn.style.opacity = currentIndex >= cards.length - 1 ? '0.4' : '1';
+            nextBtn.style.cursor = currentIndex >= cards.length - 1 ? 'not-allowed' : 'pointer';
+          } catch (e) {
+            console.error('Product carousel update error:', e);
+          }
+        }
+        
+        prevBtn.addEventListener('click', function() {
+          if (currentIndex > 0) {
+            currentIndex--;
+            updateCarousel();
+          }
+        });
+        
+        nextBtn.addEventListener('click', function() {
+          if (currentIndex < cards.length - 1) {
+            currentIndex++;
+            updateCarousel();
+          }
+        });
+        
+        // Initialize
+        updateCarousel();
+        
+        // Handle resize
+        let resizeTimeout;
+        window.addEventListener('resize', function() {
+          clearTimeout(resizeTimeout);
+          resizeTimeout = setTimeout(updateCarousel, 250);
+        });
+        
+      } catch (e) {
+        console.error('Product carousel initialization error:', e);
+      }
+    }
+  } catch (e) {
+    console.error('Product carousel script error:', e);
+  }
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Product Carousel Simple",
+  "tag": "section",
+  "class": "product-carousel-simple-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout Width (Container)"
+    },
+    {
+      "type": "select",
+      "id": "container_layout_width",
+      "label": "Layout Width (Container)",
+      "options": [
+        { "value": "container", "label": "Container" },
+        { "value": "container-full", "label": "Full Width (Container Full)" }
+      ],
+      "default": "container",
+      "info": "Choose whether the container is constrained to the width of the page or full width"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Shop Our Products"
+    },
+    {
+      "type": "select",
+      "id": "title_font_family",
+      "label": "Title Font Family",
+      "options": [
+        { "value": "font-primary", "label": "Primary" },
+        { "value": "font-body", "label": "Body" },
+        { "value": "font-handwritten", "label": "Handwritten" },
+        { "value": "font-serif", "label": "Serif" }
+      ],
+      "default": "font-primary"
+    },
+    {
+      "type": "select",
+      "id": "title_font_size",
+      "label": "Title Font Size (Mobile)",
+      "options": [
+        { "value": "text-xl", "label": "Extra Large" },
+        { "value": "text-2xl", "label": "2X Large" },
+        { "value": "text-3xl", "label": "3X Large" },
+        { "value": "text-4xl", "label": "4X Large" }
+      ],
+      "default": "text-2xl"
+    },
+    {
+      "type": "select",
+      "id": "title_font_size_desktop",
+      "label": "Title Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-xl", "label": "Extra Large" },
+        { "value": "lg:text-2xl", "label": "2X Large" },
+        { "value": "lg:text-3xl", "label": "3X Large" },
+        { "value": "lg:text-4xl", "label": "4X Large" }
+      ],
+      "default": "lg:text-3xl"
+    },
+    {
+      "type": "select",
+      "id": "title_font_weight",
+      "label": "Title Font Weight",
+      "options": [
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semi Bold" },
+        { "value": "font-bold", "label": "Bold" }
+      ],
+      "default": "font-bold"
+    },
+    {
+      "type": "select",
+      "id": "title_color",
+      "label": "Title Color",
+      "options": [
+        { "value": "text-white", "label": "White" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-primary", "label": "Primary" },
+        { "value": "text-secondary", "label": "Secondary" },
+        { "value": "text-tertiary", "label": "Tertiary" }
+      ],
+      "default": "text-black"
+    },
+    {
+      "type": "header",
+      "content": "Product Card Styling"
+    },
+    {
+      "type": "select",
+      "id": "product_title_font_family",
+      "label": "Product Title Font Family",
+      "options": [
+        { "value": "font-primary", "label": "Primary" },
+        { "value": "font-body", "label": "Body" },
+        { "value": "font-handwritten", "label": "Handwritten" },
+        { "value": "font-serif", "label": "Serif" }
+      ],
+      "default": "font-body"
+    },
+    {
+      "type": "select",
+      "id": "product_title_font_size",
+      "label": "Product Title Font Size (Mobile)",
+      "options": [
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" },
+        { "value": "text-xl", "label": "Extra Large" }
+      ],
+      "default": "text-lg"
+    },
+    {
+      "type": "select",
+      "id": "product_title_font_size_desktop",
+      "label": "Product Title Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-base", "label": "Base" },
+        { "value": "lg:text-lg", "label": "Large" },
+        { "value": "lg:text-xl", "label": "Extra Large" }
+      ],
+      "default": "lg:text-xl"
+    },
+    {
+      "type": "select",
+      "id": "product_title_font_weight",
+      "label": "Product Title Font Weight",
+      "options": [
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-medium", "label": "Medium" },
+        { "value": "font-semibold", "label": "Semi Bold" },
+        { "value": "font-bold", "label": "Bold" }
+      ],
+      "default": "font-bold"
+    },
+    {
+      "type": "select",
+      "id": "product_title_color",
+      "label": "Product Title Color",
+      "options": [
+        { "value": "text-white", "label": "White" },
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-primary", "label": "Primary" }
+      ],
+      "default": "text-black"
+    },
+    {
+      "type": "select",
+      "id": "product_price_font_family",
+      "label": "Product Price Font Family",
+      "options": [
+        { "value": "font-primary", "label": "Primary" },
+        { "value": "font-body", "label": "Body" }
+      ],
+      "default": "font-body"
+    },
+    {
+      "type": "select",
+      "id": "product_price_font_size",
+      "label": "Product Price Font Size (Mobile)",
+      "options": [
+        { "value": "text-sm", "label": "Small" },
+        { "value": "text-base", "label": "Base" },
+        { "value": "text-lg", "label": "Large" }
+      ],
+      "default": "text-base"
+    },
+    {
+      "type": "select",
+      "id": "product_price_font_size_desktop",
+      "label": "Product Price Font Size (Desktop)",
+      "options": [
+        { "value": "lg:text-sm", "label": "Small" },
+        { "value": "lg:text-base", "label": "Base" },
+        { "value": "lg:text-lg", "label": "Large" }
+      ],
+      "default": "lg:text-lg"
+    },
+    {
+      "type": "select",
+      "id": "product_price_font_weight",
+      "label": "Product Price Font Weight",
+      "options": [
+        { "value": "font-normal", "label": "Normal" },
+        { "value": "font-bold", "label": "Bold" }
+      ],
+      "default": "font-bold"
+    },
+    {
+      "type": "select",
+      "id": "product_price_color",
+      "label": "Product Price Color",
+      "options": [
+        { "value": "text-black", "label": "Black" },
+        { "value": "text-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "text-neutral-dark"
+    },
+    {
+      "type": "header",
+      "content": "Carousel Settings"
+    },
+    {
+      "type": "select",
+      "id": "card_gap",
+      "label": "Gap Between Cards",
+      "options": [
+        { "value": "gap-sm", "label": "Small" },
+        { "value": "gap-md", "label": "Medium" },
+        { "value": "gap-lg", "label": "Large" },
+        { "value": "gap-xl", "label": "Extra Large" }
+      ],
+      "default": "gap-md"
+    },
+    {
+      "type": "header",
+      "content": "Layout Settings"
+    },
+    {
+      "type": "select",
+      "id": "background_color",
+      "label": "Section Background Color",
+      "options": [
+        { "value": "bg-white", "label": "White" },
+        { "value": "bg-black", "label": "Black" },
+        { "value": "bg-neutral", "label": "Neutral" },
+        { "value": "bg-neutral-light", "label": "Neutral Light" }
+      ],
+      "default": "bg-neutral"
+    },
+    {
+      "type": "select",
+      "id": "section_padding_y_mobile",
+      "label": "Section Padding (Mobile)",
+      "options": [
+        { "value": "py-md", "label": "Medium" },
+        { "value": "py-lg", "label": "Large" },
+        { "value": "py-xl", "label": "Extra Large" },
+        { "value": "py-2xl", "label": "2X Large" }
+      ],
+      "default": "py-xl"
+    },
+    {
+      "type": "select",
+      "id": "section_padding_y_desktop",
+      "label": "Section Padding (Desktop)",
+      "options": [
+        { "value": "lg:py-lg", "label": "Large" },
+        { "value": "lg:py-xl", "label": "Extra Large" },
+        { "value": "lg:py-2xl", "label": "2X Large" },
+        { "value": "lg:py-3xl", "label": "3X Large" }
+      ],
+      "default": "lg:py-3xl"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_y_mobile",
+      "label": "Container Padding (Mobile)",
+      "options": [
+        { "value": "py-sm", "label": "Small" },
+        { "value": "py-md", "label": "Medium" },
+        { "value": "py-lg", "label": "Large" }
+      ],
+      "default": "py-lg"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_y_desktop",
+      "label": "Container Padding (Desktop)",
+      "options": [
+        { "value": "lg:py-md", "label": "Medium" },
+        { "value": "lg:py-lg", "label": "Large" },
+        { "value": "lg:py-xl", "label": "Extra Large" },
+        { "value": "lg:py-2xl", "label": "2X Large" }
+      ],
+      "default": "lg:py-2xl"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Product",
+      "limit": 20,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "product_image",
+          "label": "Product Image"
+        },
+        {
+          "type": "text",
+          "id": "product_title",
+          "label": "Product Title",
+          "default": "Product Name"
+        },
+        {
+          "type": "text",
+          "id": "product_price",
+          "label": "Product Price",
+          "default": "$99.99"
+        },
+        {
+          "type": "url",
+          "id": "product_url",
+          "label": "Product URL"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Carousel Simple",
+      "blocks": [
+        {
+          "type": "product",
+          "settings": {
+            "product_title": "Product 1",
+            "product_price": "$99.99"
+          }
+        },
+        {
+          "type": "product",
+          "settings": {
+            "product_title": "Product 2",
+            "product_price": "$79.99"
+          }
+        },
+        {
+          "type": "product",
+          "settings": {
+            "product_title": "Product 3",
+            "product_price": "$89.99"
+          }
+        },
+        {
+          "type": "product",
+          "settings": {
+            "product_title": "Product 4",
+            "product_price": "$109.99"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+

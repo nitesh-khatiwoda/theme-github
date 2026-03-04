@@ -1,0 +1,342 @@
+/* Featured Products Carousel Section */
+
+.featured-products-carousel {
+  overflow-x: clip;
+  overflow-y: visible;
+}
+
+.featured-products-carousel .container {
+  overflow: visible;
+}
+
+/* ============================================
+   HEADER ROW
+   ============================================ */
+
+.featured-products-carousel__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  align-items: center;
+  text-align: center;
+  margin-bottom: var(--space-2xl);
+}
+
+.featured-products-carousel__heading-wrapper h2 {
+  margin: 0;
+  line-height: 1.2;
+}
+
+.featured-products-carousel__heading-wrapper h2 span {
+  display: inline;
+}
+
+.featured-products-carousel__button-wrapper {
+  width: 100%;
+}
+
+.featured-products-carousel__button-wrapper .btn {
+  width: 100%;
+  max-width: 300px;
+}
+
+/* Desktop header layout */
+@media (min-width: 1024px) {
+  .featured-products-carousel__header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+    margin-bottom: var(--space-3xl);
+  }
+
+  .featured-products-carousel__button-wrapper {
+    width: auto;
+    flex-shrink: 0;
+  }
+
+  .featured-products-carousel__button-wrapper .btn {
+    width: auto;
+    white-space: nowrap;
+  }
+
+  .featured-products-carousel__heading-wrapper {
+    flex: 1;
+    max-width: 960px;
+  }
+}
+
+/* ============================================
+   CAROUSEL WRAPPER
+   ============================================ */
+
+.featured-products-carousel__wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: visible;
+}
+
+/* Navigation Wrapper - Below Cards, Right Aligned */
+.featured-products-carousel__nav-wrapper {
+  display: flex;
+  gap: var(--space-md);
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: var(--space-xl);
+}
+
+/* Navigation Buttons */
+.featured-products-carousel__nav {
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: var(--clr-neutral-light);
+  border: 2px solid var(--clr-neutral);
+  color: var(--clr-black);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.featured-products-carousel__nav:hover:not(:disabled) {
+  background-color: var(--clr-primary);
+  border-color: var(--clr-primary);
+  color: var(--clr-white);
+  transform: scale(1.05);
+}
+
+.featured-products-carousel__nav:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.featured-products-carousel__nav:focus {
+  outline: 2px solid var(--clr-primary);
+  outline-offset: 4px;
+}
+
+.featured-products-carousel__nav:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Hide nav buttons on mobile (use swipe instead) */
+@media (max-width: 639px) {
+  .featured-products-carousel__nav-wrapper {
+    display: none;
+  }
+}
+
+/* ============================================
+   CAROUSEL TRACK
+   ============================================ */
+
+.featured-products-carousel__track-container {
+  flex: 1;
+  overflow: visible;
+  position: relative;
+  margin-left: 0;
+}
+
+@media (min-width: 640px) {
+  .featured-products-carousel__track-container {
+    margin-right: calc(-1 * var(--space-3xl));
+  }
+}
+
+.featured-products-carousel__track {
+  display: flex;
+  gap: var(--space-lg);
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  touch-action: pan-y pinch-zoom;
+  padding-right: var(--space-3xl);
+}
+
+.featured-products-carousel .inner-container {
+  overflow: visible;
+}
+
+/* ============================================
+   INDIVIDUAL CARD
+   ============================================ */
+
+.featured-products-carousel__card {
+  flex: 0 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ============================================
+   CARD IMAGE WITH HOVER EFFECT
+   ============================================ */
+
+.featured-products-carousel__card-image-wrapper {
+  position: relative;
+  width: 100%;
+  height: 280px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.featured-products-carousel__card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.featured-products-carousel__card-image--default {
+  position: relative;
+  opacity: 1;
+}
+
+.featured-products-carousel__card-image--hover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+
+.featured-products-carousel__card:hover .featured-products-carousel__card-image--default {
+  opacity: 0;
+}
+
+.featured-products-carousel__card:hover .featured-products-carousel__card-image--hover {
+  opacity: 1;
+}
+
+/* ============================================
+   CARD CONTENT
+   ============================================ */
+
+.featured-products-carousel__card-content {
+  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  flex: 1;
+}
+
+.featured-products-carousel__card-title {
+  margin: 0;
+  line-height: 1.4;
+}
+
+.featured-products-carousel__card-price {
+  margin: 0;
+  line-height: 1.2;
+}
+
+.featured-products-carousel__card-description {
+  margin: 0;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ============================================
+   RATING STARS
+   ============================================ */
+
+.featured-products-carousel__card-rating {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  margin: var(--space-xs) 0;
+}
+
+.featured-products-carousel__stars {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  color: #fbbf24; /* Star color - gold/yellow */
+}
+
+.featured-products-carousel__stars svg {
+  flex-shrink: 0;
+}
+
+.featured-products-carousel__review-count {
+  line-height: 1;
+}
+
+/* ============================================
+   RESPONSIVE CARD WIDTHS
+   ============================================ */
+
+/* Mobile: 1 card visible */
+@media (max-width: 639px) {
+  .featured-products-carousel__card {
+    width: calc(100% - var(--space-lg));
+  }
+}
+
+/* Tablet: 2 cards visible */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .featured-products-carousel__card {
+    width: calc(50% - var(--space-lg));
+  }
+}
+
+/* Desktop: 4 cards visible */
+@media (min-width: 1024px) {
+  .featured-products-carousel__card {
+    width: calc(25% - var(--space-lg));
+  }
+}
+
+/* ============================================
+   HOVER EFFECTS
+   ============================================ */
+
+/* Image swap hover effect is handled in the card image section above */
+
+/* ============================================
+   BUTTON FOCUS STATES
+   ============================================ */
+
+.featured-products-carousel__button-wrapper .btn:focus {
+  outline: 2px solid var(--clr-primary);
+  outline-offset: 4px;
+}
+
+.featured-products-carousel__button-wrapper .btn:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ============================================
+   TOUCH/SWIPE OPTIMIZATION
+   ============================================ */
+
+@media (max-width: 639px) {
+  .featured-products-carousel__track-container {
+    overflow-x: auto;
+    overflow-y: visible;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+    margin-right: calc(-1 * var(--space-lg));
+  }
+
+  .featured-products-carousel__track-container::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+  }
+  
+  .featured-products-carousel__track {
+    padding-right: var(--space-lg);
+  }
+}
+

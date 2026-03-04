@@ -1,0 +1,62 @@
+/* Hero with Overlay Section */
+
+.hero-with-overlay {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.hero-with-overlay-inner {
+  position: relative;
+  z-index: 2;
+}
+
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  align-items: center;
+  text-align: center;
+}
+
+@media (min-width: 1024px) {
+  .hero-content {
+    gap: var(--space-xl);
+  }
+}
+
+/* Heading */
+.heading-wrapper {
+  width: 100%;
+}
+
+.heading {
+  line-height: 1;
+  text-align: center;
+}
+
+@media (min-width: 1024px) {
+  .heading {
+    line-height: 1.1;
+  }
+}
+
+/* Subheading */
+.subheading-wrapper {
+  width: 100%;
+}
+
+.subheading {
+  line-height: 1.5;
+  text-align: center;
+}
+

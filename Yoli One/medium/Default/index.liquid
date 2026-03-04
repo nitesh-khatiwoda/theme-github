@@ -1,0 +1,20 @@
+<fluid-media-widget media-id={{id}} responsive="true" embed-type="default" data-fluid-widget="true"></fluid-media-widget>
+  <script>
+  (function() {
+    function hideWidgets() {
+      if (typeof FairShareSDK !== 'undefined') {
+        FairShareSDK.cart.settings.set({ hideWidget: true });
+        FairShareSDK.chat.settings.set({ hideWidget: true });
+      } else {
+        // SDK not loaded yet, retry after a short delay
+        setTimeout(hideWidgets, 100);
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', hideWidgets);
+    } else {
+      hideWidgets();
+    }
+  })();
+  </script>

@@ -1,0 +1,245 @@
+/* Scrolling Gallery 2 - Continuous Auto-Scroll Section */
+
+.scrolling-gallery-2 {
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: visible;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+/* ============================================
+   HEADER SECTION
+   ============================================ */
+
+.scrolling-gallery-2__header-container {
+  width: 100%;
+  padding-bottom: var(--space-3xl);
+  padding-top: var(--space-2xl);
+}
+
+@media (min-width: 1024px) {
+  .scrolling-gallery-2__header-container {
+    padding-bottom: var(--space-3xl);
+    padding-top: var(--space-3xl);
+  }
+}
+
+.scrolling-gallery-2__header-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.scrolling-gallery-2__heading {
+  margin: 0;
+  line-height: 1;
+}
+
+@media (min-width: 1024px) {
+  .scrolling-gallery-2__heading {
+    line-height: 1.1;
+  }
+}
+
+.scrolling-gallery-2__description {
+  margin-top: var(--space-sm);
+}
+
+.scrolling-gallery-2__description p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ============================================
+   GALLERY SECTION - CONTINUOUS SCROLL
+   ============================================ */
+
+.scrolling-gallery-2__gallery-fullwidth {
+  width: 100%;
+  overflow: hidden;
+  margin-bottom: var(--space-3xl);
+  position: relative;
+}
+
+.scrolling-gallery-2__track-wrapper {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.scrolling-gallery-2__track {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  animation: scroll-left var(--scroll-speed, 30s) linear infinite;
+  will-change: transform;
+}
+
+/* Keyframe animation for continuous left scroll */
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-1 * var(--track-width, 0px)));
+  }
+}
+
+.scrolling-gallery-2__track-set {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+  flex-shrink: 0;
+}
+
+.scrolling-gallery-2__image-item {
+  position: relative;
+  flex: 0 0 auto;
+  width: 280px;
+  overflow: hidden;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: grab;
+  background-color: var(--clr-neutral);
+}
+
+@media (min-width: 768px) {
+  .scrolling-gallery-2__image-item {
+    width: 416px;
+  }
+}
+
+.scrolling-gallery-2__image-item:hover {
+  transform: translateY(-4px);
+}
+
+.scrolling-gallery-2__image-item:active {
+  cursor: grabbing;
+}
+
+.scrolling-gallery-2__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  pointer-events: none;
+}
+
+/* ============================================
+   FOOTER SECTION
+   ============================================ */
+
+.scrolling-gallery-2__footer-container {
+  width: 100%;
+  padding-top: var(--space-xl);
+  padding-bottom: var(--space-md);
+}
+
+@media (min-width: 1024px) {
+  .scrolling-gallery-2__footer-container {
+    padding-top: var(--space-2xl);
+  }
+}
+
+.scrolling-gallery-2__footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-lg);
+}
+
+.scrolling-gallery-2__footer-heading {
+  margin: 0;
+  line-height: 1;
+}
+
+@media (min-width: 1024px) {
+  .scrolling-gallery-2__footer-heading {
+    line-height: 1.1;
+  }
+}
+
+.scrolling-gallery-2__footer-description {
+  margin-top: var(--space-sm);
+}
+
+.scrolling-gallery-2__footer-description p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.scrolling-gallery-2__button-wrapper {
+  margin-top: var(--space-lg);
+}
+
+.scrolling-gallery-2__button-wrapper .btn {
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================ */
+
+@media (max-width: 767px) {
+  .scrolling-gallery-2__header-container {
+    padding-bottom: var(--space-2xl);
+    padding-top: var(--space-xl);
+  }
+
+  .scrolling-gallery-2__gallery-fullwidth {
+    margin-bottom: var(--space-2xl);
+  }
+
+  .scrolling-gallery-2__footer-container {
+    padding-top: var(--space-lg);
+  }
+
+  .scrolling-gallery-2__footer-content {
+    gap: var(--space-md);
+  }
+}
+
+/* ============================================
+   BACKGROUND IMAGE HANDLING
+   ============================================ */
+
+.scrolling-gallery-2[data-bg] {
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* ============================================
+   ACCESSIBILITY & PERFORMANCE
+   ============================================ */
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  .scrolling-gallery-2__track {
+    animation: scroll-left var(--scroll-speed, 30s) linear infinite;
+    animation-play-state: paused;
+  }
+  
+  .scrolling-gallery-2__track:hover {
+    animation-play-state: running;
+  }
+}
+
+/* Ensure smooth animation on all devices */
+.scrolling-gallery-2__track {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  perspective: 1000px;
+  -webkit-perspective: 1000px;
+}
+
+/* Hide duplicate track from screen readers */
+.scrolling-gallery-2__track-set[aria-hidden="true"] {
+  pointer-events: none;
+}
+

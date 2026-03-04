@@ -1,0 +1,200 @@
+/* ============================================
+   HERO MINIMAL SIDE SECTION
+   Minimalist hero with side-aligned content
+   ============================================ */
+
+.hero-minimal-side {
+  position: relative;
+  z-index: var(--z-10);
+  margin: 2rem;
+}
+
+/* ============================================
+   OUTER CONTAINER
+   ============================================ */
+
+.hero-minimal-side__outer-container {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* ============================================
+   HERO WRAPPER
+   ============================================ */
+
+.hero-minimal-side__wrapper {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 600px;
+}
+
+@media (min-width: 991px) {
+  .hero-minimal-side__wrapper {
+    height: 676px;
+  }
+}
+
+/* ============================================
+   BACKGROUND IMAGE
+   ============================================ */
+
+.hero-minimal-side__background {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.hero-minimal-side__background-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ============================================
+   PLAY BUTTON
+   ============================================ */
+
+.hero-minimal-side__play-button {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  width: 30px;
+  height: 30px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 3;
+}
+
+.hero-minimal-side__play-button:hover {
+  transform: scale(1.1);
+}
+
+.hero-minimal-side__play-button svg {
+  width: 100%;
+  height: 100%;
+  flex-shrink: 0;
+}
+
+/* ============================================
+   CONTENT WRAPPER (Overlay)
+   ============================================ */
+
+.hero-minimal-side__content-wrapper {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: var(--space-xl);
+  z-index: 2;
+}
+
+@media (max-width: 990px) {
+  .hero-minimal-side__content-wrapper {
+    justify-content: center;
+    padding: var(--space-lg);
+  }
+}
+
+/* ============================================
+   CONTENT CONTAINER
+   ============================================ */
+
+.hero-minimal-side__content {
+  max-width: 341px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  padding: var(--space-md);
+  text-align: left;
+}
+
+@media (max-width: 990px) {
+  .hero-minimal-side__content {
+    max-width: 400px;
+    text-align: center;
+    align-items: center;
+  }
+}
+
+/* ============================================
+   EYEBROW TEXT
+   ============================================ */
+
+.hero-minimal-side__eyebrow {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.083em;
+  line-height: 1.33;
+}
+
+/* ============================================
+   HEADING
+   ============================================ */
+
+.hero-minimal-side__heading {
+  margin: 0;
+  line-height: 1.28;
+  letter-spacing: 0.018em;
+  white-space: pre-line;
+}
+
+/* ============================================
+   BUTTON WRAPPER
+   ============================================ */
+
+.hero-minimal-side__button-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+@media (max-width: 990px) {
+  .hero-minimal-side__button-wrapper {
+    justify-content: center;
+  }
+}
+
+.hero-minimal-side__button-wrapper .btn {
+  text-transform: uppercase;
+  letter-spacing: 0.077em;
+  white-space: nowrap;
+}
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================ */
+
+/* Mobile: Smaller hero, centered content */
+@media (max-width: 767px) {
+  .hero-minimal-side__wrapper {
+    height: 500px;
+  }
+  
+  .hero-minimal-side__content {
+    gap: var(--space-md);
+    padding: var(--space-sm);
+  }
+  
+  .hero-minimal-side__button-wrapper .btn {
+    width: 100%;
+  }
+}
+
+/* Tablet: Medium hero height */
+@media (min-width: 768px) and (max-width: 990px) {
+  .hero-minimal-side__wrapper {
+    height: 560px;
+  }
+}
+

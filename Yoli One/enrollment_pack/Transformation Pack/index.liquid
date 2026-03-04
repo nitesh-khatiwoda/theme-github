@@ -1,0 +1,64 @@
+<main class="main-container">
+  <div class="product-page">
+    <div class="product-container">
+      <div class="left-column">
+        <div class="section-images">
+          {% section 'product_images', id: 'product_images' %}
+        </div>
+
+        <div class="section-banner">
+          {% section 'product_banner', id: 'product_banner' %}
+        </div>
+      </div>
+
+      <div class="right-column">
+        <div class="section-description">
+          {% section 'product_description', id: 'product_description' %}
+        </div>
+
+        {% if enrollment_pack.available_for_country %}
+          <div class="section-customization">
+            {% section 'choose_your_pack', id: 'choose_your_pack' %}
+            {% section 'add_to_cart', id: 'add_to_cart' %}
+          </div>
+        {% else %}
+          <p class="no-available">This product is not available for you country</p>
+        {% endif%}
+      </div>
+    </div>
+  </div>
+</main>
+
+
+{% schema %}
+  {
+    "sections": {
+      "product_images": {
+        "type": "product_images"
+      },
+      "product_description": {
+        "type": "product_description"
+      },
+      "product_banner": {
+        "type": "product_banner"
+      },
+      "add_to_cart": {
+        "type": "add_to_cart"
+      },
+      "choose_your_pack": {
+        "type": "choose_your_pack"
+      }
+    },
+    "layout": "theme",
+    "order": [
+      "product_images",
+      "product_description",
+      "nature_to_body",
+      "quality_promise",
+      "product_banner",
+      "add_to_cart",
+      "choose_your_pack"
+    ],
+    "name": "Product Page"
+  }
+{% endschema %}

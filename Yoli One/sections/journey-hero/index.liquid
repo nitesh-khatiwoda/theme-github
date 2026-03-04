@@ -1,0 +1,1288 @@
+<!-- Journey Hero Section -->
+<section class="journey-hero {{ section.settings.background_color | default: 'bg-white' }} {{ section.settings.section_padding_y_mobile | default: 'py-xl' }} {{ section.settings.section_padding_y_desktop | default: 'lg:py-3xl' }} {{ section.settings.section_border_radius_mobile | default: 'rounded-none' }} {{ section.settings.section_border_radius_desktop | default: 'lg:rounded-none' }}" 
+  {% if section.settings.background_image %}data-bg="{{ section.settings.background_image | image_url }}"{% endif %}>
+  <div class="{{section.settings.container_layout_width | default:'container'}}">
+    <div class="journey-hero__inner {{ section.settings.container_background_color }} {{ section.settings.container_border_radius | default: 'rounded-none' }} {{ section.settings.container_padding_y_mobile | default: 'py-lg' }} {{ section.settings.container_padding_y_desktop | default: 'lg:py-xl' }}" {% if section.settings.container_background_image %}data-bg="{{ section.settings.container_background_image | image_url }}"{% endif %}>
+    
+    <!-- Inner Container - Centered with background image and rounded corners -->
+    {% if section.blocks.size > 0 %}
+      {% for block in section.blocks %}
+        {% assign br_tl = block.settings.round_top_left_radius | default: 'rounded-none' %}
+        {% assign br_tr = block.settings.round_top_right_radius | default: 'rounded-none' %}
+        {% assign br_bl = block.settings.round_bottom_left_radius | default: 'rounded-none' %}
+        {% assign br_br = block.settings.round_bottom_right_radius | default: 'rounded-3xl' %}
+        
+        {% if br_tl == 'rounded-none' %}
+          {% assign br_tl = '0' %}
+        {% elsif br_tl == 'rounded-sm' %}
+          {% assign br_tl = 'var(--radius-sm)' %}
+        {% elsif br_tl == 'rounded' %}
+          {% assign br_tl = 'var(--radius-base)' %}
+        {% elsif br_tl == 'rounded-md' %}
+          {% assign br_tl = 'var(--radius-md)' %}
+        {% elsif br_tl == 'rounded-lg' %}
+          {% assign br_tl = 'var(--radius-lg)' %}
+        {% elsif br_tl == 'rounded-xl' %}
+          {% assign br_tl = 'var(--radius-xl)' %}
+        {% elsif br_tl == 'rounded-2xl' %}
+          {% assign br_tl = 'var(--radius-2xl)' %}
+        {% elsif br_tl == 'rounded-3xl' %}
+          {% assign br_tl = 'var(--radius-3xl)' %}
+        {% elsif br_tl == 'rounded-4xl' %}
+          {% assign br_tl = 'var(--radius-4xl)' %}
+        {% elsif br_tl == 'rounded-full' %}
+          {% assign br_tl = '9999px' %}
+        {% endif %}
+        
+        {% if br_tr == 'rounded-none' %}
+          {% assign br_tr = '0' %}
+        {% elsif br_tr == 'rounded-sm' %}
+          {% assign br_tr = 'var(--radius-sm)' %}
+        {% elsif br_tr == 'rounded' %}
+          {% assign br_tr = 'var(--radius-base)' %}
+        {% elsif br_tr == 'rounded-md' %}
+          {% assign br_tr = 'var(--radius-md)' %}
+        {% elsif br_tr == 'rounded-lg' %}
+          {% assign br_tr = 'var(--radius-lg)' %}
+        {% elsif br_tr == 'rounded-xl' %}
+          {% assign br_tr = 'var(--radius-xl)' %}
+        {% elsif br_tr == 'rounded-2xl' %}
+          {% assign br_tr = 'var(--radius-2xl)' %}
+        {% elsif br_tr == 'rounded-3xl' %}
+          {% assign br_tr = 'var(--radius-3xl)' %}
+        {% elsif br_tr == 'rounded-4xl' %}
+          {% assign br_tr = 'var(--radius-4xl)' %}
+        {% elsif br_tr == 'rounded-full' %}
+          {% assign br_tr = '9999px' %}
+        {% endif %}
+        
+        {% if br_bl == 'rounded-none' %}
+          {% assign br_bl = '0' %}
+        {% elsif br_bl == 'rounded-sm' %}
+          {% assign br_bl = 'var(--radius-sm)' %}
+        {% elsif br_bl == 'rounded' %}
+          {% assign br_bl = 'var(--radius-base)' %}
+        {% elsif br_bl == 'rounded-md' %}
+          {% assign br_bl = 'var(--radius-md)' %}
+        {% elsif br_bl == 'rounded-lg' %}
+          {% assign br_bl = 'var(--radius-lg)' %}
+        {% elsif br_bl == 'rounded-xl' %}
+          {% assign br_bl = 'var(--radius-xl)' %}
+        {% elsif br_bl == 'rounded-2xl' %}
+          {% assign br_bl = 'var(--radius-2xl)' %}
+        {% elsif br_bl == 'rounded-3xl' %}
+          {% assign br_bl = 'var(--radius-3xl)' %}
+        {% elsif br_bl == 'rounded-4xl' %}
+          {% assign br_bl = 'var(--radius-4xl)' %}
+        {% elsif br_bl == 'rounded-full' %}
+          {% assign br_bl = '9999px' %}
+        {% endif %}
+        
+        {% if br_br == 'rounded-none' %}
+          {% assign br_br = '0' %}
+        {% elsif br_br == 'rounded-sm' %}
+          {% assign br_br = 'var(--radius-sm)' %}
+        {% elsif br_br == 'rounded' %}
+          {% assign br_br = 'var(--radius-base)' %}
+        {% elsif br_br == 'rounded-md' %}
+          {% assign br_br = 'var(--radius-md)' %}
+        {% elsif br_br == 'rounded-lg' %}
+          {% assign br_br = 'var(--radius-lg)' %}
+        {% elsif br_br == 'rounded-xl' %}
+          {% assign br_br = 'var(--radius-xl)' %}
+        {% elsif br_br == 'rounded-2xl' %}
+          {% assign br_br = 'var(--radius-2xl)' %}
+        {% elsif br_br == 'rounded-3xl' %}
+          {% assign br_br = 'var(--radius-3xl)' %}
+        {% elsif br_br == 'rounded-4xl' %}
+          {% assign br_br = 'var(--radius-4xl)' %}
+        {% elsif br_br == 'rounded-full' %}
+          {% assign br_br = '9999px' %}
+        {% endif %}
+        
+        {% assign bg_color = block.settings.container_background_color | default: '' %}
+        {% assign bg_color_value = '' %}
+        {% if bg_color == 'white' %}
+          {% assign bg_color_value = 'var(--clr-white)' %}
+        {% elsif bg_color == 'black' %}
+          {% assign bg_color_value = 'var(--clr-black)' %}
+        {% elsif bg_color == 'primary' %}
+          {% assign bg_color_value = 'var(--clr-primary)' %}
+        {% elsif bg_color == 'secondary' %}
+          {% assign bg_color_value = 'var(--clr-secondary)' %}
+        {% elsif bg_color == 'secondary-light' %}
+          {% assign bg_color_value = 'var(--clr-secondary-light)' %}
+        {% elsif bg_color == 'secondary-lighter' %}
+          {% assign bg_color_value = 'var(--clr-secondary-lighter)' %}
+        {% elsif bg_color == 'success' %}
+          {% assign bg_color_value = 'var(--clr-success)' %}
+        {% elsif bg_color == 'warning' %}
+          {% assign bg_color_value = 'var(--clr-warning)' %}
+        {% elsif bg_color == 'error' %}
+          {% assign bg_color_value = 'var(--clr-error)' %}
+        {% elsif bg_color == 'info' %}
+          {% assign bg_color_value = 'var(--clr-info)' %}
+        {% elsif bg_color == 'neutral' %}
+          {% assign bg_color_value = 'var(--clr-neutral)' %}
+        {% elsif bg_color == 'neutral-light' %}
+          {% assign bg_color_value = 'var(--clr-neutral-light)' %}
+        {% elsif bg_color == 'neutral-medium' %}
+          {% assign bg_color_value = 'var(--clr-neutral-medium)' %}
+        {% elsif bg_color == 'neutral-lighter' %}
+          {% assign bg_color_value = 'var(--clr-neutral-lighter)' %}
+        {% elsif bg_color == 'neutral-dark' %}
+          {% assign bg_color_value = 'var(--clr-neutral-dark)' %}
+        {% elsif bg_color == 'accent-1' %}
+          {% assign bg_color_value = 'var(--clr-accent-1)' %}
+        {% elsif bg_color == 'accent-2' %}
+          {% assign bg_color_value = 'var(--clr-accent-2)' %}
+        {% elsif bg_color == 'accent-3' %}
+          {% assign bg_color_value = 'var(--clr-accent-3)' %}
+        {% elsif bg_color == 'accent-4' %}
+          {% assign bg_color_value = 'var(--clr-accent-4)' %}
+        {% elsif bg_color == 'accent-5' %}
+          {% assign bg_color_value = 'var(--clr-accent-5)' %}
+        {% elsif bg_color == 'accent-6' %}
+          {% assign bg_color_value = 'var(--clr-accent-6)' %}
+        {% elsif bg_color == 'accent-7' %}
+          {% assign bg_color_value = 'var(--clr-accent-7)' %}
+        {% elsif bg_color == 'brand-dark' %}
+          {% assign bg_color_value = 'var(--clr-brand-dark)' %}
+        {% elsif bg_color == 'brand-light' %}
+          {% assign bg_color_value = 'var(--clr-brand-light)' %}
+        {% elsif bg_color == 'brand-accent' %}
+          {% assign bg_color_value = 'var(--clr-brand-accent)' %}
+        {% elsif bg_color == 'brand-alt' %}
+          {% assign bg_color_value = 'var(--clr-brand-alt)' %}
+        {% elsif bg_color == 'accent-warm' %}
+          {% assign bg_color_value = 'var(--clr-bg-accent-warm)' %}
+        {% elsif bg_color == 'accent-dark' %}
+          {% assign bg_color_value = 'var(--clr-bg-accent-dark)' %}
+        {% elsif bg_color == 'accent-soft' %}
+          {% assign bg_color_value = 'var(--clr-bg-accent-soft)' %}
+        {% elsif bg_color == 'page' %}
+          {% assign bg_color_value = 'var(--clr-bg-page)' %}
+        {% elsif bg_color == 'surface' %}
+          {% assign bg_color_value = 'var(--clr-bg-surface)' %}
+        {% elsif bg_color == 'card-primary' %}
+          {% assign bg_color_value = 'var(--clr-bg-card-primary)' %}
+        {% elsif bg_color == 'card-secondary' %}
+          {% assign bg_color_value = 'var(--clr-bg-card-secondary)' %}
+        {% elsif bg_color == 'banner' %}
+          {% assign bg_color_value = 'var(--clr-bg-banner)' %}
+        {% elsif bg_color == 'footer' %}
+          {% assign bg_color_value = 'var(--clr-bg-footer)' %}
+        {% endif %}
+        
+        {% assign has_image = false %}
+        {% assign has_color = false %}
+        {% if block.settings.container_background_image %} {% assign has_image = true %} {% endif %}
+        {% if bg_color_value != blank %} {% assign has_color = true %} {% endif %}
+        
+        {% assign background_priority = block.settings.background_priority | default: 'auto' %}
+        
+        {% assign show_image = false %}
+        {% assign show_color = false %}
+        
+        {% if background_priority == 'image' and has_image %}
+          {% assign show_image = true %}
+        {% elsif background_priority == 'color' and has_color %}
+          {% assign show_color = true %}
+        {% elsif background_priority == 'auto' %}
+          {% if has_image %}
+            {% assign show_image = true %}
+          {% elsif has_color %}
+            {% assign show_color = true %}
+          {% endif %}
+        {% endif %}
+        
+        <div class="journey-hero__container {{ section.settings.container_padding_y_mobile | default: 'py-md' }} {{ section.settings.container_padding_y_desktop | default: 'lg:py-lg' }} {{ section.settings.container_padding_x_mobile | default: 'px-md' }} {{ section.settings.container_padding_x_desktop | default: 'lg:px-xl' }} {% if block.settings.show_gradient_overlay == false %}journey-hero__container--no-overlay{% endif %} {% if show_color %}journey-hero__container--has-color{% endif %} {% if section.settings.enable_scroll_animation %}journey-hero__container--animated{% endif %}" 
+          style="{% if show_image %}background-image: url('{{ block.settings.container_background_image | image_url }}'); background-size: cover; background-position: center; background-repeat: no-repeat;{% endif %}{% if show_color %}background-color: {{ bg_color_value }};{% endif %}border-radius: {{ br_tl }} {{ br_tr }} {{ br_br }} {{ br_bl }};"
+          {{ block.fluid_attributes }}>
+          
+          <!-- Content Wrapper -->
+          {% assign has_content_image = false %}
+          {% if block.settings.content_image and block.settings.show_content_image %} {% assign has_content_image = true %} {% endif %}
+          {% assign image_position = block.settings.content_image_position | default: 'right' %}
+          
+          <div class="journey-hero__content-wrapper {% if has_content_image %}journey-hero__content-wrapper--has-image{% endif %}">
+            
+            <div class="journey-hero__content text-{{ block.settings.content_alignment | default: 'left' }} {{ block.settings.block_padding_top_mobile | default: 'pt-lg' }} {{ block.settings.block_padding_top_desktop | default: 'lg:pt-xl' }} {{ block.settings.block_padding_bottom_mobile | default: 'pb-lg' }} {{ block.settings.block_padding_bottom_desktop | default: 'lg:pb-xl' }} {{ block.settings.block_padding_x_mobile | default: 'px-lg' }} {{ block.settings.block_padding_x_desktop | default: 'lg:px-3xl' }}" {% if has_content_image == false %}style="--content-width-mobile: {{ block.settings.content_max_width | default: 480 }}px; --content-width-tablet: {{ block.settings.content_max_width_tablet | default: 600 }}px; --content-width-desktop: {{ block.settings.content_max_width_desktop | default: 720 }}px;"{% endif %}>
+            
+            {% case block.type %}
+              {% when 'content_block' %}
+                <!-- Heading -->
+                {% if block.settings.heading != blank %}
+                  <div class="journey-hero__heading-wrapper mb-sm">
+                    <h1 class="journey-hero__heading {{ block.settings.heading_font_family | default: 'font-handwritten' }} {{ block.settings.heading_font_size | default: 'text-5xl' }} {{ block.settings.heading_font_size_desktop | default: 'lg:text-6xl' }} {{ block.settings.heading_font_weight | default: 'font-normal' }} {{ block.settings.heading_color | default: 'text-white' }}">
+                      {{ block.settings.heading }}
+                    </h1>
+                  </div>
+                {% endif %}
+
+                <!-- Description -->
+                {% if block.settings.description != blank %}
+                  <div class="journey-hero__description-wrapper mb-xl">
+                    <p class="journey-hero__description {{ block.settings.description_font_family | default: 'font-body' }} {{ block.settings.description_font_size | default: 'text-base' }} {{ block.settings.description_font_size_desktop | default: 'lg:text-base' }} {{ block.settings.description_font_weight | default: 'font-normal' }} {{ block.settings.description_color | default: 'text-white' }}">
+                      {{ block.settings.description }}
+                    </p>
+                  </div>
+                {% endif %}
+
+                <!-- Button -->
+                {% if block.settings.show_button %}
+                  {% assign button_border_setting = block.settings.button_border | default: 'auto' %}
+                  {% assign button_color_setting = block.settings.button_color | default: 'white' %}
+                  {% assign border_color = 'currentColor' %}
+                  {% if button_color_setting == 'primary' %}
+                    {% assign border_color = 'var(--clr-primary)' %}
+                  {% elsif button_color_setting == 'secondary' %}
+                    {% assign border_color = 'var(--clr-secondary)' %}
+                  {% elsif button_color_setting == 'tertiary' %}
+                    {% assign border_color = 'var(--clr-tertiary)' %}
+                  {% elsif button_color_setting == 'quaternary' %}
+                    {% assign border_color = 'var(--clr-quaternary)' %}
+                  {% elsif button_color_setting == 'success' %}
+                    {% assign border_color = 'var(--clr-success)' %}
+                  {% elsif button_color_setting == 'warning' %}
+                    {% assign border_color = 'var(--clr-warning)' %}
+                  {% elsif button_color_setting == 'error' %}
+                    {% assign border_color = 'var(--clr-error)' %}
+                  {% elsif button_color_setting == 'info' %}
+                    {% assign border_color = 'var(--clr-info)' %}
+                  {% elsif button_color_setting == 'black' %}
+                    {% assign border_color = 'var(--clr-black)' %}
+                  {% elsif button_color_setting == 'white' %}
+                    {% assign border_color = 'var(--clr-white)' %}
+                  {% endif %}
+                  <div class="journey-hero__button-wrapper">
+                    <a href="{{ block.settings.button_url | default: '#' }}" 
+                       class="btn btn-{{ block.settings.button_style | default: 'filled' }}-{{ button_color_setting }} {{ block.settings.button_size | default: 'btn-md' }} {{ block.settings.button_font_weight | default: 'font-normal' }} font-body {{ settings.button_border_radius | default: 'rounded-full' }}"
+                       {% if button_border_setting == 'hide' %}style="border: none !important;"{% elsif button_border_setting == 'show' %}style="border: 2px solid {{ border_color }} !important;"{% endif %}>
+                      {{ block.settings.button_text | default: 'Find your Transformation kit' }}
+                    </a>
+                  </div>
+                {% endif %}
+            {% endcase %}
+            
+            </div>
+            
+            {% if has_content_image %}
+              <!-- Content Image -->
+              {% assign image_fit = block.settings.content_image_fit | default: 'cover' %}
+              {% assign img_radius = block.settings.content_image_border_radius | default: '0' %}
+              {% assign img_size_mobile = block.settings.content_image_size_mobile | default: 100 %}
+              {% assign img_size_desktop = block.settings.content_image_size_desktop | default: 50 %}
+              <div class="journey-hero__image-wrapper journey-hero__image-wrapper--{{ image_position }} {{ block.settings.block_padding_x_mobile | default: 'px-lg' }} lg:pl-0 {{ block.settings.content_image_padding_edge_desktop | default: 'lg:pr-lg' }}" style="--img-size-mobile: {{ img_size_mobile }}%; --img-size-desktop: {{ img_size_desktop }}%;">
+                <img src="{{ block.settings.content_image | image_url }}" 
+                     alt="{{ block.settings.content_image.alt | default: block.settings.heading }}"
+                     class="journey-hero__image"
+                     style="object-fit: {{ image_fit }}; border-radius: {{ img_radius }};"
+                     loading="lazy">
+              </div>
+            {% endif %}
+            
+          </div>
+
+        </div>
+      {% endfor %}
+    {% endif %}
+    </div>
+  </div>
+</section>
+
+<link rel="stylesheet" href="{{ 'journey-hero/styles.css' | asset_url }}">
+
+{% if section.settings.enable_scroll_animation %}
+<script>
+(function() {
+  document.addEventListener('DOMContentLoaded', function() {
+    const containers = document.querySelectorAll('.journey-hero__container--animated');
+    
+    if (containers.length === 0) return;
+    
+    const observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('journey-hero__container--in-view');
+          // Unobserve after animation triggers to prevent re-triggering
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px' // Trigger when container is 50px from entering viewport
+    });
+    
+    containers.forEach(function(container) {
+      observer.observe(container);
+    });
+  });
+})();
+</script>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Journey Hero",
+  "tag": "section",
+  "class": "journey-hero-wrapper",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout Width (Container)"
+    },
+    {
+      "type": "select",
+      "id": "container_layout_width",
+      "label": "Layout Width (Container)",
+      "options": [
+        { "value": "container", "label": "Container" },
+        { "value": "container-full", "label": "Full Width (Container Full)" }
+      ],
+      "default": "container",
+      "info": "Choose whether the container is constrained to the width of the page or full width"
+    },
+    {
+      "type": "header",
+      "content": "Animation Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_scroll_animation",
+      "label": "Enable Scroll Animation",
+      "default": false,
+      "info": "When enabled, the container will animate upward and fade in as it enters the viewport"
+    },
+    {
+      "type": "header",
+      "content": "Layout Settings"
+    },
+    {
+      "type": "select",
+      "id": "background_color",
+      "label": "Section Background Color",
+      "options": [
+        { "value": "bg-white", "label": "White" },
+        { "value": "bg-black", "label": "Black" },
+        { "value": "bg-primary", "label": "Primary" },
+        { "value": "bg-secondary", "label": "Secondary" },
+        { "value": "bg-tertiary", "label": "Tertiary" },
+        { "value": "bg-quaternary", "label": "Quaternary" },
+        { "value": "bg-success", "label": "Success" },
+        { "value": "bg-warning", "label": "Warning" },
+        { "value": "bg-error", "label": "Error" },
+        { "value": "bg-info", "label": "Info" },
+        { "value": "bg-neutral", "label": "Neutral" },
+        { "value": "bg-neutral-light", "label": "Neutral Light" },
+        { "value": "bg-neutral-dark", "label": "Neutral Dark" }
+      ],
+      "default": "bg-white"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Section Background Image"
+    },
+    {
+      "type": "select",
+      "id": "section_padding_y_mobile",
+      "label": "Section Vertical Padding (Mobile)",
+      "options": [
+        { "value": "py-xs", "label": "Extra Small" },
+        { "value": "py-sm", "label": "Small" },
+        { "value": "py-md", "label": "Medium" },
+        { "value": "py-lg", "label": "Large" },
+        { "value": "py-xl", "label": "Extra Large" },
+        { "value": "py-2xl", "label": "2X Large" },
+        { "value": "py-3xl", "label": "3X Large" }
+      ],
+      "default": "py-xl"
+    },
+    {
+      "type": "select",
+      "id": "section_padding_y_desktop",
+      "label": "Section Vertical Padding (Desktop)",
+      "options": [
+        { "value": "lg:py-xs", "label": "Extra Small" },
+        { "value": "lg:py-sm", "label": "Small" },
+        { "value": "lg:py-md", "label": "Medium" },
+        { "value": "lg:py-lg", "label": "Large" },
+        { "value": "lg:py-xl", "label": "Extra Large" },
+        { "value": "lg:py-2xl", "label": "2X Large" },
+        { "value": "lg:py-3xl", "label": "3X Large" }
+      ],
+      "default": "lg:py-3xl"
+    },
+    {
+      "type": "select",
+      "id": "section_border_radius_mobile",
+      "label": "Section Border Radius (Mobile)",
+      "options": [
+        { "value": "rounded-none", "label": "None" },
+        { "value": "rounded-sm", "label": "Small" },
+        { "value": "rounded", "label": "Base" },
+        { "value": "rounded-md", "label": "Medium" },
+        { "value": "rounded-lg", "label": "Large" },
+        { "value": "rounded-xl", "label": "Extra Large" },
+        { "value": "rounded-2xl", "label": "2X Large" },
+        { "value": "rounded-3xl", "label": "3X Large" },
+        { "value": "rounded-4xl", "label": "4X Large" }
+      ],
+      "default": "rounded-none"
+    },
+    {
+      "type": "select",
+      "id": "section_border_radius_desktop",
+      "label": "Section Border Radius (Desktop)",
+      "options": [
+        { "value": "lg:rounded-none", "label": "None" },
+        { "value": "lg:rounded-sm", "label": "Small" },
+        { "value": "lg:rounded", "label": "Base" },
+        { "value": "lg:rounded-md", "label": "Medium" },
+        { "value": "lg:rounded-lg", "label": "Large" },
+        { "value": "lg:rounded-xl", "label": "Extra Large" },
+        { "value": "lg:rounded-2xl", "label": "2X Large" },
+        { "value": "lg:rounded-3xl", "label": "3X Large" },
+        { "value": "lg:rounded-4xl", "label": "4X Large" }
+      ],
+      "default": "lg:rounded-none"
+    },
+    {
+      "type": "header",
+      "content": "Container Settings"
+    },
+    {
+      "type": "select",
+      "id": "container_background_color",
+      "label": "Container Background Color",
+      "options": [
+        { "value": "", "label": "None (Transparent)" },
+        { "value": "bg-white", "label": "White" },
+        { "value": "bg-black", "label": "Black" },
+        { "value": "bg-primary", "label": "Primary" },
+        { "value": "bg-secondary", "label": "Secondary" },
+        { "value": "bg-secondary-light", "label": "Secondary Light" },
+        { "value": "bg-secondary-lighter", "label": "Secondary Lighter" },
+        { "value": "bg-success", "label": "Success" },
+        { "value": "bg-warning", "label": "Warning" },
+        { "value": "bg-error", "label": "Error" },
+        { "value": "bg-info", "label": "Info" },
+        { "value": "bg-neutral", "label": "Neutral" },
+        { "value": "bg-neutral-light", "label": "Neutral Light" },
+        { "value": "bg-neutral-medium", "label": "Neutral Medium" },
+        { "value": "bg-neutral-lighter", "label": "Neutral Lighter" },
+        { "value": "bg-neutral-dark", "label": "Neutral Dark" },
+        { "value": "bg-accent-1", "label": "Accent 1" },
+        { "value": "bg-accent-2", "label": "Accent 2" },
+        { "value": "bg-accent-3", "label": "Accent 3" },
+        { "value": "bg-accent-4", "label": "Accent 4" },
+        { "value": "bg-accent-5", "label": "Accent 5" },
+        { "value": "bg-accent-6", "label": "Accent 6" },
+        { "value": "bg-accent-7", "label": "Accent 7" },
+        { "value": "bg-brand-dark", "label": "Brand Dark" },
+        { "value": "bg-brand-light", "label": "Brand Light" },
+        { "value": "bg-brand-accent", "label": "Brand Accent" },
+        { "value": "bg-brand-alt", "label": "Brand Alt" },
+        { "value": "bg-accent-warm", "label": "Accent Warm" },
+        { "value": "bg-accent-dark", "label": "Accent Dark" },
+        { "value": "bg-accent-soft", "label": "Accent Soft" },
+        { "value": "bg-page", "label": "Page" },
+        { "value": "bg-surface", "label": "Surface" },
+        { "value": "bg-card-primary", "label": "Card Primary" },
+        { "value": "bg-card-secondary", "label": "Card Secondary" },
+        { "value": "bg-banner", "label": "Banner" },
+        { "value": "bg-footer", "label": "Footer" }
+      ],
+      "default": ""
+    },
+    {
+      "type": "select",
+      "id": "container_border_radius",
+      "label": "Container Border Radius",
+      "options": [
+        { "value": "rounded-none", "label": "None" },
+        { "value": "rounded-sm", "label": "Small" },
+        { "value": "rounded", "label": "Base" },
+        { "value": "rounded-md", "label": "Medium" },
+        { "value": "rounded-lg", "label": "Large" },
+        { "value": "rounded-xl", "label": "Extra Large" },
+        { "value": "rounded-2xl", "label": "2X Large" },
+        { "value": "rounded-3xl", "label": "3X Large" },
+        { "value": "rounded-custom", "label": "Custom (Large Bottom Right)" }
+      ],
+      "default": "rounded-custom"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_y_mobile",
+      "label": "Container Padding Y (Mobile)",
+      "options": [
+        { "value": "py-xs", "label": "Extra Small" },
+        { "value": "py-sm", "label": "Small" },
+        { "value": "py-md", "label": "Medium" },
+        { "value": "py-lg", "label": "Large" },
+        { "value": "py-xl", "label": "Extra Large" },
+        { "value": "py-2xl", "label": "2X Large" },
+        { "value": "py-3xl", "label": "3X Large" }
+      ],
+      "default": "py-lg"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_y_desktop",
+      "label": "Container Padding Y (Desktop)",
+      "options": [
+        { "value": "lg:py-xs", "label": "Extra Small" },
+        { "value": "lg:py-sm", "label": "Small" },
+        { "value": "lg:py-md", "label": "Medium" },
+        { "value": "lg:py-lg", "label": "Large" },
+        { "value": "lg:py-xl", "label": "Extra Large" },
+        { "value": "lg:py-2xl", "label": "2X Large" },
+        { "value": "lg:py-3xl", "label": "3X Large" }
+      ],
+      "default": "lg:py-2xl"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_x_mobile",
+      "label": "Container Padding X (Mobile)",
+      "options": [
+        { "value": "px-0", "label": "None" },
+        { "value": "px-xs", "label": "Extra Small" },
+        { "value": "px-sm", "label": "Small" },
+        { "value": "px-md", "label": "Medium" },
+        { "value": "px-lg", "label": "Large" },
+        { "value": "px-xl", "label": "Extra Large" },
+        { "value": "px-2xl", "label": "2X Large" },
+        { "value": "px-3xl", "label": "3X Large" }
+      ],
+      "default": "px-0"
+    },
+    {
+      "type": "select",
+      "id": "container_padding_x_desktop",
+      "label": "Container Padding X (Desktop)",
+      "options": [
+        { "value": "lg:px-0", "label": "None" },
+        { "value": "lg:px-xs", "label": "Extra Small" },
+        { "value": "lg:px-sm", "label": "Small" },
+        { "value": "lg:px-md", "label": "Medium" },
+        { "value": "lg:px-lg", "label": "Large" },
+        { "value": "lg:px-xl", "label": "Extra Large" },
+        { "value": "lg:px-2xl", "label": "2X Large" },
+        { "value": "lg:px-3xl", "label": "3X Large" }
+      ],
+      "default": "lg:px-0"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "content_block",
+      "name": "Content Block",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Heading"
+        },
+        {
+          "type": "textarea",
+          "id": "heading",
+          "label": "Heading Text",
+          "default": "Your Journey\nStarts Here"
+        },
+        {
+          "type": "select",
+          "id": "heading_font_family",
+          "label": "Font Family",
+          "options": [
+            { "value": "font-primary", "label": "Primary" },
+            { "value": "font-body", "label": "Body" },
+            { "value": "font-handwritten", "label": "Handwritten" },
+            { "value": "font-serif", "label": "Serif" }
+          ],
+          "default": "font-serif"
+        },
+        {
+          "type": "select",
+          "id": "heading_font_size",
+          "label": "Font Size (Mobile)",
+          "options": [
+            { "value": "text-xs", "label": "Extra Small" },
+            { "value": "text-sm", "label": "Small" },
+            { "value": "text-base", "label": "Base" },
+            { "value": "text-lg", "label": "Large" },
+            { "value": "text-xl", "label": "Extra Large" },
+            { "value": "text-2xl", "label": "2X Large" },
+            { "value": "text-3xl", "label": "3X Large" },
+            { "value": "text-4xl", "label": "4X Large" },
+            { "value": "text-5xl", "label": "5X Large" },
+            { "value": "text-6xl", "label": "6X Large" },
+            { "value": "text-7xl", "label": "7X Large" },
+            { "value": "text-8xl", "label": "8X Large" },
+            { "value": "text-9xl", "label": "9X Large" }
+          ],
+          "default": "text-5xl"
+        },
+        {
+          "type": "select",
+          "id": "heading_font_size_desktop",
+          "label": "Font Size (Desktop)",
+          "options": [
+            { "value": "lg:text-xs", "label": "Extra Small" },
+            { "value": "lg:text-sm", "label": "Small" },
+            { "value": "lg:text-base", "label": "Base" },
+            { "value": "lg:text-lg", "label": "Large" },
+            { "value": "lg:text-xl", "label": "Extra Large" },
+            { "value": "lg:text-2xl", "label": "2X Large" },
+            { "value": "lg:text-3xl", "label": "3X Large" },
+            { "value": "lg:text-4xl", "label": "4X Large" },
+            { "value": "lg:text-5xl", "label": "5X Large" },
+            { "value": "lg:text-6xl", "label": "6X Large" },
+            { "value": "lg:text-7xl", "label": "7X Large" },
+            { "value": "lg:text-8xl", "label": "8X Large" },
+            { "value": "lg:text-9xl", "label": "9X Large" }
+          ],
+          "default": "lg:text-6xl"
+        },
+        {
+          "type": "select",
+          "id": "heading_font_weight",
+          "label": "Font Weight",
+          "options": [
+            { "value": "font-light", "label": "Light" },
+            { "value": "font-normal", "label": "Normal" },
+            { "value": "font-medium", "label": "Medium" },
+            { "value": "font-semibold", "label": "Semi Bold" },
+            { "value": "font-bold", "label": "Bold" }
+          ],
+          "default": "font-normal"
+        },
+        {
+          "type": "select",
+          "id": "heading_color",
+          "label": "Heading Color",
+          "options": [
+            { "value": "text-white", "label": "White" },
+            { "value": "text-black", "label": "Black" },
+            { "value": "text-primary", "label": "Primary" },
+            { "value": "text-secondary", "label": "Secondary" },
+            { "value": "text-tertiary", "label": "Tertiary" },
+            { "value": "text-quaternary", "label": "Quaternary" },
+            { "value": "text-success", "label": "Success" },
+            { "value": "text-warning", "label": "Warning" },
+            { "value": "text-error", "label": "Error" },
+            { "value": "text-info", "label": "Info" },
+            { "value": "text-neutral", "label": "Neutral" },
+            { "value": "text-neutral-light", "label": "Neutral Light" },
+            { "value": "text-neutral-dark", "label": "Neutral Dark" }
+          ],
+          "default": "text-white"
+        },
+        {
+          "type": "header",
+          "content": "Description"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description Text",
+          "default": "Our story started because we knew there was a better way.\nNow, it's your turn. We invite you to experience the\ndifference that integrity makes and discover what it feels like\nto truly come to life."
+        },
+        {
+          "type": "select",
+          "id": "description_font_family",
+          "label": "Font Family",
+          "options": [
+            { "value": "font-primary", "label": "Primary" },
+            { "value": "font-body", "label": "Body" },
+            { "value": "font-handwritten", "label": "Handwritten" },
+            { "value": "font-serif", "label": "Serif" }
+          ],
+          "default": "font-body"
+        },
+        {
+          "type": "select",
+          "id": "description_font_size",
+          "label": "Font Size (Mobile)",
+          "options": [
+            { "value": "text-xs", "label": "Extra Small" },
+            { "value": "text-sm", "label": "Small" },
+            { "value": "text-base", "label": "Base" },
+            { "value": "text-lg", "label": "Large" },
+            { "value": "text-xl", "label": "Extra Large" },
+            { "value": "text-2xl", "label": "2X Large" },
+            { "value": "text-3xl", "label": "3X Large" },
+            { "value": "text-4xl", "label": "4X Large" },
+            { "value": "text-5xl", "label": "5X Large" },
+            { "value": "text-6xl", "label": "6X Large" },
+            { "value": "text-7xl", "label": "7X Large" },
+            { "value": "text-8xl", "label": "8X Large" },
+            { "value": "text-9xl", "label": "9X Large" }
+          ],
+          "default": "text-base"
+        },
+        {
+          "type": "select",
+          "id": "description_font_size_desktop",
+          "label": "Font Size (Desktop)",
+          "options": [
+            { "value": "lg:text-xs", "label": "Extra Small" },
+            { "value": "lg:text-sm", "label": "Small" },
+            { "value": "lg:text-base", "label": "Base" },
+            { "value": "lg:text-lg", "label": "Large" },
+            { "value": "lg:text-xl", "label": "Extra Large" },
+            { "value": "lg:text-2xl", "label": "2X Large" },
+            { "value": "lg:text-3xl", "label": "3X Large" },
+            { "value": "lg:text-4xl", "label": "4X Large" },
+            { "value": "lg:text-5xl", "label": "5X Large" },
+            { "value": "lg:text-6xl", "label": "6X Large" },
+            { "value": "lg:text-7xl", "label": "7X Large" },
+            { "value": "lg:text-8xl", "label": "8X Large" },
+            { "value": "lg:text-9xl", "label": "9X Large" }
+          ],
+          "default": "lg:text-lg"
+        },
+        {
+          "type": "select",
+          "id": "description_font_weight",
+          "label": "Font Weight",
+          "options": [
+            { "value": "font-light", "label": "Light" },
+            { "value": "font-normal", "label": "Normal" },
+            { "value": "font-medium", "label": "Medium" },
+            { "value": "font-semibold", "label": "Semi Bold" },
+            { "value": "font-bold", "label": "Bold" }
+          ],
+          "default": "font-normal"
+        },
+        {
+          "type": "select",
+          "id": "description_color",
+          "label": "Description Color",
+          "options": [
+            { "value": "text-white", "label": "White" },
+            { "value": "text-black", "label": "Black" },
+            { "value": "text-primary", "label": "Primary" },
+            { "value": "text-secondary", "label": "Secondary" },
+            { "value": "text-tertiary", "label": "Tertiary" },
+            { "value": "text-quaternary", "label": "Quaternary" },
+            { "value": "text-success", "label": "Success" },
+            { "value": "text-warning", "label": "Warning" },
+            { "value": "text-error", "label": "Error" },
+            { "value": "text-info", "label": "Info" },
+            { "value": "text-neutral", "label": "Neutral" },
+            { "value": "text-neutral-light", "label": "Neutral Light" },
+            { "value": "text-neutral-dark", "label": "Neutral Dark" }
+          ],
+          "default": "text-white"
+        },
+        {
+          "type": "range",
+          "id": "content_max_width",
+          "label": "Text Container Width - Mobile (px)",
+          "min": 200,
+          "max": 800,
+          "step": 20,
+          "default": 480,
+          "info": "Controls the maximum width of the text container on mobile devices."
+        },
+        {
+          "type": "range",
+          "id": "content_max_width_tablet",
+          "label": "Text Container Width - Tablet (px)",
+          "min": 200,
+          "max": 1000,
+          "step": 20,
+          "default": 600,
+          "info": "Controls the maximum width of the text container on tablet devices (768px+)."
+        },
+        {
+          "type": "range",
+          "id": "content_max_width_desktop",
+          "label": "Text Container Width - Desktop (px)",
+          "min": 200,
+          "max": 1200,
+          "step": 20,
+          "default": 720,
+          "info": "Controls the maximum width of the text container on desktop devices (1024px+)."
+        },
+        {
+          "type": "header",
+          "content": "Button Settings"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_button",
+          "label": "Show Button",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button Text",
+          "default": "Find your Transformation kit"
+        },
+        {
+          "type": "url",
+          "id": "button_url",
+          "label": "Button URL"
+        },
+        {
+          "type": "select",
+          "id": "button_style",
+          "label": "Button Style",
+          "options": [
+            { "value": "filled", "label": "Filled" },
+            { "value": "outline", "label": "Outline" },
+            { "value": "ghost", "label": "Ghost" }
+          ],
+          "default": "filled"
+        },
+        {
+          "type": "select",
+          "id": "button_border",
+          "label": "Button Border",
+          "options": [
+            { "value": "show", "label": "Show Border" },
+            { "value": "hide", "label": "Hide Border" },
+            { "value": "auto", "label": "Auto (Based on Button Style)" }
+          ],
+          "default": "auto",
+          "info": "Choose whether to show or hide the button border. Auto will use the default border for the selected button style."
+        },
+        {
+          "type": "select",
+          "id": "button_color",
+          "label": "Button Color",
+          "options": [
+            { "value": "primary", "label": "Primary" },
+            { "value": "secondary", "label": "Secondary" },
+            { "value": "tertiary", "label": "Tertiary" },
+            { "value": "quaternary", "label": "Quaternary" },
+            { "value": "success", "label": "Success" },
+            { "value": "warning", "label": "Warning" },
+            { "value": "error", "label": "Error" },
+            { "value": "info", "label": "Info" },
+            { "value": "black", "label": "Black" },
+            { "value": "white", "label": "White" }
+          ],
+          "default": "white"
+        },
+        {
+          "type": "select",
+          "id": "button_size",
+          "label": "Button Size",
+          "options": [
+            { "value": "btn-xs", "label": "Extra Small" },
+            { "value": "btn-sm", "label": "Small" },
+            { "value": "btn-md", "label": "Medium" },
+            { "value": "btn-lg", "label": "Large" },
+            { "value": "btn-xl", "label": "Extra Large" }
+          ],
+          "default": "btn-md"
+        },
+        {
+          "type": "select",
+          "id": "button_font_weight",
+          "label": "Button Font Weight",
+          "options": [
+            { "value": "font-light", "label": "Light" },
+            { "value": "font-normal", "label": "Normal" },
+            { "value": "font-medium", "label": "Medium" },
+            { "value": "font-semibold", "label": "Semi Bold" },
+            { "value": "font-bold", "label": "Bold" }
+          ],
+          "default": "font-normal"
+        },
+        {
+          "type": "header",
+          "content": "Content Image"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_content_image",
+          "label": "Show Content Image",
+          "default": true,
+          "info": "Toggle to show or hide the content image"
+        },
+        {
+          "type": "image_picker",
+          "id": "content_image",
+          "label": "Content Image",
+          "info": "Optional image to display alongside the text content"
+        },
+        {
+          "type": "select",
+          "id": "content_image_position",
+          "label": "Image Position",
+          "options": [
+            { "value": "left", "label": "Left" },
+            { "value": "right", "label": "Right" }
+          ],
+          "default": "right",
+          "info": "Choose which side to display the image (opposite of text)"
+        },
+        {
+          "type": "select",
+          "id": "content_image_fit",
+          "label": "Image Fit",
+          "options": [
+            { "value": "cover", "label": "Fill (Cover)" },
+            { "value": "contain", "label": "Fit (Contain)" }
+          ],
+          "default": "cover",
+          "info": "Fill: Image covers entire area (may crop). Fit: Entire image visible (may have empty space)."
+        },
+        {
+          "type": "select",
+          "id": "content_image_border_radius",
+          "label": "Image Border Radius",
+          "options": [
+            { "value": "0", "label": "None" },
+            { "value": "var(--radius-sm)", "label": "Small" },
+            { "value": "var(--radius-base)", "label": "Base" },
+            { "value": "var(--radius-md)", "label": "Medium" },
+            { "value": "var(--radius-lg)", "label": "Large" },
+            { "value": "var(--radius-xl)", "label": "Extra Large" },
+            { "value": "var(--radius-2xl)", "label": "2X Large" },
+            { "value": "var(--radius-3xl)", "label": "3X Large" },
+            { "value": "var(--radius-4xl)", "label": "4X Large" },
+            { "value": "9999px", "label": "Full (Circle)" }
+          ],
+          "default": "0"
+        },
+        {
+          "type": "range",
+          "id": "content_image_size_mobile",
+          "label": "Image Size (Mobile)",
+          "min": 20,
+          "max": 100,
+          "step": 5,
+          "unit": "%",
+          "default": 100,
+          "info": "Width of the image on mobile devices"
+        },
+        {
+          "type": "range",
+          "id": "content_image_size_desktop",
+          "label": "Image Size (Desktop)",
+          "min": 20,
+          "max": 70,
+          "step": 5,
+          "unit": "%",
+          "default": 50,
+          "info": "Width of the image on desktop (side-by-side layout)"
+        },
+        {
+          "type": "select",
+          "id": "content_image_padding_edge_mobile",
+          "label": "Padding from Edge (Mobile)",
+          "options": [
+            { "value": "pr-0", "label": "None" },
+            { "value": "pr-xs", "label": "Extra Small" },
+            { "value": "pr-sm", "label": "Small" },
+            { "value": "pr-md", "label": "Medium" },
+            { "value": "pr-lg", "label": "Large" },
+            { "value": "pr-xl", "label": "Extra Large" },
+            { "value": "pr-2xl", "label": "2X Large" },
+            { "value": "pr-3xl", "label": "3X Large" }
+          ],
+          "default": "pr-0",
+          "info": "Space between the image and the container edge"
+        },
+        {
+          "type": "select",
+          "id": "content_image_padding_edge_desktop",
+          "label": "Padding from Edge (Desktop)",
+          "options": [
+            { "value": "lg:pr-0", "label": "None" },
+            { "value": "lg:pr-xs", "label": "Extra Small" },
+            { "value": "lg:pr-sm", "label": "Small" },
+            { "value": "lg:pr-md", "label": "Medium" },
+            { "value": "lg:pr-lg", "label": "Large" },
+            { "value": "lg:pr-xl", "label": "Extra Large" },
+            { "value": "lg:pr-2xl", "label": "2X Large" },
+            { "value": "lg:pr-3xl", "label": "3X Large" }
+          ],
+          "default": "lg:pr-0",
+          "info": "Space between the image and the container edge"
+        },
+        {
+          "type": "header",
+          "content": "Container Background"
+        },
+        {
+          "type": "image_picker",
+          "id": "container_background_image",
+          "label": "Container Background Image"
+        },
+        {
+          "type": "select",
+          "id": "container_background_color",
+          "label": "Container Background Color",
+          "options": [
+            { "value": "", "label": "None" },
+            { "value": "white", "label": "White" },
+            { "value": "black", "label": "Black" },
+            { "value": "primary", "label": "Primary" },
+            { "value": "secondary", "label": "Secondary" },
+            { "value": "secondary-light", "label": "Secondary Light" },
+            { "value": "secondary-lighter", "label": "Secondary Lighter" },
+            { "value": "success", "label": "Success" },
+            { "value": "warning", "label": "Warning" },
+            { "value": "error", "label": "Error" },
+            { "value": "info", "label": "Info" },
+            { "value": "neutral", "label": "Neutral" },
+            { "value": "neutral-light", "label": "Neutral Light" },
+            { "value": "neutral-medium", "label": "Neutral Medium" },
+            { "value": "neutral-lighter", "label": "Neutral Lighter" },
+            { "value": "neutral-dark", "label": "Neutral Dark" },
+            { "value": "accent-1", "label": "Accent 1" },
+            { "value": "accent-2", "label": "Accent 2" },
+            { "value": "accent-3", "label": "Accent 3" },
+            { "value": "accent-4", "label": "Accent 4" },
+            { "value": "accent-5", "label": "Accent 5" },
+            { "value": "accent-6", "label": "Accent 6" },
+            { "value": "accent-7", "label": "Accent 7" },
+            { "value": "brand-dark", "label": "Brand Dark" },
+            { "value": "brand-light", "label": "Brand Light" },
+            { "value": "brand-accent", "label": "Brand Accent" },
+            { "value": "brand-alt", "label": "Brand Alt" },
+            { "value": "accent-warm", "label": "Accent Warm" },
+            { "value": "accent-dark", "label": "Accent Dark" },
+            { "value": "accent-soft", "label": "Accent Soft" },
+            { "value": "page", "label": "Page" },
+            { "value": "surface", "label": "Surface" },
+            { "value": "card-primary", "label": "Card Primary" },
+            { "value": "card-secondary", "label": "Card Secondary" },
+            { "value": "banner", "label": "Banner" },
+            { "value": "footer", "label": "Footer" }
+          ],
+          "default": "",
+          "info": "Choose a background color. You can set both an image and color, then use the priority dropdown to choose which displays."
+        },
+        {
+          "type": "select",
+          "id": "background_priority",
+          "label": "Background Display Priority",
+          "options": [
+            { "value": "auto", "label": "Auto (Image if available, else Color)" },
+            { "value": "image", "label": "Image (if set)" },
+            { "value": "color", "label": "Color (if set)" }
+          ],
+          "default": "auto",
+          "info": "When both image and color are set, choose which one to display. Auto will show image if available, otherwise color."
+        },
+        {
+          "type": "checkbox",
+          "id": "show_gradient_overlay",
+          "label": "Show Gradient Overlay",
+          "default": true,
+          "info": "Toggle to show or hide the gradient overlay. Works with both image and color backgrounds."
+        },
+        {
+          "type": "header",
+          "content": "Border Radius Settings"
+        },
+        {
+          "type": "select",
+          "id": "round_top_left_radius",
+          "label": "Top Left Corner Radius",
+          "options": [
+            { "value": "rounded-none", "label": "None" },
+            { "value": "rounded-sm", "label": "Small" },
+            { "value": "rounded", "label": "Base" },
+            { "value": "rounded-md", "label": "Medium" },
+            { "value": "rounded-lg", "label": "Large" },
+            { "value": "rounded-xl", "label": "Extra Large" },
+            { "value": "rounded-2xl", "label": "2X Large" },
+            { "value": "rounded-3xl", "label": "3X Large" },
+            { "value": "rounded-4xl", "label": "4X Large" },
+            { "value": "rounded-full", "label": "Full (Circle)" }
+          ],
+          "default": "rounded-none"
+        },
+        {
+          "type": "select",
+          "id": "round_top_right_radius",
+          "label": "Top Right Corner Radius",
+          "options": [
+            { "value": "rounded-none", "label": "None" },
+            { "value": "rounded-sm", "label": "Small" },
+            { "value": "rounded", "label": "Base" },
+            { "value": "rounded-md", "label": "Medium" },
+            { "value": "rounded-lg", "label": "Large" },
+            { "value": "rounded-xl", "label": "Extra Large" },
+            { "value": "rounded-2xl", "label": "2X Large" },
+            { "value": "rounded-3xl", "label": "3X Large" },
+            { "value": "rounded-4xl", "label": "4X Large" },
+            { "value": "rounded-full", "label": "Full (Circle)" }
+          ],
+          "default": "rounded-none"
+        },
+        {
+          "type": "select",
+          "id": "round_bottom_left_radius",
+          "label": "Bottom Left Corner Radius",
+          "options": [
+            { "value": "rounded-none", "label": "None" },
+            { "value": "rounded-sm", "label": "Small" },
+            { "value": "rounded", "label": "Base" },
+            { "value": "rounded-md", "label": "Medium" },
+            { "value": "rounded-lg", "label": "Large" },
+            { "value": "rounded-xl", "label": "Extra Large" },
+            { "value": "rounded-2xl", "label": "2X Large" },
+            { "value": "rounded-3xl", "label": "3X Large" },
+            { "value": "rounded-4xl", "label": "4X Large" },
+            { "value": "rounded-full", "label": "Full (Circle)" }
+          ],
+          "default": "rounded-none"
+        },
+        {
+          "type": "select",
+          "id": "round_bottom_right_radius",
+          "label": "Bottom Right Corner Radius",
+          "options": [
+            { "value": "rounded-none", "label": "None" },
+            { "value": "rounded-sm", "label": "Small" },
+            { "value": "rounded", "label": "Base" },
+            { "value": "rounded-md", "label": "Medium" },
+            { "value": "rounded-lg", "label": "Large" },
+            { "value": "rounded-xl", "label": "Extra Large" },
+            { "value": "rounded-2xl", "label": "2X Large" },
+            { "value": "rounded-3xl", "label": "3X Large" },
+            { "value": "rounded-4xl", "label": "4X Large" },
+            { "value": "rounded-full", "label": "Full (Circle)" }
+          ],
+          "default": "rounded-3xl"
+        },
+        {
+          "type": "select",
+          "id": "content_alignment",
+          "label": "Content Alignment",
+          "options": [
+            { "value": "left", "label": "Left" },
+            { "value": "center", "label": "Center" },
+            { "value": "right", "label": "Right" }
+          ],
+          "default": "left"
+        },
+        {
+          "type": "header",
+          "content": "Internal Padding"
+        },
+        {
+          "type": "select",
+          "id": "block_padding_top_mobile",
+          "label": "Top Padding (Mobile)",
+          "options": [
+            { "value": "pt-xs", "label": "Extra Small" },
+            { "value": "pt-sm", "label": "Small" },
+            { "value": "pt-md", "label": "Medium" },
+            { "value": "pt-lg", "label": "Large" },
+            { "value": "pt-xl", "label": "Extra Large" },
+            { "value": "pt-2xl", "label": "2X Large" },
+            { "value": "pt-3xl", "label": "3X Large" }
+          ],
+          "default": "pt-lg"
+        },
+        {
+          "type": "select",
+          "id": "block_padding_top_desktop",
+          "label": "Top Padding (Desktop)",
+          "options": [
+            { "value": "lg:pt-xs", "label": "Extra Small" },
+            { "value": "lg:pt-sm", "label": "Small" },
+            { "value": "lg:pt-md", "label": "Medium" },
+            { "value": "lg:pt-lg", "label": "Large" },
+            { "value": "lg:pt-xl", "label": "Extra Large" },
+            { "value": "lg:pt-2xl", "label": "2X Large" },
+            { "value": "lg:pt-3xl", "label": "3X Large" }
+          ],
+          "default": "lg:pt-xl"
+        },
+        {
+          "type": "select",
+          "id": "block_padding_bottom_mobile",
+          "label": "Bottom Padding (Mobile)",
+          "options": [
+            { "value": "pb-xs", "label": "Extra Small" },
+            { "value": "pb-sm", "label": "Small" },
+            { "value": "pb-md", "label": "Medium" },
+            { "value": "pb-lg", "label": "Large" },
+            { "value": "pb-xl", "label": "Extra Large" },
+            { "value": "pb-2xl", "label": "2X Large" },
+            { "value": "pb-3xl", "label": "3X Large" }
+          ],
+          "default": "pb-lg"
+        },
+        {
+          "type": "select",
+          "id": "block_padding_bottom_desktop",
+          "label": "Bottom Padding (Desktop)",
+          "options": [
+            { "value": "lg:pb-xs", "label": "Extra Small" },
+            { "value": "lg:pb-sm", "label": "Small" },
+            { "value": "lg:pb-md", "label": "Medium" },
+            { "value": "lg:pb-lg", "label": "Large" },
+            { "value": "lg:pb-xl", "label": "Extra Large" },
+            { "value": "lg:pb-2xl", "label": "2X Large" },
+            { "value": "lg:pb-3xl", "label": "3X Large" }
+          ],
+          "default": "lg:pb-xl"
+        },
+        {
+          "type": "select",
+          "id": "block_padding_x_mobile",
+          "label": "Side Padding (Mobile)",
+          "options": [
+            { "value": "px-0", "label": "None" },
+        { "value": "px-xs", "label": "Extra Small" },
+            { "value": "px-sm", "label": "Small" },
+            { "value": "px-md", "label": "Medium" },
+            { "value": "px-lg", "label": "Large" },
+            { "value": "px-xl", "label": "Extra Large" },
+            { "value": "px-2xl", "label": "2X Large" },
+            { "value": "px-3xl", "label": "3X Large" }
+          ],
+          "default": "px-lg"
+        },
+        {
+          "type": "select",
+          "id": "block_padding_x_desktop",
+          "label": "Side Padding (Desktop)",
+          "options": [
+            { "value": "lg:px-0", "label": "None" },
+        { "value": "lg:px-xs", "label": "Extra Small" },
+            { "value": "lg:px-sm", "label": "Small" },
+            { "value": "lg:px-md", "label": "Medium" },
+            { "value": "lg:px-lg", "label": "Large" },
+            { "value": "lg:px-xl", "label": "Extra Large" },
+            { "value": "lg:px-2xl", "label": "2X Large" },
+            { "value": "lg:px-3xl", "label": "3X Large" }
+          ],
+          "default": "lg:px-3xl"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Journey Hero",
+      "blocks": [
+        {
+          "type": "content_block",
+          "settings": {
+            "heading": "Your Journey\nStarts Here",
+            "heading_font_family": "font-serif",
+            "description": "Our story started because we knew there was a better way.\nNow, it's your turn. We invite you to experience the\ndifference that integrity makes and discover what it feels like\nto truly come to life.",
+            "button_text": "Find your Transformation kit",
+            "container_background_image": "https://ik.imagekit.io/fluid/980191045/images/M8WBTA/67c0b378d3a987d7fc10d760_yoliunboxing-01_2ex3Xagp3.jpeg"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

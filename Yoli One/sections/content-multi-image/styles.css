@@ -1,0 +1,126 @@
+/* Content Multi-Image Section Styles */
+
+.content-image-wrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3xl);
+}
+
+/* Flipped layout: Images on left, content on right */
+@media (min-width: 1024px) {
+  .content-image-wrapper--flipped {
+    flex-direction: row-reverse;
+  }
+}
+
+@media (max-width: 1023px) {
+  .content-image-wrapper {
+    flex-direction: column;
+    gap: var(--space-xl);
+  }
+}
+
+/* Content Column */
+.content-column {
+  flex: 0 0 auto;
+  width: 100%;
+  max-width: 608px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+@media (max-width: 1023px) {
+  .content-column {
+    max-width: 100%;
+  }
+}
+
+.badge-wrapper {
+  display: flex;
+}
+
+.content-badge {
+  padding: 6px 8px;
+  border-radius: 1188px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+}
+
+.heading-wrapper h2 {
+  line-height: 1.15;
+  letter-spacing: -0.4px;
+}
+
+.description-wrapper p {
+  line-height: 1.35;
+  letter-spacing: -0.16px;
+}
+
+.button-wrapper {
+  display: flex;
+}
+
+/* Image Column */
+.image-column {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  max-width: 704px;
+}
+
+@media (max-width: 1023px) {
+  .image-column {
+    max-width: 100%;
+    width: 100%;
+  }
+}
+
+.hero-image-wrapper {
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  aspect-ratio: 704 / 395;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.small-images-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-md);
+}
+
+@media (max-width: 767px) {
+  .small-images-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-sm);
+  }
+}
+
+.small-image-item {
+  width: 100%;
+  aspect-ratio: 224 / 196;
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.small-image-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+

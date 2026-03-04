@@ -1,0 +1,231 @@
+/* Product Showcase Grid Section Styles */
+
+.product-showcase-grid .showcase-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-md);
+}
+
+@media (min-width: 768px) {
+  .product-showcase-grid .showcase-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.product-showcase-grid .product-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  padding: var(--space-md);
+  position: relative;
+  align-items: stretch;
+  width: 100%;
+  max-width: none;
+  box-shadow: none;
+}
+
+@media (min-width: 1280px) {
+  .product-showcase-grid .product-card {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 1024px) {
+  .product-showcase-grid .product-card {
+    gap: var(--space-sm);
+    padding: var(--space-sm);
+  }
+}
+
+.product-showcase-grid .product-image-wrapper {
+  flex-shrink: 0;
+  flex-grow: 0;
+  width: 100%;
+  position: relative;
+}
+
+@media (min-width: 1280px) {
+  .product-showcase-grid .product-image-wrapper {
+    width: 332px;
+    max-width: 332px;
+    min-width: 200px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .product-showcase-grid .product-image-wrapper {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.product-showcase-grid .product-image {
+  border-radius: 16px;
+  overflow: hidden;
+  aspect-ratio: 332 / 343;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.product-showcase-grid .product-image img {
+  width: 100%;
+  height: 100%;
+  transition: opacity 0.3s ease;
+}
+
+.product-showcase-grid .product-image img.transitioning {
+  opacity: 0.7;
+}
+
+.product-showcase-grid .new-badge {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  padding: 6px 8px;
+  border-radius: 1188px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.product-showcase-grid .product-content {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  padding: 0;
+  min-width: 0;
+}
+
+@media (min-width: 1024px) {
+  .product-showcase-grid .product-content {
+    padding: var(--space-lg) 0 var(--space-lg) var(--space-lg);
+    gap: var(--space-lg);
+  }
+}
+
+@media (max-width: 1024px) {
+  .product-showcase-grid .product-content {
+    padding: var(--space-md) 0 0 0;
+    gap: var(--space-sm);
+  }
+}
+
+.product-showcase-grid .product-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  flex-grow: 1;
+  padding: 0;
+}
+
+.product-showcase-grid .product-name {
+  margin-bottom: var(--space-xs);
+}
+
+.product-showcase-grid .product-name h3 {
+  line-height: 1.2;
+  letter-spacing: -0.36px;
+  margin: 0;
+}
+
+@media (max-width: 1024px) {
+  .product-showcase-grid .product-name {
+    margin-bottom: 0;
+  }
+}
+
+.product-showcase-grid .product-description p {
+  line-height: 1.45;
+  letter-spacing: -0.16px;
+  margin: 0;
+}
+
+.product-showcase-grid .product-pricing {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+@media (max-width: 1024px) {
+  .product-showcase-grid .product-pricing {
+    gap: var(--space-xs);
+  }
+}
+
+.product-showcase-grid .bundle-badge {
+  padding: 6px 8px;
+  border-radius: 1188px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+}
+
+.product-showcase-grid .price-wrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.product-showcase-grid .original-price {
+  text-decoration: line-through;
+  opacity: 0.5;
+}
+
+.product-showcase-grid .product-ctas {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+  flex-wrap: wrap;
+}
+
+@media (max-width: 1024px) {
+  .product-showcase-grid .product-ctas {
+    gap: var(--space-sm);
+  }
+  
+  .product-showcase-grid .product-ctas .btn {
+    font-size: 14px;
+    padding: 10px 20px;
+  }
+  
+  .product-showcase-grid .product-ctas .secondary-link {
+    font-size: 14px;
+  }
+}
+
+.product-showcase-grid .secondary-link {
+  position: relative;
+  text-decoration: none;
+  text-transform: capitalize;
+  letter-spacing: -0.04px;
+}
+
+.product-showcase-grid .secondary-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: currentColor;
+}
+
+/* Remove all hover effects on buttons and cards */
+.product-showcase-grid .product-card:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.product-showcase-grid .btn:hover {
+  transform: none;
+  opacity: 1;
+}
+
+.product-showcase-grid .secondary-link:hover {
+  opacity: 1;
+}
+

@@ -1,0 +1,321 @@
+/* Logos Showcase Auto Section Styles */
+
+.logos-showcase-auto {
+  position: relative;
+  overflow: hidden;
+  z-index: var(--z-10);
+}
+
+/* Override global overlays - only apply when background image exists */
+.logos-showcase-auto::after {
+  display: none !important;
+}
+
+/* Section background image overlay */
+.logos-showcase-auto[data-bg]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+  z-index: var(--z-0);
+  background-color: rgba(0, 0, 0, 0.6);
+  pointer-events: none;
+  display: block !important;
+}
+
+/* Ensure content stays above overlays */
+.logos-showcase-inner > * {
+  position: relative;
+  z-index: var(--z-10);
+}
+
+/* Container background image overlay */
+.logos-showcase-inner[data-bg]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+  z-index: var(--z-0);
+  background-color: rgba(0, 0, 0, 0.6);
+  pointer-events: none;
+}
+
+.logos-showcase-inner {
+  position: relative;
+  z-index: var(--z-10);
+}
+
+/* Heading */
+.logos-showcase-heading {
+  margin-bottom: var(--space-lg);
+}
+
+.logos-showcase-heading h1 {
+  margin: 0;
+  line-height: 1;
+}
+
+@media (min-width: 1024px) {
+  .logos-showcase-heading h1 {
+    line-height: 1.2;
+  }
+}
+
+/* Carousel Wrapper */
+.logos-showcase-carousel-wrapper {
+  padding-top: var(--space-xl);
+  padding-bottom: var(--space-xl);
+}
+
+@media (min-width: 768px) {
+  .logos-showcase-carousel-wrapper {
+    padding-top: var(--space-2xl);
+    padding-bottom: var(--space-2xl);
+  }
+}
+
+@media (min-width: 1024px) {
+  .logos-showcase-carousel-wrapper {
+    padding-top: var(--space-3xl);
+    padding-bottom: var(--space-3xl);
+  }
+}
+
+/* When heading is hidden, ensure equal spacing */
+.logos-showcase-inner.no-heading .logos-showcase-carousel-wrapper {
+  padding-top: var(--space-xl);
+  padding-bottom: var(--space-xl);
+}
+
+@media (min-width: 768px) {
+  .logos-showcase-inner.no-heading .logos-showcase-carousel-wrapper {
+    padding-top: var(--space-2xl);
+    padding-bottom: var(--space-2xl);
+  }
+}
+
+@media (min-width: 1024px) {
+  .logos-showcase-inner.no-heading .logos-showcase-carousel-wrapper {
+    padding-top: var(--space-3xl);
+    padding-bottom: var(--space-3xl);
+  }
+}
+
+.logos-showcase-carousel-container {
+  position: relative;
+  margin: 0 auto;
+  max-width: 1024px;
+  overflow: hidden;
+}
+
+@media (min-width: 1024px) {
+  .logos-showcase-carousel-container {
+    max-width: 1280px;
+  }
+}
+
+/* Carousel Track */
+.logos-showcase-carousel-track {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 0;
+  will-change: transform;
+}
+
+/* Carousel Item */
+.logos-showcase-carousel-item {
+  flex: 0 0 33.333333%;
+  display: flex;
+  justify-content: center;
+  padding-left: 0;
+  min-width: 0;
+  flex-shrink: 0;
+  flex-grow: 0;
+}
+
+@media (min-width: 640px) {
+  .logos-showcase-carousel-item {
+    flex: 0 0 25%;
+  }
+}
+
+@media (min-width: 768px) {
+  .logos-showcase-carousel-item {
+    flex: 0 0 20%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .logos-showcase-carousel-item {
+    flex: 0 0 16.666667%;
+  }
+}
+
+/* Logo Wrapper */
+.logos-showcase-logo-wrapper {
+  margin-left: 40px;
+  margin-right: 40px;
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Logo Image */
+.logos-showcase-logo {
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+/* Fade Gradients */
+.logos-showcase-fade-left,
+.logos-showcase-fade-right {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 48px;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.logos-showcase-fade-left {
+  left: 0;
+  background: linear-gradient(to right, currentColor, transparent);
+  color: inherit;
+}
+
+.logos-showcase-fade-right {
+  right: 0;
+  background: linear-gradient(to left, currentColor, transparent);
+  color: inherit;
+}
+
+/* Use the section's background color for fade gradients */
+.logos-showcase-auto .logos-showcase-fade-left,
+.logos-showcase-auto .logos-showcase-fade-right {
+  /* Get the background color from the section */
+  background: linear-gradient(to right, var(--section-bg-color, var(--clr-neutral)), transparent);
+}
+
+.logos-showcase-auto .logos-showcase-fade-right {
+  background: linear-gradient(to left, var(--section-bg-color, var(--clr-neutral)), transparent);
+}
+
+/* Match fade to section background colors */
+.logos-showcase-auto.bg-white .logos-showcase-fade-left {
+  background: linear-gradient(to right, #FFFFFF, transparent);
+}
+
+.logos-showcase-auto.bg-white .logos-showcase-fade-right {
+  background: linear-gradient(to left, #FFFFFF, transparent);
+}
+
+.logos-showcase-auto.bg-black .logos-showcase-fade-left {
+  background: linear-gradient(to right, #000000, transparent);
+}
+
+.logos-showcase-auto.bg-black .logos-showcase-fade-right {
+  background: linear-gradient(to left, #000000, transparent);
+}
+
+.logos-showcase-auto.bg-primary .logos-showcase-fade-left {
+  background: linear-gradient(to right, var(--clr-primary), transparent);
+}
+
+.logos-showcase-auto.bg-primary .logos-showcase-fade-right {
+  background: linear-gradient(to left, var(--clr-primary), transparent);
+}
+
+.logos-showcase-auto.bg-secondary .logos-showcase-fade-left {
+  background: linear-gradient(to right, var(--clr-secondary), transparent);
+}
+
+.logos-showcase-auto.bg-secondary .logos-showcase-fade-right {
+  background: linear-gradient(to left, var(--clr-secondary), transparent);
+}
+
+.logos-showcase-auto.bg-tertiary .logos-showcase-fade-left {
+  background: linear-gradient(to right, var(--clr-tertiary), transparent);
+}
+
+.logos-showcase-auto.bg-tertiary .logos-showcase-fade-right {
+  background: linear-gradient(to left, var(--clr-tertiary), transparent);
+}
+
+.logos-showcase-auto.bg-quaternary .logos-showcase-fade-left {
+  background: linear-gradient(to right, var(--clr-quaternary), transparent);
+}
+
+.logos-showcase-auto.bg-quaternary .logos-showcase-fade-right {
+  background: linear-gradient(to left, var(--clr-quaternary), transparent);
+}
+
+.logos-showcase-auto.bg-success .logos-showcase-fade-left {
+  background: linear-gradient(to right, var(--clr-success), transparent);
+}
+
+.logos-showcase-auto.bg-success .logos-showcase-fade-right {
+  background: linear-gradient(to left, var(--clr-success), transparent);
+}
+
+.logos-showcase-auto.bg-warning .logos-showcase-fade-left {
+  background: linear-gradient(to right, var(--clr-warning), transparent);
+}
+
+.logos-showcase-auto.bg-warning .logos-showcase-fade-right {
+  background: linear-gradient(to left, var(--clr-warning), transparent);
+}
+
+.logos-showcase-auto.bg-error .logos-showcase-fade-left {
+  background: linear-gradient(to right, var(--clr-error), transparent);
+}
+
+.logos-showcase-auto.bg-error .logos-showcase-fade-right {
+  background: linear-gradient(to left, var(--clr-error), transparent);
+}
+
+.logos-showcase-auto.bg-info .logos-showcase-fade-left {
+  background: linear-gradient(to right, var(--clr-info), transparent);
+}
+
+.logos-showcase-auto.bg-info .logos-showcase-fade-right {
+  background: linear-gradient(to left, var(--clr-info), transparent);
+}
+
+.logos-showcase-auto.bg-neutral .logos-showcase-fade-left {
+  background: linear-gradient(to right, var(--clr-neutral), transparent);
+}
+
+.logos-showcase-auto.bg-neutral .logos-showcase-fade-right {
+  background: linear-gradient(to left, var(--clr-neutral), transparent);
+}
+
+.logos-showcase-auto.bg-neutral-light .logos-showcase-fade-left {
+  background: linear-gradient(to right, var(--clr-neutral-light), transparent);
+}
+
+.logos-showcase-auto.bg-neutral-light .logos-showcase-fade-right {
+  background: linear-gradient(to left, var(--clr-neutral-light), transparent);
+}
+
+.logos-showcase-auto.bg-neutral-dark .logos-showcase-fade-left {
+  background: linear-gradient(to right, var(--clr-neutral-dark), transparent);
+}
+
+.logos-showcase-auto.bg-neutral-dark .logos-showcase-fade-right {
+  background: linear-gradient(to left, var(--clr-neutral-dark), transparent);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 640px) {
+  .logos-showcase-fade-left,
+  .logos-showcase-fade-right {
+    width: 32px;
+  }
+}
+

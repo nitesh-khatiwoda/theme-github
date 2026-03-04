@@ -1,0 +1,12 @@
+body {
+  margin-top: 105px;
+}
+@media (min-width: 1320px){
+  section.cta-hero-image-simple[data-bg]::before{
+    background-position: 0 -170px;
+  }
+}
+ /* TODO : Remove once Backend issue of populating updated content is fixed*/
+div.feature-cards-grid__card-content {
+  width: 90%;
+}

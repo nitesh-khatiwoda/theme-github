@@ -1,0 +1,261 @@
+/* ============================================
+   SUB PAGE HERO COLLAGE SECTION
+   ============================================ */
+
+.sub-page-hero-collage {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Override global overlays - only apply when background image exists */
+.sub-page-hero-collage::after {
+  display: none !important;
+}
+
+/* Section background image overlay */
+.sub-page-hero-collage[data-bg]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+  z-index: var(--z-0);
+  background-color: color-mix(in srgb, var(--clr-black) 30%, transparent);
+  pointer-events: none;
+  display: block !important;
+}
+
+.sub-page-hero-collage__inner {
+  position: relative;
+  z-index: var(--z-10);
+}
+
+/* Container background image overlay */
+.sub-page-hero-collage__inner[data-bg]:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+  z-index: var(--z-0);
+  background-color: color-mix(in srgb, var(--clr-black) 30%, transparent);
+  pointer-events: none;
+}
+
+/* Ensure content stays above overlays */
+.sub-page-hero-collage__inner > * {
+  position: relative;
+  z-index: var(--z-10);
+}
+
+/* ============================================
+   SPLIT LAYOUT
+   ============================================ */
+
+.sub-page-hero-collage__split {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: var(--space-lg);
+  width: 100%;
+  min-height: 250px;
+}
+
+@media (min-width: 991px) {
+  .sub-page-hero-collage__split {
+    flex-direction: row;
+    align-items: stretch;
+    gap: 0;
+    min-height: 300px;
+  }
+
+  .sub-page-hero-collage__split--flipped {
+    flex-direction: row-reverse;
+  }
+}
+
+/* ============================================
+   CONTENT SIDE
+   ============================================ */
+
+.sub-page-hero-collage__content-side {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-md) var(--space-sm);
+}
+
+@media (min-width: 991px) {
+  .sub-page-hero-collage__content-side {
+    padding: var(--space-xl) var(--space-lg);
+  }
+}
+
+.sub-page-hero-collage__content {
+  max-width: 600px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.sub-page-hero-collage__heading h1 {
+  margin: 0;
+  line-height: 1.2;
+}
+
+.sub-page-hero-collage__subheading p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.sub-page-hero-collage__cta {
+  margin-top: var(--space-sm);
+}
+
+/* ============================================
+   COLLAGE SIDE
+   ============================================ */
+
+.sub-page-hero-collage__collage-side {
+  flex: 1;
+  display: flex;
+  align-items: stretch;
+  overflow: hidden;
+  position: relative;
+}
+
+/* ============================================
+   IMAGE GRID / MASONRY COLLAGE
+   ============================================ */
+
+.sub-page-hero-collage__grid {
+  width: 100%;
+  height: calc(100% + 60px);
+  column-count: 3;
+  column-gap: 8px;
+  padding: 0;
+  margin-top: -30px;
+  margin-bottom: -30px;
+}
+
+@media (min-width: 991px) {
+  .sub-page-hero-collage__grid {
+    height: calc(100% + 80px);
+    column-gap: 12px;
+    margin-top: -40px;
+    margin-bottom: -40px;
+  }
+}
+
+/* ============================================
+   GRID ITEMS
+   ============================================ */
+
+.sub-page-hero-collage__grid-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  background-color: color-mix(in srgb, var(--clr-neutral-dark) 5%, transparent);
+  margin-bottom: 8px;
+  break-inside: avoid;
+  display: block;
+}
+
+@media (min-width: 768px) {
+  .sub-page-hero-collage__grid-item {
+    margin-bottom: 10px;
+  }
+}
+
+/* Create varied heights for masonry effect - approximately half the original heights */
+.sub-page-hero-collage__grid-item:nth-child(1) {
+  height: 100px;
+}
+
+.sub-page-hero-collage__grid-item:nth-child(2) {
+  height: 140px;
+}
+
+.sub-page-hero-collage__grid-item:nth-child(3) {
+  height: 120px;
+}
+
+.sub-page-hero-collage__grid-item:nth-child(4) {
+  height: 160px;
+}
+
+.sub-page-hero-collage__grid-item:nth-child(5) {
+  height: 90px;
+}
+
+.sub-page-hero-collage__grid-item:nth-child(6) {
+  height: 130px;
+}
+
+.sub-page-hero-collage__grid-item:nth-child(7) {
+  height: 110px;
+}
+
+.sub-page-hero-collage__grid-item:nth-child(8) {
+  height: 150px;
+}
+
+/* Additional items get random-ish heights */
+.sub-page-hero-collage__grid-item:nth-child(9) {
+  height: 120px;
+}
+
+.sub-page-hero-collage__grid-item:nth-child(10) {
+  height: 140px;
+}
+
+/* Default for any additional items */
+.sub-page-hero-collage__grid-item:nth-child(n+11) {
+  height: 125px;
+}
+
+@media (min-width: 991px) {
+  .sub-page-hero-collage__grid-item:nth-child(1) { height: 140px; }
+  .sub-page-hero-collage__grid-item:nth-child(2) { height: 190px; }
+  .sub-page-hero-collage__grid-item:nth-child(3) { height: 160px; }
+  .sub-page-hero-collage__grid-item:nth-child(4) { height: 210px; }
+  .sub-page-hero-collage__grid-item:nth-child(5) { height: 120px; }
+  .sub-page-hero-collage__grid-item:nth-child(6) { height: 180px; }
+  .sub-page-hero-collage__grid-item:nth-child(7) { height: 150px; }
+  .sub-page-hero-collage__grid-item:nth-child(8) { height: 200px; }
+  .sub-page-hero-collage__grid-item:nth-child(9) { height: 160px; }
+  .sub-page-hero-collage__grid-item:nth-child(10) { height: 190px; }
+  .sub-page-hero-collage__grid-item:nth-child(n+11) { height: 170px; }
+}
+
+/* Images */
+.sub-page-hero-collage__grid-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ============================================
+   MOBILE ADJUSTMENTS
+   ============================================ */
+
+@media (max-width: 990px) {
+  /* Hide last 3 images on mobile */
+  .sub-page-hero-collage__grid-item:nth-child(7),
+  .sub-page-hero-collage__grid-item:nth-child(8),
+  .sub-page-hero-collage__grid-item:nth-child(9) {
+    display: none;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
+
+.sub-page-hero-collage__grid-item:focus-within {
+  outline: 2px solid var(--clr-primary);
+  outline-offset: 2px;
+}
+
