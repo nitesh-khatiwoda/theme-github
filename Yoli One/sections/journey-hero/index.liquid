@@ -274,11 +274,15 @@
               {% assign img_size_mobile = block.settings.content_image_size_mobile | default: 100 %}
               {% assign img_size_desktop = block.settings.content_image_size_desktop | default: 50 %}
               <div class="journey-hero__image-wrapper journey-hero__image-wrapper--{{ image_position }} {{ block.settings.block_padding_x_mobile | default: 'px-lg' }} lg:pl-0 {{ block.settings.content_image_padding_edge_desktop | default: 'lg:pr-lg' }}" style="--img-size-mobile: {{ img_size_mobile }}%; --img-size-desktop: {{ img_size_desktop }}%;">
-                <img src="{{ block.settings.content_image | image_url }}" 
-                     alt="{{ block.settings.content_image.alt | default: block.settings.heading }}"
-                     class="journey-hero__image"
-                     style="object-fit: {{ image_fit }}; border-radius: {{ img_radius }};"
-                     loading="lazy">
+                {% if block.settings.content_image %}
+                  <img
+                    src="{{ block.settings.content_image | image_url }}"
+                    alt="{{ block.settings.content_image.alt | default: block.settings.heading | strip_html | truncate: 120 }}"
+                    class="journey-hero__image"
+                    style="object-fit: {{ image_fit }}; border-radius: {{ img_radius }};"
+                    loading="lazy"
+                  >
+                {% endif %}
               </div>
             {% endif %}
             

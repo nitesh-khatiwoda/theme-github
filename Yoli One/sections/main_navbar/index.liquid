@@ -704,7 +704,8 @@
 <div class='body-overlay' id='body-overlay'></div>
 <div class="transparent-overlay" id="transparent-overlay"></div>
 
-<!-- Script to show referrer info in top bar when fluid_affiliate cookie exists -->
+<!-- Script to show referrer info in top bar when affiliate exists -->
+{% if affiliate and affiliate.name != blank %}
 <script>
 (function() {
   // Get cookie by name
@@ -716,34 +717,52 @@
     }
     return null;
   }
-  
-  function showReferrerInTopBar() {
-    // Read the fluid_affiliate cookie
+
+  var referrerFound = false;
+
+  function tryShowReferrer() {
+    if (referrerFound) return true;
     const affiliateCookie = getCookie('fluid_affiliate');
-    
     if (affiliateCookie) {
       try {
         const affiliate = JSON.parse(affiliateCookie);
         if (affiliate && affiliate.name) {
           displayReferrer(affiliate);
+          referrerFound = true;
+          return true;
         }
       } catch (e) {
         console.log('Error parsing fluid_affiliate cookie:', e);
       }
     }
+    return false;
   }
-  
+
+  function showReferrerInTopBar() {
+    // Try immediately
+    if (tryShowReferrer()) return;
+    // Cookie may not be set yet (first visit via affiliate link), retry up to 5s
+    var attempts = 0;
+    var maxAttempts = 20;
+    var interval = setInterval(function() {
+      attempts++;
+      if (tryShowReferrer() || attempts >= maxAttempts) {
+        clearInterval(interval);
+      }
+    }, 250);
+  }
+
   function displayReferrer(affiliate) {
     const referrerSection = document.getElementById('top-bar-referrer');
     const reviewsSection = document.getElementById('top-bar-reviews');
     const nameEl = document.getElementById('top-bar-referrer-name');
     const avatarImg = document.getElementById('top-bar-referrer-avatar');
     const avatarInitials = document.getElementById('top-bar-referrer-initials');
-    
+
     if (referrerSection && nameEl && affiliate.name) {
       // Set name
       nameEl.textContent = affiliate.name;
-      
+
       // Set avatar (image or initials)
       if (affiliate.image_url) {
         avatarImg.src = affiliate.image_url;
@@ -759,7 +778,7 @@
         }
         avatarImg.style.display = 'none';
       }
-      
+
       // Show referrer section, hide reviews
       referrerSection.style.display = 'flex';
       if (reviewsSection) {
@@ -767,7 +786,7 @@
       }
     }
   }
-  
+
   // Run when DOM is ready
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', showReferrerInTopBar);
@@ -776,6 +795,11 @@
   }
 })();
 </script>
+{% else %}
+<script>
+  document.cookie = 'fluid_affiliate=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+</script>
+{% endif %}
 
 <header class="site-header{% if section.settings.show_top_bar %} has-top-bar{% endif %} {{ header_class }} {{ section.settings.background_color | default: 'bg-white' }} {{ section.settings.section_padding_y_mobile | default: 'py-md' }} {{ section.settings.section_padding_y_desktop | default: 'lg:py-md' }} {{ section.settings.section_border_radius | default: 'rounded-none' }}">
   <div class="container">
@@ -1268,7 +1292,7 @@
   $(document).on('click', '.locale-btn', async function () {
     const country = $(this).parent('.lang-dropdown').find('.country-item.selected').data("value");
     const language = $(this).parent('.lang-dropdown').find('.language-item.selected').data("value");
-  
+
     if (window.FluidCommerceSDK) {
       try {
         await window.FluidCommerceSDK.updateLocaleSettings({ country, language });
@@ -1279,7 +1303,7 @@
 
     location.href = location.pathname;
   });
-  
+
 </script>
 
 <script>

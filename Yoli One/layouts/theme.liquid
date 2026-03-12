@@ -302,7 +302,19 @@
     });
   </script>
   <script>
-    window.addEventListener('FLUID_OPEN_CART', function() { var chatFrame = document.getElementById('icChatButton'); if (chatFrame) { chatFrame.style.margin = '2rem'; var poll = setInterval(function() { if (document.body.style.overflow !== 'hidden') { var f = document.getElementById('icChatButton'); if (f) f.style.margin = '0'; clearInterval(poll); } }, 200); } });
+    window.addEventListener('FLUID_OPEN_CART', function() {
+      var chatFrame = document.getElementById('icChatButton');
+      if (chatFrame) {
+        chatFrame.style.display = 'none';
+        var poll = setInterval(function() {
+          if (document.body.style.overflow !== 'hidden') {
+            var f = document.getElementById('icChatButton');
+            if (f) f.style.display = '';
+            clearInterval(poll);
+          }
+        }, 200);
+      }
+    });
   </script>
 </body>
 </html>
